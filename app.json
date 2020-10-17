@@ -1,0 +1,7 @@
+{
+  "expo": {
+    "experiments": {
+      "turboModules": true
+    }
+  }
+}
