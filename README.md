@@ -1,10 +1,14 @@
 # 🍻 redrip
 
-Style like you normally would. Get smooth animations, powered by Reanimated 2.0.
+Dead-simple React Native components that animate when you want them to. No animated values to worry about – just style like you usually do.
 
 ```jsx
 <View animate={{ width }} />
 ```
+
+Get Reanimated 2-powered animations with ease.
+
+<img src="https://media.giphy.com/media/4fCsKm2jbrMia2K2bh/giphy.gif" />
 
 You can run the example app by running `yarn install && yarn start`.
 

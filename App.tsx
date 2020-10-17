@@ -1,12 +1,12 @@
-import { View, Button } from 'react-native'
+import { View as NativeView, Button } from 'react-native'
 import React, { useState } from 'react'
-import { DripView } from './src/components'
+import * as Drip from './src/components'
 
 export default function AnimatedStyleUpdateExample() {
   const [width, setWidth] = useState(300)
 
   return (
-    <View
+    <NativeView
       style={{
         flex: 1,
         alignItems: 'center',
@@ -14,7 +14,7 @@ export default function AnimatedStyleUpdateExample() {
         flexDirection: 'column',
       }}
     >
-      <DripView
+      <Drip.View
         style={{ height: 80, margin: 30, backgroundColor: 'blue' }}
         animate={{
           width,
@@ -27,6 +27,6 @@ export default function AnimatedStyleUpdateExample() {
           setWidth((w) => (w > 250 ? 50 : w * (1 + Math.random())))
         }}
       />
-    </View>
+    </NativeView>
   )
 }
