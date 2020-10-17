@@ -6,7 +6,7 @@ Dead-simple React Native components that animate when you want them to. No anima
 <View animate={{ width }} />
 ```
 
-Get Reanimated 2-powered animations with ease.
+Powered by Reanimated 2.
 
 <img src="https://media.giphy.com/media/4fCsKm2jbrMia2K2bh/giphy.gif" />
 
