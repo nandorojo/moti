@@ -5,7 +5,8 @@
       "lib": ["dom", "esnext"],
       "moduleResolution": "node",
       "noEmit": true,
-      "skipLibCheck": true
+      "skipLibCheck": true,
+      "strictNullChecks": true
     }
   }
   
