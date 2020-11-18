@@ -1,6 +1,7 @@
 {
   "version": "39.0.0",
   "dependencies": {
+    "@react-spring/native": "^9.0.0-rc.3",
     "expo": "~39.0.0",
     "expo-status-bar": "~1.0.2",
     "react": "~16.13.0",
@@ -9,7 +10,8 @@
     "react-native-gesture-handler": "^1.8.0",
     "react-native-reanimated": "2.0.0-alpha.6.1",
     "react-native-web": "0.13.13",
-    "react-navigation-stack": "^2.8.4"
+    "react-navigation-stack": "^2.8.4",
+    "react-spring": "^8.0.27"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

@@ -12,36 +12,40 @@ export default function redripify<
   Animate = ViewStyle & TextStyle
 >(Component: ComponentType<Props>) {
   const withAnimations = (outerProps?: ExtraProps) => {
-    const withStyles = forwardRef<Ref, Props & DripifyProps<Animate>>(
-      function Wrapped(
-        {
-          animate,
-          style,
-          visible = true,
-          exit,
-          initial = false as false,
-          transition,
-          delay,
-          ...props
-        },
-        ref
-      ) {
-        const dripsified = useMapAnimateToStyle({
-          animate,
-          initial,
-          exit,
-          visible,
-          transition,
-          delay,
-        })
+    const withStyles = forwardRef<
+      Ref,
+      Props &
+        DripifyProps<Animate> & {
+          children?: React.ReactNode
+        }
+    >(function Wrapped(
+      {
+        animate,
+        style,
+        visible = true,
+        exit,
+        initial = false as false,
+        transition,
+        delay,
+        ...props
+      },
+      ref
+    ) {
+      const dripsified = useMapAnimateToStyle({
+        animate,
+        initial,
+        exit,
+        visible,
+        transition,
+        delay,
+      })
 
-        // const flatStyle = Array.isArray(style) ? style : [style]
+      // const flatStyle = Array.isArray(style) ? style : [style]
 
-        return (
-          <Component style={[style, dripsified.style]} {...props} ref={ref} />
-        )
-      }
-    )
+      return (
+        <Component style={[style, dripsified.style]} {...props} ref={ref} />
+      )
+    })
 
     return withStyles
   }
