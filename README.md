@@ -6,13 +6,13 @@ Dead-simple React Native components that animate when you want them to. No anima
 <View animate={{ width }} />
 ```
 
-Get Reanimated 2-powered animations with ease.
+Powered by Reanimated 2.
 
 <img src="https://media.giphy.com/media/4fCsKm2jbrMia2K2bh/giphy.gif" />
 
 You can run the example app by running `yarn install && yarn start`.
 
-> This is nothing more than an idea at the moment. See [this issue](https://github.com/nandorojo/dripsy/issues/46) on Dripsy to follow.
+> ⚠️ This is nothing more than an idea at the moment. See [this issue](https://github.com/nandorojo/dripsy/issues/46) on Dripsy to follow.
 
 Here is my original post on that issue:
 
