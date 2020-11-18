@@ -1,7 +1,7 @@
 import { View as NativeView, Button, Text, StyleSheet } from 'react-native'
 import React, { useReducer, useState } from 'react'
 import * as Drip from './src/components'
-import { animated, useSpring } from '@react-spring/native'
+import { animated, useSpring, Spring } from '@react-spring/native'
 
 export default function AnimatedStyleUpdateExample() {
   const [width, setWidth] = useState(300)
@@ -9,7 +9,7 @@ export default function AnimatedStyleUpdateExample() {
 
   const from = {
     width: 100,
-    height: 0,
+    height: 100,
     backgroundColor: 'red',
   }
 
@@ -17,8 +17,6 @@ export default function AnimatedStyleUpdateExample() {
     width,
     height: width,
   }
-
-  const spring = useSpring({ from, to })
 
   return (
     <NativeView
@@ -35,17 +33,22 @@ export default function AnimatedStyleUpdateExample() {
             style={{ backgroundColor: 'blue', justifyContent: 'center' }}
             initial={from}
             animate={to}
+            delay={50}
           >
             <Text style={styles.text}>Reanimated</Text>
           </Drip.View>
-          <animated.View
-            style={[
-              spring,
-              { backgroundColor: 'green', justifyContent: 'center' },
-            ]}
-          >
-            <Text style={styles.text}>react-spring</Text>
-          </animated.View>
+          <Spring from={from} to={to}>
+            {(spring) => (
+              <animated.View
+                style={[
+                  spring,
+                  { backgroundColor: 'green', justifyContent: 'center' },
+                ]}
+              >
+                <Text style={styles.text}>react-spring</Text>
+              </animated.View>
+            )}
+          </Spring>
         </>
       )}
       <Button
