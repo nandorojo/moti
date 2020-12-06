@@ -6,9 +6,11 @@ import useMapAnimateToStyle from './use-map-animate-to-style'
 // https://www.framer.com/blog/posts/magic-motion/
 
 export default function redripify<
-  Props,
+  Style extends any | any[],
+  Props extends { style: Style },
   Ref,
   ExtraProps,
+  Variants,
   Animate = ViewStyle & TextStyle
 >(Component: ComponentType<Props>) {
   const withAnimations = (outerProps?: ExtraProps) => {
@@ -22,11 +24,10 @@ export default function redripify<
       {
         animate,
         style,
-        visible = true,
-        exit,
         initial = false as false,
         transition,
         delay,
+        animator,
         ...props
       },
       ref
@@ -34,16 +35,19 @@ export default function redripify<
       const dripsified = useMapAnimateToStyle({
         animate,
         initial,
-        exit,
-        visible,
         transition,
         delay,
+        animator,
       })
 
       // const flatStyle = Array.isArray(style) ? style : [style]
 
       return (
-        <Component style={[style, dripsified.style]} {...props} ref={ref} />
+        <Component
+          {...(props as Props)}
+          style={[style, dripsified.style]}
+          ref={ref}
+        />
       )
     })
 

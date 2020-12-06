@@ -1,7 +1,7 @@
 import { View as NativeView, Button, Text, StyleSheet } from 'react-native'
 import React, { useReducer, useState } from 'react'
 import * as Drip from './src/components'
-import { animated, useSpring, Spring } from '@react-spring/native'
+import { animated, Spring } from '@react-spring/native'
 
 export default function AnimatedStyleUpdateExample() {
   const [width, setWidth] = useState(300)

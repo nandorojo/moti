@@ -1,3 +1,4 @@
+import { UseAnimator } from './use-animator'
 import Animated from 'react-native-reanimated'
 
 export type TransitionConfig = (
@@ -7,13 +8,17 @@ export type TransitionConfig = (
 ) & { delay?: number }
 
 export interface DripifyProps<Animate> {
-  animate: Animate
+  animate?: Animate
   /**
    * (Optional) specify styles which the component should animate from.
    *
    * If `false`, initial styles will correspond to the `animate` prop. Any subsequent changes to `animate` will be animated.
    */
   initial?: Animate | false
+  transition?: TransitionConfig &
+    Partial<Record<keyof Animate, TransitionConfig>>
+  delay?: number
+  animator?: UseAnimator<any>
   /**
    * @deprecated
    *
@@ -21,9 +26,6 @@ export interface DripifyProps<Animate> {
    *
    * I added it with hopes of creating something like `framer-motion`'s exit prop.
    */
-  exit?: Animate
-  visible?: boolean
-  transition?: TransitionConfig &
-    Partial<Record<keyof Animate, TransitionConfig>>
-  delay?: number
+  // exit?: Animate
+  // visible?: boolean
 }
