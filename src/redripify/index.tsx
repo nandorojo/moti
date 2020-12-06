@@ -7,14 +7,16 @@ import Animated from 'react-native-reanimated'
 // https://www.framer.com/blog/posts/magic-motion/
 
 export default function redripify<
-  Style extends any | any[],
-  Props extends { style: Style },
+  Style,
+  Props extends { style?: Style },
   Ref,
   ExtraProps,
   // Variants,
-  Animate = ViewStyle & TextStyle
+  // Animate = ViewStyle & TextStyle
+  Animate = Style
 >(ComponentWithoutAnimation: ComponentType<Props>) {
   const Component = Animated.createAnimatedComponent(ComponentWithoutAnimation)
+
   const withAnimations = (outerProps?: ExtraProps) => {
     const withStyles = forwardRef<
       Ref,
@@ -34,7 +36,7 @@ export default function redripify<
       },
       ref
     ) {
-      const dripsified = useMapAnimateToStyle({
+      const animated = useMapAnimateToStyle({
         animate,
         initial,
         transition,
@@ -47,7 +49,7 @@ export default function redripify<
       return (
         <Component
           {...(props as Props)}
-          style={[style, dripsified.style]}
+          style={[style, animated.style]}
           ref={ref}
         />
       )
