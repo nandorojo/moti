@@ -12,6 +12,15 @@ import Animated, {
   processColor,
 } from 'react-native-reanimated'
 import { DripifyProps, TransitionConfig } from './types'
+// import set from 'lodash.set'
+
+// const aliases = {
+//   y: 'transform[0].translateY',
+//   x: 'transform[1].translateX',
+//   scale: 'transform[2].scale',
+// } as const
+
+// type Aliases = typeof aliases
 
 const colors = [
   'backgroundColor',
@@ -24,86 +33,6 @@ const colors = [
   'borderTopColor',
   'color',
 ]
-
-const parseColorStyles = (props: ViewStyle & TextStyle) => {
-  'worklet'
-  const {
-    backgroundColor,
-    borderBottomColor,
-    borderColor,
-    borderEndColor,
-    borderLeftColor,
-    borderRightColor,
-    borderStartColor,
-    borderTopColor,
-    color,
-  } = props
-
-  const colors = {
-    backgroundColor,
-    borderBottomColor,
-    borderColor,
-    borderEndColor,
-    borderLeftColor,
-    borderRightColor,
-    borderStartColor,
-    borderTopColor,
-    color,
-  }
-
-  const result = { ...props }
-  Object.keys(colors).map((key) => {
-    const value = colors[key as keyof typeof colors]
-    if (value != undefined && typeof value == 'string') {
-      result[key] = processColor(value)
-    }
-  })
-
-  return result
-}
-
-// function animateStyles(key, style) {
-//   'worklet'
-
-//   if (key === 'backgroundColor' || key === 'color') {
-//     return processColor(style)
-//   } else if (Array.isArray(style)) {
-//     // transforms
-//     const final = []
-
-//     style.forEach((value) => {
-//       const transformKey = Object.keys(value)[0]
-//       const transformValue = value[transformKey]
-//       const transform = {}
-//       transform[transformKey] = animation(transformValue, config)
-
-//       acc[key].push(transform)
-//     })
-//   } else if (typeof style === 'object') {
-//     // shadows and etc
-//     acc[key] = {}
-
-//     Object.keys(style).forEach((styleInnerKey) => {
-//       acc[key][styleInnerKey] = animation(style, config)
-//     })
-//   } else {
-//     acc[key] = animation(style, config)
-//   }
-// }
-
-// type Props = DripifyProps<ViewStyle & TextStyle>
-
-const animationScales = {
-  // opacity: {
-  //   type: 'timing',
-  // },
-  // width: {
-  //   type: 'spring',
-  // },
-  // height: {
-  //   type: 'spring',
-  // },
-}
 
 const animationDefaults = {
   timing: {
@@ -137,29 +66,26 @@ export default function useMapAnimateToStyle<Animate>({
 
   const style = useAnimatedStyle(() => {
     const final = {}
+    const animateStyle = animateSV.value || {}
+    const variantStyle = variantSV?.value || {}
 
     const initialStyle = initialSV.value || {}
 
-    const animate = animateSV.value || {}
-
     // variant style
-    const variantStyle = variantSV?.value || {}
 
-    const mergedStyles = { ...variantStyle, ...animate }
+    const mergedStyles = { ...variantStyle, ...animateStyle }
 
     Object.keys(mergedStyles).forEach((key) => {
       'worklet'
 
-      let value = animate[key] || variantStyle[key]
-
-      if (colors.includes(key)) {
-        value = processColor(value)
-      }
-
       const initialValue = initialStyle[key]
+      let value = animateStyle[key] || variantStyle[key]
 
-      if (isMounted.value === false && initialValue != null) {
-        final[key] = initialValue
+      if (initialValue != null) {
+        // if we haven't mounted, or if there's no other value to use besides the initial one, use it.
+        if (isMounted.value === false || !value) {
+          final[key] = initialValue
+        }
         return
       }
 
@@ -181,8 +107,6 @@ export default function useMapAnimateToStyle<Animate>({
         delayMs = transition.delay
       }
 
-      let finalValue: typeof value | number = value
-
       if (transition?.[key as keyof Animate]) {
       }
 
@@ -202,32 +126,53 @@ export default function useMapAnimateToStyle<Animate>({
           (transition as Animated.WithTimingConfig)?.easing ??
           animationDefaults['timing'].easing
 
-        // put them into functions so they don't run immediately(?)
-
         config = {
           duration,
           easing,
         }
         animation = withTiming
-
-        // finalValue = withTiming(value, {
-        //   duration,
-        //   easing,
-        // })
       } else if (animationType === 'spring') {
         animation = withSpring
-        config = animationDefaults[animationType as 'spring']
-        // finalValue = withSpring(
-        //   value,
-        //   animationDefaults[animationType as 'spring']
-        // )
+        const configKeys: (keyof Animated.WithSpringConfig)[] = [
+          'damping',
+          'mass',
+          'overshootClamping',
+          'restDisplacementThreshold',
+          'restSpeedThreshold',
+          'stiffness',
+          'velocity',
+        ]
+        configKeys.forEach((configKey) => {
+          const styleSpecificConfig = transition?.[key]?.[configKey]
+          const transitionConfigForKey = transition?.[configKey]
+
+          if (styleSpecificConfig) {
+            config[configKey] = styleSpecificConfig
+          } else if (transitionConfigForKey) {
+            config[configKey] = transitionConfigForKey
+          }
+        })
       } else if (animationType === 'decay') {
         animation = withDecay
-        config = animationDefaults[animationType as 'decay']
-        // finalValue = withDecay(
-        //   value,
-        //   animationDefaults[animationType as 'decay']
-        // )
+        const configKeys: (keyof Animated.WithDecayConfig)[] = [
+          'clamp',
+          'velocity',
+          'deceleration',
+        ]
+        configKeys.forEach((configKey) => {
+          const styleSpecificConfig = transition?.[key]?.[configKey]
+          const transitionConfigForKey = transition?.[configKey]
+
+          if (styleSpecificConfig) {
+            config[configKey] = styleSpecificConfig
+          } else if (transitionConfigForKey) {
+            config[configKey] = transitionConfigForKey
+          }
+        })
+      }
+
+      if (colors.includes(key)) {
+        value = processColor(value)
       }
 
       if (Array.isArray(value)) {
@@ -236,27 +181,39 @@ export default function useMapAnimateToStyle<Animate>({
 
         value.forEach((transformProp) => {
           const transformKey = Object.keys(transformProp)[0]
-          const transformValue = value[transformKey]
+          // const transformValue = value[index][transformKey]
+          const transformValue = transformProp[transformKey]
 
           if (transition?.[key][transformKey]?.delay != null) {
             delayMs = transition?.[transformKey]?.delay
           }
 
           const transform = {}
-          transform[transformKey] = animation(transformValue, config)
+          const finalValue = animation(transformValue, config)
           if (delayMs != null) {
-            transform[transformKey] = withDelay(
-              delayMs,
-              transform[transformKey]
-            )
+            transform[transformKey] = withDelay(delayMs, finalValue)
+          } else {
+            transform[transformKey] = finalValue
           }
 
           final[key].push(transform)
         })
-      } else {
-        finalValue = animation(value, config)
+      } else if (typeof value === 'object') {
+        // shadows
+        final[key] = {}
+        Object.keys(value).forEach((innerStyleKey) => {
+          const finalValue = animation(value, config)
 
-        if (delayMs != null) {
+          if (delayMs != null) {
+            final[key][innerStyleKey] = withDelay(delayMs, finalValue)
+          } else {
+            final[key][innerStyleKey] = finalValue
+          }
+        })
+      } else {
+        const finalValue = animation(value, config)
+
+        if (delayMs != null && typeof delayMs === 'number') {
           final[key] = withDelay(delayMs, finalValue)
         } else {
           final[key] = finalValue
