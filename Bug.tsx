@@ -11,14 +11,13 @@ export default function AnimatedStyleUpdateExample() {
   const size = useSharedValue(200)
 
   const style = useAnimatedStyle(() => ({
-    width: withTiming(size.value),
+    width: withSpring(size.value),
     height: withSpring(size.value),
   }))
 
   return (
     <View style={styles.container}>
       <Animated.View style={[styles.box, style]}></Animated.View>
-
       <Button
         title="toggle"
         onPress={() => {

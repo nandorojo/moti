@@ -7,7 +7,7 @@ import Animated, {
   withDecay,
   withSpring,
   withTiming,
-  delay as withDelay,
+  withDelay,
   processColor,
 } from 'react-native-reanimated'
 import { DripifyProps, TransitionConfig } from './types'
@@ -91,7 +91,7 @@ export default function useMapAnimateToStyle<Animate>({
         }
       }
 
-      let animationType: Required<TransitionConfig>['type'] = 'spring'
+      let animationType: Required<TransitionConfig>['type'] = 'timing'
       // say that we're looking at `width`
       // first, check if we have transition.width.type
       if (transition?.[key as keyof Animate]?.type) {
@@ -114,6 +114,7 @@ export default function useMapAnimateToStyle<Animate>({
 
       let config = {}
       let animation: Function = withSpring
+      const callback: (canceled: boolean) => void = () => {}
 
       if (animationType === 'timing') {
         const duration =
@@ -135,6 +136,7 @@ export default function useMapAnimateToStyle<Animate>({
         animation = withTiming
       } else if (animationType === 'spring') {
         animation = withSpring
+        config = {}
         const configKeys: (keyof Animated.WithSpringConfig)[] = [
           'damping',
           'mass',
@@ -156,6 +158,7 @@ export default function useMapAnimateToStyle<Animate>({
         })
       } else if (animationType === 'decay') {
         animation = withDecay
+        config = {}
         const configKeys: (keyof Animated.WithDecayConfig)[] = [
           'clamp',
           'velocity',
@@ -191,7 +194,7 @@ export default function useMapAnimateToStyle<Animate>({
           }
 
           const transform = {}
-          const finalValue = animation(transformValue, config)
+          const finalValue = animation(transformValue, config, callback)
           if (delayMs != null) {
             transform[transformKey] = withDelay(delayMs, finalValue)
           } else {
@@ -204,7 +207,7 @@ export default function useMapAnimateToStyle<Animate>({
         // shadows
         final[key] = {}
         Object.keys(value).forEach((innerStyleKey) => {
-          const finalValue = animation(value, config)
+          const finalValue = animation(value, config, callback)
 
           if (delayMs != null) {
             final[key][innerStyleKey] = withDelay(delayMs, finalValue)
@@ -213,7 +216,7 @@ export default function useMapAnimateToStyle<Animate>({
           }
         })
       } else {
-        const finalValue = animation(value, config)
+        const finalValue = animation(value, config, callback)
 
         if (delayMs != null && typeof delayMs === 'number') {
           final[key] = withDelay(delayMs, finalValue)

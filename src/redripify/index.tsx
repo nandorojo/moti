@@ -13,7 +13,7 @@ export default function redripify<
   ExtraProps,
   // Variants,
   // Animate = ViewStyle & TextStyle
-  Animate = Style
+  Animate = TextStyle & ViewStyle
 >(ComponentWithoutAnimation: ComponentType<Props>) {
   const Component = Animated.createAnimatedComponent(ComponentWithoutAnimation)
 

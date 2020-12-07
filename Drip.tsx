@@ -13,8 +13,8 @@ export default function AnimatedStyleUpdateExample() {
   const [on, toggleOn] = useReducer((s) => !s, true)
 
   const from = {
-    width: 200,
-    height: 200,
+    width: 0,
+    height: 0,
     // backgroundColor: 'red',
   }
 
@@ -53,16 +53,23 @@ export default function AnimatedStyleUpdateExample() {
     >
       {on && (
         <>
-          {/* <Drip.View
+          <Drip.View
+            initial={{
+              // width: 0,
+              opacity: 0,
+              // height: 0,
+            }}
+            animate={{
+              // height: 150,
+              // width: 150,
+              opacity: 1,
+            }}
             style={styles.box}
-            initial={from}
-            animate={to}
-            // delay={50}
-            // animator={box}
+            animator={box}
           >
             <Text style={styles.text}>Reanimated</Text>
-          </Drip.View> */}
-          <Animated.View style={[styles.box, driven]}></Animated.View>
+          </Drip.View>
+          {/* <Animated.View style={[styles.box, driven]}></Animated.View> */}
           {/* <Spring from={from} to={to}>
             {(spring) => (
               <animated.View
@@ -80,13 +87,13 @@ export default function AnimatedStyleUpdateExample() {
       <Button
         title="toggle"
         onPress={() => {
-          // const state = box.current
-          // if (state === 'big') {
-          //   box.transitionTo('initial')
-          // } else {
-          //   box.transitionTo('big')
-          // }
-          setWidth((w) => (w > 200 ? 150 : w * (1 + Math.random())))
+          const state = box.current
+          if (state === 'big') {
+            box.transitionTo('initial')
+          } else {
+            box.transitionTo('big')
+          }
+          // setWidth((w) => (w > 200 ? 150 : w * (1 + Math.random())))
         }}
       />
       <Button title={on ? 'hide' : 'show'} onPress={toggleOn} />
