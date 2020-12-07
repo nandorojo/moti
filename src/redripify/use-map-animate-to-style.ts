@@ -7,32 +7,25 @@ import Animated, {
   withDecay,
   withSpring,
   withTiming,
-  // TODO rename to withDelay after 2.0.0-alpha.8
   delay as withDelay,
   processColor,
 } from 'react-native-reanimated'
 import { DripifyProps, TransitionConfig } from './types'
-// import set from 'lodash.set'
 
-// const aliases = {
-//   y: 'transform[0].translateY',
-//   x: 'transform[1].translateX',
-//   scale: 'transform[2].scale',
-// } as const
-
-// type Aliases = typeof aliases
-
-const colors = [
-  'backgroundColor',
-  'borderBottomColor',
-  'borderColor',
-  'borderEndColor',
-  'borderLeftColor',
-  'borderRightColor',
-  'borderStartColor',
-  'borderTopColor',
-  'color',
-]
+const isColor = (styleKey: string) => {
+  'worklet'
+  return [
+    'backgroundColor',
+    'borderBottomColor',
+    'borderColor',
+    'borderEndColor',
+    'borderLeftColor',
+    'borderRightColor',
+    'borderStartColor',
+    'borderTopColor',
+    'color',
+  ].includes(styleKey)
+}
 
 const animationDefaults = {
   timing: {
@@ -50,30 +43,39 @@ export default function useMapAnimateToStyle<Animate>({
 }: DripifyProps<Animate>) {
   const isMounted = useSharedValue(false)
 
-  const initialSV = useSharedValue(initial)
-  const animateSV = useSharedValue(animate)
+  const initialSV = useSharedValue(initial, true)
+  const animateSV = useSharedValue(animate, true)
 
-  const variantSV = animator?.__state
+  // const variantSV = animator?.__state
 
-  useEffect(() => {
-    initialSV.value = initial
-    if (animate) {
-      animateSV.value = animate
-    }
-  }, [animate, animateSV, initial, initialSV])
+  // useEffect(() => {
+  //   initialSV.value = initial
+  //   if (animate) {
+  //     animateSV.value = animate
+  //   }
+  // }, [animate, animateSV, initial, initialSV])
+  // console.log('jingle', { animator })
 
   // const exitStyle = exit || {} // TODO?
 
   const style = useAnimatedStyle(() => {
     const final = {}
     const animateStyle = animateSV.value || {}
-    const variantStyle = variantSV?.value || {}
+    // const animateStyle = animate || {}
+    const variantStyle = animator?.__state?.value || {}
+
+    // console.log('variant', variantStyle)
 
     const initialStyle = initialSV.value || {}
 
     // variant style
 
     const mergedStyles = { ...variantStyle, ...animateStyle }
+    // const mergedStyles = Object.assign(
+    //   {},
+    //   Object.assign({}, variantStyle),
+    //   animateStyle
+    // )
 
     Object.keys(mergedStyles).forEach((key) => {
       'worklet'
@@ -85,8 +87,8 @@ export default function useMapAnimateToStyle<Animate>({
         // if we haven't mounted, or if there's no other value to use besides the initial one, use it.
         if (isMounted.value === false || !value) {
           final[key] = initialValue
+          return
         }
-        return
       }
 
       let animationType: Required<TransitionConfig>['type'] = 'spring'
@@ -171,7 +173,7 @@ export default function useMapAnimateToStyle<Animate>({
         })
       }
 
-      if (colors.includes(key)) {
+      if (isColor(key)) {
         value = processColor(value)
       }
 

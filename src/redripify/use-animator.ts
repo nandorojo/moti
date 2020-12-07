@@ -54,33 +54,43 @@ type Controller<V> = {
    * }
    * ```
    */
-  transitionTo: (key: keyof V) => void
+  transitionTo: (key: keyof V | ((currentState: keyof V) => keyof V)) => void
+  // getState: () => keyof V
   // __variants: V
 }
 
 function useAnimatedController<V>(
   variants: V,
-  { initial }: UseAnimatorConfig<V> = {}
+  { initial = 'initial' as keyof V }: UseAnimatorConfig<V> = {}
 ) {
   const controller = useRef<Controller<V>>()
   const __state = useSharedValue<InternalControllerState<V>>(
     initial ? variants[initial] : 0
   )
 
-  if (controller.current === null) {
-    controller.current = {
-      current: initial ?? null,
-      __state,
-      // __variants: variants,
-      transitionTo: (key) => {
-        const value = variants[key]
+  const selectedVariant = useRef(initial)
 
-        // this will always be true, but we do it for TS
-        if (controller.current) {
-          controller.current.current = key
+  if (controller.current == null) {
+    controller.current = {
+      __state,
+      transitionTo: (nextStateOrFunction) => {
+        const runTransition = (nextState: keyof V) => {
+          const value = variants[nextState]
+
+          selectedVariant.current = nextState
+
+          __state.value = value
         }
 
-        __state.value = value
+        if (typeof nextStateOrFunction === 'function') {
+          // similar to setState, let people compose a function that takes in the current value and returns the next one
+          runTransition(nextStateOrFunction(this.current))
+        } else {
+          runTransition(nextStateOrFunction)
+        }
+      },
+      get current(): keyof V {
+        return selectedVariant.current
       },
     }
   }
@@ -105,13 +115,16 @@ function useVariants<V extends Variants = Variants>(variants: V) {
   return ref.current as UseVariants<V>
 }
 
-type UseAnimatorConfig<V> = {
-  initial?: keyof V
+type UseAnimatorConfig<V, InitialKey = keyof V> = {
+  initial?: InitialKey
 }
 
-export type UseAnimator<V> = [UseVariants<V>, Controller<V>] & Controller<V>
+// export type UseAnimator<V> = [UseVariants<V>, Controller<V>] & Controller<V>
+export type UseAnimator<V> = Controller<V>
 
 /**
+ *
+ * `useAnimator` lets you control your animation state, based on static presets. It is the most performant way to drive animations.
  *
  * @param variants specify your style variants.
  * @param config Optionally define your initial variant key.
@@ -222,9 +235,12 @@ export type UseAnimator<V> = [UseVariants<V>, Controller<V>] & Controller<V>
  *
  * Technically, it's fine if you do this with `transitionTo`. It's `current` you'll want to watch out for, since its reference will change, without triggering re-renders. This functions similar to `useRef`.
  */
-export default function useAnimator<V extends Variants = Variants>(
+export default function useAnimator<
+  V extends Variants = Variants,
+  InitialKey extends string = 'initial'
+>(
   variants: V,
-  { initial = 'initial' as keyof V }: UseAnimatorConfig<V> = {}
+  { initial = 'initial' as InitialKey }: UseAnimatorConfig<V, InitialKey> = {}
 ) {
   // const variantz = useVariants(variants)
 
@@ -236,15 +252,4 @@ export default function useAnimator<V extends Variants = Variants>(
   // returnValue[1] = animator
 
   return animator
-}
-
-const useA = () => {
-  const animator = useAnimator({
-    hi: {},
-  })
-
-  if (animator.current === 'hi') {
-  }
-
-  animator.transitionTo('hi')
 }

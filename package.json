@@ -2,22 +2,22 @@
   "version": "39.0.0",
   "dependencies": {
     "@react-spring/native": "^9.0.0-rc.3",
-    "expo": "~39.0.0",
-    "expo-status-bar": "~1.0.2",
+    "expo": "^40.0.0-beta.5",
+    "expo-status-bar": "~1.0.3",
     "lodash.set": "^4.3.2",
-    "react": "~16.13.0",
-    "react-dom": "~16.13.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.2.tar.gz",
-    "react-native-gesture-handler": "^1.8.0",
-    "react-native-reanimated": "2.0.0-alpha.6.1",
-    "react-native-web": "0.13.13",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.0.tar.gz",
+    "react-native-gesture-handler": "~1.8.0",
+    "react-native-reanimated": "2.0.0-rc.0",
+    "react-native-web": "~0.13.12",
     "react-navigation-stack": "^2.8.4",
     "react-spring": "^8.0.27"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.6",
+    "@babel/core": "~7.9.0",
     "@types/lodash.set": "^4.3.6",
-    "babel-preset-expo": "~8.1.0",
+    "babel-preset-expo": "8.3.0",
     "eslint-config-nando": "^1.0.10"
   },
   "scripts": {

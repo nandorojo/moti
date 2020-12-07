@@ -6,7 +6,8 @@
       "moduleResolution": "node",
       "noEmit": true,
       "skipLibCheck": true,
-      "strictNullChecks": true
+      "strictNullChecks": true,
+      "target": "ESNext"
     }
   }
   

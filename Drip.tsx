@@ -1,17 +1,41 @@
 import { View as NativeView, Button, Text, StyleSheet } from 'react-native'
 import React, { useReducer, useState } from 'react'
 import * as Drip from './src/components'
-import { animated, Spring } from '@react-spring/native'
+import useAnimator from './src/redripify/use-animator'
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated'
 
 export default function AnimatedStyleUpdateExample() {
   const [width, setWidth] = useState(300)
   const [on, toggleOn] = useReducer((s) => !s, true)
 
   const from = {
-    width: 100,
-    height: 100,
-    backgroundColor: 'red',
+    width: 200,
+    height: 200,
+    // backgroundColor: 'red',
   }
+
+  const box = useAnimator({
+    initial: from,
+    big: {
+      width: 150,
+      height: 150,
+      // backgroundColor: 'yellow',
+    },
+  })
+
+  const size = useSharedValue(width, true)
+
+  const driven = useAnimatedStyle(
+    () => ({
+      width: withSpring(size.value),
+      height: withSpring(size.value),
+    }),
+    [width]
+  )
 
   const to = {
     width,
@@ -29,15 +53,17 @@ export default function AnimatedStyleUpdateExample() {
     >
       {on && (
         <>
-          <Drip.View
-            style={{ backgroundColor: 'blue', justifyContent: 'center' }}
+          {/* <Drip.View
+            style={styles.box}
             initial={from}
             animate={to}
-            delay={50}
+            // delay={50}
+            // animator={box}
           >
             <Text style={styles.text}>Reanimated</Text>
-          </Drip.View>
-          <Spring from={from} to={to}>
+          </Drip.View> */}
+          <Animated.View style={[styles.box, driven]}></Animated.View>
+          {/* <Spring from={from} to={to}>
             {(spring) => (
               <animated.View
                 style={[
@@ -48,12 +74,18 @@ export default function AnimatedStyleUpdateExample() {
                 <Text style={styles.text}>react-spring</Text>
               </animated.View>
             )}
-          </Spring>
+          </Spring> */}
         </>
       )}
       <Button
         title="toggle"
         onPress={() => {
+          // const state = box.current
+          // if (state === 'big') {
+          //   box.transitionTo('initial')
+          // } else {
+          //   box.transitionTo('big')
+          // }
           setWidth((w) => (w > 200 ? 150 : w * (1 + Math.random())))
         }}
       />
@@ -66,6 +98,7 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     alignSelf: 'center',
-    color: 'white',
+    color: 'hotpink',
   },
+  box: { justifyContent: 'center', backgroundColor: 'blue' },
 })
