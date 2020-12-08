@@ -7,7 +7,8 @@
       "noEmit": true,
       "skipLibCheck": true,
       "strictNullChecks": true,
-      "target": "ESNext"
+      "target": "ESNext",
+      "resolveJsonModule": true
     }
   }
   

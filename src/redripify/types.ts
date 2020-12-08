@@ -20,6 +20,14 @@ export interface DripifyProps<Animate> {
   delay?: number
   animator?: UseAnimator<any>
   /**
+   * If set to `animator`, then styles passed from the `animator` prop will take precedent.
+   *
+   * Otherwise, if set to `animate`, then that prop will take precedent for matching styles.
+   *
+   * Default: `animator`.
+   */
+  stylePriority?: 'animator' | 'animate'
+  /**
    * @deprecated
    *
    * This is only here for testing, but I'm not sure if it'll ever be usable.

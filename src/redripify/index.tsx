@@ -32,6 +32,7 @@ export default function redripify<
         transition,
         delay,
         animator,
+        stylePriority,
         ...props
       },
       ref
@@ -42,6 +43,7 @@ export default function redripify<
         transition,
         delay,
         animator,
+        stylePriority,
       })
 
       // const flatStyle = Array.isArray(style) ? style : [style]

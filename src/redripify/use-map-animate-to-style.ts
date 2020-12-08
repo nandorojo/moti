@@ -10,6 +10,7 @@ import Animated, {
   withDelay,
   processColor,
 } from 'react-native-reanimated'
+import { PackageName } from '../constants/package-name'
 import { DripifyProps, TransitionConfig } from './types'
 
 const isColor = (styleKey: string) => {
@@ -40,6 +41,7 @@ export default function useMapAnimateToStyle<Animate>({
   transition,
   delay: defaultDelay,
   animator,
+  stylePriority = 'animator',
 }: DripifyProps<Animate>) {
   const isMounted = useSharedValue(false)
 
@@ -70,7 +72,12 @@ export default function useMapAnimateToStyle<Animate>({
 
     // variant style
 
-    const mergedStyles = { ...variantStyle, ...animateStyle }
+    let mergedStyles: object
+    if (stylePriority === 'animator') {
+      mergedStyles = { ...animateStyle, ...variantStyle }
+    } else {
+      mergedStyles = { ...variantStyle, ...animateStyle }
+    }
     // const mergedStyles = Object.assign(
     //   {},
     //   Object.assign({}, variantStyle),
@@ -91,7 +98,7 @@ export default function useMapAnimateToStyle<Animate>({
         }
       }
 
-      let animationType: Required<TransitionConfig>['type'] = 'timing'
+      let animationType: Required<TransitionConfig>['type'] = 'spring'
       // say that we're looking at `width`
       // first, check if we have transition.width.type
       if (transition?.[key as keyof Animate]?.type) {
@@ -136,7 +143,11 @@ export default function useMapAnimateToStyle<Animate>({
         animation = withTiming
       } else if (animationType === 'spring') {
         animation = withSpring
-        config = {}
+        config = {
+          // damping: 10,
+          // stiffness: 100,
+          velocity: 2,
+        } as Animated.WithSpringConfig
         const configKeys: (keyof Animated.WithSpringConfig)[] = [
           'damping',
           'mass',
@@ -177,6 +188,11 @@ export default function useMapAnimateToStyle<Animate>({
       }
 
       if (isColor(key)) {
+        if (__DEV__) {
+          console.error(
+            `[${PackageName}]: You passed ${key}: ${value}, but color values aren't supported yet due to a bug in Reanimated 2. ☹️ Please go to https://github.com/software-mansion/react-native-reanimated/issues/845 and comment so that this bug can get fixed!`
+          )
+        }
         value = processColor(value)
       }
 

@@ -27,5 +27,6 @@
     "web": "expo web",
     "eject": "expo eject"
   },
-  "private": true
+  "private": true,
+  "name": "redrip"
 }

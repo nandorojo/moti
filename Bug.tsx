@@ -5,15 +5,22 @@ import Animated, {
   useSharedValue,
   withSpring,
   withTiming,
+  processColor,
 } from 'react-native-reanimated'
 
 export default function AnimatedStyleUpdateExample() {
   const size = useSharedValue(200)
 
-  const style = useAnimatedStyle(() => ({
-    width: withSpring(size.value),
-    height: withSpring(size.value),
-  }))
+  const style = useAnimatedStyle(
+    () => ({
+      width: withTiming(size.value),
+      height: withTiming(size.value),
+      backgroundColor: withTiming(
+        size.value > 150 ? processColor('#333333') : processColor('#e8e')
+      ),
+    }),
+    [size]
+  )
 
   return (
     <View style={styles.container}>

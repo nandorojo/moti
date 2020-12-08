@@ -9,38 +9,24 @@ import Animated, {
 } from 'react-native-reanimated'
 
 export default function AnimatedStyleUpdateExample() {
-  const [width, setWidth] = useState(300)
   const [on, toggleOn] = useReducer((s) => !s, true)
 
-  const from = {
-    width: 0,
-    height: 0,
-    // backgroundColor: 'red',
+  const initial = {
+    width: 100,
+    height: 100,
+    opacity: 0,
+  }
+
+  const to = {
+    width: 300,
+    height: 300,
+    opacity: 1,
   }
 
   const box = useAnimator({
-    initial: from,
-    big: {
-      width: 150,
-      height: 150,
-      // backgroundColor: 'yellow',
-    },
+    initial,
+    to,
   })
-
-  const size = useSharedValue(width, true)
-
-  const driven = useAnimatedStyle(
-    () => ({
-      width: withSpring(size.value),
-      height: withSpring(size.value),
-    }),
-    [width]
-  )
-
-  const to = {
-    width,
-    height: width,
-  }
 
   return (
     <NativeView
@@ -54,17 +40,10 @@ export default function AnimatedStyleUpdateExample() {
       {on && (
         <>
           <Drip.View
-            initial={{
-              // width: 0,
-              opacity: 0,
-              // height: 0,
-            }}
+            style={styles.box}
             animate={{
-              // height: 150,
-              // width: 150,
               opacity: 1,
             }}
-            style={styles.box}
             animator={box}
           >
             <Text style={styles.text}>Reanimated</Text>
@@ -88,10 +67,10 @@ export default function AnimatedStyleUpdateExample() {
         title="toggle"
         onPress={() => {
           const state = box.current
-          if (state === 'big') {
+          if (state === 'to') {
             box.transitionTo('initial')
           } else {
-            box.transitionTo('big')
+            box.transitionTo('to')
           }
           // setWidth((w) => (w > 200 ? 150 : w * (1 + Math.random())))
         }}
