@@ -63,14 +63,9 @@ export default function useMapAnimateToStyle<Animate>({
   const style = useAnimatedStyle(() => {
     const final = {}
     const animateStyle = animateSV.value || {}
-    // const animateStyle = animate || {}
     const variantStyle = animator?.__state?.value || {}
 
-    // console.log('variant', variantStyle)
-
     const initialStyle = initialSV.value || {}
-
-    // variant style
 
     let mergedStyles: object
     if (stylePriority === 'animator') {
@@ -78,11 +73,6 @@ export default function useMapAnimateToStyle<Animate>({
     } else {
       mergedStyles = { ...variantStyle, ...animateStyle }
     }
-    // const mergedStyles = Object.assign(
-    //   {},
-    //   Object.assign({}, variantStyle),
-    //   animateStyle
-    // )
 
     Object.keys(mergedStyles).forEach((key) => {
       'worklet'
@@ -144,8 +134,7 @@ export default function useMapAnimateToStyle<Animate>({
       } else if (animationType === 'spring') {
         animation = withSpring
         config = {
-          // damping: 10,
-          // stiffness: 100,
+          // solve the missing velocity bug in 2.0.0-rc.0
           velocity: 2,
         } as Animated.WithSpringConfig
         const configKeys: (keyof Animated.WithSpringConfig)[] = [
@@ -190,7 +179,9 @@ export default function useMapAnimateToStyle<Animate>({
       if (isColor(key)) {
         if (__DEV__) {
           console.error(
-            `[${PackageName}]: You passed ${key}: ${value}, but color values aren't supported yet due to a bug in Reanimated 2. ☹️ Please go to https://github.com/software-mansion/react-native-reanimated/issues/845 and comment so that this bug can get fixed!`
+            `[${PackageName}]: You passed ${key}: ${value}, but color values aren't supported yet due to a bug in Reanimated 2. ☹️ 
+                
+Please go to https://github.com/software-mansion/react-native-reanimated/issues/845 and comment so that this bug can get fixed!`
           )
         }
         value = processColor(value)
@@ -202,7 +193,6 @@ export default function useMapAnimateToStyle<Animate>({
 
         value.forEach((transformProp) => {
           const transformKey = Object.keys(transformProp)[0]
-          // const transformValue = value[index][transformKey]
           const transformValue = transformProp[transformKey]
 
           if (transition?.[key][transformKey]?.delay != null) {

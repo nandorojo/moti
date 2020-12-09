@@ -46,8 +46,6 @@ export default function redripify<
         stylePriority,
       })
 
-      // const flatStyle = Array.isArray(style) ? style : [style]
-
       return (
         <Component
           {...(props as Props)}
