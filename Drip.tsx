@@ -24,7 +24,18 @@ export default function AnimatedStyleUpdateExample() {
   return (
     <NativeView style={styles.container}>
       <Drip.View style={styles.box} animator={box}>
-        <Text style={styles.text}>Reanimated</Text>
+        <Text style={styles.text}>Animator</Text>
+      </Drip.View>
+      <Drip.View
+        style={styles.box}
+        initial={{
+          opacity: 0.5,
+        }}
+        animate={{
+          opacity: 1,
+        }}
+      >
+        <Text style={styles.text}>Style Props</Text>
       </Drip.View>
       <Button
         title="toggle"

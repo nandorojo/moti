@@ -48,18 +48,6 @@ export default function useMapAnimateToStyle<Animate>({
   const initialSV = useSharedValue(initial, true)
   const animateSV = useSharedValue(animate, true)
 
-  // const variantSV = animator?.__state
-
-  // useEffect(() => {
-  //   initialSV.value = initial
-  //   if (animate) {
-  //     animateSV.value = animate
-  //   }
-  // }, [animate, animateSV, initial, initialSV])
-  // console.log('jingle', { animator })
-
-  // const exitStyle = exit || {} // TODO?
-
   const style = useAnimatedStyle(() => {
     const final = {}
     const animateStyle = animateSV.value || {}
