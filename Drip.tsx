@@ -23,9 +23,9 @@ export default function AnimatedStyleUpdateExample() {
 
   return (
     <NativeView style={styles.container}>
-      {/* <Drip.View style={styles.box} animator={box}>
+      <Drip.View style={styles.box} animator={box}>
         <Text style={styles.text}>Reanimated</Text>
-      </Drip.View> */}
+      </Drip.View>
       <Button
         title="toggle"
         onPress={() => {
