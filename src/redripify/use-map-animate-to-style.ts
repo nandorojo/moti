@@ -9,6 +9,7 @@ import Animated, {
   withTiming,
   withDelay,
   processColor,
+  useDerivedValue,
 } from 'react-native-reanimated'
 import { PackageName } from '../constants/package-name'
 import { DripifyProps, TransitionConfig } from './types'
@@ -35,7 +36,7 @@ const animationDefaults = {
   },
 }
 
-export default function useMapAnimateToStyle<Animate>({
+export default function useMapAnimateToStyle<Animate = ViewStyle & TextStyle>({
   animate,
   initial = false,
   transition,
@@ -45,17 +46,30 @@ export default function useMapAnimateToStyle<Animate>({
 }: DripifyProps<Animate>) {
   const isMounted = useSharedValue(false)
 
-  const initialSV = useSharedValue(initial, true)
-  const animateSV = useSharedValue(animate, true)
+  const initialSV = useSharedValue(initial)
+  const animateSV = useSharedValue(animate)
+
+  const initialDerived = useDerivedValue(() => {
+    return JSON.stringify(initialSV.value ?? {})
+  })
+  const animateDerived = useDerivedValue(() => {
+    return JSON.stringify(animateSV.value ?? {})
+  })
+  const variantDerived = useDerivedValue(() => {
+    return JSON.stringify(animator?.__state?.value ?? {})
+  })
 
   const style = useAnimatedStyle(() => {
     const final = {}
-    const animateStyle = animateSV.value || {}
-    const variantStyle = animator?.__state?.value || {}
+    // const animateStyle = animateSV.value || {}
+    // const variantStyle: Animate = animator?.__state?.value || {}
+    const variantStyle: Animate = JSON.parse(variantDerived.value)
 
-    const initialStyle = initialSV.value || {}
+    const animateStyle: Animate = JSON.parse(animateDerived.value)
+    const initialStyle: Animate = JSON.parse(initialDerived.value)
+    // const initialStyle = initialSV.value || {}
 
-    let mergedStyles: object
+    let mergedStyles: Animate
     if (stylePriority === 'animator') {
       mergedStyles = { ...animateStyle, ...variantStyle }
     } else {
@@ -92,9 +106,6 @@ export default function useMapAnimateToStyle<Animate>({
         delayMs = transition?.[key as keyof Animate]?.delay
       } else if (transition?.delay != null) {
         delayMs = transition.delay
-      }
-
-      if (transition?.[key as keyof Animate]) {
       }
 
       let config = {}
