@@ -9,7 +9,7 @@
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.0.tar.gz",
     "react-native-gesture-handler": "~1.8.0",
-    "react-native-reanimated": "2.0.0-rc.0",
+    "react-native-reanimated": "^2.0.0-rc.1",
     "react-native-web": "~0.13.12",
     "react-navigation-stack": "^2.8.4",
     "react-spring": "^8.0.27"
