@@ -1,5 +1,5 @@
 import React, { ComponentType, forwardRef } from 'react'
-import { TextStyle, ViewStyle } from 'react-native'
+import { ImageStyle, TextStyle, ViewStyle } from 'react-native'
 import { DripifyProps } from './types'
 import useMapAnimateToStyle from './use-map-animate-to-style'
 import Animated from 'react-native-reanimated'
@@ -13,7 +13,7 @@ export default function redripify<
   ExtraProps,
   // Variants,
   // Animate = ViewStyle & TextStyle
-  Animate = TextStyle & ViewStyle
+  Animate = ViewStyle | ImageStyle | TextStyle
 >(ComponentWithoutAnimation: ComponentType<Props>) {
   const Component = Animated.createAnimatedComponent(ComponentWithoutAnimation)
 
