@@ -1,5 +1,34 @@
 import { UseAnimator } from './use-animator'
 import Animated from 'react-native-reanimated'
+import { TransformsStyle } from 'react-native'
+
+import type {
+  PerpectiveTransform,
+  RotateTransform,
+  RotateXTransform,
+  RotateYTransform,
+  RotateZTransform,
+  ScaleTransform,
+  ScaleXTransform,
+  ScaleYTransform,
+  TranslateXTransform,
+  TranslateYTransform,
+  SkewXTransform,
+  SkewYTransform,
+} from 'react-native'
+
+export type Transforms = PerpectiveTransform &
+  RotateTransform &
+  RotateXTransform &
+  RotateYTransform &
+  RotateZTransform &
+  ScaleTransform &
+  ScaleXTransform &
+  ScaleYTransform &
+  TranslateXTransform &
+  TranslateYTransform &
+  SkewXTransform &
+  SkewYTransform
 
 export type TransitionConfig = (
   | ({ type?: 'spring' } & Animated.WithSpringConfig)
@@ -7,18 +36,33 @@ export type TransitionConfig = (
   | ({ type: 'decay' } & Animated.DecayConfig)
 ) & { delay?: number }
 
-export interface DripifyProps<Animate> {
+/**
+ * Allow { scale: 1 }, or { scale: [1] } if it's a sequence
+ */
+type StyleValueWithArrays<T> = {
+  [key in keyof T]:
+    | T[keyof T]
+    | (T[keyof T] & {
+        delay?: number
+      })[]
+}
+
+export interface DripifyProps<
+  AnimateType,
+  AnimateWithTransitions = Omit<AnimateType, 'transform'> & Partial<Transforms>,
+  Animate = StyleValueWithArrays<AnimateWithTransitions>
+> {
   animate?: Animate
   /**
    * (Optional) specify styles which the component should animate from.
    *
    * If `false`, initial styles will correspond to the `animate` prop. Any subsequent changes to `animate` will be animated.
    */
-  initial?: Animate | false
+  from?: Animate | false
   transition?: TransitionConfig &
     Partial<Record<keyof Animate, TransitionConfig>>
   delay?: number
-  animator?: UseAnimator<any>
+  state?: UseAnimator<any>
   /**
    * If set to `animator`, then styles passed from the `animator` prop will take precedent.
    *

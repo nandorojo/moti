@@ -60,22 +60,23 @@ type Controller<V> = {
 }
 
 function useAnimatedController<V>(
-  variants: V,
-  { initial = 'initial' as keyof V }: UseAnimatorConfig<V> = {}
+  _variants: V,
+  { from = 'from' as keyof V }: UseAnimatorConfig<V> = {}
 ) {
   const controller = useRef<Controller<V>>()
   const __state = useSharedValue<InternalControllerState<V>>(
-    initial ? variants[initial] : 0
+    from ? _variants[from] : 0
   )
 
-  const selectedVariant = useRef(initial)
+  const selectedVariant = useRef(from)
+  const variants = useRef(_variants)
 
   if (controller.current == null) {
     controller.current = {
       __state,
       transitionTo: (nextStateOrFunction) => {
         const runTransition = (nextState: keyof V) => {
-          const value = variants[nextState]
+          const value = variants.current[nextState]
 
           selectedVariant.current = nextState
 
@@ -98,25 +99,25 @@ function useAnimatedController<V>(
   return controller.current as Controller<V>
 }
 
-function useVariants<V extends Variants = Variants>(variants: V) {
-  const ref = useRef<UseVariants<V>>(null)
+// function useVariants<V extends Variants = Variants>(variants: V) {
+//   const ref = useRef<UseVariants<V>>(null)
 
-  if (ref.current === null) {
-    //   @ts-ignore
-    ref.current = {}
-    const keys = Object.keys(variants)
+//   if (ref.current === null) {
+//     //   @ts-ignore
+//     ref.current = {}
+//     const keys = Object.keys(variants)
 
-    keys.forEach((key) => {
-      // @ts-ignore
-      ref.current[key] = key
-    })
-  }
+//     keys.forEach((key) => {
+//       // @ts-ignore
+//       ref.current[key] = key
+//     })
+//   }
 
-  return ref.current as UseVariants<V>
-}
+//   return ref.current as UseVariants<V>
+// }
 
 type UseAnimatorConfig<V, InitialKey = keyof V> = {
-  initial?: InitialKey
+  from?: InitialKey
 }
 
 // export type UseAnimator<V> = [UseVariants<V>, Controller<V>] & Controller<V>
@@ -235,16 +236,16 @@ export type UseAnimator<V> = Controller<V>
  *
  * Technically, it's fine if you do this with `transitionTo`. It's `current` you'll want to watch out for, since its reference will change, without triggering re-renders. This functions similar to `useRef`.
  */
-export default function useAnimator<
+export default function useAnimationState<
   V extends Variants = Variants,
   InitialKey extends string = 'initial'
 >(
   variants: V,
-  { initial = 'initial' as InitialKey }: UseAnimatorConfig<V, InitialKey> = {}
+  { from = 'from' as InitialKey }: UseAnimatorConfig<V, InitialKey> = {}
 ) {
   // const variantz = useVariants(variants)
 
-  const animator = useAnimatedController(variants, { initial })
+  const animator = useAnimatedController(variants, { from })
 
   // const returnValue = animator as UseAnimator<V>
 

@@ -28,10 +28,10 @@ export default function redripify<
       {
         animate,
         style,
-        initial = false as false,
+        from = false as false,
         transition,
         delay,
-        animator,
+        state,
         stylePriority,
         ...props
       },
@@ -39,10 +39,10 @@ export default function redripify<
     ) {
       const animated = useMapAnimateToStyle({
         animate,
-        initial,
+        from,
         transition,
         delay,
-        animator,
+        state,
         stylePriority,
       })
 
