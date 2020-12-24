@@ -1,9 +1,10 @@
+import { DripifyProps } from './types'
 import { useRef } from 'react'
 import { TextStyle, ViewStyle } from 'react-native'
 import Animated, { useSharedValue } from 'react-native-reanimated'
 
 type Variants = {
-  [variant: string]: Partial<ViewStyle & TextStyle>
+  [variant: string]: DripifyProps<ViewStyle & TextStyle>['animate']
 }
 
 type UseVariants<V> = V

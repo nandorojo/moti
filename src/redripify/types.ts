@@ -42,9 +42,12 @@ export type TransitionConfig = (
 type StyleValueWithArrays<T> = {
   [key in keyof T]:
     | T[keyof T]
-    | (T[keyof T] & {
-        delay?: number
-      })[]
+    | (
+        | T[keyof T]
+        | ({
+            value: T[keyof T]
+          } & TransitionConfig)
+      )[]
 }
 
 export interface DripifyProps<

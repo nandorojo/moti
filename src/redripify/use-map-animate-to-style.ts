@@ -120,10 +120,28 @@ const animationDefaults = {
 //   }
 // }
 
+function animationDelay<Animate>(
+  key: string,
+  transition: DripifyProps<Animate>['transition'],
+  defaultDelay?: number
+) {
+  'worklet'
+  let delayMs: TransitionConfig['delay'] = defaultDelay
+
+  if ((transition as any)?.[key as keyof Animate]?.delay != null) {
+    delayMs = (transition as any)?.[key as keyof Animate]?.delay
+  } else if (transition?.delay != null) {
+    delayMs = transition.delay
+  }
+
+  return {
+    delayMs,
+  }
+}
+
 function animationConfig<Animate>(
   styleProp: string,
-  transition: DripifyProps<Animate>['transition'],
-  defaultDelay: number
+  transition: DripifyProps<Animate>['transition']
 ) {
   'worklet'
 
@@ -137,14 +155,6 @@ function animationConfig<Animate>(
   } else if (transition?.type) {
     // otherwise, fallback to transition.type
     animationType = transition.type
-  }
-
-  let delayMs: TransitionConfig['delay'] = defaultDelay
-
-  if ((transition as any)?.[key as keyof Animate]?.delay != null) {
-    delayMs = (transition as any)?.[key as keyof Animate]?.delay
-  } else if (transition?.delay != null) {
-    delayMs = transition.delay
   }
 
   let config = {}
@@ -184,6 +194,7 @@ function animationConfig<Animate>(
       'velocity',
     ]
     configKeys.forEach((configKey) => {
+      'worklet'
       const styleSpecificConfig = transition?.[key]?.[configKey]
       const transitionConfigForKey = transition?.[configKey]
 
@@ -203,6 +214,7 @@ function animationConfig<Animate>(
     animation = withDecay
     config = {
       velocity: 2,
+      deceleration: 2,
     }
     const configKeys: (keyof Animated.WithDecayConfig)[] = [
       'clamp',
@@ -210,6 +222,7 @@ function animationConfig<Animate>(
       'deceleration',
     ]
     configKeys.forEach((configKey) => {
+      'worklet'
       const styleSpecificConfig = transition?.[key]?.[configKey]
       const transitionConfigForKey = transition?.[configKey]
 
@@ -224,7 +237,6 @@ function animationConfig<Animate>(
   return {
     animation,
     config,
-    delayMs,
   }
 }
 
@@ -236,7 +248,7 @@ export default function useMapAnimateToStyle<Animate>({
   state,
   stylePriority = 'animator',
 }: DripifyProps<Animate>) {
-  const isMounted = useSharedValue(false)
+  const isMounted = useSharedValue(false, false)
 
   // is any of this necessary?
   const initialSV = useSharedValue(from)
@@ -253,7 +265,10 @@ export default function useMapAnimateToStyle<Animate>({
   })
 
   const style = useAnimatedStyle(() => {
-    const final = {}
+    const final = {
+      // initializing here fixes reanimated object.__defineProperty bug(?)
+      transform: [],
+    }
     // const animateStyle = animateSV.value || {}
     const variantStyle: Animate = state?.__state?.value || {}
     // const variantStyle: Animate = JSON.parse(variantDerived.value)
@@ -272,11 +287,11 @@ export default function useMapAnimateToStyle<Animate>({
     Object.keys(mergedStyles).forEach((key) => {
       'worklet'
 
-      if (key === 'transform' && __DEV__) {
-        console.error(
-          'Used `transform` array prop for animating styles. This is not supported. Instead of transform: [{ scale: 1 }] please use the values directly, such as {scale: 1}.'
-        )
-      }
+      // if (key === 'transform' && __DEV__) {
+      //   console.error(
+      //     'Used `transform` array prop for animating styles. This is not supported. Instead of transform: [{ scale: 1 }] please use the values directly, such as {scale: 1}.'
+      //   )
+      // }
 
       const initialValue = initialStyle[key]
       let value = animateStyle[key] || variantStyle[key]
@@ -284,108 +299,28 @@ export default function useMapAnimateToStyle<Animate>({
       if (initialValue != null) {
         // if we haven't mounted, or if there's no other value to use besides the initial one, use it.
         if (isMounted.value === false || !value) {
-          final[key] = initialValue
+          if (isTransform(key) && final.transform) {
+            // this syntax avoids reanimated .__defineObject error
+            const transform = {}
+            transform[key] = initialValue
+
+            // final.transform.push({ [key]: initialValue }) does not work!
+            // @ts-ignore
+            final.transform.push(transform)
+            // console.log({ final })
+          } else {
+            final[key] = initialValue
+          }
           return
         }
       }
       const callback: (canceled: boolean) => void = () => {
+        'worklet'
         // no-op for now
       }
 
-      // first, let's get the config & delay for this animation
-      let animationType: Required<TransitionConfig>['type'] = 'spring'
-      // say that we're looking at `width`
-      // first, check if we have transition.width.type
-      if ((transition as any)?.[key as keyof Animate]?.type) {
-        animationType = (transition as any)[key]?.type
-      } else if (transition?.type) {
-        // otherwise, fallback to transition.type
-        animationType = transition.type
-      }
-
-      let delayMs: TransitionConfig['delay'] = defaultDelay
-
-      if ((transition as any)?.[key as keyof Animate]?.delay != null) {
-        delayMs = (transition as any)?.[key as keyof Animate]?.delay
-      } else if (transition?.delay != null) {
-        delayMs = transition.delay
-      }
-
-      let config = {}
-      let animation: Function = withSpring
-
-      if (animationType === 'timing') {
-        const duration =
-          ((transition as any)?.[
-            key as keyof Animate
-          ] as Animated.WithTimingConfig)?.duration ??
-          (transition as Animated.WithTimingConfig)?.duration ??
-          animationDefaults['timing'].duration
-
-        const easing =
-          ((transition as any)?.[
-            key as keyof Animate
-          ] as Animated.WithTimingConfig)?.easing ??
-          (transition as Animated.WithTimingConfig)?.easing ??
-          animationDefaults['timing'].easing
-
-        config = {
-          duration,
-          easing,
-        }
-        animation = withTiming
-      } else if (animationType === 'spring') {
-        animation = withSpring
-        config = {
-          // solve the missing velocity bug in 2.0.0-rc.0
-          velocity: 2,
-        } as Animated.WithSpringConfig
-        const configKeys: (keyof Animated.WithSpringConfig)[] = [
-          'damping',
-          'mass',
-          'overshootClamping',
-          'restDisplacementThreshold',
-          'restSpeedThreshold',
-          'stiffness',
-          'velocity',
-        ]
-        configKeys.forEach((configKey) => {
-          const styleSpecificConfig = transition?.[key]?.[configKey]
-          const transitionConfigForKey = transition?.[configKey]
-
-          if (styleSpecificConfig) {
-            config[configKey] = styleSpecificConfig
-          } else if (transitionConfigForKey) {
-            config[configKey] = transitionConfigForKey
-          }
-        })
-      } else if (animationType === 'decay') {
-        // TODO this doesn't work for now
-        // if (__DEV__) {
-        //   console.error(
-        //     `[${PackageName}]: You passed transition type: decay, but this isn't working for now. Honestly, not sure why yet. Try passing other transition fields, like clamp, velocity, and deceleration. If that solves it, please open an issue at let me know.`
-        //   )
-        // }
-        animation = withDecay
-        config = {
-          velocity: 2,
-        }
-        const configKeys: (keyof Animated.WithDecayConfig)[] = [
-          'clamp',
-          'velocity',
-          'deceleration',
-        ]
-        configKeys.forEach((configKey) => {
-          const styleSpecificConfig = transition?.[key]?.[configKey]
-          const transitionConfigForKey = transition?.[configKey]
-
-          if (styleSpecificConfig) {
-            config[configKey] = styleSpecificConfig
-          } else if (transitionConfigForKey) {
-            config[configKey] = transitionConfigForKey
-          }
-        })
-      }
+      const { animation, config } = animationConfig(key, transition)
+      let { delayMs } = animationDelay(key, transition, defaultDelay)
 
       if (isColor(key)) {
         if (__DEV__) {
@@ -400,59 +335,80 @@ Please go to https://github.com/software-mansion/react-native-reanimated/issues/
         value = processColor(value)
       }
 
+      if (value == null || value == false) {
+        // skip missing values
+        // this is useful if you want to do {opacity: loading && 1}
+        // without this, those values will break I think
+        return
+      }
       if (Array.isArray(value)) {
         // we have a sequence
 
-        if (typeof value[0] === 'object') {
-          // TODO ALLOW for objects here with custom config, such as delay, etc
-        }
+        /**
+         * There is some code duplication in this section and in the ones below.
+         *
+         * However, I prefer this for open source. It makes it easier for collaborators to identify issues without a million wrappers.
+         *
+         * If there's something *obvious* that would benefit from abstraction, we can. But let's keep it simple.
+         */
+
+        // remove null, false values to allow for conditional styles
+        const sequence = value
+          .filter((step) => {
+            if (typeof step === 'object') {
+              return step?.value != null && step?.value != false
+            }
+            return step != null && step != false
+          })
+          .map((step) => {
+            let stepDelay = delayMs
+            let stepValue = step
+            let stepConfig = { ...config }
+            let stepAnimation = animation
+            if (typeof step === 'object') {
+              // TODO this should spread from step, but reanimated won't allow this on JS thread?
+              // const { delay, value, ...transition } = step
+              const transition = step
+              const { delay, value } = step
+
+              const { config: customConfig, animation } = animationConfig(
+                key,
+                transition
+              )
+
+              stepConfig = { ...stepConfig }
+              stepAnimation = animation
+              if (delay != null) {
+                stepDelay = delay
+              }
+              stepValue = value
+            }
+
+            const sequenceValue = stepAnimation(stepValue, stepConfig, callback)
+            if (stepDelay != null) {
+              return withDelay(stepDelay, sequenceValue)
+            }
+            return sequenceValue
+          })
+          .filter(Boolean)
 
         if (isTransform(key)) {
           // we have a sequence of transforms
           final['transform'] = final['transform'] || []
-          if (transition?.[key]?.delay != null) {
-            delayMs = transition?.[key]?.delay
-          }
-
-          const sequence = value.map((sequenceStep) => {
-            // allow us to define a delay per step!
-            let stepDelay = delayMs
-            if (
-              typeof sequenceStep === 'object' &&
-              sequenceStep?.delay != null
-            ) {
-              stepDelay = sequenceStep?.delay
-            }
-            const sequenceTransformValue = animation(
-              sequenceStep,
-              config,
-              callback
-            )
-            if (stepDelay != null) {
-              return withDelay(stepDelay, sequenceTransformValue)
-            } else {
-              return sequenceTransformValue
-            }
-          })
 
           const transform = {}
 
-          transform[key] = withSequence(sequence[0], ...sequence.slice(1))
+          if (sequence.length) {
+            transform[key] = withSequence(sequence[0], ...sequence.slice(1))
+          }
 
           final['transform'].push(transform)
         } else {
           // we have a normal sequence of items
           // shadows not supported
-          const sequence = value.map((sequenceStep) => {
-            const step = animation(sequenceStep, config, callback)
-
-            if (delayMs != null && typeof delayMs === 'number') {
-              return withDelay(delayMs, step)
-            } else {
-              return step
-            }
-          })
-          final[key] = withSequence(sequence[0], ...sequence.slice(1))
+          if (sequence.length) {
+            final[key] = withSequence(sequence[0], ...sequence.slice(1))
+          }
         }
       } else if (isTransform(key)) {
         final['transform'] = final['transform'] || []
