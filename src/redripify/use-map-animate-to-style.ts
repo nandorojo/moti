@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { TextStyle, TransformsStyle, ViewStyle } from 'react-native'
+import { TransformsStyle } from 'react-native'
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -8,7 +8,6 @@ import Animated, {
   withSpring,
   withTiming,
   withDelay,
-  processColor,
   useDerivedValue,
   withRepeat,
   withSequence,
@@ -48,13 +47,6 @@ const isTransform = (styleKey: string) => {
     'skewY',
   ]
   return transforms.includes(styleKey as keyof Transforms)
-}
-
-const animationDefaults = {
-  timing: {
-    duration: 500,
-    easing: Easing.bezier(0.5, 0.01, 0, 1),
-  },
 }
 
 function animationDelay<Animate>(
@@ -132,7 +124,7 @@ function animationConfig<Animate>(
     if (easing) {
       config['easing'] = easing
     }
-    if (duration) {
+    if (duration != null) {
       config['duration'] = duration
     }
     animation = withTiming
@@ -156,9 +148,9 @@ function animationConfig<Animate>(
       const styleSpecificConfig = transition?.[key]?.[configKey]
       const transitionConfigForKey = transition?.[configKey]
 
-      if (styleSpecificConfig) {
+      if (styleSpecificConfig != null) {
         config[configKey] = styleSpecificConfig
-      } else if (transitionConfigForKey) {
+      } else if (transitionConfigForKey != null) {
         config[configKey] = transitionConfigForKey
       }
     })
@@ -185,9 +177,9 @@ function animationConfig<Animate>(
       const styleSpecificConfig = transition?.[key]?.[configKey]
       const transitionConfigForKey = transition?.[configKey]
 
-      if (styleSpecificConfig) {
+      if (styleSpecificConfig != null) {
         config[configKey] = styleSpecificConfig
-      } else if (transitionConfigForKey) {
+      } else if (transitionConfigForKey != null) {
         config[configKey] = transitionConfigForKey
       }
     })
