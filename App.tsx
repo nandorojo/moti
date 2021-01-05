@@ -6,4 +6,10 @@
 // export { default } from './Measure'
 // export { default } from './Bug'
 // export { default } from './Color-Bug'
-export { default } from './Drip.Color'
+// export { default } from './Drip.Color'
+
+import { View } from 'react-native'
+import React from 'react'
+export default function App() {
+  return <View style={{ flex: 1, backgroundColor: 'red' }} />
+}
