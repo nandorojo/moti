@@ -60,13 +60,127 @@ type Controller<V> = {
   // __variants: V
 }
 
-function useAnimatedController<V>(
+/**
+ *
+ * `useAnimatedState` lets you control your animation state, based on static presets. It is the most performant way to drive animations.
+ *
+ * @param variants specify your style variants.
+ * @param config Optionally define your initial variant key.
+ *
+ * **Example**
+ *
+ * ```jsx
+ * const animator = useAnimatedState({
+ *   initial: {
+ *     opacity: 0
+ *   },
+ *   open: {
+ *     opacity: 1
+ *   },
+ *   pressed: {
+ *     opacity: 0.7
+ *   }
+ * })
+ *
+ * return (
+ *   <>
+ *     <Drip.View animator={animator} />
+ *     <Button
+ *      title="Change!"
+ *      onPressIn={() => {
+ *        animator.transitionTo('pressed')
+ *      }}
+ *      onPressOut={() => animator.transitionTo('open')}
+ *     />
+ *   </>
+ * )
+ * ```
+ *
+ * You can also use it with a destructured hook if you want to get access to the `current` state:
+ *
+ * ```jsx
+ * const [state, animator] = useAnimatedState({
+ *   initial: {
+ *     opacity: 0
+ *   },
+ *   open: {
+ *     opacity: 1
+ *   },
+ *   pressed: {
+ *     opacity: 0.7
+ *   }
+ * })
+ *
+ * return (
+ *   <>
+ *     <Drip.View state={animator} />
+ *     <Button
+ *      title="Change!"
+ *      onPress={() => {
+ *        if (animator.current === state.initial) {
+ *          animator.animateTo('open')
+ *        } else {
+ *          animator.animateTo('initial')
+ *        }
+ *      }}
+ *     />
+ *   </>
+ * )
+ * ```
+ *
+ * If you provide an `initial` key, this will be your default starting variant. If you don't, however, you should use the second argument to specify the initial state. If you do not, then there will be no animated style to begin with (this is okay, as long as you intended it.)
+ *
+ * ```jsx
+ * const animator = useAnimatedState({
+ *   from: {
+ *     opacity: 0
+ *   },
+ *   open: {
+ *     opacity: 1
+ *   },
+ * }, { initial: 'from' })
+ * ```
+ *
+ * **Note** if you change variants on the fly by updating state, they will not re-render. This is to maintain good performance. Instead, you should pre-define all states in the first render. Then use `animator.transitionTo` to change state, and `animator.current` to read the state.
+ *
+ * This means the `useAnimatedState` hook should only be used with static states. If you need dynamic states, please use the `animate` prop directly.
+ *
+ * **Minor suggestion**
+ *
+ * As a rule of thumb, don't destructure the `animator`. `animator` has a stable reference, but the values inside of it do not.
+ *
+ * ```js
+ * // ✅ in general, do this
+ * const animator = useAnimatedState(...)
+ *
+ * useEffect(() => {
+ *  if (loading) animator.transitionTo('some-state')
+ *  else animator.transitionTo('some-other-state')
+ * }, [animator, loading])
+ *
+ * // 🚨 not this
+ * const { current, transitionTo } = useAnimator(...)
+ *
+ * useEffect(() => {
+ *  if (loading) transitionTo('some-state')
+ *  else transitionTo('some-other-state')
+ * }, [animator, loading])
+ * ```
+ *
+ * You don't have to follow that suggestion if you don't want to. But I recommend it to prevent unintended consequences of triggering effects when these are used in dependency arrays.
+ *
+ * If you aren't using the animator in a dependency array anywhere, then you can ignore this suggestion. But I treat it as a rule of thumb to keep things simpler.
+ *
+ * Technically, it's fine if you do this with `transitionTo`. It's `current` you'll want to watch out for, since its reference will change, without triggering re-renders. This functions similar to `useRef`.
+ */
+export default function useAnimatedState<V>(
   _variants: V,
   { from = 'from' as keyof V }: UseAnimatorConfig<V> = {}
 ) {
   const controller = useRef<Controller<V>>()
   const __state = useSharedValue<InternalControllerState<V>>(
-    from ? _variants[from] : 0
+    from ? _variants[from] : 0,
+    false // don't rebuild it
   )
 
   const selectedVariant = useRef(from)
@@ -237,21 +351,21 @@ export type UseAnimator<V> = Controller<V>
  *
  * Technically, it's fine if you do this with `transitionTo`. It's `current` you'll want to watch out for, since its reference will change, without triggering re-renders. This functions similar to `useRef`.
  */
-export default function useAnimationState<
-  V extends Variants = Variants,
-  InitialKey extends string = 'initial'
->(
-  variants: V,
-  { from = 'from' as InitialKey }: UseAnimatorConfig<V, InitialKey> = {}
-) {
-  // const variantz = useVariants(variants)
+// export default function useAnimationState<
+//   V extends Variants = Variants,
+//   InitialKey extends string = 'initial'
+// >(
+//   variants: V,
+//   { from = 'from' as InitialKey }: UseAnimatorConfig<V, InitialKey> = {}
+// ) {
+//   // const variantz = useVariants(variants)
 
-  const animator = useAnimatedController(variants, { from })
+//   const animator = useAnimatedController(variants, { from })
 
-  // const returnValue = animator as UseAnimator<V>
+//   // const returnValue = animator as UseAnimator<V>
 
-  // returnValue[0] = variantz
-  // returnValue[1] = animator
+//   // returnValue[0] = variantz
+//   // returnValue[1] = animator
 
-  return animator
-}
+//   return animator
+// }

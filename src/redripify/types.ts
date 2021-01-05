@@ -1,6 +1,5 @@
 import { UseAnimator } from './use-animator'
 import Animated from 'react-native-reanimated'
-import { TransformsStyle } from 'react-native'
 
 import type {
   PerpectiveTransform,
@@ -34,23 +33,67 @@ export type TransitionConfig = (
   | ({ type?: 'spring' } & Animated.WithSpringConfig)
   | ({ type: 'timing' } & Animated.WithTimingConfig)
   | ({ type: 'decay' } & Animated.DecayConfig)
-) & { delay?: number }
+) & {
+  delay?: number
+  /**
+   * Number of times this animation should repeat. To make it infinite, use the `loop` boolean.
+   *
+   * Default: `0`
+   *
+   * It's worth noting that this value isn't *exactly* a `repeat`. Instead, it uses Reanimated's `withRepeat` function under the hood, which repeats back to the **previous value**. If you want a repeated animation, I recommend setting it to `true` from the start, and make sure you have a `from` value.
+   *
+   * Note: this value cannot be set on the fly. If you would like animations to repeat based on the `from` value, it must be `true` when the component initializes. You can set it to `false` to stop it, but you won't be able to start it again. You might be better off using the sequence array API if you need to update its repetitiveness on the fly.
+   */
+  repeat?: number
+  /**
+   * Setting this to `true` is the same as `repeat: Infinity`
+   *
+   * Default: `false`
+   *
+   * Note: this value cannot be set on the fly. If you would like animations to repeat based on the `from` value, it must be `true` when the component initializes. You can set it to `false` to stop it, but you won't be able to start it again. You might be better off using the sequence array API if you need to update its repetitiveness on the fly.
+   */
+  loop?: boolean
+  /**
+   * Whether or not the animation repetition should alternate in direction.
+   *
+   * By default, this is `true`.
+   *
+   * If `false`, any animations with `loop` or `repeat` will not go back and forth. Instead, they will go from 0 -> 1, and again from 0 -> 1.
+   *
+   * If `true`, then animations will go 0 -> 1 -> 0.
+   *
+   * Setting this to `true` is like setting `animationDirection: alternate` in CSS.
+   */
+  repeatReverse?: boolean
+}
+
+type SmartOmit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 
 /**
- * Allow { scale: 1 }, or { scale: [1] } if it's a sequence
+ * Allow { scale: 1 }
+ *
+ * If it's a sequence:
+ * { scale: [0, 1] }
+ *
+ * Or { scale: [{ value: 0, delay: 300, type: 'spring' }, 1]}
  */
 type StyleValueWithArrays<T> = {
-  [key in keyof T]:
+  [key in keyof T]:  // either the value
     | T[keyof T]
+    // or an array of values for a sequence
     | (
-        | T[keyof T]
+        | // raw style values
+        T[keyof T]
+        // or dictionaries with transition configs
         | ({
             value: T[keyof T]
-          } & TransitionConfig)
+            // withSequence does not support withRepeat!
+            // let people pass any config, minus repetitions
+          } & SmartOmit<TransitionConfig, 'repeat' | 'repeatReverse' | 'loop'>)
       )[]
 }
 
-export interface DripifyProps<
+export interface DripsifyProps<
   AnimateType,
   AnimateWithTransitions = Omit<AnimateType, 'transform'> & Partial<Transforms>,
   Animate = StyleValueWithArrays<AnimateWithTransitions>
@@ -73,7 +116,7 @@ export interface DripifyProps<
    *
    * Default: `animator`.
    */
-  stylePriority?: 'animator' | 'animate'
+  stylePriority?: 'state' | 'animate'
   /**
    * @deprecated
    *

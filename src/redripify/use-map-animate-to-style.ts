@@ -14,7 +14,7 @@ import Animated, {
   withSequence,
 } from 'react-native-reanimated'
 import { PackageName } from '../constants/package-name'
-import { DripifyProps, Transforms, TransitionConfig } from './types'
+import { DripsifyProps, Transforms, TransitionConfig } from './types'
 
 const isColor = (styleKey: string) => {
   'worklet'
@@ -57,72 +57,9 @@ const animationDefaults = {
   },
 }
 
-// function animate(
-//   key: string,
-//   value: any,
-//   config: any,
-//   transition: object,
-//   delay?: number
-// ) {
-//   let finalValue
-//   if (isColor(key)) {
-//     if (__DEV__) {
-//       console.error(
-//         `[${PackageName}]: You passed ${key}: ${value}, but color values aren't supported yet due to a bug in Reanimated 2. ☹️
-
-// Please go to https://github.com/software-mansion/react-native-reanimated/issues/845 and comment so that this bug can get fixed!`
-//       )
-//     }
-//     value = processColor(value)
-//   }
-
-//   if (isTransform(key)) {
-//     final['transform'] = final['transform'] || []
-//     // const transformKey = Object.keys(transformProp)[0]
-//     // const transformValue = transformProp[transformKey]
-
-//     if (transition?.[key]?.delay != null) {
-//       delayMs = transition?.[key]?.delay
-//     }
-
-//     const transform = {}
-//     const finalValue = animation(value, config, callback)
-//     if (delayMs != null) {
-//       transform[key] = withDelay(delayMs, finalValue)
-//     } else {
-//       transform[key] = finalValue
-//     }
-
-//     final[key].push(transform)
-
-//     return
-//   }
-//   if (typeof value === 'object') {
-//     // shadows
-//     final[key] = {}
-//     Object.keys(value).forEach((innerStyleKey) => {
-//       const finalValue = animation(value, config, callback)
-
-//       if (delayMs != null) {
-//         final[key][innerStyleKey] = withDelay(delayMs, finalValue)
-//       } else {
-//         final[key][innerStyleKey] = finalValue
-//       }
-//     })
-//   } else {
-//     const finalValue = animation(value, config, callback)
-
-//     if (delayMs != null && typeof delayMs === 'number') {
-//       final[key] = withDelay(delayMs, finalValue)
-//     } else {
-//       final[key] = finalValue
-//     }
-//   }
-// }
-
 function animationDelay<Animate>(
   key: string,
-  transition: DripifyProps<Animate>['transition'],
+  transition: DripsifyProps<Animate>['transition'],
   defaultDelay?: number
 ) {
   'worklet'
@@ -141,13 +78,17 @@ function animationDelay<Animate>(
 
 function animationConfig<Animate>(
   styleProp: string,
-  transition: DripifyProps<Animate>['transition']
+  transition: DripsifyProps<Animate>['transition']
 ) {
   'worklet'
 
   const key = styleProp
-  // first, let's get the config & delay for this animation
+  let repeatCount = 0
+  let repeatReverse = true
+
   let animationType: Required<TransitionConfig>['type'] = 'spring'
+  if (isColor(key)) animationType = 'timing'
+
   // say that we're looking at `width`
   // first, check if we have transition.width.type
   if ((transition as any)?.[key as keyof Animate]?.type) {
@@ -157,25 +98,42 @@ function animationConfig<Animate>(
     animationType = transition.type
   }
 
+  if ((transition as any)?.[key as keyof Animate]?.loop) {
+    repeatCount = Infinity
+  } else if (transition?.loop) {
+    // otherwise, fallback to transition.type
+    repeatCount = Infinity
+  }
+
+  if ((transition as any)?.[key as keyof Animate]?.repeat != null) {
+    repeatCount = (transition as any)?.[key as keyof Animate]?.repeat
+  } else if (transition?.repeat) {
+    repeatCount = transition.repeat
+  }
+
+  if ((transition as any)?.[key as keyof Animate]?.repeatReverse != null) {
+    repeatReverse = (transition as any)?.[key as keyof Animate]?.repeatReverse
+  } else if (transition?.repeatReverse) {
+    repeatReverse = transition.repeatReverse
+  }
+
   let config = {}
-  let animation: Function = withSpring
+  let animation: Function = () => 1
 
   if (animationType === 'timing') {
     const duration =
       ((transition as any)?.[key as keyof Animate] as Animated.WithTimingConfig)
-        ?.duration ??
-      (transition as Animated.WithTimingConfig)?.duration ??
-      animationDefaults['timing'].duration
+        ?.duration ?? (transition as Animated.WithTimingConfig)?.duration
 
     const easing =
       ((transition as any)?.[key as keyof Animate] as Animated.WithTimingConfig)
-        ?.easing ??
-      (transition as Animated.WithTimingConfig)?.easing ??
-      animationDefaults['timing'].easing
+        ?.easing ?? (transition as Animated.WithTimingConfig)?.easing
 
-    config = {
-      duration,
-      easing,
+    if (easing) {
+      config['easing'] = easing
+    }
+    if (duration) {
+      config['duration'] = duration
     }
     animation = withTiming
   } else if (animationType === 'spring') {
@@ -206,11 +164,11 @@ function animationConfig<Animate>(
     })
   } else if (animationType === 'decay') {
     // TODO this doesn't work for now
-    // if (__DEV__) {
-    //   console.error(
-    //     `[${PackageName}]: You passed transition type: decay, but this isn't working for now. Honestly, not sure why yet. Try passing other transition fields, like clamp, velocity, and deceleration. If that solves it, please open an issue at let me know.`
-    //   )
-    // }
+    if (__DEV__) {
+      console.error(
+        `[${PackageName}]: You passed transition type: decay, but this isn't working for now. Honestly, not sure why yet. Try passing other transition fields, like clamp, velocity, and deceleration. If that solves it, please open an issue at let me know.`
+      )
+    }
     animation = withDecay
     config = {
       velocity: 2,
@@ -223,6 +181,7 @@ function animationConfig<Animate>(
     ]
     configKeys.forEach((configKey) => {
       'worklet'
+      // is this necessary ^ don't think so...?
       const styleSpecificConfig = transition?.[key]?.[configKey]
       const transitionConfigForKey = transition?.[configKey]
 
@@ -237,6 +196,9 @@ function animationConfig<Animate>(
   return {
     animation,
     config,
+    repeatReverse,
+    repeatCount,
+    shouldRepeat: !!repeatCount,
   }
 }
 
@@ -246,39 +208,39 @@ export default function useMapAnimateToStyle<Animate>({
   transition,
   delay: defaultDelay,
   state,
-  stylePriority = 'animator',
-}: DripifyProps<Animate>) {
+  stylePriority = 'state',
+}: DripsifyProps<Animate>) {
   const isMounted = useSharedValue(false, false)
 
   // is any of this necessary?
   const initialSV = useSharedValue(from)
   const animateSV = useSharedValue(animate)
   // memoize to strings so that the UAS hook doesn't re-run?
+  // this negates the ability to use animated values. probably not worth it...
   const initialDerived = useDerivedValue(() => {
     return JSON.stringify(initialSV.value ?? {})
   })
   const animateDerived = useDerivedValue(() => {
     return JSON.stringify(animateSV.value ?? {})
   })
-  const variantDerived = useDerivedValue(() => {
-    return JSON.stringify(state?.__state?.value ?? {})
-  })
 
   const style = useAnimatedStyle(() => {
     const final = {
       // initializing here fixes reanimated object.__defineProperty bug(?)
-      transform: [],
+      transform: [] as TransformsStyle['transform'],
     }
     // const animateStyle = animateSV.value || {}
     const variantStyle: Animate = state?.__state?.value || {}
     // const variantStyle: Animate = JSON.parse(variantDerived.value)
 
-    const animateStyle: Animate = JSON.parse(animateDerived.value)
-    const initialStyle: Animate = JSON.parse(initialDerived.value)
+    const animateStyle = animateSV.value || {}
+    const initialStyle = initialSV.value || {}
+    // const animateStyle: Animate = JSON.parse(animateDerived.value)
+    // const initialStyle: Animate = JSON.parse(initialDerived.value)
     // const initialStyle = initialSV.value || {}
 
     let mergedStyles: Animate
-    if (stylePriority === 'animator') {
+    if (stylePriority === 'state') {
       mergedStyles = { ...animateStyle, ...variantStyle }
     } else {
       mergedStyles = { ...variantStyle, ...animateStyle }
@@ -294,11 +256,22 @@ export default function useMapAnimateToStyle<Animate>({
       // }
 
       const initialValue = initialStyle[key]
-      let value = animateStyle[key] || variantStyle[key]
+      const value =
+        stylePriority === 'state'
+          ? variantStyle[key] ?? animateStyle[key]
+          : animateStyle[key] ?? variantStyle[key]
+
+      const {
+        animation,
+        config,
+        shouldRepeat,
+        repeatCount,
+        repeatReverse,
+      } = animationConfig(key, transition)
 
       if (initialValue != null) {
         // if we haven't mounted, or if there's no other value to use besides the initial one, use it.
-        if (isMounted.value === false || !value) {
+        if (isMounted.value === false || value == null) {
           if (isTransform(key) && final.transform) {
             // this syntax avoids reanimated .__defineObject error
             const transform = {}
@@ -309,7 +282,7 @@ export default function useMapAnimateToStyle<Animate>({
             final.transform.push(transform)
             // console.log({ final })
           } else {
-            final[key] = initialValue
+            final[key] = animation(initialValue, config)
           }
           return
         }
@@ -319,23 +292,28 @@ export default function useMapAnimateToStyle<Animate>({
         // no-op for now
       }
 
-      const { animation, config } = animationConfig(key, transition)
       let { delayMs } = animationDelay(key, transition, defaultDelay)
 
       if (isColor(key)) {
         if (__DEV__) {
-          console.error(
-            `[${PackageName}]: You passed ${key}: ${JSON.stringify(
-              value
-            )}, but color values aren't supported yet due to a bug in Reanimated 2. ☹️ 
-                
-Please go to https://github.com/software-mansion/react-native-reanimated/issues/845 and comment so that this bug can get fixed!`
-          )
+          if (
+            typeof value === 'string' &&
+            !value.startsWith('rgb') &&
+            !value.startsWith('#')
+          ) {
+            console.error(
+              `[${PackageName}]: You passed ${key}: ${value}, but not all color values are supported yet in Reanimated 2. ☹️ 
+                  
+Please use an rgb or hex formatted color.
+
+  Please go to https://github.com/software-mansion/react-native-reanimated/issues/845 and comment so that this bug can get fixed!`
+            )
+          }
         }
-        value = processColor(value)
+        console.log('[color]', { key, value })
       }
 
-      if (value == null || value == false) {
+      if (value == null || value === false) {
         // skip missing values
         // this is useful if you want to do {opacity: loading && 1}
         // without this, those values will break I think
@@ -356,9 +334,9 @@ Please go to https://github.com/software-mansion/react-native-reanimated/issues/
         const sequence = value
           .filter((step) => {
             if (typeof step === 'object') {
-              return step?.value != null && step?.value != false
+              return step?.value != null && step?.value !== false
             }
-            return step != null && step != false
+            return step != null && step !== false
           })
           .map((step) => {
             let stepDelay = delayMs
@@ -396,13 +374,14 @@ Please go to https://github.com/software-mansion/react-native-reanimated/issues/
           // we have a sequence of transforms
           final['transform'] = final['transform'] || []
 
-          const transform = {}
-
           if (sequence.length) {
-            transform[key] = withSequence(sequence[0], ...sequence.slice(1))
-          }
+            const transform = {}
 
-          final['transform'].push(transform)
+            transform[key] = withSequence(sequence[0], ...sequence.slice(1))
+
+            // @ts-ignore
+            final['transform'].push(transform)
+          }
         } else {
           // we have a normal sequence of items
           // shadows not supported
@@ -420,19 +399,27 @@ Please go to https://github.com/software-mansion/react-native-reanimated/issues/
         }
 
         const transform = {}
-        const finalValue = animation(value, config, callback)
+        let finalValue = animation(value, config, callback)
+        if (shouldRepeat) {
+          finalValue = withRepeat(finalValue, repeatCount, repeatReverse)
+        }
         if (delayMs != null) {
           transform[key] = withDelay(delayMs, finalValue)
         } else {
           transform[key] = finalValue
         }
 
+        // @ts-ignore
         final['transform'].push(transform)
       } else if (typeof value === 'object') {
         // shadows
         final[key] = {}
         Object.keys(value).forEach((innerStyleKey) => {
-          const finalValue = animation(value, config, callback)
+          let finalValue = animation(value, config, callback)
+
+          if (shouldRepeat) {
+            finalValue = withRepeat(finalValue, repeatCount, repeatReverse)
+          }
 
           if (delayMs != null) {
             final[key][innerStyleKey] = withDelay(delayMs, finalValue)
@@ -441,7 +428,10 @@ Please go to https://github.com/software-mansion/react-native-reanimated/issues/
           }
         })
       } else {
-        const finalValue = animation(value, config, callback)
+        let finalValue = animation(value, config, callback)
+        if (shouldRepeat) {
+          finalValue = withRepeat(finalValue, repeatCount, repeatReverse)
+        }
 
         if (delayMs != null && typeof delayMs === 'number') {
           final[key] = withDelay(delayMs, finalValue)

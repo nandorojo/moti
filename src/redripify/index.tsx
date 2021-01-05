@@ -1,6 +1,6 @@
 import React, { ComponentType, forwardRef } from 'react'
 import { ImageStyle, TextStyle, ViewStyle } from 'react-native'
-import { DripifyProps } from './types'
+import { DripsifyProps } from './types'
 import useMapAnimateToStyle from './use-map-animate-to-style'
 import Animated from 'react-native-reanimated'
 
@@ -21,14 +21,15 @@ export default function redripify<
     const withStyles = forwardRef<
       Ref,
       Props &
-        DripifyProps<Animate> & {
+        DripsifyProps<Animate> &
+        ExtraProps & {
           children?: React.ReactNode
         }
     >(function Wrapped(
       {
         animate,
         style,
-        from = false as false,
+        from = false as const,
         transition,
         delay,
         state,
