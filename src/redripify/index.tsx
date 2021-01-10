@@ -34,6 +34,7 @@ export default function redripify<
         delay,
         state,
         stylePriority,
+        onDidAnimate,
         ...props
       },
       ref
@@ -45,6 +46,7 @@ export default function redripify<
         delay,
         state,
         stylePriority,
+        onDidAnimate,
       })
 
       return (

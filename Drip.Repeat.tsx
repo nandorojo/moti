@@ -1,17 +1,26 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import { View } from './src/components'
+import * as Redrip from './src/components'
 
 function AnimatedCircle() {
   return (
-    <View
+    <Redrip.View
       style={styles.circle}
       transition={{
         type: 'timing',
+        loop: true,
+      }}
+      from={{
+        scale: 0.9,
+        // opacity: 1,
       }}
       animate={{
-        scale: [0, 1, 2],
-        translateY: [0, 10, 50],
+        scale: 1,
+        // opacity: 1,
+        // translateY: [0, 10, 50],
+      }}
+      onDidAnimate={(key, finished) => {
+        console.log('[animation complete]', key, finished)
       }}
     />
   )
@@ -49,11 +58,11 @@ function AnimatedCircle() {
  */
 export default function DripRepeat() {
   return (
-    <View style={styles.container}>
+    <Redrip.View style={styles.container}>
       {/* <Circle /> */}
       <AnimatedCircle />
       {/* <Circle /> */}
-    </View>
+    </Redrip.View>
   )
 }
 

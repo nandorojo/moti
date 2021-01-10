@@ -76,6 +76,7 @@ type SmartOmit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
  * { scale: [0, 1] }
  *
  * Or { scale: [{ value: 0, delay: 300, type: 'spring' }, 1]}
+ * to allow more granular specification of sequence values
  */
 type StyleValueWithArrays<T> = {
   [key in keyof T]:  // either the value
@@ -93,11 +94,32 @@ type StyleValueWithArrays<T> = {
       )[]
 }
 
+type OnDidAnimate<Animate, Key extends keyof Animate = keyof Animate> = (
+  /**
+   * Key of the style that just finished animating
+   */
+  styleProp: Key,
+  /**
+   * `boolean` inidcating whether or not the animation finished.
+   */
+  finished: boolean,
+  value?: Animate[Key]
+) => void
+
 export interface DripsifyProps<
   AnimateType,
   AnimateWithTransitions = Omit<AnimateType, 'transform'> & Partial<Transforms>,
   Animate = StyleValueWithArrays<AnimateWithTransitions>
 > {
+  // we want the "value" returned to not include the style arrays
+  /**
+   * Callback function called after finishing an animation.
+   *
+   * @param styleProp the key of the style that just finished animating
+   * @param finished `boolean` inidcating whether or not the animation finished.
+   * @param value This value is `undefined`, **unless** you are doing a repeating or looping animation. In that case, it gives you the value that it just animated to.
+   */
+  onDidAnimate?: OnDidAnimate<AnimateWithTransitions>
   animate?: Animate
   /**
    * (Optional) specify styles which the component should animate from.

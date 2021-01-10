@@ -35,7 +35,9 @@ export default function ColorBug() {
     const style = JSON.parse(bg.value)
     Object.keys(style).forEach((key) => {
       const value = style[key]
-      final[key] = withTiming(value, {}, console.log)
+      final[key] = withTiming(value, {}, (finished, value) => {
+        console.log('done', { finished, value })
+      })
     })
     return final
   })

@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { TransformsStyle } from 'react-native'
 import Animated, {
-  Easing,
   useAnimatedStyle,
   useSharedValue,
   withDecay,
@@ -11,6 +10,7 @@ import Animated, {
   useDerivedValue,
   withRepeat,
   withSequence,
+  runOnJS,
 } from 'react-native-reanimated'
 import { PackageName } from '../constants/package-name'
 import { DripsifyProps, Transforms, TransitionConfig } from './types'
@@ -201,6 +201,7 @@ export default function useMapAnimateToStyle<Animate>({
   delay: defaultDelay,
   state,
   stylePriority = 'state',
+  onDidAnimate,
 }: DripsifyProps<Animate>) {
   const isMounted = useSharedValue(false, false)
 
@@ -261,6 +262,16 @@ export default function useMapAnimateToStyle<Animate>({
         repeatReverse,
       } = animationConfig(key, transition)
 
+      const callback: (canceled: boolean, value?: any) => void = (
+        canceled,
+        recentValue
+      ) => {
+        // no-op for now
+        if (onDidAnimate) {
+          runOnJS(onDidAnimate)(key as any, canceled, recentValue)
+        }
+      }
+
       if (initialValue != null) {
         // if we haven't mounted, or if there's no other value to use besides the initial one, use it.
         if (isMounted.value === false || value == null) {
@@ -278,10 +289,6 @@ export default function useMapAnimateToStyle<Animate>({
           }
           return
         }
-      }
-      const callback: (canceled: boolean) => void = () => {
-        'worklet'
-        // no-op for now
       }
 
       let { delayMs } = animationDelay(key, transition, defaultDelay)
