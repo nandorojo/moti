@@ -107,11 +107,14 @@ type OnDidAnimate<Animate, Key extends keyof Animate = keyof Animate> = (
 ) => void
 
 export interface DripsifyProps<
+  // Style props of the component
   AnimateType,
+  // edit the style props to remove transform array, flattening it
   AnimateWithTransitions = Omit<AnimateType, 'transform'> & Partial<Transforms>,
+  // allow the style values to be arrays for sequences, where values are primitives or objects with configs
   Animate = StyleValueWithArrays<AnimateWithTransitions>
 > {
-  // we want the "value" returned to not include the style arrays
+  // we want the "value" returned to not include the style arrays here, so we use AnimateWithTransitions
   /**
    * Callback function called after finishing an animation.
    *
@@ -120,13 +123,18 @@ export interface DripsifyProps<
    * @param value This value is `undefined`, **unless** you are doing a repeating or looping animation. In that case, it gives you the value that it just animated to.
    */
   onDidAnimate?: OnDidAnimate<AnimateWithTransitions>
+  /**
+   * Animated style. Any styles passed here will automatically animate when they change.
+   *
+   * To set an initial value, see the `from` prop.
+   */
   animate?: Animate
   /**
    * (Optional) specify styles which the component should animate from.
    *
    * If `false`, initial styles will correspond to the `animate` prop. Any subsequent changes to `animate` will be animated.
    */
-  from?: Animate | false
+  from?: Animate | boolean
   transition?: TransitionConfig &
     Partial<Record<keyof Animate, TransitionConfig>>
   delay?: number

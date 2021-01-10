@@ -2,25 +2,20 @@ import React from 'react'
 import { StyleSheet } from 'react-native'
 import * as Redrip from './src/components'
 
+const { View } = Redrip
+
 function AnimatedCircle() {
   return (
-    <Redrip.View
-      style={styles.circle}
-      transition={{
-        type: 'timing',
-        loop: true,
-      }}
+    // run a normal spring animation
+    <View
       from={{
         scale: 0.9,
-        // opacity: 1,
       }}
       animate={{
         scale: 1,
-        // opacity: 1,
-        // translateY: [0, 10, 50],
       }}
       onDidAnimate={(key, finished) => {
-        console.log('[animation complete]', key, finished)
+        console.log('[complete]', key, finished) // [complete] scale, true
       }}
     />
   )
