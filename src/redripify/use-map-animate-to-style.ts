@@ -1,3 +1,4 @@
+import { usePresence } from 'framer-motion'
 import { useEffect } from 'react'
 import { TransformsStyle } from 'react-native'
 import Animated, {
@@ -202,35 +203,31 @@ export default function useMapAnimateToStyle<Animate>({
   state,
   stylePriority = 'state',
   onDidAnimate,
+  exit,
 }: DripsifyProps<Animate>) {
   const isMounted = useSharedValue(false, false)
+  const [isPresent, safeToUnmount] = usePresence()
 
   // is any of this necessary?
   const initialSV = useSharedValue(from)
   const animateSV = useSharedValue(animate)
-  // memoize to strings so that the UAS hook doesn't re-run?
-  // this negates the ability to use animated values. probably not worth it...
-  const initialDerived = useDerivedValue(() => {
-    return JSON.stringify(initialSV.value ?? {})
-  })
-  const animateDerived = useDerivedValue(() => {
-    return JSON.stringify(animateSV.value ?? {})
-  })
+  const exitSV = useSharedValue(exit)
+  const hasExitStyle = typeof exit === 'object' && !!Object.keys(exit).length
+
+  console.log('[use-animate-to-style]', { isPresent, hasExitStyle })
 
   const style = useAnimatedStyle(() => {
     const final = {
       // initializing here fixes reanimated object.__defineProperty bug(?)
       transform: [] as TransformsStyle['transform'],
     }
-    // const animateStyle = animateSV.value || {}
     const variantStyle: Animate = state?.__state?.value || {}
-    // const variantStyle: Animate = JSON.parse(variantDerived.value)
 
     const animateStyle = animateSV.value || {}
     const initialStyle = initialSV.value || {}
-    // const animateStyle: Animate = JSON.parse(animateDerived.value)
-    // const initialStyle: Animate = JSON.parse(initialDerived.value)
-    // const initialStyle = initialSV.value || {}
+    const exitStyle = exitSV.value || {}
+
+    const isExiting = !isPresent && hasExitStyle
 
     let mergedStyles: Animate
     if (stylePriority === 'state') {
@@ -239,7 +236,14 @@ export default function useMapAnimateToStyle<Animate>({
       mergedStyles = { ...variantStyle, ...animateStyle }
     }
 
-    Object.keys(mergedStyles).forEach((key) => {
+    if (isExiting) {
+      console.log('[UAS]', { isExiting, exitStyle })
+      mergedStyles = exitStyle as any
+    }
+
+    console.log('[UAS]', { mergedStyles })
+
+    Object.keys(mergedStyles).forEach((key, index) => {
       'worklet'
 
       // if (key === 'transform' && __DEV__) {
@@ -249,10 +253,7 @@ export default function useMapAnimateToStyle<Animate>({
       // }
 
       const initialValue = initialStyle[key]
-      const value =
-        stylePriority === 'state'
-          ? variantStyle[key] ?? animateStyle[key]
-          : animateStyle[key] ?? variantStyle[key]
+      const value = mergedStyles[key]
 
       const {
         animation,
@@ -266,9 +267,17 @@ export default function useMapAnimateToStyle<Animate>({
         canceled,
         recentValue
       ) => {
-        // no-op for now
         if (onDidAnimate) {
           runOnJS(onDidAnimate)(key as any, canceled, recentValue)
+        }
+        if (isExiting) {
+          // if this is true, then we've finished our exit animations
+          const isLastStyleKeyToAnimate =
+            index + 1 === Object.keys(mergedStyles).length
+
+          if (isLastStyleKeyToAnimate && safeToUnmount) {
+            runOnJS(safeToUnmount)()
+          }
         }
       }
 
@@ -278,7 +287,7 @@ export default function useMapAnimateToStyle<Animate>({
           if (isTransform(key) && final.transform) {
             // this syntax avoids reanimated .__defineObject error
             const transform = {}
-            transform[key] = initialValue
+            transform[key] = animation(initialValue, config)
 
             // final.transform.push({ [key]: initialValue }) does not work!
             // @ts-ignore
@@ -440,12 +449,27 @@ Please use an rgb or hex formatted color.
       }
     })
 
+    console.log('[UAS RESPONSE]', final)
     return final
   })
 
   useEffect(() => {
     isMounted.value = true
   }, [isMounted])
+
+  useEffect(
+    function allowUnMountIfMissingExit() {
+      console.log('[use-animate-to-style] effect', {
+        isPresent,
+        hasExitStyle,
+        safeToUnmount,
+      })
+      if (!isPresent && !hasExitStyle) {
+        safeToUnmount?.()
+      }
+    },
+    [hasExitStyle, isPresent, safeToUnmount]
+  )
 
   return {
     style,

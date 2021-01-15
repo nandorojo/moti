@@ -17,6 +17,7 @@ function AnimatedCircle() {
       onDidAnimate={(key, finished) => {
         console.log('[complete]', key, finished) // [complete] scale, true
       }}
+      style={styles.circle}
     />
   )
   // return (

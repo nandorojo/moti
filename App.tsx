@@ -1,7 +1,7 @@
 // export { default } from './Gallery'
 // export { default } from './Drip'
 // export { default } from './Repeat'
-export { default } from './Drip.Repeat'
+export { default } from './Drip.Presence'
 // export { default } from './Sequence.Bug'
 // export { default } from './Measure'
 // export { default } from './Bug'

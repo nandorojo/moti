@@ -35,6 +35,7 @@ export default function redripify<
         state,
         stylePriority,
         onDidAnimate,
+        exit,
         ...props
       },
       ref
@@ -47,6 +48,7 @@ export default function redripify<
         state,
         stylePriority,
         onDidAnimate,
+        exit,
       })
 
       return (

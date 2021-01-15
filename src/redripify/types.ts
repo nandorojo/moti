@@ -135,6 +135,12 @@ export interface DripsifyProps<
    * If `false`, initial styles will correspond to the `animate` prop. Any subsequent changes to `animate` will be animated.
    */
   from?: Animate | boolean
+  /**
+   * (Optional) specify styles for when the component unmounts.
+   *
+   * **Important: you must wrap this component with the `AnimatePresence` component for this to work.**
+   * */
+  exit?: AnimateWithTransitions | boolean
   transition?: TransitionConfig &
     Partial<Record<keyof Animate, TransitionConfig>>
   delay?: number
