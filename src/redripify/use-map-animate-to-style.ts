@@ -159,7 +159,7 @@ function animationConfig<Animate>(
     // TODO this doesn't work for now
     if (__DEV__) {
       console.error(
-        `[${PackageName}]: You passed transition type: decay, but this isn't working for now. Honestly, not sure why yet. Try passing other transition fields, like clamp, velocity, and deceleration. If that solves it, please open an issue at let me know.`
+        `[${PackageName}]: You passed transition type: decay, but this isn't working for now. Honestly, not sure why yet. Try passing other transition fields, like clamp, velocity, and deceleration. If that solves it, please open an issue and let me know.`
       )
     }
     animation = withDecay
@@ -245,12 +245,6 @@ export default function useMapAnimateToStyle<Animate>({
 
     Object.keys(mergedStyles).forEach((key, index) => {
       'worklet'
-
-      // if (key === 'transform' && __DEV__) {
-      //   console.error(
-      //     'Used `transform` array prop for animating styles. This is not supported. Instead of transform: [{ scale: 1 }] please use the values directly, such as {scale: 1}.'
-      //   )
-      // }
 
       const initialValue = initialStyle[key]
       const value = mergedStyles[key]
