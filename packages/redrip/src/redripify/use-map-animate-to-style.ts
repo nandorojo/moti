@@ -49,7 +49,6 @@ const isTransform = (styleKey: string) => {
   ]
   return transforms.includes(styleKey as keyof Transforms)
 }
-
 function animationDelay<Animate>(
   key: string,
   transition: DripsifyProps<Animate>['transition'],
@@ -297,6 +296,7 @@ export default function useMapAnimateToStyle<Animate>({
       let { delayMs } = animationDelay(key, transition, defaultDelay)
 
       if (isColor(key)) {
+        // TODO: FIX THIS
         if (__DEV__) {
           if (
             typeof value === 'string' &&
