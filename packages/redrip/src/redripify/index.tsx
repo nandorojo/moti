@@ -1,6 +1,6 @@
 import React, { ComponentType, forwardRef } from 'react'
-import { ImageStyle, TextStyle, ViewStyle } from 'react-native'
-import { DripsifyProps } from './types'
+import type { ImageStyle, TextStyle, ViewStyle } from 'react-native'
+import type { DripsifyProps } from './types'
 import useMapAnimateToStyle from './use-map-animate-to-style'
 import Animated from 'react-native-reanimated'
 

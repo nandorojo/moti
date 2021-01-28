@@ -1,6 +1,6 @@
 import { usePresence } from 'framer-motion'
 import { useEffect } from 'react'
-import { TransformsStyle } from 'react-native'
+import type { TransformsStyle } from 'react-native'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -14,7 +14,7 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated'
 import { PackageName } from '../constants/package-name'
-import { DripsifyProps, Transforms, TransitionConfig } from './types'
+import type { DripsifyProps, Transforms, TransitionConfig } from './types'
 
 const isColor = (styleKey: string) => {
   'worklet'

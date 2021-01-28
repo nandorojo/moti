@@ -1,33 +1,96 @@
 {
-  "version": "39.0.0",
-  "dependencies": {
-    "@react-spring/native": "^9.0.0-rc.3",
-    "expo": "^40.0.0-beta.5",
-    "expo-status-bar": "~1.0.3",
-    "framer-motion": "^3.2.1",
-    "lodash.set": "^4.3.2",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
-    "react-native-gesture-handler": "~1.8.0",
-    "react-native-reanimated": "2.0.0-rc.0",
-    "react-native-web": "~0.13.12",
-    "react-navigation-stack": "^2.8.4",
-    "react-spring": "^8.0.27"
+  "name": "redrip-ideas",
+  "description": "React native bob monorepo starter",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "example"
+    ]
   },
-  "devDependencies": {
-    "@babel/core": "~7.9.0",
-    "@types/lodash.set": "^4.3.6",
-    "babel-preset-expo": "8.3.0",
-    "eslint-config-nando": "^1.0.10"
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nandorojo/redrip-ideas.git"
   },
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo web",
-    "eject": "expo eject"
+    "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "fix": "eslint --fix \"**/*.{js,ts,tsx}\" && manypkg fix && prettier --write \"**/*.{js,ts,tsx}\"",
+    "typescript": "tsc --noEmit --composite false",
+    "test": "jest",
+    "build": "lerna run prepare",
+    "prerelease": "lerna run clean",
+    "release": "lerna publish",
+    "example": "yarn --cwd example"
   },
-  "private": true,
-  "name": "redrip"
+  "resolutions": {
+    "react": "~16.13.1",
+    "react-native": "~0.63.2"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "yarn lint && yarn typescript"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "jest": {
+    "preset": "react-native",
+    "modulePathIgnorePatterns": [
+      "<rootDir>/example/node_modules",
+      "<rootDir>/lib/"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint-config-nando"
+    ]
+  },
+  "detox": {
+    "test-runner": "jest",
+    "runner-config": "example/e2e/config.json",
+    "configurations": {
+      "ios.sim.debug": {
+        "binaryPath": "example/ios/build/Build/Products/Debug-iphonesimulator/ReactNavigationExample.app",
+        "build": "set -o pipefail; xcodebuild -workspace example/ios/ReactNavigationExample.xcworkspace -scheme ReactNavigationExample -configuration Debug -sdk iphonesimulator -derivedDataPath example/ios/build",
+        "type": "ios.simulator",
+        "device": {
+          "type": "iPhone 11 Pro"
+        }
+      },
+      "ios.sim.release": {
+        "binaryPath": "example/ios/build/Build/Products/Release-iphonesimulator/ReactNavigationExample.app",
+        "build": "export RCT_NO_LAUNCH_PACKAGER=true; set -o pipefail; xcodebuild -workspace example/ios/ReactNavigationExample.xcworkspace -scheme ReactNavigationExample -configuration Release -sdk iphonesimulator -derivedDataPath example/ios/build",
+        "type": "ios.simulator",
+        "device": {
+          "type": "iPhone 11 Pro"
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@commitlint/config-conventional": "^11.0.0",
+    "@manypkg/cli": "^0.17.0",
+    "@types/jest": "^26.0.15",
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "@typescript-eslint/parser": "^4.14.1",
+    "babel-jest": "^26.6.1",
+    "codecov": "^3.8.0",
+    "commitlint": "^11.0.0",
+    "eslint": "^7.18.0",
+    "eslint-config-nando": "^1.0.10",
+    "husky": "^4.3.8",
+    "jest": "^26.6.1",
+    "lerna": "^3.22.1",
+    "metro-react-native-babel-preset": "^0.63.0",
+    "prettier": "^2.2.1",
+    "typescript": "^4.0.3"
+  }
 }

@@ -1,0 +1,25 @@
+{
+  "name": "redrip-example",
+  "displayName": "BobMonorepo Example",
+  "expo": {
+    "name": "redrip-example",
+    "slug": "redrip-example",
+    "description": "Example app for redrip",
+    "privacy": "public",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "experiments": {
+      "turboModules": true
+    }
+  }
+}

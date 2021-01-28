@@ -1,5 +1,5 @@
-import { UseAnimator } from './use-animator'
-import Animated from 'react-native-reanimated'
+import type { UseAnimator } from './use-animator'
+import type Animated from 'react-native-reanimated'
 
 import type {
   PerpectiveTransform,

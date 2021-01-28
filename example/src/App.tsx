@@ -1,9 +1,8 @@
 import { AnimatePresence } from 'framer-motion'
 import React, { useReducer, useState } from 'react'
 import { StyleSheet, Pressable } from 'react-native'
-import * as Redrip from './src/components'
+import { View } from 'redrip'
 
-const { View } = Redrip
 
 function Shape() {
   return (
