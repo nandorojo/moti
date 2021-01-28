@@ -17,6 +17,8 @@ export default function redripify<
 >(ComponentWithoutAnimation: ComponentType<Props>) {
   const Component = Animated.createAnimatedComponent(ComponentWithoutAnimation)
 
+  console.log(__DEV__)
+
   const withAnimations = (outerProps?: ExtraProps) => {
     const withStyles = forwardRef<
       Ref,

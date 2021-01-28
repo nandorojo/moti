@@ -3,15 +3,17 @@
   "description": "Example app for redrip",
   "version": "0.0.1",
   "private": true,
-  "main": "index",
+  "main": "__generated__/AppEntry.js",
   "scripts": {
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "start": "expo start",
-    "test": "jest"
+    "test": "jest",
+    "postinstall": "expo-yarn-workspaces postinstall"
   },
   "dependencies": {
+    "redrip": "*",
     "@react-spring/native": "^9.0.0-rc.3",
     "expo": "^40.0.0-beta.5",
     "expo-splash-screen": "~0.8.1",
