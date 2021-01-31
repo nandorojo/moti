@@ -1,10 +1,9 @@
 import { View as NativeView, Button, Text, StyleSheet } from 'react-native'
 import React from 'react'
-import * as Drip from './src/components'
-import useAnimationState from './src/redripify/use-animator'
+import * as Drip from 'redrip';
 
 export default function AnimatedStyleUpdateExample() {
-  const box = useAnimationState({
+  const box = Drip.useAnimationState({
     from: {
       width: 100,
       height: 100,

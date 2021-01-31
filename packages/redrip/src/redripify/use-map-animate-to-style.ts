@@ -1,6 +1,6 @@
 import { usePresence } from 'framer-motion'
 import { useEffect } from 'react'
-import { TransformsStyle } from 'react-native'
+import type { TransformsStyle } from 'react-native'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -14,7 +14,7 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated'
 import { PackageName } from '../constants/package-name'
-import { DripsifyProps, Transforms, TransitionConfig } from './types'
+import type { DripsifyProps, Transforms, TransitionConfig } from './types'
 
 const isColor = (styleKey: string) => {
   'worklet'
@@ -49,7 +49,6 @@ const isTransform = (styleKey: string) => {
   ]
   return transforms.includes(styleKey as keyof Transforms)
 }
-
 function animationDelay<Animate>(
   key: string,
   transition: DripsifyProps<Animate>['transition'],
@@ -297,21 +296,22 @@ export default function useMapAnimateToStyle<Animate>({
       let { delayMs } = animationDelay(key, transition, defaultDelay)
 
       if (isColor(key)) {
-        if (__DEV__) {
-          if (
-            typeof value === 'string' &&
-            !value.startsWith('rgb') &&
-            !value.startsWith('#')
-          ) {
-            console.error(
-              `[${PackageName}]: You passed ${key}: ${value}, but not all color values are supported yet in Reanimated 2. ☹️ 
+        // TODO: FIX THIS
+        // if (__DEV__) {
+        if (
+          typeof value === 'string' &&
+          !value.startsWith('rgb') &&
+          !value.startsWith('#')
+        ) {
+          console.error(
+            `[${PackageName}]: You passed ${key}: ${value}, but not all color values are supported yet in Reanimated 2. ☹️ 
                   
 Please use an rgb or hex formatted color.
 
   Please go to https://github.com/software-mansion/react-native-reanimated/issues/845 and comment so that this bug can get fixed!`
-            )
-          }
+          )
         }
+        // }
         console.log('[color]', { key, value })
       }
 

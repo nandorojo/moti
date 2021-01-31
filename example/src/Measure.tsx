@@ -1,5 +1,5 @@
 import React, { ComponentProps, useReducer, useState } from 'react'
-import * as Drip from './src'
+import * as Drip from 'redrip'
 import { Button, View } from 'react-native'
 
 function useLayout() {

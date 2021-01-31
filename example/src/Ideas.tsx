@@ -20,8 +20,7 @@ import Animated, {
 // import processColor from 'react-native-reanimated/src/reanimated2/Colors'
 import { View, Button } from 'react-native'
 import React, { useRef, useContext } from 'react'
-import { colorKeys } from './src/constants/color-keys'
-import { TransitionConfig } from './src/redripify/types'
+import { colorKeys } from 'redrip'
 
 type Animation = typeof withSpring | typeof withDecay | typeof withTiming
 
@@ -295,33 +294,6 @@ function AnimatedStyleUpdateExample(props) {
       borderRadius: withTiming(4, config),
     }
 
-    if (expanded.value) {
-      return Object.assign(
-        { backgroundColor: 'red' },
-        animateStyles(
-          {
-            width: 100,
-            height: 100,
-            borderRadius: 50,
-          },
-          withTiming,
-          config
-        )
-      )
-    }
-
-    return Object.assign(
-      { backgroundColor: 'red' },
-      animateStyles(
-        {
-          width: 30,
-          height: 30,
-          borderRadius: 8,
-        },
-        withTiming,
-        config
-      )
-    )
   })
 
   return (
