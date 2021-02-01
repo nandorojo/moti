@@ -8,7 +8,7 @@ type Controller<V> = {
    * A hook to synchronously read the current animation state.
    *
    * ```js
-   * const animator = useAnimator({
+   * const animator = useAnimationState({
    *   hidden: { opacity: 0 },
    *   shown: { opacity: 1 }
    * })
@@ -34,7 +34,7 @@ type Controller<V> = {
    * Transition to another state, as defined by this hook.
    *
    * ```js
-   * const animator = useAnimator({
+   * const animator = useAnimationState({
    *   hidden: { opacity: 0 },
    *   shown: { opacity: 1 }
    * })
@@ -156,7 +156,7 @@ type Controller<V> = {
  * }, [animator, loading])
  *
  * // 🚨 not this
- * const { current, transitionTo } = useAnimator(...)
+ * const { current, transitionTo } = useAnimationState(...)
  *
  * useEffect(() => {
  *  if (loading) transitionTo('some-state')
