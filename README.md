@@ -22,3 +22,7 @@ Coming soon.
 - Highly-configurable animations
 - Sequence animations
 - Loop & repeat animations
+
+# Follow
+
+Follow me [on Twitter](https://twitter.com/fernandotherojo) to stay up to date.
