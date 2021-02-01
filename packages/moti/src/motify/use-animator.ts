@@ -1,5 +1,6 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import Animated, { useSharedValue } from 'react-native-reanimated'
+import { PackageName } from '../constants'
 
 type InternalControllerState<V> = number | V[keyof V]
 
@@ -172,7 +173,7 @@ type Controller<V> = {
  */
 export default function useAnimationState<V>(
   _variants: V,
-  { from = 'from' as keyof V }: UseAnimatorConfig<V> = {}
+  { from = 'from' as keyof V, to = 'to' as keyof V }: UseAnimatorConfig<V> = {}
 ) {
   const controller = useRef<Controller<V>>()
   const __state = useSharedValue<InternalControllerState<V>>(
@@ -183,14 +184,26 @@ export default function useAnimationState<V>(
   const selectedVariant = useRef(from)
   const variants = useRef(_variants)
 
+  useEffect(
+    function updateVariantsRef() {
+      // honestly, I'm not sure if this should happen
+      // do we want these to rebuild?
+      // probably not, because it gives the illusion that you can change them on the fly
+      // that said, as long as you know you can only change them with transitionTo,
+      // I think it's fine.
+      variants.current = _variants
+    },
+    [_variants]
+  )
+
   if (controller.current == null) {
     controller.current = {
       __state,
       transitionTo(nextStateOrFunction) {
-        const runTransition = (nextState: keyof V) => {
-          const value = variants.current[nextState]
+        const runTransition = (nextStateKey: keyof V) => {
+          selectedVariant.current = nextStateKey
 
-          selectedVariant.current = nextState
+          const value = variants.current[nextStateKey]
 
           __state.value = value
         }
@@ -208,11 +221,51 @@ export default function useAnimationState<V>(
     }
   }
 
+  useEffect(
+    function maybeTransitionOnMount() {
+      if (variants.current[from]) {
+        if (variants.current[to]) {
+          controller.current?.transitionTo(to)
+        } else {
+          console.error(
+            `🐼 [${PackageName}]: Called useAnimationState with a "to" variant, but you are missing a "from" variant. A "from" variant is required if you are using "to". Instead, you passed these variants: "${Object.keys(
+              variants.current
+            ).join(
+              ', '
+            )}". If you want to just use the "to" value without "from", you shouldn't use this hook. Instead, just pass your values to a ${PackageName} component's "animate" prop.`
+          )
+        }
+      }
+    },
+    [from, to]
+  )
+
   return controller.current as Controller<V>
 }
 
-type UseAnimatorConfig<V, InitialKey = keyof V> = {
-  from?: InitialKey
+type UseAnimatorConfig<
+  Variants,
+  FromKey extends keyof Variants = keyof Variants,
+  ToKey extends keyof Variants = keyof Variants
+> = {
+  /**
+   * This prop is not necessary to use. It's only there in case you're doing something special.
+   *
+   * The `key` for the initial variant. By default, it's `from = 'from'`.
+   *
+   * If you pass a string here, it must match the key of one of your variants.
+   */
+  from?: FromKey
+  /**
+   * This prop is not necessary to use. It's only there in case you're doing something special.
+   *
+   * The `key` for the `to` value, which runs after the component has mounted. By default, it's `to = 'to'`.
+   *
+   * Must be paired with a `from` value.
+   *
+   * If you pass a string here, it must match the key of one of your variants.
+   */
+  to?: ToKey
 }
 
 export type UseAnimator<V> = Controller<V>
