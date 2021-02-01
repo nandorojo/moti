@@ -1,6 +1,6 @@
 import React, { useReducer, useState } from 'react'
 import { Button, StyleSheet } from 'react-native'
-import { View } from 'redrip'
+import { View } from 'moti'
 
 function AnimatedCircle() {
   const colors = ['#41b87a', '#533592']

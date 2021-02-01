@@ -1,6 +1,6 @@
 import { View as NativeView, Button, Text, StyleSheet } from 'react-native'
 import React from 'react'
-import * as Drip from 'redrip';
+import * as Drip from 'moti'
 
 export default function AnimatedStyleUpdateExample() {
   const box = Drip.useAnimationState({

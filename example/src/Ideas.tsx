@@ -20,7 +20,7 @@ import Animated, {
 // import processColor from 'react-native-reanimated/src/reanimated2/Colors'
 import { View, Button } from 'react-native'
 import React, { useRef, useContext } from 'react'
-import { colorKeys } from 'redrip'
+import { colorKeys } from 'moti'
 
 type Animation = typeof withSpring | typeof withDecay | typeof withTiming
 
@@ -293,7 +293,6 @@ function AnimatedStyleUpdateExample(props) {
       height: withTiming(30, config),
       borderRadius: withTiming(4, config),
     }
-
   })
 
   return (

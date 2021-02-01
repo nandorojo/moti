@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import * as Redrip from 'redrip'
+import * as Redrip from 'moti'
 
 const { View } = Redrip
 

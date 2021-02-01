@@ -180,7 +180,7 @@ export default function useAnimatedState<V>(
   if (controller.current == null) {
     controller.current = {
       __state,
-      transitionTo: (nextStateOrFunction) => {
+      transitionTo(nextStateOrFunction) {
         const runTransition = (nextState: keyof V) => {
           const value = variants.current[nextState]
 
@@ -191,7 +191,7 @@ export default function useAnimatedState<V>(
 
         if (typeof nextStateOrFunction === 'function') {
           // similar to setState, let people compose a function that takes in the current value and returns the next one
-          runTransition(nextStateOrFunction(this.current))
+          runTransition(nextStateOrFunction(this.current as keyof V))
         } else {
           runTransition(nextStateOrFunction)
         }

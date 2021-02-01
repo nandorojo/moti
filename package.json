@@ -1,6 +1,6 @@
 {
-  "name": "redrip-ideas",
-  "description": "React native bob monorepo starter",
+  "name": "moti",
+  "description": "The universal React Native animation library, powered by Reanimated 2. 🦉",
   "private": true,
   "workspaces": {
     "packages": [
@@ -24,7 +24,8 @@
     "build": "lerna run prepare",
     "prerelease": "lerna run clean",
     "release": "lerna publish",
-    "example": "yarn --cwd example"
+    "example": "yarn --cwd example",
+    "prepare": "lerna run prepare"
   },
   "resolutions": {
     "react": "~16.13.1",
@@ -33,7 +34,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "yarn lint && yarn typescript"
+      "pre-commit": "yarn prepare"
     }
   },
   "commitlint": {
@@ -75,7 +76,9 @@
       }
     }
   },
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
+    "auto": "^10.13.3",
     "@commitlint/config-conventional": "^11.0.0",
     "@manypkg/cli": "^0.17.0",
     "@types/jest": "^26.0.15",
