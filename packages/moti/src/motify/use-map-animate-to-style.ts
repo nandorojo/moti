@@ -48,16 +48,17 @@ const isTransform = (styleKey: string) => {
   ]
   return transforms.includes(styleKey as keyof Transforms)
 }
+
 function animationDelay<Animate>(
-  styleProp: string,
+  key: string,
   transition: DripsifyProps<Animate>['transition'],
   defaultDelay?: number
 ) {
   'worklet'
   let delayMs: TransitionConfig['delay'] = defaultDelay
 
-  if ((transition as any)?.[styleProp as keyof Animate]?.delay != null) {
-    delayMs = (transition as any)?.[styleProp as keyof Animate]?.delay
+  if ((transition as any)?.[key as keyof Animate]?.delay != null) {
+    delayMs = (transition as any)?.[key as keyof Animate]?.delay
   } else if (transition?.delay != null) {
     delayMs = transition.delay
   }
@@ -92,7 +93,6 @@ function animationConfig<Animate>(
   if ((transition as any)?.[key as keyof Animate]?.loop) {
     repeatCount = Infinity
   } else if (transition?.loop) {
-    // otherwise, fallback to transition.type
     repeatCount = Infinity
   }
 
@@ -109,7 +109,8 @@ function animationConfig<Animate>(
   }
 
   let config = {}
-  let animation: Function = () => 1
+  // so sad, but fix it later :(
+  let animation = (...props: any): any => props
 
   if (animationType === 'timing') {
     const duration =
@@ -154,12 +155,13 @@ function animationConfig<Animate>(
       }
     })
   } else if (animationType === 'decay') {
-    // TODO this doesn't work for now
-    if (__DEV__) {
-      console.error(
-        `[${PackageName}]: You passed transition type: decay, but this isn't working for now. Honestly, not sure why yet. Try passing other transition fields, like clamp, velocity, and deceleration. If that solves it, please open an issue and let me know.`
-      )
-    }
+    // TODO decay doesn't work for now
+    // neither does __DEV__
+    // if (__DEV__) {
+    console.error(
+      `[${PackageName}]: You passed transition type: decay, but this isn't working for now. Honestly, not sure why yet. Try passing other transition fields, like clamp, velocity, and deceleration. If that solves it, please open an issue and let me know.`
+    )
+    // }
     animation = withDecay
     config = {
       velocity: 2,
@@ -301,12 +303,10 @@ export default function useMapAnimateToStyle<Animate>({
             `[${PackageName}]: You passed ${key}: ${value}, but not all color values are supported yet in Reanimated 2. ☹️ 
                   
 Please use an rgb or hex formatted color.
-
   Please go to https://github.com/software-mansion/react-native-reanimated/issues/845 and comment so that this bug can get fixed!`
           )
         }
         // }
-        console.log('[color]', { key, value })
       }
 
       if (value == null || value === false) {
@@ -345,11 +345,12 @@ Please use an rgb or hex formatted color.
               const transition = step
               const { delay, value } = step
 
-              // @ts-ignore TODO use this later, it currently breaks reanimated :(
-              const { config: customConfig, animation } = animationConfig(
-                key,
-                transition
-              )
+              const {
+                // TODO merge stepConfig = {...stepConfig, customConfig} when reanimated lets us...
+                // as of now, it says multiple threads are interacting, IDK
+                // config: customConfig,
+                animation,
+              } = animationConfig(key, transition)
 
               stepConfig = {
                 ...stepConfig,
