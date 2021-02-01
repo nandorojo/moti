@@ -6,7 +6,7 @@ The universal React Native animation library, powered by Reanimated 2.
 <View from={{ opacity: 0 }} animate={{ opacity: 1 }} />
 ```
 
-Coming soon.
+> **Coming soon.**
 
 # Highlights
 
