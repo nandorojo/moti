@@ -1,7 +1,5 @@
 <img src="/assets/banner.png" />
 
-# moti 🐼
-
 The universal React Native animation library.
 
 ```jsx
