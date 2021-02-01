@@ -1,8 +1,8 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import * as Redrip from 'moti'
+import * as Moti from 'moti'
 
-const { View } = Redrip
+const { View } = Moti
 
 function AnimatedCircle() {
   return (
@@ -54,11 +54,11 @@ function AnimatedCircle() {
  */
 export default function DripRepeat() {
   return (
-    <Redrip.View style={styles.container}>
+    <Moti.View style={styles.container}>
       {/* <Circle /> */}
       <AnimatedCircle />
       {/* <Circle /> */}
-    </Redrip.View>
+    </Moti.View>
   )
 }
 

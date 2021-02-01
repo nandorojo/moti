@@ -14,7 +14,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nandorojo/redrip-ideas.git"
+    "url": "git+https://github.com/nandorojo/moti.git"
   },
   "scripts": {
     "lint": "eslint \"**/*.{js,ts,tsx}\"",

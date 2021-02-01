@@ -61,7 +61,9 @@ type Controller<V> = {
  * **Example**
  *
  * ```jsx
- * const animator = useAnimatedState({
+ * import { useAnimationState, View } from 'moti'
+ *
+ * const animator = useAnimationState({
  *   from: {
  *     opacity: 0
  *   },
@@ -75,7 +77,7 @@ type Controller<V> = {
  *
  * return (
  *   <>
- *     <Drip.View state={animator} />
+ *     <View state={animator} style={{ height: 100 }} />
  *     <Button
  *      title="Change!"
  *      onPressIn={() => {
@@ -90,7 +92,11 @@ type Controller<V> = {
  * You can also use it with a access the `current` state:
  *
  * ```jsx
- * const animator = useAnimatedState({
+ * import React from 'react'
+ * import { Button } from 'react-native'
+ * import * as Moti from 'moti'
+ *
+ * const animator = Moti.useAnimationState({
  *   from: {
  *     opacity: 0
  *   },
@@ -104,7 +110,7 @@ type Controller<V> = {
  *
  * return (
  *   <>
- *     <Drip.View state={animator} />
+ *     <Moti.View state={animator} />
  *     <Button
  *      title="Change!"
  *      onPress={() => {
@@ -122,7 +128,7 @@ type Controller<V> = {
  * If you provide an `from` key, this will be your default starting variant. If you don't, however, you can use the second argument to specify the from state. If you do not, then there will be no animated style to begin with (this is okay, as long as you intended it.)
  *
  * ```jsx
- * const animator = useAnimatedState({
+ * const animator = useAnimationState({
  *   from: {
  *     opacity: 0
  *   },
@@ -142,7 +148,7 @@ type Controller<V> = {
  *
  * ```js
  * // ✅ in general, do this
- * const animator = useAnimatedState(...)
+ * const animator = useAnimationState(...)
  *
  * useEffect(() => {
  *  if (loading) animator.transitionTo('some-state')
@@ -164,7 +170,7 @@ type Controller<V> = {
  *
  * Technically, it's fine if you do this with `transitionTo`. It's `current` you'll want to watch out for, since its reference will change, without triggering re-renders. This functions similar to `useRef`.
  */
-export default function useAnimatedState<V>(
+export default function useAnimationState<V>(
   _variants: V,
   { from = 'from' as keyof V }: UseAnimatorConfig<V> = {}
 ) {

@@ -1,5 +1,5 @@
 import React, { ComponentProps, useReducer, useState } from 'react'
-import * as Drip from 'moti'
+import * as Moti from 'moti'
 import { Button, View } from 'react-native'
 
 function useLayout() {
@@ -22,12 +22,12 @@ function Measure() {
 
   return (
     <>
-      <Drip.View animate={{ height }} style={{ overflow: 'hidden' }}>
+      <Moti.View animate={{ height }} style={{ overflow: 'hidden' }}>
         <View
           onLayout={onLayout}
           style={{ height: open ? 100 : 300, backgroundColor: 'green' }}
         />
-      </Drip.View>
+      </Moti.View>
       <Button title="toggle" onPress={toggle} />
     </>
   )

@@ -1,9 +1,9 @@
 import { AnimatePresence } from 'framer-motion'
 import React, { useReducer, useState } from 'react'
 import { StyleSheet, Pressable } from 'react-native'
-import * as Redrip from 'moti'
+import * as Moti from 'moti'
 
-const { View } = Redrip
+const { View } = Moti
 
 function Shape() {
   return (

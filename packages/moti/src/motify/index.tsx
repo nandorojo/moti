@@ -6,7 +6,7 @@ import Animated from 'react-native-reanimated'
 
 // https://www.framer.com/blog/posts/magic-motion/
 
-export default function redripify<
+export default function motify<
   Style,
   Props extends { style?: Style },
   Ref,

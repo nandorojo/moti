@@ -1,9 +1,9 @@
 import { View as NativeView, Button, Text, StyleSheet } from 'react-native'
 import React from 'react'
-import * as Drip from 'moti'
+import * as Moti from 'moti'
 
 export default function AnimatedStyleUpdateExample() {
-  const box = Drip.useAnimationState({
+  const box = Moti.useAnimationState({
     from: {
       width: 100,
       height: 100,
@@ -18,7 +18,7 @@ export default function AnimatedStyleUpdateExample() {
 
   return (
     <NativeView style={styles.container}>
-      {/* <Drip.View
+      {/* <Moti.View
         style={styles.box}
         transition={{
           type: 'spring',
@@ -26,8 +26,8 @@ export default function AnimatedStyleUpdateExample() {
         state={box}
       >
         <Text style={styles.text}>Animator</Text>
-      </Drip.View> */}
-      <Drip.View
+      </Moti.View> */}
+      <Moti.View
         style={styles.box}
         transition={{
           type: 'spring',
@@ -46,7 +46,7 @@ export default function AnimatedStyleUpdateExample() {
         }}
       >
         <Text style={styles.text}>Style Props</Text>
-      </Drip.View>
+      </Moti.View>
       <Button
         title="toggle"
         onPress={() => {
