@@ -1,6 +1,6 @@
 import React, { ComponentType, forwardRef } from 'react'
 import type { ImageStyle, TextStyle, ViewStyle } from 'react-native'
-import type { DripsifyProps } from './types'
+import type { MotiProps } from './types'
 import useMapAnimateToStyle from './use-map-animate-to-style'
 import Animated from 'react-native-reanimated'
 
@@ -24,7 +24,7 @@ export default function redripify<
       const withStyles = forwardRef<
         Ref,
         Props &
-          DripsifyProps<Animate> &
+          MotiProps<Animate> &
           ExtraProps & {
             children?: React.ReactNode
           }

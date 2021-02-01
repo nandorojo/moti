@@ -14,6 +14,9 @@ import type {
   TranslateYTransform,
   SkewXTransform,
   SkewYTransform,
+  ImageStyle,
+  TextStyle,
+  ViewStyle,
 } from 'react-native'
 
 export type Transforms = PerpectiveTransform &
@@ -94,7 +97,10 @@ type StyleValueWithArrays<T> = {
       )[]
 }
 
-type OnDidAnimate<Animate, Key extends keyof Animate = keyof Animate> = (
+export type OnDidAnimate<
+  Animate = ImageStyle & TextStyle & ViewStyle,
+  Key extends keyof Animate = keyof Animate
+> = (
   /**
    * Key of the style that just finished animating
    */
@@ -106,11 +112,24 @@ type OnDidAnimate<Animate, Key extends keyof Animate = keyof Animate> = (
   value?: Animate[Key]
 ) => void
 
-export interface DripsifyProps<
+type StyleValueWithReplacedTransforms<StyleProp> = Omit<
+  StyleProp,
+  'transform'
+> &
+  Partial<Transforms>
+
+export type MotiAnimationProp<Animate> = MotiProps<Animate>['animate']
+export type MotiFromProp<Animate> = MotiProps<Animate>['from']
+export type MotiExitProp<Animate> = MotiProps<Animate>['exit']
+
+export interface MotiProps<
   // Style props of the component
-  AnimateType,
+  // defaults to any styles, so that generics aren't Required
+  // in component usage, it will extract these from the style prop ideally
+  AnimateType = ImageStyle & TextStyle & ViewStyle,
   // edit the style props to remove transform array, flattening it
-  AnimateWithTransitions = Omit<AnimateType, 'transform'> & Partial<Transforms>,
+  // AnimateWithTransitions = Omit<AnimateType, 'transform'> & Partial<Transforms>,
+  AnimateWithTransitions = StyleValueWithReplacedTransforms<AnimateType>,
   // allow the style values to be arrays for sequences, where values are primitives or objects with configs
   Animate = StyleValueWithArrays<AnimateWithTransitions>
 > {
@@ -174,22 +193,23 @@ export interface DripsifyProps<
    * To get more granular delay controls, use the `transition` prop.
    */
   delay?: number
-  state?: UseAnimator<any>
   /**
-   * If set to `animator`, then styles passed from the `animator` prop will take precedent.
+   * Pass a static set of animation variants, returned by the `useAnimationState` hook.
    *
-   * Otherwise, if set to `animate`, then that prop will take precedent for matching styles.
+   * This allows for more performant animations that don't cross the bridge.
    *
-   * Default: `animator`.
+   * If you know your styles in advance, and will be changing them throughout a component's lifecycle, then this is the preferred method to animate with.
+   */
+  state?: UseAnimator<unknown>
+  /**
+   * This is not a prop you will likely find yourself using.
+   *
+   * If set to `animate`, then styles passed from the `animate` prop will take precedent.
+   *
+   * Otherwise, if set to `state`, then the `state` prop will take precedent for matching styles.
+   *
+   * Default: `animate`.
+   *
    */
   stylePriority?: 'state' | 'animate'
-  /**
-   * @deprecated
-   *
-   * This is only here for testing, but I'm not sure if it'll ever be usable.
-   *
-   * I added it with hopes of creating something like `framer-motion`'s exit prop.
-   */
-  // exit?: Animate
-  // visible?: boolean
 }

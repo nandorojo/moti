@@ -13,7 +13,7 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated'
 import { PackageName } from '../constants/package-name'
-import type { DripsifyProps, Transforms, TransitionConfig } from './types'
+import type { MotiProps, Transforms, TransitionConfig } from './types'
 
 const isColor = (styleKey: string) => {
   'worklet'
@@ -51,7 +51,7 @@ const isTransform = (styleKey: string) => {
 
 function animationDelay<Animate>(
   key: string,
-  transition: DripsifyProps<Animate>['transition'],
+  transition: MotiProps<Animate>['transition'],
   defaultDelay?: number
 ) {
   'worklet'
@@ -70,7 +70,7 @@ function animationDelay<Animate>(
 
 function animationConfig<Animate>(
   styleProp: string,
-  transition: DripsifyProps<Animate>['transition']
+  transition: MotiProps<Animate>['transition']
 ) {
   'worklet'
 
@@ -204,7 +204,7 @@ export default function useMapAnimateToStyle<Animate>({
   stylePriority = 'state',
   onDidAnimate,
   exit,
-}: DripsifyProps<Animate>) {
+}: MotiProps<Animate>) {
   const isMounted = useSharedValue(false, false)
   const [isPresent, safeToUnmount] = usePresence()
 
