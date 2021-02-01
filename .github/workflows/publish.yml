@@ -16,8 +16,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - run: git fetch --unshallow --tags
-      - name: auto shipit
-        uses: terradatum/auto-action@master
+      - run: yarn install
+      - run: yarn prepare
+      - run: yarn auto shipit
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
