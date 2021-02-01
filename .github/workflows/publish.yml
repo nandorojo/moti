@@ -16,6 +16,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - run: git fetch --unshallow --tags
+      - name: restore lerna
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
       - run: yarn install
       - run: yarn prepare
       - run: yarn auto shipit
