@@ -11,7 +11,7 @@ Coming soon.
 # Highlights
 
 - Universal: works on all platforms
-- 60 FPS animations run on the native thread
+- 60 FPS animations on the native thread
 - Mount/unmount animations, like `framer-motion` 
 - Powered by Reanimated 2
 - Web support, out-of-the-box
