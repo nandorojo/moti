@@ -1,0 +1,3 @@
+{
+    "plugins": ["npm", "slack", "twitter", "all-contibutors", "first-time-contributor", "released"]
+}

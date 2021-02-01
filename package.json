@@ -23,7 +23,8 @@
     "test": "jest",
     "build": "lerna run prepare",
     "prerelease": "lerna run clean",
-    "release": "lerna publish",
+    "release-old": "lerna publish",
+    "release": "auto shipit",
     "example": "yarn --cwd example",
     "prepare": "lerna run prepare"
   },
@@ -96,5 +97,27 @@
     "metro-react-native-babel-preset": "^0.63.0",
     "prettier": "^2.2.1",
     "typescript": "^4.0.3"
+  },
+  "author": "Fernando Rojo <frojo@sas.upenn.edu>",
+  "auto": {
+    "plugins": [
+      "npm",
+      "all-contributors",
+      "first-time-contributor",
+      "released",
+      "slack",
+      "twitter"
+    ],
+    "onlyPublishWithReleaseLabel": true,
+    "labels": [
+      {
+        "name": "minor",
+        "changelogTitle": "🚀 Enhancement",
+        "description": "Increment the minor version when merged",
+        "releaseType": "minor",
+        "color": "8000c5",
+        "overwrite": true
+      }
+    ]
   }
 }
