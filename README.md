@@ -23,6 +23,12 @@ Coming soon.
 - Sequence animations
 - Loop & repeat animations
 
+# Preview
+
+- [API](https://twitter.com/FernandoTheRojo/status/1348093995277299712)
+- [Unmount animations with `exit`](https://twitter.com/FernandoTheRojo/status/1349884929765765123)
+- [`exitBeforeEnter` animations](https://twitter.com/FernandoTheRojo/status/1351234878902333445)
+
 # Follow
 
 Follow me [on Twitter](https://twitter.com/fernandotherojo) to stay up to date.
