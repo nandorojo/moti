@@ -12,36 +12,36 @@ import Animated, {
   withRepeat,
   withTiming,
 } from 'react-native-reanimated'
-import * as Drip from './src'
+import * as Drip from 'moti'
 
 export default function Repeat() {
   const sv = useSharedValue(false)
   const width = useSharedValue(100)
 
-  const onGestureEvent = useAnimatedGestureHandler<
-    TapGestureHandlerGestureEvent
-  >({
-    onActive: () => {
-      sv.value = !sv.value
-      // width.value = withRepeat(
-      //   withTiming(
-      //     300,
-      //     {
-      //       duration: 3000,
-      //     },
-      //     (finished) => {
-      //       console.log({ finished })
-      //       if (finished) {
-      //       } else {
-      //         console.log('inner animation cancelled')
-      //       }
-      //     }
-      //   ),
-      //   Infinity,
-      //   true
-      // )
-    },
-  })
+  const onGestureEvent = useAnimatedGestureHandler<TapGestureHandlerGestureEvent>(
+    {
+      onActive: () => {
+        sv.value = !sv.value
+        // width.value = withRepeat(
+        //   withTiming(
+        //     300,
+        //     {
+        //       duration: 3000,
+        //     },
+        //     (finished) => {
+        //       console.log({ finished })
+        //       if (finished) {
+        //       } else {
+        //         console.log('inner animation cancelled')
+        //       }
+        //     }
+        //   ),
+        //   Infinity,
+        //   true
+        // )
+      },
+    }
+  )
 
   const style = useAnimatedStyle(() => ({
     width: withDelay(

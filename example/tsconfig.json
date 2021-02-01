@@ -2,13 +2,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "redrip": ["../packages/redrip/src"]
+      "moti": ["../packages/moti/src"]
     },
     "jsx": "react-native",
     "target": "esnext",
-    "lib": [
-      "esnext"
-    ],
+    "lib": ["esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "noEmit": true,

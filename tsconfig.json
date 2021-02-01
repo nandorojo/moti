@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "redrip": ["./packages/redrip/src"]
+      "moti": ["./packages/moti/src"]
     },
     "composite": true,
     "allowUnreachableCode": false,
@@ -23,6 +23,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "esnext"
+    "target": "esnext",
+    "noImplicitAny": false
   }
 }

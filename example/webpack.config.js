@@ -4,6 +4,8 @@ const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
 
+const packageName = 'moti'
+
 const node_modules = path.resolve(__dirname, '..', 'node_modules')
 const packages = path.resolve(__dirname, '..', 'packages')
 
@@ -41,7 +43,7 @@ module.exports = async function (env, argv) {
     .forEach((name) => {
       console.log(name, packages)
       config.resolve.alias[
-        name === 'redrip' ? 'redrip' : `@redrip/${name}`
+        name === packageName ? packageName : `@${packageName}/${name}`
       ] = path.resolve(
         packages,
         name,

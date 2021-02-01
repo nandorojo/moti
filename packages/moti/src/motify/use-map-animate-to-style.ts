@@ -8,7 +8,6 @@ import Animated, {
   withSpring,
   withTiming,
   withDelay,
-  useDerivedValue,
   withRepeat,
   withSequence,
   runOnJS,
@@ -50,15 +49,15 @@ const isTransform = (styleKey: string) => {
   return transforms.includes(styleKey as keyof Transforms)
 }
 function animationDelay<Animate>(
-  key: string,
+  styleProp: string,
   transition: DripsifyProps<Animate>['transition'],
   defaultDelay?: number
 ) {
   'worklet'
   let delayMs: TransitionConfig['delay'] = defaultDelay
 
-  if ((transition as any)?.[key as keyof Animate]?.delay != null) {
-    delayMs = (transition as any)?.[key as keyof Animate]?.delay
+  if ((transition as any)?.[styleProp as keyof Animate]?.delay != null) {
+    delayMs = (transition as any)?.[styleProp as keyof Animate]?.delay
   } else if (transition?.delay != null) {
     delayMs = transition.delay
   }
@@ -79,7 +78,7 @@ function animationConfig<Animate>(
   let repeatReverse = true
 
   let animationType: Required<TransitionConfig>['type'] = 'spring'
-  if (isColor(key)) animationType = 'timing'
+  if (isColor(key) || key === 'opacity') animationType = 'timing'
 
   // say that we're looking at `width`
   // first, check if we have transition.width.type
@@ -213,8 +212,6 @@ export default function useMapAnimateToStyle<Animate>({
   const exitSV = useSharedValue(exit)
   const hasExitStyle = typeof exit === 'object' && !!Object.keys(exit).length
 
-  console.log('[use-animate-to-style]', { isPresent, hasExitStyle })
-
   const style = useAnimatedStyle(() => {
     const final = {
       // initializing here fixes reanimated object.__defineProperty bug(?)
@@ -236,11 +233,8 @@ export default function useMapAnimateToStyle<Animate>({
     }
 
     if (isExiting) {
-      console.log('[UAS]', { isExiting, exitStyle })
       mergedStyles = exitStyle as any
     }
-
-    console.log('[UAS]', { mergedStyles })
 
     Object.keys(mergedStyles).forEach((key, index) => {
       'worklet'
@@ -351,12 +345,16 @@ Please use an rgb or hex formatted color.
               const transition = step
               const { delay, value } = step
 
+              // @ts-ignore TODO use this later, it currently breaks reanimated :(
               const { config: customConfig, animation } = animationConfig(
                 key,
                 transition
               )
 
-              stepConfig = { ...stepConfig }
+              stepConfig = {
+                ...stepConfig,
+                //  ...customConfig
+              }
               stepAnimation = animation
               if (delay != null) {
                 stepDelay = delay
@@ -443,7 +441,6 @@ Please use an rgb or hex formatted color.
       }
     })
 
-    console.log('[UAS RESPONSE]', final)
     return final
   })
 
@@ -453,11 +450,6 @@ Please use an rgb or hex formatted color.
 
   useEffect(
     function allowUnMountIfMissingExit() {
-      console.log('[use-animate-to-style] effect', {
-        isPresent,
-        hasExitStyle,
-        safeToUnmount,
-      })
       if (!isPresent && !hasExitStyle) {
         safeToUnmount?.()
       }

@@ -1,6 +1,6 @@
 {
-  "name": "redrip-example",
-  "description": "Example app for redrip",
+  "name": "moti-example",
+  "description": "Example app for moti",
   "version": "0.0.1",
   "private": true,
   "main": "__generated__/AppEntry.js",
@@ -13,7 +13,7 @@
     "postinstall": "expo-yarn-workspaces postinstall"
   },
   "dependencies": {
-    "redrip": "*",
+    "moti": "*",
     "@react-spring/native": "^9.0.0-rc.3",
     "expo": "^40.0.0-beta.5",
     "expo-splash-screen": "~0.8.1",

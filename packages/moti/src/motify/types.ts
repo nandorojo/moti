@@ -42,7 +42,7 @@ export type TransitionConfig = (
    *
    * It's worth noting that this value isn't *exactly* a `repeat`. Instead, it uses Reanimated's `withRepeat` function under the hood, which repeats back to the **previous value**. If you want a repeated animation, I recommend setting it to `true` from the start, and make sure you have a `from` value.
    *
-   * Note: this value cannot be set on the fly. If you would like animations to repeat based on the `from` value, it must be `true` when the component initializes. You can set it to `false` to stop it, but you won't be able to start it again. You might be better off using the sequence array API if you need to update its repetitiveness on the fly.
+   * As a result, this value cannot be reliably changed on the fly. If you would like animations to repeat based on the `from` value, `repeat` must be a number when the component initializes. You can set it to `0` to stop it, but you won't be able to start it again. You might be better off using the sequence array API if you need to update its repetitiveness on the fly.
    */
   repeat?: number
   /**
@@ -79,8 +79,8 @@ type SmartOmit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
  * to allow more granular specification of sequence values
  */
 type StyleValueWithArrays<T> = {
-  [key in keyof T]:  // either the value
-    | T[keyof T]
+  [key in keyof T]:
+    | T[keyof T] // either the value
     // or an array of values for a sequence
     | (
         | // raw style values
@@ -126,6 +126,8 @@ export interface DripsifyProps<
   /**
    * Animated style. Any styles passed here will automatically animate when they change.
    *
+   * If you want to use transforms, such as `translateY` or `scale`, pass the keys directly to this prop, rather than using a `transform` array.
+   *
    * To set an initial value, see the `from` prop.
    */
   animate?: Animate
@@ -138,11 +140,39 @@ export interface DripsifyProps<
   /**
    * (Optional) specify styles for when the component unmounts.
    *
-   * **Important: you must wrap this component with the `AnimatePresence` component for this to work.**
+   * **Important: you must wrap this component with the `AnimatePresence` component for exit animations to work.**
+   *
+   * It follows the same API as the `exit` prop from `framer-motion`. Feel free to reference their docs: https://www.framer.com/api/motion/animate-presence/
    * */
   exit?: AnimateWithTransitions | boolean
+  /**
+   * Define animation configurations.
+   *
+   * Options passed to `transition` directly will be used as the main configuration.
+   *
+   * ```jsx
+   * <View transition={{ type: 'timing' }} />
+   * ```
+   *
+   * If you want to pass different transition configurations based on the style type, you can do it per-style too:
+   *
+   * ```jsx
+   * // timing animation for all styles
+   * // spring animation for scale
+   * <View
+   *  transition={{ type: 'timing', scale: { type: 'spring' }}}
+   *  from={{ opacity: 0, scale: .1 }}
+   *  animate={{ opacity: 1, scale: 1 }}
+   * />
+   * ```
+   */
   transition?: TransitionConfig &
     Partial<Record<keyof Animate, TransitionConfig>>
+  /**
+   * Optionally delay the `animate` field.
+   *
+   * To get more granular delay controls, use the `transition` prop.
+   */
   delay?: number
   state?: UseAnimator<any>
   /**
