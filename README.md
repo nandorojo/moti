@@ -1,6 +1,6 @@
 <img src="/assets/banner2.png" />
 
-The universal React Native animation library.
+The universal React Native animation library, powered by Reanimated 2.
 
 ```jsx
 <View from={{ opacity: 0 }} animate={{ opacity: 1 }} />
@@ -11,8 +11,8 @@ Coming soon.
 # Highlights
 
 - Universal: works on all platforms
-- Mount/unmount animations, like `framer-motion`
-- Performant animations at 60 FPS
+- 60 FPS animations run on the native thread
+- Mount/unmount animations, like `framer-motion` 
 - Powered by Reanimated 2
 - Web support, out-of-the-box
 - Expo support
