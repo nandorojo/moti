@@ -17,4 +17,4 @@ Coming soon.
 - Web support, out-of-the-box
 - Expo support
 - Intuitive API
-- Variant support with `useAnimationState`
+- Variants
