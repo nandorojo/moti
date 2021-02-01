@@ -18,3 +18,7 @@ Coming soon.
 - Expo support
 - Intuitive API
 - Variants
+- Strong TypeScript support
+- Highly-configurable animations
+- Sequence animations
+- Loop & repeat animations
