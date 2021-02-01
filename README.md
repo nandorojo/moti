@@ -10,9 +10,10 @@ Coming soon.
 
 # Highlights
 
+- Universal: works on all platforms
 - Mount/unmount animations, like `framer-motion`
-- Works on all platforms
-- 60 FPS
+- Performant animations at 60 FPS
 - Powered by Reanimated 2
 - Web support, out-of-the-box
 - Expo support
+- Intuitive API
