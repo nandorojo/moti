@@ -1,4 +1,4 @@
-<img src="/assets/banner.png" />
+<img src="/assets/banner2.png" />
 
 The universal React Native animation library.
 
