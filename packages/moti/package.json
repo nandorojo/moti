@@ -1,10 +1,12 @@
 {
   "name": "moti",
-  "version": "0.0.3",
+  "version": "0.0.4",
+  "private": false,
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "android",
+    "web"
   ],
   "license": "MIT",
   "repository": {
