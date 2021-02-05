@@ -1,6 +1,6 @@
 {
   "name": "moti",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "private": false,
   "keywords": [
     "react-native",
@@ -37,7 +37,7 @@
     "clean": "del lib"
   },
   "dependencies": {
-    "@moti/core": "0.0.7"
+    "@moti/core": "^0.0.8"
   },
   "devDependencies": {
     "@react-spring/native": "^9.0.0-rc.3",
