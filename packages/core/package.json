@@ -1,6 +1,6 @@
 {
   "name": "@motify/core",
-  "version": "0.0.10",
+  "version": "0.2.0",
   "private": false,
   "keywords": [
     "react-native",
