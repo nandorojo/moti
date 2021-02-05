@@ -1,5 +1,18 @@
 # `useAnimationState`
 
+```js
+const animationState = useAnimationState({
+  from: {
+    opacity: 0,
+  },
+  to: {
+    opacity: 1,
+  },
+})
+
+return <View state={animationState} />
+```
+
 `useAnimatedState` lets you control your animation state, based on static presets. It is the most performant way to drive animations, since it lives fully on the native side.
 
 When using this hook, your animations are static, meaning they have to be known ahead of time. Re-rendering your component does not update your styles.
@@ -151,34 +164,18 @@ return (
 
 ## Mount Animations
 
-By default, similar to `react-spring`, you can pass a `to` and a `from` variant. `from` will always be the initial state, assuming you pass `from`. It is not required, though.
-
-If both `from` and `to` are set, then it will transition from one to the other on the component's initial mount.
-
-If, for some reason, you really don't want to use `from` and `to` as your props, you can pass a second argument object with `from`/`to` keys that rename them.
-
-## Static animations only
-
-Unlike `react-spring`'s `useSpring`, `useAnimationState` will **not** update your animation state if you change its style values.
-
-```tsx
-// 🚨 bad, do not do this
-const state = useAnimationState({
-  box: {
-    // 😡 this will not update!
-    opacity: isLoading ? 1 : 0,
+```js
+const animationState = useAnimationState({
+  from: {
+    opacity: 0,
+  },
+  to: {
+    opacity: 1,
   },
 })
 
-return <View state={state} />
-
-// ✅ do this instead
-<View animate={{ opacity: isLoading ? 1 : 0 }} />
+return <View state={animationState} />
 ```
-
-`useAnimationState` should _only_ be used for **static** variants, meaning the different potential states you'll be animating to will be known ahead of time.
-
-Any **dynamic** animations should be used with a component's `animate` prop directly.
 
 ## Example
 
@@ -332,3 +329,36 @@ const animationState = useAnimationState(
   }
 )
 ```
+
+By default, similar to `react-spring`, you can pass a `to` and a `from` variant. `from` will always be the initial state, assuming you pass `from`. It is not required, though.
+
+If both `from` and `to` are set, then it will transition from one to the other on the component's initial mount.
+
+If, for some reason, you really don't want to use `from` and `to` as your props, you can pass a second argument object with `from`/`to` keys that rename them.
+
+## Static animations only
+
+Unlike `react-spring`'s `useSpring`, `useAnimationState` will **not** update your animation state if you change its style values.
+
+```tsx
+// 🚨 bad, do not do this
+const state = useAnimationState({
+  box: {
+    // 😡 this will not update!
+    opacity: isLoading ? 1 : 0,
+  },
+})
+
+return <View state={state} />
+
+// ✅ do this instead
+<View animate={{ opacity: isLoading ? 1 : 0 }} />
+```
+
+`useAnimationState` should _only_ be used for **static** variants, meaning the different potential states you'll be animating to will be known ahead of time.
+
+Any **dynamic** animations should be used with a component's `animate` prop directly.
+
+### Yet another caveat
+
+Okay, now that I got those caveats out of the way, I'll clarify: the variant will transition to whatever the variant object is **when you call `transitionTo`**. So technically, you can use dynamic variables in this hook. However, re-renders will not trigger changes; only calling `transitionTo` will change it.
