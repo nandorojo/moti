@@ -11,7 +11,7 @@ const packages = path.resolve(__dirname, '../..', 'packages')
 
 const getPackageName = (name) => {
   if (name === 'moti') return 'moti'
-  else return `@moti/${name}`
+  else return `@motify/${name}`
 }
 
 const packageFolderNames = fs

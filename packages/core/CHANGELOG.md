@@ -5,4 +5,4 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## 0.0.8 (2021-02-05)
 
-**Note:** Version bump only for package @moti/core
+**Note:** Version bump only for package @motify/core

@@ -3,8 +3,6 @@ const createExpoWebpackConfigAsync = require('@expo/webpack-config')
 const fs = require('fs')
 const path = require('path')
 
-const packageName = 'moti'
-
 const node_modules = path.resolve(__dirname, '../..', 'node_modules')
 const packages = path.resolve(__dirname, '../..', 'packages')
 
@@ -42,7 +40,7 @@ module.exports = async function (env, argv) {
     .forEach((name) => {
       console.log(name, packages)
       config.resolve.alias[
-        name === packageName ? packageName : `@${packageName}/${name}`
+        name === 'moti' ? 'moti' : `@motify/${name}`
       ] = path.resolve(
         packages,
         name,

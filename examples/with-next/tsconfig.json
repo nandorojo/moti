@@ -4,7 +4,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "baseUrl": ".",
     "paths": {
-      "@moti/*": ["../../packages/*/src"],
+      "@motify/*": ["../../packages/*/src"],
       "moti": ["../../packages/moti/src"]
     },
     "allowJs": true,

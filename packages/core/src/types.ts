@@ -109,6 +109,9 @@ export type OnDidAnimate<
    * `boolean` inidcating whether or not the animation finished.
    */
   finished: boolean,
+  /**
+   * This value is `undefined`, **unless** you are doing a repeating or looping animation. In that case, it gives you the value that it just animated to.
+   */
   value?: Animate[Key]
 ) => void
 

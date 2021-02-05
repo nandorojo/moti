@@ -1,2 +1,2 @@
 export * from './components'
-export * from '@moti/core'
+export * from '@motify/core'

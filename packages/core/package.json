@@ -1,5 +1,5 @@
 {
-  "name": "@moti/core",
+  "name": "@motify/core",
   "version": "0.0.8",
   "private": false,
   "keywords": [
@@ -31,5 +31,40 @@
   "dependencies": {
     "framer-motion": "^3.2.1"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "gitHead": "f1c9b4003d946352bb295975a3abace3dc3dc5a6",
+  "scripts": {
+    "prepare": "bob build",
+    "clean": "del lib"
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      "commonjs",
+      "module",
+      [
+        "typescript",
+        {
+          "project": "tsconfig.build.json"
+        }
+      ]
+    ]
+  },
+  "devDependencies": {
+    "@react-spring/native": "^9.0.0-rc.3",
+    "@testing-library/react-native": "^7.1.0",
+    "@types/react": "^16.9.53",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-native": "^0.63.30",
+    "expo": "^40.0.0-beta.5",
+    "react": "~16.13.1",
+    "react-dom": "^16.13.1",
+    "react-native": "0.63.4",
+    "react-native-builder-bob": "^0.17.0",
+    "react-native-gesture-handler": "~1.8.0",
+    "react-native-reanimated": "2.0.0-rc.0",
+    "react-native-web": "~0.14.9",
+    "typescript": "^4.0.3"
+  }
 }

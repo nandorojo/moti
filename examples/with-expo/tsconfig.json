@@ -2,8 +2,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "moti": ["../../packages/moti/src"],
-      "@moti/*": ["../../packages/*/src"]
+      "@motify/*": ["../../packages/*/src"],
+      "moti": ["../../packages/moti/src"]
     },
     "jsx": "react-native",
     "target": "esnext",

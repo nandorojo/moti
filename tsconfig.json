@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@motify/*": ["./packages/*/src"],
       "moti": ["./packages/moti/src"]
     },
     "composite": true,
