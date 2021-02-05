@@ -5,7 +5,6 @@ import useMapAnimateToStyle from './use-map-animate-to-style'
 import Animated from 'react-native-reanimated'
 
 // https://www.framer.com/blog/posts/magic-motion/
-
 export default function motify<
   Style,
   Props extends { style?: Style },
