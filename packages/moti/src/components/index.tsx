@@ -1,4 +1,4 @@
-import motify from '../motify'
+import { motify } from '@moti/core'
 import {
   View as RView,
   Text as RText,

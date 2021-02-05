@@ -12,7 +12,7 @@ import Animated, {
   withSequence,
   runOnJS,
 } from 'react-native-reanimated'
-import { PackageName } from '../constants/package-name'
+import { PackageName } from './constants/package-name'
 import type { MotiProps, Transforms, TransitionConfig } from './types'
 
 const isColor = (styleKey: string) => {

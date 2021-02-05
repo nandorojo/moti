@@ -37,7 +37,7 @@
     "clean": "del lib"
   },
   "dependencies": {
-    "framer-motion": "^3.2.1"
+    "@moti/core": "0.0.7"
   },
   "devDependencies": {
     "@react-spring/native": "^9.0.0-rc.3",

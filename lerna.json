@@ -1,11 +1,11 @@
 {
   "packages": ["packages/*", "examples/*"],
-  "npmClient": "yarn",
+  "npmClient": "npm",
   "useWorkspaces": true,
   "version": "independent",
   "command": {
     "publish": {
-      "allowBranch": "main",
+      "allowBranch": "master",
       "conventionalCommits": true,
       "createRelease": "github",
       "message": "chore: publish",

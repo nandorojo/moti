@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import Animated, { useSharedValue } from 'react-native-reanimated'
-import { PackageName } from '../constants'
+import { PackageName } from './constants'
 
 type InternalControllerState<V> = number | V[keyof V]
 

@@ -1,6 +1,2 @@
-export { default as motify } from './motify'
 export * from './components'
-export * from './constants'
-export * from './motify/types'
-export { default as useAnimationState } from './motify/use-animator'
-export { AnimatePresence } from 'framer-motion'
+export * from '@moti/core'

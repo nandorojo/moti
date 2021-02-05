@@ -1,0 +1,35 @@
+{
+  "name": "@moti/core",
+  "version": "0.0.7",
+  "private": false,
+  "keywords": [
+    "react-native",
+    "ios",
+    "android",
+    "web"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nandorojo/moti.git",
+    "directory": "packages/moti"
+  },
+  "bugs": {
+    "url": "https://github.com/nandorojo/moti/issues"
+  },
+  "homepage": "https://github.com/nandorojo/moti.git#readme",
+  "main": "lib/commonjs/index.js",
+  "react-native": "src/index.tsx",
+  "source": "src/index.tsx",
+  "module": "lib/module/index.js",
+  "types": "lib/typescript/src/index.d.ts",
+  "files": [
+    "src",
+    "lib",
+    "!**/__tests__"
+  ],
+  "dependencies": {
+    "framer-motion": "^3.2.1"
+  },
+  "sideEffects": false
+}
