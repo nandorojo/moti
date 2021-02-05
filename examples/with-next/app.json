@@ -1,0 +1,19 @@
+{
+  "name": "dripsy-next-example",
+  "displayName": "Dripsy Example",
+  "expo": {
+    "name": "dripsy-next-example",
+    "slug": "dripsy-next-example",
+    "description": "Example app for expo-theme-ui",
+    "privacy": "public",
+    "version": "1.0.0",
+    "platforms": ["ios", "android", "web"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "assetBundlePatterns": ["**/*"],
+    "packagerOpts": {
+      "config": "metro.config.js"
+    }
+  }
+}

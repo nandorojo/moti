@@ -1,5 +1,5 @@
 import { usePresence } from 'framer-motion'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import type { TransformsStyle } from 'react-native'
 import Animated, {
   useAnimatedStyle,
@@ -195,6 +195,12 @@ function animationConfig<Animate>(
   }
 }
 
+const empty = {
+  object: {},
+}
+
+const debug = (...args) => console.log('[moti-bug]', ...args)
+
 export default function useMapAnimateToStyle<Animate>({
   animate,
   from = false,
@@ -208,13 +214,28 @@ export default function useMapAnimateToStyle<Animate>({
   const isMounted = useSharedValue(false, false)
   const [isPresent, safeToUnmount] = usePresence()
 
-  // is any of this necessary?
-  const initialSV = useSharedValue(from)
-  const animateSV = useSharedValue(animate)
-  const exitSV = useSharedValue(exit)
-  const hasExitStyle = typeof exit === 'object' && !!Object.keys(exit).length
+  const reanimatedSafeToUnmount = useCallback(() => {
+    safeToUnmount?.()
+  }, [safeToUnmount])
 
+  const reanimatedOnDidAnimated = useCallback<NonNullable<typeof onDidAnimate>>(
+    (...args) => {
+      onDidAnimate?.(...args)
+    },
+    [onDidAnimate]
+  )
+
+  // is any of this necessary?
+  const initialSV = useSharedValue(from || empty.object)
+  const animateSV = useSharedValue(animate || empty.object)
+  const exitSV = useSharedValue(exit || empty.object)
+  const hasExitStyle =
+    typeof exit === 'object' && !!Object.keys(exit ?? {}).length
+
+  debug('before animated style')
   const style = useAnimatedStyle(() => {
+    debug('inside animated style')
+
     const final = {
       // initializing here fixes reanimated object.__defineProperty bug(?)
       transform: [] as TransformsStyle['transform'],
@@ -227,20 +248,20 @@ export default function useMapAnimateToStyle<Animate>({
 
     const isExiting = !isPresent && hasExitStyle
 
-    let mergedStyles: Animate
+    let mergedStyles: Animate = {} as Animate
     if (stylePriority === 'state') {
       mergedStyles = { ...animateStyle, ...variantStyle }
     } else {
       mergedStyles = { ...variantStyle, ...animateStyle }
     }
 
-    if (isExiting) {
+    if (isExiting && exitStyle) {
       mergedStyles = exitStyle as any
     }
 
-    Object.keys(mergedStyles).forEach((key, index) => {
-      'worklet'
+    debug('here')
 
+    Object.keys(mergedStyles).forEach((key, index) => {
       const initialValue = initialStyle[key]
       const value = mergedStyles[key]
 
@@ -257,15 +278,14 @@ export default function useMapAnimateToStyle<Animate>({
         recentValue
       ) => {
         if (onDidAnimate) {
-          runOnJS(onDidAnimate)(key as any, canceled, recentValue)
+          runOnJS(reanimatedOnDidAnimated)(key as any, canceled, recentValue)
         }
         if (isExiting) {
-          // if this is true, then we've finished our exit animations
+          //   // if this is true, then we've finished our exit animations
           const isLastStyleKeyToAnimate =
-            index + 1 === Object.keys(mergedStyles).length
-
-          if (isLastStyleKeyToAnimate && safeToUnmount) {
-            runOnJS(safeToUnmount)()
+            index + 1 === Object.keys(mergedStyles || {}).length
+          if (isLastStyleKeyToAnimate) {
+            runOnJS(reanimatedSafeToUnmount)()
           }
         }
       }
@@ -300,10 +320,9 @@ export default function useMapAnimateToStyle<Animate>({
           !value.startsWith('#')
         ) {
           console.error(
-            `[${PackageName}]: You passed ${key}: ${value}, but not all color values are supported yet in Reanimated 2. ☹️ 
-                  
-Please use an rgb or hex formatted color.
-  Please go to https://github.com/software-mansion/react-native-reanimated/issues/845 and comment so that this bug can get fixed!`
+            `[${PackageName}]: You passed ${key}: ${value}, but not all color values are supported yet in Reanimated 2. ☹️
+
+      Please use an rgb or hex formatted color.`
           )
         }
         // }
@@ -415,7 +434,7 @@ Please use an rgb or hex formatted color.
       } else if (typeof value === 'object') {
         // shadows
         final[key] = {}
-        Object.keys(value).forEach((innerStyleKey) => {
+        Object.keys(value || {}).forEach((innerStyleKey) => {
           let finalValue = animation(value, config, callback)
 
           if (shouldRepeat) {
@@ -441,6 +460,8 @@ Please use an rgb or hex formatted color.
         }
       }
     })
+
+    debug('end of UAS', { final })
 
     return final
   })

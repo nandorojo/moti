@@ -1,10 +1,12 @@
 {
   "name": "moti",
-  "version": "0.0.2",
+  "version": "0.0.7",
+  "private": false,
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "android",
+    "web"
   ],
   "license": "MIT",
   "repository": {
@@ -34,6 +36,9 @@
     "prepare": "bob build",
     "clean": "del lib"
   },
+  "dependencies": {
+    "framer-motion": "^3.2.1"
+  },
   "devDependencies": {
     "@react-spring/native": "^9.0.0-rc.3",
     "@testing-library/react-native": "^7.1.0",
@@ -41,7 +46,6 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-native": "^0.63.30",
     "expo": "^40.0.0-beta.5",
-    "framer-motion": "^3.2.1",
     "react": "~16.13.1",
     "react-dom": "^16.13.1",
     "react-native": "0.63.4",

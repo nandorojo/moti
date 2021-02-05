@@ -63,3 +63,4 @@ lib/
 # Expo
 **/web-build
 **/.expo
+.env
