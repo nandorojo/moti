@@ -1,6 +1,6 @@
 {
   "name": "@motify/core",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "private": false,
   "keywords": [
     "react-native",
@@ -32,7 +32,7 @@
     "framer-motion": "^3.2.1"
   },
   "sideEffects": false,
-  "gitHead": "f1c9b4003d946352bb295975a3abace3dc3dc5a6",
+  "gitHead": "8936bd594e8824b313cbca57c1bdefdcce3856c9",
   "scripts": {
     "prepare": "bob build",
     "clean": "del lib"
