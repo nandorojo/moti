@@ -2,17 +2,16 @@
 const createExpoWebpackConfigAsync = require('@expo/webpack-config')
 const fs = require('fs')
 const path = require('path')
-const webpack = require('webpack')
 
 const packageName = 'moti'
 
-const node_modules = path.resolve(__dirname, '..', 'node_modules')
-const packages = path.resolve(__dirname, '..', 'packages')
+const node_modules = path.resolve(__dirname, '../..', 'node_modules')
+const packages = path.resolve(__dirname, '../..', 'packages')
 
 module.exports = async function (env, argv) {
   const config = await createExpoWebpackConfigAsync(env, argv)
 
-  config.context = path.resolve(__dirname, '..')
+  config.context = path.resolve(__dirname, '../..')
 
   config.module.rules.push({
     test: /\.(js|ts|tsx)$/,
@@ -47,7 +46,7 @@ module.exports = async function (env, argv) {
       ] = path.resolve(
         packages,
         name,
-        require(`../packages/${name}/package.json`).source
+        require(`../../packages/${name}/package.json`).source
       )
     })
 

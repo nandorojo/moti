@@ -1,9 +1,9 @@
 {
-  "name": "moti-example",
-  "displayName": "BobMonorepo Example",
+  "name": "with-expo",
+  "displayName": "Moti Expo example",
   "expo": {
-    "name": "moti-example",
-    "slug": "moti-example",
+    "name": "with-expo",
+    "slug": "with-expo",
     "description": "Example app for moti",
     "privacy": "public",
     "version": "1.0.0",

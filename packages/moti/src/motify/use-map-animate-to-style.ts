@@ -212,7 +212,8 @@ export default function useMapAnimateToStyle<Animate>({
   const initialSV = useSharedValue(from)
   const animateSV = useSharedValue(animate)
   const exitSV = useSharedValue(exit)
-  const hasExitStyle = typeof exit === 'object' && !!Object.keys(exit).length
+  const hasExitStyle =
+    typeof exit === 'object' && !!Object.keys(exit ?? {}).length
 
   const style = useAnimatedStyle(() => {
     const final = {
@@ -227,7 +228,7 @@ export default function useMapAnimateToStyle<Animate>({
 
     const isExiting = !isPresent && hasExitStyle
 
-    let mergedStyles: Animate
+    let mergedStyles: Animate = {} as Animate
     if (stylePriority === 'state') {
       mergedStyles = { ...animateStyle, ...variantStyle }
     } else {
