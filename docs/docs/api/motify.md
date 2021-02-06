@@ -1,8 +1,13 @@
-# `motify`
+---
+id: motify
+title: Motify
+sidebar_label: motify
+slug: /api/motify
+---
 
 A higher-order component that turns any React Native component into an animated `moti` component.
 
-It returns a function, which you should call.
+Think of it like moti's version of `Animated.createAnimatedComponent`.
 
 ```jsx
 import React from 'react'
@@ -22,7 +27,7 @@ export default MotifiedComponent
 
 **Note** under the hood, `motify` runs `Animated.createAnimatedComponent` for you, so don't pass an `Animated.View`. Instead, just pass a normal `View` (or its equivalent).
 
-At the moment, the function it returns doesn't take any arguments. But I like this composition pattern, so I build the API this way to account for using the returned function in the future.
+It returns a function, which you should call. At the moment, the function it returns doesn't take any arguments. But I like this composition pattern, so I built the API this way to account for using the returned function in the future.
 
 ## Context
 

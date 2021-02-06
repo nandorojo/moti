@@ -1,62 +1,87 @@
-# `useAnimationState`
+---
+id: use-animation-state
+title: useAnimationState
+sidebar_label: useAnimationState
+slug: /api/use-animation-state
+---
+
+`useAnimationState` is a React hook for driving animations. It's an alternative to the `animate` prop.
+
+It's useful when you:
+
+1. want the best performance on native, and
+2. know your different animation states ahead of time
 
 ```js
 const animationState = useAnimationState({
   from: {
     opacity: 0,
+    scale: 0.9,
   },
   to: {
     opacity: 1,
+    scale: 1.1,
+  },
+  expanded: {
+    scale: 2,
   },
 })
+
+const onPress = () => {
+  if (animationState.current === 'to') {
+    animationState.transitionTo('expanded')
+  }
+}
 
 return <View state={animationState} />
 ```
 
-`useAnimatedState` lets you control your animation state, based on static presets. It is the most performant way to drive animations, since it lives fully on the native side.
+### When to use this
 
-When using this hook, your animations are static, meaning they have to be known ahead of time. Re-rendering your component does not update your styles.
+`useAnimatedState` lets you control your animation state based on static variants. It is the most performant way to drive animations, since it lives fully on the native thread.
 
-For most cases, this is fine anyway, but just keep that in mind. If you need styles that depend on React state, just use a component's `animate` prop instead of this hook.
+When using this hook, your animations are static, meaning they have to be known ahead of time. You can change the state by using `transitionTo`, but re-rendering your component does not update your variants.
 
 ## Basic Usage
 
-Create your `animationState`, and pass it as your moti component's `state` prop.
+### Import
+
+```ts
+import { View, useAnimationState } from 'moti'
+```
+
+Moti exports typical `react-native` components, such as `View`, `Text`, etc. You can also alias the imports:
 
 ```tsx
-import React from 'react'
-import { View, useAnimationState } from 'moti'
-import { StyleSheet } from 'react-native'
+import * as Moti from 'moti'
+```
 
-export default function PerformantView() {
-  const animationState = useAnimationState({
-    from: {
-      opacity: 0,
-      scale: 0.9,
-    },
-    to: {
-      opacity: 1,
-      scale: 1,
-    },
-  })
+### Define your state
 
-  return <View style={styles.shape} state={animationState} />
-}
-
-const styles = StyleSheet.create({
-  shape: {
-    justifyContent: 'center',
-    height: 250,
-    width: 250,
-    borderRadius: 25,
-    backgroundColor: 'cyan',
+```ts
+const animationState = Moti.useAnimationState({
+  from: {
+    opacity: 0,
+    scale: 0.9,
+  },
+  to: {
+    opacity: 1,
+    scale: 1,
   },
 })
 ```
 
-### Changing variant
+### Pass state to your Moti component
 
-To change the animation variant, use the `transitionTo` prop.
+```tsx
+<Moti.View state={animationState} />
+```
+
+Create your `animationState`, and pass it as your moti component's `state` prop.
+
+## Update state with `transitionTo`
+
+To change the animation variant, use the `transitionTo` function.
 
 ```tsx
 const animationState = useAnimationState({
@@ -122,6 +147,10 @@ return (
 
 The function prop pattern isn't actually necessary, since updates are synchronous, unlike `setState`, which makes asynchronous updates. But I added this API because I'm used to it from `setState` and enjoy it.
 
+It's worth noting that `animationState.transitionTo` will not trigger re-renders, so just keep that in mind.
+
+## Read the `current` state
+
 You could also read the current animation state, and use that to drive the next transiton, if you prefer:
 
 ```tsx
@@ -162,6 +191,39 @@ return (
 )
 ```
 
+## A full example
+
+```tsx
+import React from 'react'
+import * as Moti from 'moti'
+import { StyleSheet } from 'react-native'
+
+export default function PerformantView() {
+  const animationState = Moti.useAnimationState({
+    from: {
+      opacity: 0,
+      scale: 0.9,
+    },
+    to: {
+      opacity: 1,
+      scale: 1,
+    },
+  })
+
+  return <Moti.View style={styles.shape} state={animationState} />
+}
+
+const styles = StyleSheet.create({
+  shape: {
+    justifyContent: 'center',
+    height: 250,
+    width: 250,
+    borderRadius: 25,
+    backgroundColor: 'cyan',
+  },
+})
+```
+
 ## Mount Animations
 
 ```js
@@ -177,6 +239,11 @@ const animationState = useAnimationState({
 return <View state={animationState} />
 ```
 
+If both `from` and `to` are set, then it will transition from one to the other on the component's initial mount. If only `from` is set, this will be the initial state.
+
+If you don't want mount animations, give your variants different names.
+
+<!--
 ## Example
 
 ```jsx
@@ -262,29 +329,25 @@ const animator = useAnimationState(
 
 Note if you change variants on the fly by updating state, they will not re-render. This is to maintain good performance. Instead, you should pre-define all states in the first render. Then use `animator.transitionTo` to change state, and `animator.current` to read the state.
 
-This means the `useAnimatedState` hook should only be used with static states. If you need dynamic states, please use the `animate` prop directly.
+This means the `useAnimatedState` hook should only be used with static states. If you need dynamic states, please use the `animate` prop directly. -->
 
-## Minor suggestion
+## Don't destructure
 
-As a rule of thumb, don't destructure the `animator`. `animator` has a stable reference, but the values inside of it do not.
+As a rule of thumb, don't destructure the animation state.
 
 ```js
-// ✅ in general, do this
-const animator = useAnimationState(...)
+// ✅ do this
+const state = useAnimationState(...)
+```
 
-useEffect(() => {
- if (loading) animator.transitionTo('some-state')
- else animator.transitionTo('some-other-state')
-}, [animator, loading])
-
+```js
 // 🚨 not this
 const { current, transitionTo } = useAnimationState(...)
-
-useEffect(() => {
- if (loading) transitionTo('some-state')
- else transitionTo('some-other-state')
-}, [transitionTo, loading])
 ```
+
+### Why?
+
+`useAnimationState` returns an object with a stable reference, but destructuring `.current` does not guarantee a stable reference.
 
 You don't have to follow that suggestion if you don't want to. But I recommend it to prevent unintended consequences of triggering effects when these are used in dependency arrays.
 
@@ -292,7 +355,9 @@ If you aren't using the animator in a dependency array anywhere, then you can ig
 
 Technically, it's fine if you do this with `transitionTo`. It's `current` you'll want to watch out for, since its reference will change, without triggering re-renders. This functions similar to `useRef`.
 
-## Arguments
+## API
+
+### Arguments
 
 - `variants` **(required)**
   - an object with variants specifying your different static styles.
@@ -332,9 +397,25 @@ const animationState = useAnimationState(
 
 By default, similar to `react-spring`, you can pass a `to` and a `from` variant. `from` will always be the initial state, assuming you pass `from`. It is not required, though.
 
-If both `from` and `to` are set, then it will transition from one to the other on the component's initial mount.
-
 If, for some reason, you really don't want to use `from` and `to` as your props, you can pass a second argument object with `from`/`to` keys that rename them.
+
+### Returns
+
+- `current` A synchronous way to read the current animation state. Returns the name of the current state (for example, `to`).
+- `transitionTo(nextVariant)` A function that lets you update the state.
+
+You can pass the next state directly to it: `animationState.transitionTo('open')
+
+Or you can pass it a function:
+
+```ts
+animationState.transitionTo((prevState) => {
+  if (prevState === 'open') {
+    return 'close'
+  }
+  return 'open'
+})
+```
 
 ## Static animations only
 
@@ -350,7 +431,9 @@ const state = useAnimationState({
 })
 
 return <View state={state} />
+```
 
+```jsx
 // ✅ do this instead
 <View animate={{ opacity: isLoading ? 1 : 0 }} />
 ```
@@ -359,6 +442,8 @@ return <View state={state} />
 
 Any **dynamic** animations should be used with a component's `animate` prop directly.
 
-### Yet another caveat
+For most cases, this is fine, but just keep that in mind. If you need styles that automatically update based on React's state, use a component's `animate` prop instead of this hook.
 
-Okay, now that I got those caveats out of the way, I'll clarify: the variant will transition to whatever the variant object is **when you call `transitionTo`**. So technically, you can use dynamic variables in this hook. However, re-renders will not trigger changes; only calling `transitionTo` will change it.
+### ...ok, but
+
+Now that I got those warnings out of the way, I'll clarify: technically, you can use dynamic variables in this hook. However, only calling `transitionTo` will change the actual style. So if you use `dynamic` variables, just know that they won't apply to your styles until you call `transitionTo`.

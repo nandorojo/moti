@@ -1,4 +1,11 @@
-# Moti + Next.js
+---
+id: next
+title: Moti + Next.js
+sidebar_label: Next.js
+slug: /next
+---
+
+There are 3 quick steps to getting Moti setup in a Next.js app.
 
 ## Step 1
 
@@ -50,19 +57,12 @@ We're going to use `requestAnimationFrame` with Reanimated web, so that polyfill
 
 ## Step 3
 
-Alright, here goes a little hack to get Reanimated 2 working in Next.js. It's a simple copy-paste, so don't w
-
-If you're open to using `patch-package`, I recommend it for this step.
-
-We need to change Reanimated's use of `setImmediate` on web to `requestAnimationFrame`. Long-story short, Reanimated uses a function called `setImmediate`, and Next.js doesn't support this. There are some hacks, and if you google "Expo + Next.js setimmediate", you'll find many posts of me complaining about it.
-
-I've found the best solution is to replace `setImmediate` with `requestAnimationFrame` altogether. So read on to get that fixed.
+Alright, here goes a little hack to get Reanimated 2 working in Next.js. It's a simple copy-paste, so don't worry.
 
 1. Install [`patch-package`](https://www.npmjs.com/package/patch-package) and follow its instructions
 2. Create a folder called `patches` in your app root
-3. Add this file in `patches/`
 
-Name your file: `react-native-reanimated+2.0.0-rc.0.patch`
+Add this file: `patches/react-native-reanimated+2.0.0-rc.0.patch`
 
 _^ replace `2.0.0-rc.0` with whatever version of Reanimated you're using._
 
@@ -95,13 +95,21 @@ Then run `yarn install`. That should be enough 😅
 
 ### Some background on this hack
 
-This patch will fix the problems for apps using Reanimated version `2.0.0-rc.0` (the version supported by Expo SDK 40). For later versions of Reanimated, this should already be fixed. You can track the issue here: https://github.com/software-mansion/react-native-reanimated/pull/1521
+We need to change Reanimated's use of `setImmediate` on web to `requestAnimationFrame`. Long-story short, Reanimated uses a function called `setImmediate`, and Next.js doesn't support this. There are some hacks, and if you google "Expo + Next.js setimmediate", you'll find many posts of me complaining about it.
+
+I've found the best solution is to replace `setImmediate` with `requestAnimationFrame` altogether, and that's what the patch above does.
+
+### This is temporary
+
+The patch will fix the problems for apps using Reanimated version `2.0.0-rc.0` (the version supported by Expo SDK 40). For later versions of Reanimated, this should already be fixed. You can track the issue here: https://github.com/software-mansion/react-native-reanimated/pull/1521
 
 If you don't want to use patch-package, you can read the alternative solution below. It's buggier in my experience, though, since I [haven't](https://github.com/expo/expo/issues/7996) had good experiences with `setImmediate` polyfills with Next.js.
 
-If this step made no sense to you, don't worry. Maybe you haven't even heard of `patch-package` before and you're like, what am I doing? I thought this was just an animation library? It's confusing and not necessary to understand to use Moti. Just copy and paste the steps and move on with your day.
+### Ummm
 
-You'll be able to get rid of this hack once you upgrade Reanimated to `2.0.0-rc.3` or higher (or upgrade to Expo SDK 41 when it's out.)
+If this step made no sense to you, don't worry. Maybe you haven't even heard of `patch-package` before and you're like, what am I doing? I thought this was just an animation library? Trust me, I know; it's confusing and not necessary to understand to use Moti. Just copy and paste the steps and move on with your day.
+
+As I mentioned, you'll be able to get rid of this hack once you upgrade Reanimated to `2.0.0-rc.3` or higher (or upgrade to Expo SDK 41 when it's out.)
 
 ---
 
