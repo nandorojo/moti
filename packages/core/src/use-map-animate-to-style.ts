@@ -199,7 +199,10 @@ const empty = {
   object: {},
 }
 
-const debug = (...args) => console.log('[moti-bug]', ...args)
+const debug = (...args: any[]) => {
+  args
+  // console.log('[moti-bug]', ...args)
+}
 
 export default function useMapAnimateToStyle<Animate>({
   animate,
