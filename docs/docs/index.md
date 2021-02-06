@@ -1,6 +1,6 @@
 ---
 id: welcome
-title: Getting Started
+title: Welcome to Moti
 sidebar_label: Getting Started
 slug: /
 ---
@@ -8,14 +8,14 @@ slug: /
 Moti is the universal animation package for React Native.
 
 ```tsx
-<Moti.View from={{ opacity: 0 }} animate={{ opacity: 1 }} />
+<View from={{ opacity: 0 }} animate={{ opacity: 1 }} />
 ```
 
 ## Highlights
 
 - Universal: works on all platforms
 - 60 FPS animations run on the native thread
-- Mount/unmount animations, like `framer-motion`
+- Mount/unmount animations, like Framer Motion
 - Powered by Reanimated 2
 - Web support, out-of-the-box
 - Expo support
@@ -40,15 +40,17 @@ From navigation to design, every open-source project I've worked on has tried to
 
 ---
 
-After months of trying different solutions Web and native, I decided I needed a new one. Then Reanimated released v2 with a hooks API, and suddenly it all made sense. What we need is a performant animation library that lets us use components and props to define different animation states. Hooks shouldn't be necessary. Components should automatically transition the way CSS transitions do. Adding a 60 FPS animation should be as easy as adding a background color.
+After months of trying different solutions Web and native, I decided I should make my own. Then Reanimated released v2 with a hooks API, and suddenly it all made sense. What we need is a performant animation library that lets us use component props to define different animation states. Hooks shouldn't be necessary. Styles should automatically transition the way CSS transitions do. Adding a 60 FPS animation should be as easy as adding a background color.
 
-Reanimated 2 provides an elegant, low-level hooks API for driving performant animations. Framer Motion and React Spring always caught my eye on Web. React Spring had React Native support, but it didn't come with the performance prowess of Reanimated.
+Reanimated 2 provides an elegant, low-level hooks API for driving performant animations. Framer Motion and React Spring always caught my eye on Web.
 
-The funny part of all of this is, React web already has great solutions for animations (like `framer-motion` & `react-spring`.) And yet, I'm spending my time building for React Native, which then also happens to work on web. It feels a bit odd and circular. But after working with both normal React as well as React Native, I think React Native is the true winner.
+The goal was to combine the best parts of the aforementioned.
+
+The funny part of all of this is, React web already has great solutions for animations. And yet, I'm spending my time building for React Native, which then also happens to work on web. It feels a bit odd and circular. But after working with both normal React as well as React Native, I think React Native is the true winner, even though it currently lags in many features.
 
 ### A final thought
 
-The fact that React Native works on all platforms is great. But it's more of a consequence of its greatness than the greatness itself. What makes React Native so interesting as a technology is that it's so intuitive. Its simplicity lets you focus on the only thing that really matters: building great products, quickly. It's thanks to this intuitive mental model that it makes so much sense to use it on all platforms.
+The fact that React Native works on all platforms is great. But it's more of a consequence of its greatness than the greatness itself. What makes React Native so interesting as a technology is that it's so intuitive. Its simplicity lets you focus on the only thing that really matters: building great products, quickly. It's thanks to this intuitive mental model that it makes sense to use it on all platforms.
 
 With React Native, we have an opportunity to abstract our ideas into what we want a user to experience, and not get bogged down by the concept of "what platform someone is using."
 

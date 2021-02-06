@@ -49,16 +49,12 @@ When using this hook, your animations are static, meaning they have to be known 
 import { View, useAnimationState } from 'moti'
 ```
 
-Moti exports typical `react-native` components, such as `View`, `Text`, etc. You can also alias the imports:
-
-```tsx
-import * as Moti from 'moti'
-```
+Moti exports typical `react-native` components, such as `View`, `Text`, etc.
 
 ### Define your state
 
 ```ts
-const animationState = Moti.useAnimationState({
+const animationState = useAnimationState({
   from: {
     opacity: 0,
     scale: 0.9,
@@ -73,7 +69,7 @@ const animationState = Moti.useAnimationState({
 ### Pass state to your Moti component
 
 ```tsx
-<Moti.View state={animationState} />
+<View state={animationState} />
 ```
 
 Create your `animationState`, and pass it as your moti component's `state` prop.
@@ -194,11 +190,11 @@ return (
 
 ```tsx
 import React from 'react'
-import * as Moti from 'moti'
+import { useAnimationState, View } from 'moti'
 import { StyleSheet } from 'react-native'
 
 export default function PerformantView() {
-  const animationState = Moti.useAnimationState({
+  const animationState = useAnimationState({
     from: {
       opacity: 0,
       scale: 0.9,
@@ -209,7 +205,7 @@ export default function PerformantView() {
     },
   })
 
-  return <Moti.View style={styles.shape} state={animationState} />
+  return <View style={styles.shape} state={animationState} />
 }
 
 const styles = StyleSheet.create({
