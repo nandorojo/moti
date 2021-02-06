@@ -233,7 +233,7 @@ export default function useMapAnimateToStyle<Animate>({
   const animateSV = useSharedValue(animate || empty.object)
   const exitSV = useSharedValue(exit || empty.object)
   const hasExitStyle =
-    typeof exit === 'object' && !!Object.keys(exit ?? {}).length
+    typeof exit === 'object' && !!Object.keys(exit ?? empty.object).length
 
   debug('before animated style')
   const style = useAnimatedStyle(() => {
