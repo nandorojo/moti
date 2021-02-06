@@ -2,7 +2,6 @@
 id: props
 title: Component Props
 sidebar_label: Component Props
-slug: /api/props
 ---
 
 All `moti` components have a few useful props:

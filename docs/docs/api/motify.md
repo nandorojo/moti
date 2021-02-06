@@ -2,7 +2,6 @@
 id: motify
 title: Motify
 sidebar_label: motify
-slug: /api/motify
 ---
 
 A higher-order component that turns any React Native component into an animated `moti` component.

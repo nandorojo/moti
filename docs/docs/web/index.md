@@ -2,7 +2,6 @@
 id: web
 title: Web Support
 sidebar_label: Web Support
-slug: /
 ---
 
 Moti works on all platforms, including web. Just make sure you've installed `react-native-web` and done anything you need to get that working.

@@ -1,8 +1,7 @@
 ---
 id: next
 title: Moti + Next.js
-sidebar_label: Next.js
-slug: /next
+sidebar_label: Next.js Usage
 ---
 
 There are 3 quick steps to getting Moti setup in a Next.js app.
@@ -57,6 +56,12 @@ We're going to use `requestAnimationFrame` with Reanimated web, so that polyfill
 
 ## Step 3
 
+:::tip
+
+If you're using Reanimated `2.0.0-rc.3` or higher, you can skip this step, you're done.
+
+:::
+
 Alright, here goes a little hack to get Reanimated 2 working in Next.js. It's a simple copy-paste, so don't worry.
 
 1. Install [`patch-package`](https://www.npmjs.com/package/patch-package) and follow its instructions
@@ -65,6 +70,8 @@ Alright, here goes a little hack to get Reanimated 2 working in Next.js. It's a 
 Add this file: `patches/react-native-reanimated+2.0.0-rc.0.patch`
 
 _^ replace `2.0.0-rc.0` with whatever version of Reanimated you're using._
+
+Paste this in the file you created:
 
 ```diff
 diff --git a/node_modules/react-native-reanimated/src/core/AnimatedNode.js b/node_modules/react-native-reanimated/src/core/AnimatedNode.js

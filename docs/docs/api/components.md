@@ -1,5 +1,3 @@
-# Components
-
 Currently, modi exports typical React Native components.
 
 ```ts

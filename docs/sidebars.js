@@ -1,7 +1,11 @@
 module.exports = {
   someSidebar: {
-    'Get Started': ['install/web/web', 'install/web/ssr/next'],
-    API: [
+    Welcome: ['welcome', 'installation'],
+    Animations: [],
+    Hooks: [],
+    Components: [],
+    Web: ['web/web', 'web/ssr/next'],
+    'API Reference': [
       'api/use-animation-state',
       'api/motify',
       'api/components',

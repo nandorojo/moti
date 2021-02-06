@@ -2,7 +2,6 @@
 id: use-animation-state
 title: useAnimationState
 sidebar_label: useAnimationState
-slug: /api/use-animation-state
 ---
 
 `useAnimationState` is a React hook for driving animations. It's an alternative to the `animate` prop.
