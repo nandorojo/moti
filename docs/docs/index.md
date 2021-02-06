@@ -8,7 +8,13 @@ slug: /
 Moti is the universal animation package for React Native.
 
 ```tsx
-<View from={{ opacity: 0 }} animate={{ opacity: 1 }} />
+<View
+  from={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  exit={{
+    opacity: 0,
+  }}
+/>
 ```
 
 ## Highlights
@@ -36,25 +42,31 @@ In my opinion, React Native has the best mental model for building products. But
 
 If you find yourself writing `Platform.OS === 'web'` when building UI inside of your app, something is wrong. Platform inconsistencies should be handled by third-party libraries that provide a centralized API. That's what makes (the ideal behind) React Native's mental model so great: write once, run anywhere.
 
-From navigation to design, every open-source project I've worked on has tried to address such inconsistencies. For example, [Dripsy](https://github.com/nandorojo/dripsy) encourages you to design products based on **screen size**, not platform.
+I've spent most of my open source time on such inconsistencies. For example, [Dripsy](https://github.com/nandorojo/dripsy) encourages you to design products based on **screen size**, not platform.
 
----
+After months of trying different animation solutions Web and native, I decided I should make my own. Then Reanimated released v2 with a hooks API, and suddenly it all made sense. What we need is a performant animation library that lets us use component props to define different animation states. Hooks shouldn't be necessary. Styles should automatically transition the way CSS transitions do.
 
-After months of trying different solutions Web and native, I decided I should make my own. Then Reanimated released v2 with a hooks API, and suddenly it all made sense. What we need is a performant animation library that lets us use component props to define different animation states. Hooks shouldn't be necessary. Styles should automatically transition the way CSS transitions do. Adding a 60 FPS animation should be as easy as adding a background color.
+Adding an animation should be as easy as adding a background color. It should feel like play.
 
-Reanimated 2 provides an elegant, low-level hooks API for driving performant animations. Framer Motion and React Spring always caught my eye on Web.
+I started abstracting Reanimated's hooks into a single component. Pass it plain style objects, and it does the work for you. It feels like magic, and the animations are slick.
 
-The goal was to combine the best parts of the aforementioned.
+I've used Framer Motion, React Spring, CSS transitions & keyframes throughout the years, and I wanted to combine the best of these approaches into one.
 
-The funny part of all of this is, React web already has great solutions for animations. And yet, I'm spending my time building for React Native, which then also happens to work on web. It feels a bit odd and circular. But after working with both normal React as well as React Native, I think React Native is the true winner, even though it currently lags in many features.
+The funny part of all of this is, React web already has great solutions for animations. And yet, I'm spending my time building a solution for React Native, and then making sure it also works on web. It may seem a bit odd and circular.
+
+<!-- It seems oddly circular. -->
+
+<!-- But after working with both normal React as well as React Native, I think React Native is the true winner, even though it currently lags in many features. -->
 
 ### A final thought
 
-The fact that React Native works on all platforms is great. But it's more of a consequence of its greatness than the greatness itself. What makes React Native so interesting as a technology is that it's so intuitive. Its simplicity lets you focus on the only thing that really matters: building great products, quickly. It's thanks to this intuitive mental model that it makes sense to use it on all platforms.
+The fact that React Native works on all platforms is great. But it's more of a consequence of its greatness than the greatness itself. What makes React Native so interesting as a technology is that it's so intuitive. Its simplicity lets you focus on the only thing that really matters: building great products, quickly. Thanks to its intuitive mental model, React Native lends itself to use on any platform.
 
-With React Native, we have an opportunity to abstract our ideas into what we want a user to experience, and not get bogged down by the concept of "what platform someone is using."
+With React Native, we have an instrument to turn ideas into great user experiences, without getting bogged down by the concept of "what platform someone is using."
 
-Today, it might be an iPhone. Tomorrow, it might be a virtual browser running on a cloud server.
+Today, it might be an iPhone.
+
+Tomorrow, it might be a virtual browser running on a cloud server.
 
 If we get this right, it won't matter.
 
@@ -67,7 +79,9 @@ If you want to learn more about the motivations behind the creation of `moti`, y
 
 ## Author
 
-Moti was created by Fernando Rojo. You can follow me on [Twitter](https://twitter.com/fernandotherojo).
+Moti was created by Fernando Rojo. Follow me on [Twitter](https://twitter.com/fernandotherojo) to stay up to date.
+
+Also, please [star the repo](https://github.com/nandorojo/moti) on Github.
 
 ## Thanks
 
@@ -75,11 +89,13 @@ It's hard to name all the people I should credit for moti. There are the obvious
 
 Then there are the people behind great projects Framer Motion and React Spring, who gave me both guidance and inspiration on the best APIs to use.
 
+[Chadwick](https://github.com/cmaycumber) has been especially helpful making Moti and Dripsy happen.
+
 ## Contributing to React Native
 
 If you're wondering how you can contribute to the React Native community, I encourage you to create packages that solve platform inconsistences. Help us give people a delightful user experience, regardless of what "device" they're using.
 
-Here are some problems in React Native (Web) has that are exciting.
+Here are some problems in React Native (Web) that are exciting:
 
 - **Popovers**
 
@@ -99,4 +115,13 @@ Here are some problems in React Native (Web) has that are exciting.
     - My main solution is to create Next.js pages, put a modal stack navigator in each page, use React Navigation for opening modals, and `next/router` for page changes.
     - On native, I have a single `native-stack`, and I change the `initialRouteName` depending on which `tab` I'm in.
     - All `screen`s are shared across platforms.
-  - All in all, I feel positively about the direction navigation is going. There are really smart people working on it. The last piece to solve is the right mental patterns to use.
+    - Keeping URL query parameters in sync (for instance, when using them as search state) can be a challenge here. I'm still trying to get to the bottom of that.
+  - All in all, I feel positively about the direction navigation is going. There are really smart people working on it. The last piece to solve is a standardized thought process.
+
+## Disclaimer
+
+This is a new library, so there might be bugs. I'm using it in my app, so I expect that solving any issues will be in my interest.
+
+That said, I'm busy with a startup and made this public to contribute to the community. If you find something that doesn't work, please keep this in mind, and see if you can solve the problem before spamming the repository's issues. Open source projects can get derailed easily when people expect free work, so I want to avoid that.
+
+For example, please investigate if an issue you're facing is due to Reanimated or Moti.
