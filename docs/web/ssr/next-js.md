@@ -46,9 +46,68 @@ export default function App({ Component, pageProps }) {
 }
 ```
 
+We're going to use `requestAnimationFrame` with Reanimated web, so that polyfill makes it usable with server-side rendering frameworks.
+
 ## Step 3
 
-Polyfill `setImmediate`. This is a hack for versions of Reanimated 2 that still use `setImmediate`.
+Alright, here goes a little hack to get Reanimated 2 working in Next.js. It's a simple copy-paste, so don't w
+
+If you're open to using `patch-package`, I recommend it for this step.
+
+We need to change Reanimated's use of `setImmediate` on web to `requestAnimationFrame`. Long-story short, Reanimated uses a function called `setImmediate`, and Next.js doesn't support this. There are some hacks, and if you google "Expo + Next.js setimmediate", you'll find many posts of me complaining about it.
+
+I've found the best solution is to replace `setImmediate` with `requestAnimationFrame` altogether. So read on to get that fixed.
+
+1. Install [`patch-package`](https://www.npmjs.com/package/patch-package) and follow its instructions
+2. Create a folder called `patches` in your app root
+3. Add this file in `patches/`
+
+Name your file: `react-native-reanimated+2.0.0-rc.0.patch`
+
+_^ replace `2.0.0-rc.0` with whatever version of Reanimated you're using._
+
+```diff
+diff --git a/node_modules/react-native-reanimated/src/core/AnimatedNode.js b/node_modules/react-native-reanimated/src/core/AnimatedNode.js
+index ac08f28..0aad94a 100644
+--- a/node_modules/react-native-reanimated/src/core/AnimatedNode.js
++++ b/node_modules/react-native-reanimated/src/core/AnimatedNode.js
+@@ -76,6 +76,9 @@ function runPropUpdates() {
+   loopID += 1;
+ }
+
++const scheduleUpdates =
++  Platform.OS === 'web' ? requestAnimationFrame : setImmediate;
++
+ export default class AnimatedNode {
+   __nodeID;
+   __lastLoopID = { '': -1 };
+@@ -141,7 +144,7 @@ export default class AnimatedNode {
+   __markUpdated() {
+     UPDATED_NODES.push(this);
+     if (!propUpdatesEnqueued) {
+-      propUpdatesEnqueued = setImmediate(runPropUpdates);
++      propUpdatesEnqueued = scheduleUpdates(runPropUpdates);
+     }
+   }
+```
+
+Then run `yarn install`. That should be enough 😅
+
+### Some background on this hack
+
+This patch will fix the problems for apps using Reanimated version `2.0.0-rc.0` (the version supported by Expo SDK 40). For later versions of Reanimated, this should already be fixed. You can track the issue here: https://github.com/software-mansion/react-native-reanimated/pull/1521
+
+If you don't want to use patch-package, you can read the alternative solution below. It's buggier in my experience, though, since I [haven't](https://github.com/expo/expo/issues/7996) had good experiences with `setImmediate` polyfills with Next.js.
+
+If this step made no sense to you, don't worry. Maybe you haven't even heard of `patch-package` before and you're like, what am I doing? I thought this was just an animation library? It's confusing and not necessary to understand to use Moti. Just copy and paste the steps and move on with your day.
+
+You'll be able to get rid of this hack once you upgrade Reanimated to `2.0.0-rc.3` or higher (or upgrade to Expo SDK 41 when it's out.)
+
+---
+
+### Alternative solution (without patch package)
+
+If you don't want to use `patch-package`, as I recommend, your alternative is to try to polyfill `setImmediate`. This is a hack for versions of Reanimated 2 that still use `setImmediate`.
 
 `yarn add setimmediate`
 
@@ -73,6 +132,8 @@ I typically deploy to Vercel on a branch to make sure it works. It's random, but
 You might also want to install the `setimmediate` package, and put it at the top with the other polyfills.
 
 A newer version of Reanimated (not yet supported by Expo) changes `setImmediate` to `requestAnimationFrame`. This should fix the problem. Once you upgrade to that version,you should only need to add the the `raf/polyfill` in `pages/_app.js`, and ideally the bugs will disappear.
+
+For the record, you might need to add those imports into any file that uses Moti. It's really unpredictable, which is why I recommend the patch-package fix instead.
 
 <!--
 
