@@ -8,8 +8,9 @@ sidebar_label: useAnimationState
 
 It's useful when you:
 
-1. want the best performance on native, and
-2. know your different animation states ahead of time
+1. want the best performance on native,
+2. know your different animation states ahead of time, and
+3. don't mind using a hook
 
 ```js
 const animationState = useAnimationState({
@@ -37,7 +38,7 @@ return <View state={animationState} />
 
 ### When to use this
 
-`useAnimatedState` lets you control your animation state based on static variants. It is the most performant way to drive animations, since it lives fully on the native thread.
+`useAnimatedState` lets you control your animation state based on static variants. It is the most performant way to drive animations, since it lives mutates shared values directly, instead of relying on JS state changes. You probably won't notice a performance difference, but you can keep it in your back pocket.
 
 When using this hook, your animations are static, meaning they have to be known ahead of time. You can change the state by using `transitionTo`, but re-rendering your component does not update your variants.
 

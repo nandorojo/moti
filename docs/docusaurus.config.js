@@ -1,6 +1,6 @@
 module.exports = {
   title: 'Moti',
-  tagline: 'Write once, animate anywhere.',
+  tagline: 'The universal animation library for React Native.',
   url: 'https://github.com/nandorojo/moti',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -9,6 +9,11 @@ module.exports = {
   organizationName: 'nandorojo',
   projectName: 'moti',
   themeConfig: {
+    colorMode: {
+      defaultMode: 'dark',
+      disableSwitch: true,
+      respectPrefersColorScheme: false,
+    },
     navbar: {
       title: 'moti',
       logo: {
@@ -81,7 +86,7 @@ module.exports = {
         //   ],
         // },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Fernando Rojo`,
     },
   },
   presets: [
@@ -92,6 +97,7 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl: 'https://github.com/nandorojo/moti/edit/master/docs',
           remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
+          routeBasePath: '/', //disable landing page
         },
         // blog: {
         //   showReadingTime: true,

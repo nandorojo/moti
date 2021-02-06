@@ -10,6 +10,13 @@
   text-align: center;
   position: relative;
   overflow: hidden;
+  min-height: calc(100vh - 4rem);
+  background-color: var(--ifm-color-background);
+  color: var(--ifm-color-text);
+}
+
+.hero__primary .hero__title {
+  font-size: 3rem;
 }
 
 @media screen and (max-width: 966px) {

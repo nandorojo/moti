@@ -64,8 +64,12 @@ function Home() {
     >
       <header className={clsx('hero hero--primary', styles.heroBanner)}>
         <div className="container">
-          <h1 className="hero__title">{siteConfig.title}</h1>
-          <p className="hero__subtitle">{siteConfig.tagline}</p>
+          <h1 className="hero__title" style={{ fontSize: '4rem' }}>
+            {siteConfig.title}
+          </h1>
+          <p className="hero__subtitle" style={{ fontSize: '2rem' }}>
+            {siteConfig.tagline}
+          </p>
           <div className={styles.buttons}>
             <Link
               className={clsx(
@@ -74,12 +78,12 @@ function Home() {
               )}
               to={useBaseUrl('docs/')}
             >
-              Get Started
+              Documentation
             </Link>
           </div>
         </div>
       </header>
-      <main>
+      {/* <main>
         {features && features.length > 0 && (
           <section className={styles.features}>
             <div className="container">
@@ -91,7 +95,7 @@ function Home() {
             </div>
           </section>
         )}
-      </main>
+      </main> */}
     </Layout>
   )
 }
