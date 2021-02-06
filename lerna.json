@@ -1,11 +1,8 @@
 {
-  "packages": [
-    "packages/*",
-    "examples/*"
-  ],
+  "packages": ["packages/*", "examples/*"],
   "npmClient": "npm",
   "useWorkspaces": true,
-  "version": "0.2.0",
+  "version": "0.2.1",
   "command": {
     "publish": {
       "allowBranch": "master",
