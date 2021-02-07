@@ -1,7 +1,7 @@
 {
   "name": "with-expo",
   "description": "Example app for moti",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "main": "__generated__/AppEntry.js",
   "scripts": {
@@ -19,7 +19,7 @@
     "expo-status-bar": "~1.0.3",
     "framer-motion": "^3.2.1",
     "lodash.set": "^4.3.2",
-    "moti": "^0.2.0",
+    "moti": "^0.3.0",
     "react": "~16.13.1",
     "react-dom": "^16.13.1",
     "react-native": "0.63.4",
