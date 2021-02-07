@@ -44,7 +44,7 @@ If you find yourself writing `Platform.OS === 'web'` when building UI inside of 
 
 I've spent most of my open source time on such inconsistencies. For example, [Dripsy](https://github.com/nandorojo/dripsy) encourages you to design products based on **screen size**, not platform.
 
-After months of trying different animation solutions Web and native, I decided I should make my own. Then Reanimated released v2 with a hooks API, and suddenly it all made sense. What we need is a performant animation library that lets us use component props to define different animation states. Hooks shouldn't be necessary. Styles should automatically transition the way CSS transitions do.
+After months of trying different animation solutions on Web and native, I decided I should make my own. Then Reanimated released v2 with a hooks API, and suddenly it all made sense. What we need is a performant animation library that lets us use component props to define different animation states. Hooks shouldn't be necessary. Styles should automatically transition the way CSS transitions do.
 
 Adding an animation should be as easy as adding a background color. It should feel like play.
 
