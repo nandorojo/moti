@@ -1,6 +1,6 @@
 ---
 id: auto-height
-title: Animate "Auto" Height
+title: Animate Height
 ---
 
 Animate changes in variable height. You can see a video of this example [here](https://github.com/nandorojo/dripsy/issues/46#issuecomment-749322611).

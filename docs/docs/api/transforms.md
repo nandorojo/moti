@@ -26,4 +26,4 @@ Rather than using a `transform` array, we pass the values directly:
 />
 ```
 
-By flattening the array, Moti can use an array syntax to power sequence animations. Also, I think it's a cleaner API like this anyway.
+By flattening the array, Moti can use an array syntax to power sequence animations.

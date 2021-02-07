@@ -5,7 +5,23 @@ sidebar_label: Getting Started
 slug: /
 ---
 
-Moti is the universal animation package for React Native.
+<div
+  style={{
+    marginBottom: '32px',
+    borderRadius: '16px',
+    overflow: 'hidden',
+    position: 'relative',
+  }}
+>
+  <img style={{ display: 'block' }} src="img/banner.svg" />
+  <img
+    style={{ display: 'block' }}
+    className="banner-show-on-hover"
+    src="img/Banner Gradient.svg"
+  />
+</div>
+
+Moti is the universal animation package for React Native, made by [Fernando Rojo](https://twitter.com/fernandotherojo).
 
 ```tsx
 <View
@@ -23,20 +39,21 @@ Moti is the universal animation package for React Native.
 - 60 FPS animations run on the native thread
 - Mount/unmount animations, like Framer Motion
 - Powered by Reanimated 2
-- Web support, out-of-the-box
-- Expo support
 - Intuitive API
 - Variant & keyframe animations
 - Strong TypeScript support
 - Highly-configurable animations
 - Sequence animations
 - Loop & repeat animations
+- Web support
+- Expo support
+- Next.js support
 
 ## Motivation
 
 ### Write once, animate anywhere.
 
-First and foremost, I made moti because I need animations and transitions that work well on both websites & native apps.
+First and foremost, I made Moti because I need animations and transitions that work well on both websites & native apps.
 
 In my opinion, React Native has the best mental model for building products. But when it comes to designing a multi-platform product at scale, you end up using `Platform.select` all over the place. I consider this an anti-pattern.
 
@@ -44,13 +61,13 @@ If you find yourself writing `Platform.OS === 'web'` when building UI inside of 
 
 I've spent most of my open source time on such inconsistencies. For example, [Dripsy](https://github.com/nandorojo/dripsy) encourages you to design products based on **screen size**, not platform.
 
-After months of trying different animation solutions Web and native, I decided I should make my own. Then Reanimated released v2 with a hooks API, and suddenly it all made sense. What we need is a performant animation library that lets us use component props to define different animation states. Hooks shouldn't be necessary. Styles should automatically transition the way CSS transitions do.
+After months of trying different animation solutions web and native, I decided I should make my own. Then Reanimated released v2 with a hooks API, and suddenly it all made sense. What we need is a performant animation library that lets us use component props to define different animation states. Hooks shouldn't be necessary. Styles should automatically transition the way CSS transitions do.
 
 Adding an animation should be as easy as adding a background color. It should feel like play.
 
 I started abstracting Reanimated's hooks into a single component. Pass it plain style objects, and it does the work for you. It feels like magic, and the animations are slick.
 
-I've used Framer Motion, React Spring, CSS transitions & keyframes throughout the years, and I wanted to combine the best of these approaches into one.
+I've used Framer Motion, React Native Animatable, React Spring, CSS transitions / keyframes throughout the years, and I wanted to combine the best of these approaches into one.
 
 The funny part of all of this is, React web already has great solutions for animations. And yet, I'm spending my time building a solution for React Native, and then making sure it also works on web. It may seem a bit odd and circular.
 
@@ -71,35 +88,38 @@ Tomorrow, it might be a virtual browser running on a cloud server.
 If we get this right, it won't matter.
 
 <!--
-React Native provides the best mental model for building products. I've spent 2 years thinking about the best way to design within its apps, and I've come to the conclusion that we should design for screen size, not platform. This is what motivated me to create [Dripsy](https://github.com/nandorojo/dripsy). -->
+React Native provides the best mental model for building products. I've spent 2 years thinking about the best way to design within its apps, and I've come to the conclusion that we should design for screen size, not platform. This is what Motivated me to create [Dripsy](https://github.com/nandorojo/dripsy). -->
 
 ## Background
 
-If you want to learn more about the motivations behind the creation of `moti`, you can read this [GitHub issue](https://github.com/nandorojo/dripsy/issues/46) that I created on Dripsy.
+If you want to learn more about the Motivations behind the creation of `Moti`, you can read this [GitHub issue](https://github.com/nandorojo/dripsy/issues/46) that I created on Dripsy.
+
+These tweets also preview some of the features:
+
+- [API](https://twitter.com/FernandoTheRojo/status/1348093995277299712)
+- [Unmount animations with `exit`](https://twitter.com/FernandoTheRojo/status/1349884929765765123)
+- [`exitBeforeEnter` animations](https://twitter.com/FernandoTheRojo/status/1351234878902333445)
 
 ## Author
 
 Moti was created by Fernando Rojo. Follow me on [Twitter](https://twitter.com/fernandotherojo) to stay up to date.
 
-Also, please [star the repo](https://github.com/nandorojo/moti) on Github.
+Also, please [star the repo](https://github.com/nandorojo/Moti) on Github.
 
-## Thanks
+## Video walkthrough
 
-It's hard to name all the people I should credit for moti. There are the obvious ones, like Software Mansion and the Expo team, who do the hard work that makes a library like this easy to build. Everyone who contributes to Reanimated has been really helpful.
-
-Then there are the people behind great projects Framer Motion and React Spring, who gave me both guidance and inspiration on the best APIs to use.
-
-[Chadwick](https://github.com/cmaycumber) has been especially helpful making Moti and Dripsy happen.
+If you want to see an in-depth walkthrough of Moti, I highly recommend [watching this live stream](https://www.youtube.com/watch?v=ynSfSf9w99M) I did with Catalin Miron. Be sure to subscribe to Catalin's [YouTube channel](https://www.youtube.com/channel/UCTcH04SRuyedaSuuQVeAcdg) for great React Native content.
 
 ## Contributing to React Native
 
 If you're wondering how you can contribute to the React Native community, I encourage you to create packages that solve platform inconsistences. Help us give people a delightful user experience, regardless of what "device" they're using.
 
-Here are some problems in React Native (Web) that are exciting:
+Here are some problems in React Native (+ Web) that are exciting to work on:
 
 - **Popovers**
 
-  - Tooltips, popovers, etc. are crucial to building a good app, namely on Web.
+  - This is missing in React Native, especially with web compatibility. We need something like `react-popover`.
+  - Tooltips, popovers, etc. are crucial to building a good app, namely on web.
   - For popover menus, the typical expected experience is likely a bottom sheet on mobile screens, and an inline menu (or maybe a modal dialogue) on larger screens.
   - The best cross-platform solution would be a portal at the root of your app (see [react-native-portal](https://github.com/gorhom/react-native-portal)). It should measure items and overlay them accordingly.
   - If you're interested in solving this problem, it would be a huge contribution.
@@ -125,3 +145,15 @@ This is a new library, so there might be bugs. I'm using it in my app, so I expe
 That said, I'm busy with a startup and made this public to contribute to the community. If you find something that doesn't work, please keep this in mind, and see if you can solve the problem before spamming the repository's issues. Open source projects can get derailed easily when people expect free work, so I want to avoid that.
 
 For example, please investigate if an issue you're facing is due to Reanimated or Moti.
+
+## Thanks
+
+It's hard to name all the people I should credit for Moti. There are the obvious ones, like Software Mansion and the Expo team, who do the hard work that makes a library like this easy to build. Everyone who contributes to Reanimated has been really helpful.
+
+Then there are the people behind great projects Framer Motion and React Spring, who gave me both guidance and inspiration on the best APIs to use.
+
+[Chadwick Maycumber](https://github.com/cmaycumber) has been especially helpful making Moti and Dripsy happen.
+
+[Matt Perry](https://twitter.com/mattgperry) helped me integrate `AnimatePresence`, giving Moti a huge boost.
+
+[Terry Sahaidak](https://twitter.com/terrysahaidak) offered useful ideas for integrating a performant API.
