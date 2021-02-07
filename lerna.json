@@ -5,7 +5,7 @@
   ],
   "npmClient": "npm",
   "useWorkspaces": true,
-  "version": "0.3.0",
+  "version": "0.3.1",
   "command": {
     "publish": {
       "allowBranch": "master",
