@@ -37,7 +37,7 @@
     "clean": "del lib"
   },
   "dependencies": {
-    "@motify/core": "^0.0.9"
+    "@motify/core": "0.4.0"
   },
   "devDependencies": {
     "typescript": "^4.0.3"
