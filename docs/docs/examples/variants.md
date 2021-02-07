@@ -1,7 +1,16 @@
+---
+id: variants
+title: Variants
+---
+
+Variants are a common use case for animations. Moti makes this easy.
+
+```tsx
 import React from 'react'
 import { StyleSheet, Pressable } from 'react-native'
 import { View, useAnimationState } from 'moti'
 
+// you can create a reusable animation preset
 const useFadeInDown = () => {
   return useAnimationState({
     from: {
@@ -20,18 +29,12 @@ function Shape() {
 
   const scaleIn = useAnimationState({
     from: {
-      // opacity: 0,
-      // opacity: 1,
       scale: 0.5,
     },
     open: {
-      // opacity: 1,
-      // opacity: 1,
       scale: 1,
     },
-    small: {
-      // opacity: 1,
-      // opacity: 1,
+    big: {
       scale: 1.5,
     },
   })
@@ -48,7 +51,7 @@ function Shape() {
     if (scaleIn.current === 'from') {
       scaleIn.transitionTo('open')
     } else if (scaleIn.current === 'open') {
-      scaleIn.transitionTo('small')
+      scaleIn.transitionTo('big')
     } else {
       scaleIn.transitionTo('from')
     }
@@ -98,3 +101,4 @@ const styles = StyleSheet.create({
     backgroundColor: 'cyan',
   },
 })
+```

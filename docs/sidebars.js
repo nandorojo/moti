@@ -8,6 +8,7 @@ module.exports = {
       'examples/auto-height',
       'examples/exit-before-enter',
       'examples/loop',
+      'examples/variants',
     ],
     Hooks: [],
     Components: [],
