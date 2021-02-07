@@ -1,5 +1,5 @@
 import React, { ComponentProps, useReducer, useState } from 'react'
-import * as Moti from 'moti'
+import { View as MotiView } from 'moti'
 import { Button, View } from 'react-native'
 
 function useLayout() {
@@ -22,18 +22,18 @@ function Measure() {
 
   return (
     <>
-      <Moti.View animate={{ height }} style={{ overflow: 'hidden' }}>
+      <MotiView animate={{ height }} style={{ overflow: 'hidden' }}>
         <View
           onLayout={onLayout}
           style={{ height: open ? 100 : 300, backgroundColor: 'green' }}
         />
-      </Moti.View>
+      </MotiView>
       <Button title="toggle" onPress={toggle} />
     </>
   )
 }
 
-export default function M() {
+export default function App() {
   return (
     <View style={{ justifyContent: 'center', flex: 1 }}>
       <Measure />

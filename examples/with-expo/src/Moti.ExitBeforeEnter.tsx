@@ -3,12 +3,12 @@ import React, { useReducer } from 'react'
 import { StyleSheet, Pressable } from 'react-native'
 import { View } from 'moti'
 
-function Shape() {
+function Shape({ bg }: { bg: string }) {
   return (
     <View
       from={{
         opacity: 0,
-        scale: 0.9,
+        scale: 0.5,
       }}
       animate={{
         opacity: 1,
@@ -18,17 +18,20 @@ function Shape() {
         opacity: 0,
         scale: 0.9,
       }}
-      style={styles.shape}
+      style={[styles.shape, { backgroundColor: bg }]}
     />
   )
 }
 
-export default function Presence() {
+export default function ExitBeforeEnter() {
   const [visible, toggle] = useReducer((s) => !s, true)
 
   return (
     <Pressable onPress={toggle} style={styles.container}>
-      <AnimatePresence>{visible && <Shape />}</AnimatePresence>
+      <AnimatePresence exitBeforeEnter>
+        {visible && <Shape bg="hotpink" key="hotpink" />}
+        {!visible && <Shape bg="cyan" key="cyan" />}
+      </AnimatePresence>
     </Pressable>
   )
 }

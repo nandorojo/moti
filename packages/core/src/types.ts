@@ -1,4 +1,4 @@
-import type { UseAnimator } from './use-animator'
+import type { UseAnimationState } from './use-animator/types'
 import type Animated from 'react-native-reanimated'
 
 import type {
@@ -81,7 +81,7 @@ type SmartOmit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
  * Or { scale: [{ value: 0, delay: 300, type: 'spring' }, 1]}
  * to allow more granular specification of sequence values
  */
-type StyleValueWithArrays<T> = {
+export type StyleValueWithSequenceArrays<T> = {
   [key in keyof T]:
     | T[keyof T] // either the value
     // or an array of values for a sequence
@@ -115,7 +115,7 @@ export type OnDidAnimate<
   value?: Animate[Key]
 ) => void
 
-type StyleValueWithReplacedTransforms<StyleProp> = Omit<
+export type StyleValueWithReplacedTransforms<StyleProp> = Omit<
   StyleProp,
   'transform'
 > &
@@ -134,7 +134,7 @@ export interface MotiProps<
   // AnimateWithTransitions = Omit<AnimateType, 'transform'> & Partial<Transforms>,
   AnimateWithTransitions = StyleValueWithReplacedTransforms<AnimateType>,
   // allow the style values to be arrays for sequences, where values are primitives or objects with configs
-  Animate = StyleValueWithArrays<AnimateWithTransitions>
+  Animate = StyleValueWithSequenceArrays<AnimateWithTransitions>
 > {
   // we want the "value" returned to not include the style arrays here, so we use AnimateWithTransitions
   /**
@@ -203,7 +203,7 @@ export interface MotiProps<
    *
    * If you know your styles in advance, and will be changing them throughout a component's lifecycle, then this is the preferred method to animate with.
    */
-  state?: UseAnimator<unknown>
+  state?: UseAnimationState<any>
   /**
    * This is not a prop you will likely find yourself using.
    *

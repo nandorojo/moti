@@ -19,8 +19,8 @@
   },
   "homepage": "https://github.com/nandorojo/moti.git#readme",
   "main": "lib/commonjs/index.js",
-  "react-native": "src/index.tsx",
-  "source": "src/index.tsx",
+  "react-native": "src/index.ts",
+  "source": "src/index.ts",
   "module": "lib/module/index.js",
   "types": "lib/typescript/src/index.d.ts",
   "files": [

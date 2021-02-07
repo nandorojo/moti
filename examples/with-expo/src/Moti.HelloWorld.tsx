@@ -1,4 +1,3 @@
-import { AnimatePresence } from 'framer-motion'
 import React, { useReducer } from 'react'
 import { StyleSheet, Pressable } from 'react-native'
 import { View } from 'moti'
@@ -8,27 +7,26 @@ function Shape() {
     <View
       from={{
         opacity: 0,
-        scale: 0.9,
+        scale: 0.5,
       }}
       animate={{
         opacity: 1,
         scale: 1,
       }}
-      exit={{
-        opacity: 0,
-        scale: 0.9,
+      transition={{
+        type: 'timing',
       }}
       style={styles.shape}
     />
   )
 }
 
-export default function Presence() {
+export default function HelloWorld() {
   const [visible, toggle] = useReducer((s) => !s, true)
 
   return (
     <Pressable onPress={toggle} style={styles.container}>
-      <AnimatePresence>{visible && <Shape />}</AnimatePresence>
+      {visible && <Shape />}
     </Pressable>
   )
 }

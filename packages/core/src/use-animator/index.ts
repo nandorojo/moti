@@ -1,56 +1,12 @@
 import { useEffect, useRef } from 'react'
-import Animated, { useSharedValue } from 'react-native-reanimated'
-import { PackageName } from './constants'
-
-type InternalControllerState<V> = number | V[keyof V]
-
-type Controller<V> = {
-  /**
-   * A hook to synchronously read the current animation state.
-   *
-   * ```js
-   * const animator = useAnimationState({
-   *   hidden: { opacity: 0 },
-   *   shown: { opacity: 1 }
-   * })
-   *
-   * const onPress = () => {
-   *   if (animator.current === 'hidden') {
-   *     animator.transitionTo('shown')
-   *   } else {
-   *     animator.transitionTo('hidden')
-   *   }
-   * }
-   * ```
-   *
-   * Do not mutate the `current` value directly; this will break. Instead, use the `transitionTo` function.
-   */
-  current: null | keyof V
-  /**
-   * @private
-   * Internal state used to drive animations. You shouldn't use this. Use `.current` instead to read the current state. Use `transitionTo` to edit it.
-   */
-  __state: Animated.SharedValue<any>
-  /**
-   * Transition to another state, as defined by this hook.
-   *
-   * ```js
-   * const animator = useAnimationState({
-   *   hidden: { opacity: 0 },
-   *   shown: { opacity: 1 }
-   * })
-   *
-   * const onPress = () => {
-   *   if (animator.current === 'hidden') {
-   *     animator.transitionTo('shown')
-   *   } else {
-   *     animator.transitionTo('hidden')
-   *   }
-   * }
-   * ```
-   */
-  transitionTo: (key: keyof V | ((currentState: keyof V) => keyof V)) => void
-}
+import { useSharedValue } from 'react-native-reanimated'
+import { PackageName } from '../constants'
+import type {
+  InternalControllerState,
+  UseAnimationState,
+  UseAnimationStateConfig,
+  Variants,
+} from './types'
 
 /**
  *
@@ -171,11 +127,14 @@ type Controller<V> = {
  *
  * Technically, it's fine if you do this with `transitionTo`. It's `current` you'll want to watch out for, since its reference will change, without triggering re-renders. This functions similar to `useRef`.
  */
-export default function useAnimationState<V>(
+export default function useAnimationState<V extends Variants<V>>(
   _variants: V,
-  { from = 'from' as keyof V, to = 'to' as keyof V }: UseAnimatorConfig<V> = {}
+  {
+    from = 'from' as keyof V,
+    to = 'to' as keyof V,
+  }: UseAnimationStateConfig<V> = {}
 ) {
-  const controller = useRef<Controller<V>>()
+  const controller = useRef<UseAnimationState<V>>()
   const __state = useSharedValue<InternalControllerState<V>>(
     from ? _variants[from] : 0,
     false // don't rebuild it
@@ -205,7 +164,7 @@ export default function useAnimationState<V>(
 
           const value = variants.current[nextStateKey]
 
-          __state.value = value
+          if (value) __state.value = value as any
         }
 
         if (typeof nextStateOrFunction === 'function') {
@@ -223,8 +182,8 @@ export default function useAnimationState<V>(
 
   useEffect(
     function maybeTransitionOnMount() {
-      if (variants.current[from]) {
-        if (variants.current[to]) {
+      if (variants.current[to]) {
+        if (variants.current[from]) {
           controller.current?.transitionTo(to)
         } else {
           console.error(
@@ -240,32 +199,5 @@ export default function useAnimationState<V>(
     [from, to]
   )
 
-  return controller.current as Controller<V>
+  return controller.current as UseAnimationState<V>
 }
-
-type UseAnimatorConfig<
-  Variants,
-  FromKey extends keyof Variants = keyof Variants,
-  ToKey extends keyof Variants = keyof Variants
-> = {
-  /**
-   * This prop is not necessary to use. It's only there in case you're doing something special.
-   *
-   * The `key` for the initial variant. By default, it's `from = 'from'`.
-   *
-   * If you pass a string here, it must match the key of one of your variants.
-   */
-  from?: FromKey
-  /**
-   * This prop is not necessary to use. It's only there in case you're doing something special.
-   *
-   * The `key` for the `to` value, which runs after the component has mounted. By default, it's `to = 'to'`.
-   *
-   * Must be paired with a `from` value.
-   *
-   * If you pass a string here, it must match the key of one of your variants.
-   */
-  to?: ToKey
-}
-
-export type UseAnimator<V> = Controller<V>

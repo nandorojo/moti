@@ -1,35 +1,32 @@
-import { AnimatePresence } from 'framer-motion'
 import React, { useReducer } from 'react'
-import { StyleSheet, Pressable } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { View } from 'moti'
 
 function Shape() {
   return (
     <View
       from={{
-        opacity: 0,
-        scale: 0.9,
+        translateY: -100,
       }}
       animate={{
-        opacity: 1,
-        scale: 1,
+        translateY: 0,
       }}
-      exit={{
-        opacity: 0,
-        scale: 0.9,
+      transition={{
+        loop: true,
+        type: 'timing',
+        duration: 1500,
+        delay: 100,
       }}
       style={styles.shape}
     />
   )
 }
 
-export default function Presence() {
-  const [visible, toggle] = useReducer((s) => !s, true)
-
+export default function ExitBeforeEnter() {
   return (
-    <Pressable onPress={toggle} style={styles.container}>
-      <AnimatePresence>{visible && <Shape />}</AnimatePresence>
-    </Pressable>
+    <View style={styles.container}>
+      <Shape />
+    </View>
   )
 }
 

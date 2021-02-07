@@ -6,7 +6,6 @@ const { View } = Moti
 
 function AnimatedCircle() {
   return (
-    // run a normal spring animation
     <View
       from={{
         scale: 0.9,
@@ -20,38 +19,8 @@ function AnimatedCircle() {
       style={styles.circle}
     />
   )
-  // return (
-  //   <Clandestine.View
-  //     style={styles.circle}
-  //     from={{
-  //       translateY: 0,
-  //     }}
-  //     animate={{
-  //       translateY: 300,
-  //     }}
-  //     transition={{
-  //       loop: true,
-  //     }}
-  //   />
-  // )
 }
 
-/**
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
 export default function DripRepeat() {
   return (
     <Moti.View style={styles.container}>

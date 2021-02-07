@@ -17,20 +17,6 @@ You can set the initial state with `from`. Any styles passed to `animate` will t
 <View from={{ opacity: 0 }} animate={{ opacity: 1 }} />
 ```
 
-## Listen to animation changes
-
-The `onDidAnimate` function prop gets called whenever an animation completes.
-
-```tsx
-<View
-  from={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  onDidAnimate={(styleProp, didAnimationFinish) => {
-    console.log('[moti]', styleProp, didAnimationFinish) // [moti], opacity, true
-  }}
-/>
-```
-
 ## Animate based on React state
 
 ```tsx
@@ -277,6 +263,20 @@ Infinitely loop from 0 to 1:
 Sequences animations can't be used with repeat animations.
 
 Repetition styles can't be changed on the fly. Reanimated's `withRepeat` has some limitations, so just keep that in mind.
+
+## Listen to animation changes
+
+The `onDidAnimate` function prop gets called whenever an animation completes.
+
+```tsx
+<View
+  from={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  onDidAnimate={(styleProp, didAnimationFinish) => {
+    console.log('[moti]', styleProp, didAnimationFinish) // [moti], opacity, true
+  }}
+/>
+```
 
 ## Variants
 

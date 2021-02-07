@@ -200,6 +200,7 @@ const empty = {
 }
 
 const debug = (...args: any[]) => {
+  'worklet'
   args
   // console.log('[moti-bug]', ...args)
 }
