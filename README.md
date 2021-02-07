@@ -6,13 +6,17 @@ The universal React Native animation library, powered by Reanimated 2.
 <View from={{ opacity: 0 }} animate={{ opacity: 1 }} />
 ```
 
-> **Coming soon.**
+## Documentation
+
+- [Documentation](https://moti.vercel.app)
+- [Installation](https://moti.vercel.app/installation)
+- [Examples](https://moti.vercel.app/examples/hello-world)
 
 # Highlights
 
 - Universal: works on all platforms
 - 60 FPS animations on the native thread
-- Mount/unmount animations, like `framer-motion` 
+- Mount/unmount animations, like `framer-motion`
 - Powered by Reanimated 2
 - Web support, out-of-the-box
 - Expo support

@@ -1,11 +1,12 @@
 module.exports = {
   title: 'Moti',
-  tagline: 'The universal animation library for React Native.',
+  tagline:
+    'The universal animation library for React Native, by Fernando Rojo.',
   url: 'https://github.com/nandorojo/moti',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/favicon.svg',
   organizationName: 'nandorojo',
   projectName: 'moti',
   themeConfig: {
@@ -15,10 +16,10 @@ module.exports = {
       respectPrefersColorScheme: false,
     },
     navbar: {
-      title: 'moti',
+      title: '',
       logo: {
-        alt: 'My Site Logo',
-        src: 'img/logo.svg',
+        alt: 'Moti Logo',
+        src: 'img/logo-grad.svg',
       },
       items: [
         {
@@ -96,7 +97,7 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl: 'https://github.com/nandorojo/moti/edit/master/docs',
-          remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
+          remarkPlugins: [require('./src/plugins/remark-npm2yarn')], // thanks react-navigation!
           routeBasePath: '/', //disable landing page
         },
         // blog: {

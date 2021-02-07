@@ -36,3 +36,20 @@
   margin: 0 calc(-1 * var(--ifm-pre-padding));
   padding: 0 var(--ifm-pre-padding);
 }
+
+.banner-show-on-hover {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  will-change: opacity;
+}
+
+.banner-show-on-hover:hover,
+.banner-show-on-hover:focus,
+.banner-show-on-hover:active {
+  opacity: 1;
+}
