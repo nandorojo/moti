@@ -2,13 +2,13 @@
   "name": "@motify/core",
   "version": "0.3.0",
   "private": false,
+  "license": "MIT",
   "keywords": [
     "react-native",
     "ios",
     "android",
     "web"
   ],
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/nandorojo/moti.git",
