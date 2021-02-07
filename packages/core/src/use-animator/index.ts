@@ -6,7 +6,7 @@ import type {
   UseAnimationState,
   UseAnimationStateConfig,
   Variants,
-} from './types'
+} from '../types'
 
 /**
  *
