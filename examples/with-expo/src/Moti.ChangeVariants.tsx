@@ -20,7 +20,14 @@ function Shape() {
 
   return (
     <Pressable>
-      <View delay={300} state={fadeInDown} style={styles.shape} />
+      <View
+        delay={300}
+        state={fadeInDown}
+        style={styles.shape}
+        transition={{
+          type: 'timing',
+        }}
+      />
     </Pressable>
   )
 }

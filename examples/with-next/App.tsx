@@ -25,9 +25,9 @@ function MotiShape() {
         opacity: 0,
         scale: 0.9,
       }}
-      // transition={{
-      //   type: 'timing',
-      // }}
+      transition={{
+        type: 'spring',
+      }}
       style={[styles.shape, { backgroundColor: 'cyan' }]}
     />
   )
