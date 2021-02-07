@@ -124,8 +124,9 @@ const Skeleton = () => (
 const WithAnimatedPresence = () => (
   <AnimatePresence exitBeforeEnter>
     {loading && (
-      <Skelton key="skeleton">
+      <Skeleton key="skeleton" />
     )}
+    
     {!loading && (
       <View
         key="content"
@@ -323,7 +324,7 @@ You can use this to create reusable animations, too:
 
 ```ts
 const useFadeIn = () => {
-  return useAniamtionState({
+  return useAnimationState({
     from: {
       opacity: 0,
     },
