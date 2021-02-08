@@ -8,9 +8,9 @@ The universal React Native animation library, powered by Reanimated 2.
 
 # Documentation & Examples
 
-- [Documentation](https://moti.vercel.app)
-- [Installation](https://moti.vercel.app/installation)
-- [Examples](https://moti.vercel.app/examples/hello-world)
+- [Documentation](https://moti.fyi)
+- [Installation](https://moti.fyi/installation)
+- [Examples](https://moti.fyi/examples/hello-world)
 
 # Highlights
 
