@@ -33,6 +33,14 @@ You'll need at least [Expo SDK 40](https://docs.expo.io/workflow/upgrading-expo-
 
 Please follow Reanimated's [installation instructions](https://docs.swmansion.com/react-native-reanimated/docs/installation) for v2.
 
+## Web support
+
+Please see the following guides:
+
+- [Expo Web](/web#expo-web-support)
+- [Next.js](/next)
+- [React Native Web](http://localhost:3000/web#other-react-native-web-setups)
+
 ## Hermes/Android Support
 
 Moti uses `Proxy` under the hood, which is not supported on older versions of Hermes (see [hermes#33](https://github.com/facebook/hermes/issues/33)).

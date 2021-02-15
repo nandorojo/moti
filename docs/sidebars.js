@@ -1,6 +1,6 @@
 module.exports = {
   someSidebar: {
-    Welcome: ['welcome', 'installation'],
+    Welcome: ['welcome', 'installation', 'starter'],
     Usage: ['animations', 'api/transforms'],
     Examples: [
       'examples/hello-world',
@@ -12,7 +12,7 @@ module.exports = {
     ],
     Hooks: [],
     Components: [],
-    Web: ['web/web', 'web/ssr/next'],
+    Web: ['web', 'next'],
     'API Reference': [
       'api/use-animation-state',
       'api/motify',
