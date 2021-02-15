@@ -5,6 +5,12 @@ title: Installation
 
 Moti uses [Reanimated 2](https://docs.swmansion.com/react-native-reanimated/) under the hood to drive high-performance animations on iOS, Android and Web.
 
+## Starter project
+
+If you're starting a project from scratch, or just want to play around, you can use the Expo + Moti [starter](https://github.com/expo/examples/tree/master/with-moti).
+
+`npx create-react-native-app -t with-moti`
+
 ## Install Moti
 
 First, install `moti` in your app:
@@ -26,6 +32,34 @@ You'll need at least [Expo SDK 40](https://docs.expo.io/workflow/upgrading-expo-
 ### If you aren't using Expo
 
 Please follow Reanimated's [installation instructions](https://docs.swmansion.com/react-native-reanimated/docs/installation) for v2.
+
+## Hermes/Android Support
+
+Moti uses `Proxy` under the hood, which is not supported on older versions of Hermes (see [hermes#33](https://github.com/facebook/hermes/issues/33)).
+
+### If you're using React Native 0.63.x
+
+Install `v0.5.2-rc.1` of Hermes:
+
+```bash npm2yarn
+npm install hermes-engine@v0.5.2-rc1
+```
+
+Relevant release notes for v0.5.2-rc1 [here](https://github.com/facebook/hermes/releases/tag/v0.5.2-rc1).
+
+### If you're using React Native 0.64.x
+
+Upgrade Hermes to `0.7.*`.
+
+### Possible error
+
+As mentioned in this [Moti issue](https://github.com/nandorojo/moti/issues/13), if you don't install the correct version of Hermes, you might see this error:
+
+```sh
+Property 'Proxy' doesn't exist, js engine: hermes [Mon Feb 08 2021 19:21:54.427] ERROR Invariant Violation: Module AppRegistry is not a registered callable module (calling runApplication), js engine: hermes
+```
+
+If you see this, you haven't correctly installed the right version of Hermes, so please confirm that.
 
 ## Create your first animation
 

@@ -147,7 +147,7 @@ I typically deploy to Vercel on a branch to make sure it works. It's random, but
 
 You might also want to install the `setimmediate` package, and put it at the top with the other polyfills.
 
-A newer version of Reanimated (not yet supported by Expo) changes `setImmediate` to `requestAnimationFrame`. This should fix the problem. Once you upgrade to that version,you should only need to add the the `raf/polyfill` in `pages/_app.js`, and ideally the bugs will disappear.
+A newer version of Reanimated (not yet supported by Expo) changes `setImmediate` to `requestAnimationFrame`. This should fix the problem. Once you upgrade to that version, you should only need to add the the `raf/polyfill` in `pages/_app.js`, and ideally the bugs will disappear.
 
 For the record, you might need to add those imports into any file that uses Moti. It's really unpredictable, which is why I recommend the patch-package fix instead.
 

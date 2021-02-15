@@ -16,6 +16,7 @@ function Shape() {
       transition={{
         type: 'timing',
       }}
+      delay={300}
       style={styles.shape}
     />
   )
