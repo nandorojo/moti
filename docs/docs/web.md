@@ -8,9 +8,17 @@ Moti works on all platforms, including web. Make sure you've installed `react-na
 
 ## Expo Web support
 
+The following applies to React Native Web apps that **do not** use Next.js.
+
 Since Moti uses Reanimated 2, we need its Babel plugin to be applied to Moti. Since Expo Web doesn't transpile modules by default, we'll need to tell it to transpile Moti.
 
-Create a custom `webpack.config.js` in the root of your Expo app, and paste the contents below:
+First, install `@expo/webpack-config` to your `devDependencies`:
+
+```bash npm2yarn
+npm install -D @expo/webpack-config
+```
+
+Next, create a custom `webpack.config.js` in the root of your Expo app, and paste the contents below:
 
 `webpack.config.js`
 
@@ -31,30 +39,6 @@ module.exports = async function (env, argv) {
 ```
 
 Your app will now run with Expo Web!
-
-## Other React Native Web setups
-
-If you're using a different web solution, make sure that Babel knows to transpile Moti. You might need to create a `webpack.config.js` file like this:
-
-`yarn add -D babel-loader`
-
-```js
-const createExpoWebpackConfigAsync = require('@expo/webpack-config')
-
-module.exports = async function (env, argv) {
-  const config = await createExpoWebpackConfigAsync(env, argv)
-
-  config.module.rules.push({
-    test: /\.(js|ts|tsx)$/,
-    exclude: /node_modules\/(?!(moti|@motify)\/).*/,
-    use: 'babel-loader',
-  })
-
-  return config
-}
-```
-
-I'm no Webpack expert, so consider this a hack. If you know the right solution for this file, please let me know and open a PR!
 
 ## Known issues
 
