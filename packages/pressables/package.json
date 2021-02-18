@@ -1,0 +1,61 @@
+{
+  "name": "@motify/pressables",
+  "private": false,
+  "version": "0.4.1",
+  "keywords": [
+    "react-native",
+    "ios",
+    "android",
+    "web"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nandorojo/moti.git",
+    "directory": "packages/moti"
+  },
+  "bugs": {
+    "url": "https://github.com/nandorojo/moti/issues"
+  },
+  "homepage": "https://github.com/nandorojo/moti.git#readme",
+  "main": "lib/commonjs/index.js",
+  "react-native": "src/index.tsx",
+  "source": "src/index.tsx",
+  "module": "lib/module/index.js",
+  "types": "lib/typescript/src/index.d.ts",
+  "files": [
+    "src",
+    "lib",
+    "!**/__tests__"
+  ],
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prepare": "bob build",
+    "clean": "del lib"
+  },
+  "dependencies": {
+    "@motify/core": "*"
+  },
+  "devDependencies": {
+    "react-native-gesture-handler": "^1.10.1",
+    "typescript": "^4.0.3"
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      "commonjs",
+      "module",
+      [
+        "typescript",
+        {
+          "project": "tsconfig.build.json"
+        }
+      ]
+    ]
+  },
+  "gitHead": "8936bd594e8824b313cbca57c1bdefdcce3856c9"
+}
