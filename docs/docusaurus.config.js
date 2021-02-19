@@ -9,6 +9,12 @@ module.exports = {
   favicon: 'img/favicon.svg',
   organizationName: 'nandorojo',
   projectName: 'moti',
+  scripts: [
+    {
+      src: 'https://cdn.splitbee.io/sb.js',
+      async: true,
+    },
+  ],
   themeConfig: {
     colorMode: {
       defaultMode: 'dark',
@@ -89,6 +95,8 @@ module.exports = {
       ],
       copyright: `Copyright © ${new Date().getFullYear()} Fernando Rojo`,
     },
+    twitterImage: 'img/Banner Gradient.png',
+    ogImage: 'img/Banner Gradient.png',
   },
   presets: [
     [
