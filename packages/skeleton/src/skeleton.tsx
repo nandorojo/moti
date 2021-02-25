@@ -5,26 +5,89 @@ import { View, StyleSheet } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 
 type Props = {
+  /**
+   * Optional height of the container of the skeleton. If set, it will give a fixed height to the container.
+   *
+   * If not set, the container will stretch to the children.
+   */
   boxHeight?: number | string
+  /**
+   * Optional height of the skeleton. Defauls to a `minHeight` of `32`
+   */
   height?: number | string
   children?: React.ReactNode
+  /**
+   * `boolean` specifying whether the skeleton should be visible. By default, it shows if there are no children. This way, you can conditionally display children, and automatically hide the skeleton when they exist.
+   *
+   * ```tsx
+   * // skeleton will hide when data exists
+   * <Skeleton>
+   *   {data ? <Data /> : null}
+   * </Skeleton>
+   * ```
+   *
+   * // skeleton will always show
+   * <Skeleton show>
+   *   {data ? <Data /> : null}
+   * </Skeleton>
+   *
+   * // skeleton will always hide
+   * <Skeleton show={false}>
+   *   {data ? <Data /> : null}
+   * </Skeleton>
+   */
   show?: boolean
+  /**
+   * Width of the skeleton. Defaults to `32` as the `minWidth`.
+   */
   width?: string | number
+  /**
+   * Border radius. Can be `square`, `round`, or a number. `round` makes it a circle. Defaults to `8`.
+   */
   radius?: number | 'square' | 'round'
-  // emptyHeight?: number | string
+  /**
+   * Background of the box that contains the skeleton. Should match the main `colors` prop color.
+   *
+   * Default: `'rgb(51, 51, 51, 50)'`
+   */
+  backgroundColor?: string
+  /**
+   * Gradient colors. Defaults to grayish black.
+   */
+  colors?: string[]
+  /**
+   * Default: `6`. Similar to `600%` for CSS `background-size`. Determines how much the gradient stretches.
+   */
+  backgroundSize?: number
+  colorMode?: keyof typeof baseColors
 }
 
 const DEFAULT_SIZE = 32
 
-let colors = [
-  'rgb(17, 17, 17)',
-  'rgb(51, 51, 51)',
-  'rgb(51, 51, 51)',
-  'rgb(17, 17, 17)',
+const baseColors = {
+  dark: { primary: 'rgb(17, 17, 17)', secondary: 'rgb(51, 51, 51)' },
+  light: {
+    primary: 'rgb(250, 250, 250)',
+    secondary: 'rgb(234, 234, 234)',
+  },
+} as const
+
+const makeColors = (mode: keyof typeof baseColors) => [
+  baseColors[mode].primary,
+  baseColors[mode].secondary,
+  baseColors[mode].secondary,
+  baseColors[mode].primary,
+  baseColors[mode].secondary,
+  baseColors[mode].primary,
 ]
 
+let defaultDarkColors = makeColors('dark')
+
+let defaultLightColors = makeColors('light')
+
 for (let i = 0; i++; i < 3) {
-  colors = [...colors, ...colors]
+  defaultDarkColors = [...defaultDarkColors, ...defaultDarkColors]
+  defaultLightColors = [...defaultLightColors, ...defaultLightColors]
 }
 
 export default function Skelton(props: Props) {
@@ -35,7 +98,9 @@ export default function Skelton(props: Props) {
     width,
     height = children ? undefined : DEFAULT_SIZE,
     boxHeight,
-    // emptyHeight = 32,
+    colorMode = 'dark',
+    colors = colorMode === 'dark' ? defaultDarkColors : defaultLightColors,
+    backgroundColor = 'rgb(51, 51, 51, 50)',
   } = props
 
   const [measuredWidth, setMeasuredWidth] = useState(0)
@@ -82,7 +147,7 @@ export default function Skelton(props: Props) {
             borderRadius,
             width: width ?? (children ? '100%' : DEFAULT_SIZE),
             height: height ?? '100%',
-            backgroundColor: 'rgb(51, 51, 51, 50)',
+            backgroundColor,
             overflow: 'hidden',
           }}
           onLayout={({ nativeEvent }) => {
@@ -93,48 +158,57 @@ export default function Skelton(props: Props) {
           }}
           pointerEvents="none"
         >
-          <AnimatedGradient measuredWidth={measuredWidth} key={measuredWidth} />
+          <AnimatedGradient
+            colors={colors}
+            measuredWidth={measuredWidth}
+            key={measuredWidth}
+          />
         </View>
       )}
     </View>
   )
 }
 
-const AnimatedGradient = React.memo(function AnimatedGradient({
-  measuredWidth,
-}: {
-  measuredWidth: number
-}) {
-  const backgroundSize = 6
-  if (!measuredWidth) return null
-  return (
-    <MotiView
-      style={{
-        ...StyleSheet.absoluteFillObject,
-        width: measuredWidth * backgroundSize,
-      }}
-      from={{
-        translateX: 0,
-      }}
-      animate={{
-        // -1 so that it stays in view
-        translateX: -measuredWidth * (backgroundSize - 1),
-        // translateX: -500,
-      }}
-      transition={{
-        // repeat: 30,
-        type: 'timing',
-        duration: 3000,
-        loop: true,
-      }}
-      delay={200}
-    >
-      <LinearGradient
-        colors={colors}
-        start={[0.1, 1]}
-        end={[1, 1]}
-        style={[StyleSheet.absoluteFillObject]}
-      />
-    </MotiView>
-  )
-})
+const AnimatedGradient = React.memo(
+  function AnimatedGradient({
+    measuredWidth,
+    colors,
+  }: {
+    measuredWidth: number
+    colors: string[]
+  }) {
+    const backgroundSize = 6
+    if (!measuredWidth) return null
+
+    return (
+      <MotiView
+        style={{
+          ...StyleSheet.absoluteFillObject,
+          width: measuredWidth * backgroundSize,
+        }}
+        from={{
+          translateX: 0,
+        }}
+        animate={{
+          translateX: -measuredWidth * (backgroundSize - 1),
+        }}
+        transition={{
+          type: 'timing',
+          duration: 3000,
+          loop: true,
+        }}
+        delay={200}
+      >
+        <LinearGradient
+          colors={colors}
+          start={[0.1, 1]}
+          end={[1, 1]}
+          style={[StyleSheet.absoluteFillObject]}
+        />
+      </MotiView>
+    )
+  },
+  function propsAreEqual(prev, next) {
+    return JSON.stringify(prev) === JSON.stringify(next)
+  }
+)
