@@ -6,17 +6,22 @@ import { Skeleton } from '@motify/skeleton'
 const Spacer = ({ height = 16 }) => <View style={{ height }} />
 
 export default function HelloWorld() {
-  const [visible, toggle] = useReducer((s) => !s, true)
+  const [dark, toggle] = useReducer((s) => !s, true)
+
+  const colorMode = dark ? 'dark' : 'light'
 
   return (
-    <Pressable onPress={toggle} style={styles.container}>
-      <Skeleton radius="round" height={75} width={75} />
+    <Pressable
+      onPress={toggle}
+      style={[styles.container, { backgroundColor: dark ? 'black' : 'white' }]}
+    >
+      <Skeleton colorMode={colorMode} radius="round" height={75} width={75} />
       <Spacer />
-      <Skeleton width={250} />
+      <Skeleton colorMode={colorMode} width={250} />
       <Spacer height={8} />
-      <Skeleton width={'100%'} />
+      <Skeleton colorMode={colorMode} width={'100%'} />
       <Spacer height={8} />
-      <Skeleton width={'100%'} />
+      <Skeleton colorMode={colorMode} width={'100%'} />
     </Pressable>
   )
 }
