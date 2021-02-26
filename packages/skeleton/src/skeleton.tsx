@@ -3,6 +3,7 @@ import { View as MotiView } from '@motify/components'
 import { View, StyleSheet } from 'react-native'
 
 import { LinearGradient } from 'expo-linear-gradient'
+import { AnimatePresence } from 'framer-motion'
 
 type Props = {
   /**
@@ -15,7 +16,7 @@ type Props = {
    * Optional height of the skeleton. Defauls to a `minHeight` of `32`
    */
   height?: number | string
-  children?: React.ReactNode
+  children?: React.ReactChild
   /**
    * `boolean` specifying whether the skeleton should be visible. By default, it shows if there are no children. This way, you can conditionally display children, and automatically hide the skeleton when they exist.
    *
@@ -59,6 +60,9 @@ type Props = {
    * Default: `6`. Similar to `600%` for CSS `background-size`. Determines how much the gradient stretches.
    */
   backgroundSize?: number
+  /**
+   * `light` or `dark`. Default: `dark`.
+   */
   colorMode?: keyof typeof baseColors
 }
 
@@ -138,33 +142,36 @@ export default function Skelton(props: Props) {
       }}
     >
       {children}
-      {show && (
-        <View
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            borderRadius,
-            width: width ?? (children ? '100%' : DEFAULT_SIZE),
-            height: height ?? '100%',
-            backgroundColor,
-            overflow: 'hidden',
-          }}
-          onLayout={({ nativeEvent }) => {
-            console.log('[measured]', nativeEvent.layout)
-            if (measuredWidth) return
+      <AnimatePresence>
+        {show && (
+          <View
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              borderRadius,
+              width: width ?? (children ? '100%' : DEFAULT_SIZE),
+              height: height ?? '100%',
+              backgroundColor,
+              overflow: 'hidden',
+            }}
+            onLayout={({ nativeEvent }) => {
+              console.log('[measured]', nativeEvent.layout)
+              if (measuredWidth) return
 
-            setMeasuredWidth(nativeEvent.layout.width)
-          }}
-          pointerEvents="none"
-        >
-          <AnimatedGradient
-            colors={colors}
-            measuredWidth={measuredWidth}
-            key={measuredWidth}
-          />
-        </View>
-      )}
+              setMeasuredWidth(nativeEvent.layout.width)
+            }}
+            pointerEvents="none"
+          >
+            <AnimatedGradient
+              // force a key change to make the loop animation re-mount
+              key={`${JSON.stringify(colors)}-${measuredWidth}`}
+              colors={colors}
+              measuredWidth={measuredWidth}
+            />
+          </View>
+        )}
+      </AnimatePresence>
     </View>
   )
 }
@@ -188,9 +195,14 @@ const AnimatedGradient = React.memo(
         }}
         from={{
           translateX: 0,
+          opacity: 1,
         }}
         animate={{
           translateX: -measuredWidth * (backgroundSize - 1),
+          opacity: 1,
+        }}
+        exit={{
+          opacity: 0,
         }}
         transition={{
           type: 'timing',
