@@ -3,7 +3,7 @@ import { View as MotiView } from '@motify/components'
 import { View, StyleSheet } from 'react-native'
 
 import { LinearGradient } from 'expo-linear-gradient'
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from '@motify/core'
 
 type Props = {
   /**

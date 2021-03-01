@@ -37,7 +37,8 @@
     "clean": "del lib"
   },
   "dependencies": {
-    "@motify/components": "*"
+    "@motify/components": "*",
+    "@motify/core": "*"
   },
   "devDependencies": {
     "expo-linear-gradient": "^9.0.0",

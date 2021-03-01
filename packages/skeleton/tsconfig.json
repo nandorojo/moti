@@ -1,10 +1,6 @@
 {
   "extends": "../../tsconfig",
   "compilerOptions": {
-    "outDir": "./lib/typescript",
-    "paths": {
-      "@motify/*": ["../*/src"],
-      "moti": ["../moti/src"]
-    }
+    "outDir": "./lib/typescript"
   }
 }
