@@ -125,6 +125,9 @@ export type MotiAnimationProp<Animate> = MotiProps<Animate>['animate']
 export type MotiFromProp<Animate> = MotiProps<Animate>['from']
 export type MotiExitProp<Animate> = MotiProps<Animate>['exit']
 
+export type MotiTransitionProp<Animate> = TransitionConfig &
+  Partial<Record<keyof Animate, TransitionConfig>>
+
 export interface MotiProps<
   // Style props of the component
   // defaults to any styles, so that generics aren't Required
@@ -188,8 +191,7 @@ export interface MotiProps<
    * />
    * ```
    */
-  transition?: TransitionConfig &
-    Partial<Record<keyof Animate, TransitionConfig>>
+  transition?: MotiTransitionProp<Animate>
   /**
    * Optionally delay the `animate` field.
    *

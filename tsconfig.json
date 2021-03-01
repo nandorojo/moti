@@ -25,6 +25,8 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "esnext",
-    "noImplicitAny": false
-  }
+    "noImplicitAny": false,
+    "rootDir": "."
+  },
+  "include": ["packages"]
 }

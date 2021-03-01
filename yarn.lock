@@ -10116,6 +10116,11 @@ expo-keep-awake@~8.4.0:
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-8.4.0.tgz#346d0988e6364c46050fef4b7829f302ef3e603d"
   integrity sha512-gozpL5Azfaht/YIMFOHRHjHuJ9KT6hJH4y71Al+/YfQSwHS5sqhoKGPgSxaktqbxRrWVUH9q7wSl3EXRK9bYjA==
 
+expo-linear-gradient@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/expo-linear-gradient/-/expo-linear-gradient-9.0.0.tgz#7abb571e72b34a0d09241b6a7338c2c0c7dc3b26"
+  integrity sha512-d01mSCgGth6Q32/UnXbsXvTBe0rtYdEiVEAJLFUeS7TjUmS6GvZzw4UyglcSG02HpU+/uDjwjIKFm5j6DrMH/w==
+
 expo-linear-gradient@~8.4.0:
   version "8.4.0"
   resolved "https://registry.yarnpkg.com/expo-linear-gradient/-/expo-linear-gradient-8.4.0.tgz#34e6f960b1971c57dacf7211c747ba490a76bf63"
