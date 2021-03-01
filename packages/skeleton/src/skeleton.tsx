@@ -64,6 +64,7 @@ type Props = {
    * `light` or `dark`. Default: `dark`.
    */
   colorMode?: keyof typeof baseColors
+  disableExitAnimation?: boolean
 }
 
 const DEFAULT_SIZE = 32
@@ -72,7 +73,7 @@ const baseColors = {
   dark: { primary: 'rgb(17, 17, 17)', secondary: 'rgb(51, 51, 51)' },
   light: {
     primary: 'rgb(250, 250, 250)',
-    secondary: 'rgb(234, 234, 234)',
+    secondary: 'rgb(205, 205, 205)',
   },
 } as const
 
@@ -105,6 +106,7 @@ export default function Skelton(props: Props) {
     colorMode = 'dark',
     colors = colorMode === 'dark' ? defaultDarkColors : defaultLightColors,
     backgroundColor = 'rgb(51, 51, 51, 50)',
+    disableExitAnimation,
   } = props
 
   const [measuredWidth, setMeasuredWidth] = useState(0)
@@ -144,7 +146,7 @@ export default function Skelton(props: Props) {
       {children}
       <AnimatePresence>
         {show && (
-          <View
+          <MotiView
             style={{
               position: 'absolute',
               top: 0,
@@ -152,9 +154,17 @@ export default function Skelton(props: Props) {
               borderRadius,
               width: width ?? (children ? '100%' : DEFAULT_SIZE),
               height: height ?? '100%',
-              backgroundColor,
               overflow: 'hidden',
             }}
+            animate={{
+              backgroundColor,
+              opacity: 1,
+            }}
+            exit={
+              !disableExitAnimation && {
+                opacity: 0,
+              }
+            }
             onLayout={({ nativeEvent }) => {
               console.log('[measured]', nativeEvent.layout)
               if (measuredWidth) return
@@ -169,7 +179,7 @@ export default function Skelton(props: Props) {
               colors={colors}
               measuredWidth={measuredWidth}
             />
-          </View>
+          </MotiView>
         )}
       </AnimatePresence>
     </View>
@@ -195,14 +205,9 @@ const AnimatedGradient = React.memo(
         }}
         from={{
           translateX: 0,
-          opacity: 1,
         }}
         animate={{
           translateX: -measuredWidth * (backgroundSize - 1),
-          opacity: 1,
-        }}
-        exit={{
-          opacity: 0,
         }}
         transition={{
           type: 'timing',

@@ -11,17 +11,22 @@ export default function HelloWorld() {
   const colorMode = dark ? 'dark' : 'light'
 
   return (
-    <Pressable
-      onPress={toggle}
-      style={[styles.container, { backgroundColor: dark ? 'black' : 'white' }]}
-    >
-      <Skeleton colorMode={colorMode} radius="round" height={75} width={75} />
-      <Spacer />
-      <Skeleton colorMode={colorMode} width={250} />
-      <Spacer height={8} />
-      <Skeleton colorMode={colorMode} width={'100%'} />
-      <Spacer height={8} />
-      <Skeleton colorMode={colorMode} width={'100%'} />
+    <Pressable onPress={toggle} style={styles.container}>
+      <View
+        transition={{
+          type: 'timing',
+        }}
+        style={[styles.container, styles.padded]}
+        animate={{ backgroundColor: dark ? '#000000' : '#ffffff' }}
+      >
+        <Skeleton colorMode={colorMode} radius="round" height={75} width={75} />
+        <Spacer />
+        <Skeleton colorMode={colorMode} width={250} />
+        <Spacer height={8} />
+        <Skeleton colorMode={colorMode} width={'100%'} />
+        <Spacer height={8} />
+        <Skeleton colorMode={colorMode} width={'100%'} />
+      </View>
     </Pressable>
   )
 }
@@ -41,7 +46,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // flexDirection: 'row',
     // backgroundColor: '#50E3C2',
-    backgroundColor: 'black',
+  },
+  padded: {
     padding: 16,
   },
 })
