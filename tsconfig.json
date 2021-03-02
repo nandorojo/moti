@@ -26,6 +26,5 @@
     "strict": true,
     "target": "esnext",
     "noImplicitAny": false
-    // "rootDir": "."
   }
 }
