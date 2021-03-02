@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.6](https://github.com/nandorojo/moti/compare/v0.5.5...v0.5.6) (2021-03-02)
+
+
+### Features
+
+* defaults for skeleton ([f8f5b67](https://github.com/nandorojo/moti/commit/f8f5b6759dd964d4ed30b0c415babef8b0503552))
+
+
+
+
+
 ## [0.5.5](https://github.com/nandorojo/moti/compare/v0.5.4...v0.5.5) (2021-03-02)
 
 
