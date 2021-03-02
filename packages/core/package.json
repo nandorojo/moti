@@ -1,6 +1,6 @@
 {
   "name": "@motify/core",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": false,
   "license": "MIT",
   "keywords": [
@@ -29,7 +29,7 @@
     "!**/__tests__"
   ],
   "dependencies": {
-    "framer-motion": "^3.2.1"
+    "framer-motion": "^3.9.1"
   },
   "sideEffects": false,
   "gitHead": "8936bd594e8824b313cbca57c1bdefdcce3856c9",

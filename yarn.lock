@@ -4449,6 +4449,13 @@
     globby "^11.0.0"
     read-yaml-file "^1.1.0"
 
+"@motify/core@0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@motify/core/-/core-0.4.0.tgz#a6ca0dcc727d4c745d94395a12aa448734e3682d"
+  integrity sha512-9NghsgmfXZQ7xvJKnofAQEt256TTntHnsgXoyMguXdIXutFP6zRIwbPIwj8c4ISrZvFMPLi0vQPqfA/552u6gw==
+  dependencies:
+    framer-motion "^3.2.1"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -10953,10 +10960,28 @@ framer-motion@^3.2.1:
   optionalDependencies:
     "@emotion/is-prop-valid" "^0.8.2"
 
+framer-motion@^3.9.1:
+  version "3.9.1"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-3.9.1.tgz#18ff88c090428e253084f8c3da85619dd2b0f992"
+  integrity sha512-bDQjrzJHA1ox8v7ZoKdqclnEewl9TweN2nBC6O1U1No0nujZi0jbRLTNr5ZjNLrvdIQ76jCZ/WOD1/OF/NrQBw==
+  dependencies:
+    framesync "5.2.0"
+    hey-listen "^1.0.8"
+    popmotion "9.3.1"
+    style-value-types "4.1.1"
+    tslib "^1.10.0"
+  optionalDependencies:
+    "@emotion/is-prop-valid" "^0.8.2"
+
 framesync@5.0.0, framesync@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/framesync/-/framesync-5.0.0.tgz#7de8caedf53ac441118e79680f1beb7391c328b6"
   integrity sha512-wd8t+JsQGisluSv1twiEeDv0aNGpavGb9q7xgIk9fGbcIWkNXF/KVtrjnOrCwBWJuiXxlJfNkcvGudsI32FxYA==
+
+framesync@5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/framesync/-/framesync-5.2.0.tgz#f14480654cd05a6af4c72c9890cad93556841643"
+  integrity sha512-dcl92w5SHc0o6pRK3//VBVNvu6WkYkiXmHG6ZIXrVzmgh0aDYMDAaoA3p3LH71JIdN5qmhDcfONFA4Lmq22tNA==
 
 freeport-async@2.0.0:
   version "2.0.0"
@@ -15190,6 +15215,13 @@ module-alias@^2.2.2:
   resolved "https://registry.yarnpkg.com/module-alias/-/module-alias-2.2.2.tgz#151cdcecc24e25739ff0aa6e51e1c5716974c0e0"
   integrity sha512-A/78XjoX2EmNvppVWEhM2oGk3x4lLxnkEA4jTbaK97QKSDjkIoOsKQlfylt/d3kKKi596Qy3NP5XrXJ6fZIC9Q==
 
+moti@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/moti/-/moti-0.4.1.tgz#4d3067a406ce766f301cadf55cab34e46097cc92"
+  integrity sha512-wF3vjoY2pBc+5mJqWadp5giS2eUwbGpHlN6f7cZ6OwhRikyp1FT5vifrEVKg3ISVSJ41Sx2vMNdQcSbTV0EI6Q==
+  dependencies:
+    "@motify/core" "0.4.0"
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -16848,6 +16880,16 @@ pnp-webpack-plugin@1.6.4, pnp-webpack-plugin@^1.5.0:
   dependencies:
     ts-pnp "^1.1.6"
 
+popmotion@9.3.1:
+  version "9.3.1"
+  resolved "https://registry.yarnpkg.com/popmotion/-/popmotion-9.3.1.tgz#134319ed4b9b8e3ec506c99064f7b2f14bc05781"
+  integrity sha512-Qozvg8rz2OGeZwWuIjqlSXqqgWto/+QL24ll8sAAc0n71KY/wvN1W4sAASxTuHv8YWdDnk9u9IdadyPo2DGvDA==
+  dependencies:
+    framesync "5.2.0"
+    hey-listen "^1.0.8"
+    style-value-types "4.1.1"
+    tslib "^1.10.0"
+
 popmotion@^9.1.0:
   version "9.1.0"
   resolved "https://registry.yarnpkg.com/popmotion/-/popmotion-9.1.0.tgz#4360d06bd18ce8baa8f9284ecec7d55344af6325"
@@ -17923,7 +17965,7 @@ react-native-web@~0.14.9:
     prop-types "^15.6.0"
     react-timer-mixin "^0.13.4"
 
-react-native@0.63.4, react-native@~0.63.2, react-native@~0.63.4:
+react-native@0.63.4, react-native@~0.63.4:
   version "0.63.4"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.63.4.tgz#2210fdd404c94a5fa6b423c6de86f8e48810ec36"
   integrity sha512-I4kM8kYO2mWEYUFITMcpRulcy4/jd+j9T6PbIzR0FuMcz/xwd+JwHoLPa1HmCesvR1RDOw9o4D+OFLwuXXfmGw==
@@ -19821,6 +19863,14 @@ style-loader@^0.23.1:
   dependencies:
     loader-utils "^1.1.0"
     schema-utils "^1.0.0"
+
+style-value-types@4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/style-value-types/-/style-value-types-4.1.1.tgz#15d08bd9bb17ac3f5d4a863bf9d5e4eb8e4f0686"
+  integrity sha512-cNLrl6jk+I1T18ZI2KIp/fcqKVuykcNELDrOz7y+TYZR97xmNdN0ewupURvVFnQxVrRJv98TMBq92VMsggq3kw==
+  dependencies:
+    hey-listen "^1.0.8"
+    tslib "^1.10.0"
 
 style-value-types@^4.0.1:
   version "4.0.1"
