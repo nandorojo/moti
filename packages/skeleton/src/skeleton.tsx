@@ -105,7 +105,9 @@ export default function Skelton(props: Props) {
     boxHeight,
     colorMode = 'dark',
     colors = colorMode === 'dark' ? defaultDarkColors : defaultLightColors,
-    backgroundColor = 'rgb(51, 51, 51, 50)',
+    backgroundColor = colors[1] ??
+      colors[0] ??
+      baseColors[colorMode]?.secondary,
     disableExitAnimation,
   } = props
 
