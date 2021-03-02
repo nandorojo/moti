@@ -39,7 +39,7 @@ type Props = {
    */
   show?: boolean
   /**
-   * Width of the skeleton. Defaults to `32` as the `minWidth`.
+   * Width of the skeleton. Defaults to `32` as the `minWidth`. Sets the container's `minWidth` to this value if defined, falling back to 32.
    */
   width?: string | number
   /**
@@ -131,8 +131,6 @@ export default function Skelton(props: Props) {
     return undefined
   }
 
-  console.log({ measuredWidth })
-
   const outerHeight = getOuterHeight()
 
   return (
@@ -166,8 +164,7 @@ export default function Skelton(props: Props) {
               }
             }
             onLayout={({ nativeEvent }) => {
-              console.log('[measured]', nativeEvent.layout)
-              if (measuredWidth) return
+              if (measuredWidth === nativeEvent.layout.width) return
 
               setMeasuredWidth(nativeEvent.layout.width)
             }}
