@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.5](https://github.com/nandorojo/moti/compare/v0.5.4...v0.5.5) (2021-03-02)
+
+
+### Bug Fixes
+
+* dev type errors w paths ([0815f29](https://github.com/nandorojo/moti/commit/0815f29c2ce71b39150b0c0b8f7d2a3497b2541b))
+
+
+
+
+
 ## [0.5.4](https://github.com/nandorojo/moti/compare/v0.5.3...v0.5.4) (2021-03-02)
 
 **Note:** Version bump only for package @motify/components

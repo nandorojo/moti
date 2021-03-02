@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.5](https://github.com/nandorojo/moti/compare/v0.5.4...v0.5.5) (2021-03-02)
+
+
+### Bug Fixes
+
+* broken types ([320f66f](https://github.com/nandorojo/moti/commit/320f66f1c0861e9ab3f47a06289183745e958d59))
+* broken types tsconfig ([01a06e6](https://github.com/nandorojo/moti/commit/01a06e65ca4b98d47588f581c37ecf7350c4976d))
+* dev type errors w paths ([0815f29](https://github.com/nandorojo/moti/commit/0815f29c2ce71b39150b0c0b8f7d2a3497b2541b))
+* main lib types ([65c1a32](https://github.com/nandorojo/moti/commit/65c1a3298ca374dcaeca22b7783d99ecc4c62d72))
+
+
+
+
+
 ## [0.5.4](https://github.com/nandorojo/moti/compare/v0.5.3...v0.5.4) (2021-03-02)
 
 **Note:** Version bump only for package moti
