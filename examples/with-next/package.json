@@ -1,6 +1,6 @@
 {
   "name": "next-dripsy-example",
-  "version": "0.5.5",
+  "version": "0.5.7",
   "main": "__generated__/AppEntry.js",
   "dependencies": {
     "expo": "^40.0.0",
