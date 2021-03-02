@@ -12,12 +12,12 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/nandorojo/moti.git",
-    "directory": "packages/components"
+    "directory": "packages/skeleton"
   },
   "bugs": {
     "url": "https://github.com/nandorojo/moti/issues"
   },
-  "homepage": "https://github.com/nandorojo/moti.git#readme",
+  "homepage": "https://moti.fyi",
   "main": "lib/commonjs/index.js",
   "react-native": "src/index.ts",
   "source": "src/index.ts",
