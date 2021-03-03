@@ -254,9 +254,9 @@ export default function useMapAnimateToStyle<Animate>({
 
     let mergedStyles: Animate = {} as Animate
     if (stylePriority === 'state') {
-      mergedStyles = Object.assign(animateStyle, variantStyle)
+      mergedStyles = Object.assign({}, animateStyle, variantStyle)
     } else {
-      mergedStyles = Object.assign(variantStyle, animateStyle)
+      mergedStyles = Object.assign({}, variantStyle, animateStyle)
     }
 
     if (isExiting && exitStyle) {
@@ -376,7 +376,7 @@ export default function useMapAnimateToStyle<Animate>({
               } = animationConfig(key, transition)
 
 
-              // stepConfig = Object.assign(stepConfig, customConfig)
+              // stepConfig = Object.assign({}, stepConfig, customConfig)
 
               stepAnimation = animation
               if (delay != null) {
