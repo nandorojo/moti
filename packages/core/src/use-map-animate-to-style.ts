@@ -254,9 +254,9 @@ export default function useMapAnimateToStyle<Animate>({
 
     let mergedStyles: Animate = {} as Animate
     if (stylePriority === 'state') {
-      mergedStyles = { ...animateStyle, ...variantStyle }
+      mergedStyles = Object.assign(animateStyle, variantStyle)
     } else {
-      mergedStyles = { ...variantStyle, ...animateStyle }
+      mergedStyles = Object.assign(variantStyle, animateStyle)
     }
 
     if (isExiting && exitStyle) {
