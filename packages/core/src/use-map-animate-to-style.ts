@@ -360,7 +360,7 @@ export default function useMapAnimateToStyle<Animate>({
           .map((step) => {
             let stepDelay = delayMs
             let stepValue = step
-            let stepConfig = { ...config }
+            let stepConfig = Object.assign({}, config)
             let stepAnimation = animation
             if (typeof step === 'object') {
               // TODO this should spread from step, but reanimated won't allow this on JS thread?
@@ -375,10 +375,9 @@ export default function useMapAnimateToStyle<Animate>({
                 animation,
               } = animationConfig(key, transition)
 
-              stepConfig = {
-                ...stepConfig,
-                //  ...customConfig
-              }
+
+              // stepConfig = Object.assign(stepConfig, customConfig)
+
               stepAnimation = animation
               if (delay != null) {
                 stepDelay = delay
