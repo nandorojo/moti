@@ -69,6 +69,17 @@ Property 'Proxy' doesn't exist, js engine: hermes [Mon Feb 08 2021 19:21:54.427]
 
 If you see this, you haven't correctly installed the right version of Hermes, so please confirm that.
 
+## Using inline requires
+
+If you're using [Inline Requires](https://instagram-engineering.com/making-instagram-com-faster-code-size-and-execution-optimizations-part-4-57668be796a8), you might need to import `react-native-reanimated` in the root of your app before using any Moti code.
+
+```ts
+// App.js
+import 'react-native-reanimated'
+```
+
+Only do this if you notice your app isn't working with Moti and you have inline requires enabled.
+
 ## Create your first animation
 
 ```tsx
