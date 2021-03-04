@@ -211,7 +211,7 @@ export default function useMapAnimateToStyle<Animate>({
   transition,
   delay: defaultDelay,
   state,
-  stylePriority = 'state',
+  stylePriority = 'animate',
   onDidAnimate,
   exit,
 }: MotiProps<Animate>) {
@@ -254,9 +254,9 @@ export default function useMapAnimateToStyle<Animate>({
 
     let mergedStyles: Animate = {} as Animate
     if (stylePriority === 'state') {
-      mergedStyles = { ...animateStyle, ...variantStyle }
+      mergedStyles = Object.assign({}, animateStyle, variantStyle)
     } else {
-      mergedStyles = { ...variantStyle, ...animateStyle }
+      mergedStyles = Object.assign(variantStyle, animateStyle)
     }
 
     if (isExiting && exitStyle) {
@@ -360,7 +360,8 @@ export default function useMapAnimateToStyle<Animate>({
           .map((step) => {
             let stepDelay = delayMs
             let stepValue = step
-            let stepConfig = { ...config }
+            // let stepConfig = { ...config }
+            let stepConfig = Object.assign({}, config)
             let stepAnimation = animation
             if (typeof step === 'object') {
               // TODO this should spread from step, but reanimated won't allow this on JS thread?
@@ -375,10 +376,9 @@ export default function useMapAnimateToStyle<Animate>({
                 animation,
               } = animationConfig(key, transition)
 
-              stepConfig = {
-                ...stepConfig,
-                //  ...customConfig
-              }
+              stepConfig = Object.assign({}, stepConfig)
+              // TODO test, does this work?
+              // stepConfig = Object.assign({}, stepConfig, customConfig)
               stepAnimation = animation
               if (delay != null) {
                 stepDelay = delay
