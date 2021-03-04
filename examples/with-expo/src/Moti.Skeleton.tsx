@@ -5,6 +5,12 @@ import { Skeleton } from '@motify/skeleton'
 
 const Spacer = ({ height = 16 }) => <View style={{ height }} />
 
+const transition = {
+  opacity: {
+    duration: 300,
+  },
+}
+
 export default function HelloWorld() {
   const [dark, toggle] = useReducer((s) => !s, true)
 
@@ -19,13 +25,27 @@ export default function HelloWorld() {
         style={[styles.container, styles.padded]}
         animate={{ backgroundColor: dark ? '#000000' : '#ffffff' }}
       >
-        <Skeleton colorMode={colorMode} radius="round" height={75} width={75} />
+        <Skeleton
+          transition={transition}
+          colorMode={colorMode}
+          radius="round"
+          height={75}
+          width={75}
+        />
         <Spacer />
-        <Skeleton colorMode={colorMode} width={250} />
+        <Skeleton transition={transition} colorMode={colorMode} width={250} />
         <Spacer height={8} />
-        <Skeleton colorMode={colorMode} width={'100%'} />
+        <Skeleton
+          transition={transition}
+          colorMode={colorMode}
+          width={'100%'}
+        />
         <Spacer height={8} />
-        <Skeleton colorMode={colorMode} width={'100%'} />
+        <Skeleton
+          transition={transition}
+          colorMode={colorMode}
+          width={'100%'}
+        />
       </View>
     </Pressable>
   )

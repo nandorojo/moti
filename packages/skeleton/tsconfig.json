@@ -4,7 +4,8 @@
     "outDir": "./lib/typescript",
     "paths": {
       "@motify/*": ["../*/src"],
-      "moti": ["../moti/src"]
+      "moti": ["../moti/src"],
+      "@motify/core": ["../core/src"]
     }
   }
 }

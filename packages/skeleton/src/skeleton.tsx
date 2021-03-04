@@ -3,7 +3,7 @@ import { View as MotiView } from '@motify/components'
 import { View, StyleSheet } from 'react-native'
 
 import { LinearGradient } from 'expo-linear-gradient'
-import { AnimatePresence } from '@motify/core'
+import { AnimatePresence, MotiTransitionProp } from '@motify/core'
 
 type Props = {
   /**
@@ -65,6 +65,7 @@ type Props = {
    */
   colorMode?: keyof typeof baseColors
   disableExitAnimation?: boolean
+  transition?: MotiTransitionProp
 }
 
 const DEFAULT_SIZE = 32
@@ -105,10 +106,11 @@ export default function Skelton(props: Props) {
     boxHeight,
     colorMode = 'dark',
     colors = colorMode === 'dark' ? defaultDarkColors : defaultLightColors,
-    backgroundColor = colors[1] ??
-      colors[0] ??
+    backgroundColor = colors[0] ??
+      colors[1] ??
       baseColors[colorMode]?.secondary,
     disableExitAnimation,
+    transition = {},
   } = props
 
   const [measuredWidth, setMeasuredWidth] = useState(0)
@@ -174,9 +176,12 @@ export default function Skelton(props: Props) {
           >
             <AnimatedGradient
               // force a key change to make the loop animation re-mount
-              key={`${JSON.stringify(colors)}-${measuredWidth}`}
+              key={`${JSON.stringify(colors)}-${measuredWidth}-${JSON.stringify(
+                transition
+              )}`}
               colors={colors}
               measuredWidth={measuredWidth}
+              transition={transition}
             />
           </MotiView>
         )}
@@ -189,37 +194,59 @@ const AnimatedGradient = React.memo(
   function AnimatedGradient({
     measuredWidth,
     colors,
+    transition = {},
   }: {
     measuredWidth: number
     colors: string[]
+    transition?: MotiTransitionProp
   }) {
     const backgroundSize = 6
-    if (!measuredWidth) return null
 
     return (
       <MotiView
-        style={{
-          ...StyleSheet.absoluteFillObject,
-          width: measuredWidth * backgroundSize,
-        }}
+        style={[
+          StyleSheet.absoluteFillObject,
+          {
+            width: measuredWidth * backgroundSize,
+          },
+        ]}
         from={{
           translateX: 0,
+          opacity: 0,
         }}
-        animate={{
-          translateX: -measuredWidth * (backgroundSize - 1),
-        }}
+        animate={
+          measuredWidth
+            ? {
+                translateX: -measuredWidth * (backgroundSize - 1),
+                opacity: 1,
+              }
+            : undefined
+        }
         transition={{
+          // @ts-ignore annoying, but it comes from merging with transition
           type: 'timing',
           duration: 3000,
-          loop: true,
+          translateX: {
+            loop: true,
+            delay: 200,
+            // overkill for TS 4.2, but leave it for now
+            ...(transition.translateX ?? {}),
+          },
+          opacity: {
+            // @ts-ignore
+            type: 'timing',
+            duration: 200,
+            delay: 0,
+            ...(transition.opacity ?? {}),
+          },
+          ...transition,
         }}
-        delay={200}
       >
         <LinearGradient
           colors={colors}
           start={[0.1, 1]}
           end={[1, 1]}
-          style={[StyleSheet.absoluteFillObject]}
+          style={StyleSheet.absoluteFillObject}
         />
       </MotiView>
     )
