@@ -194,7 +194,6 @@ const AnimatedGradient = React.memo(
     colors: string[]
   }) {
     const backgroundSize = 6
-    if (!measuredWidth) return null
 
     return (
       <MotiView
@@ -204,16 +203,17 @@ const AnimatedGradient = React.memo(
         }}
         from={{
           translateX: 0,
+          opacity: 0,
         }}
         animate={{
           translateX: -measuredWidth * (backgroundSize - 1),
+          opacity: measuredWidth === 0 ? 0 : 1,
         }}
         transition={{
           type: 'timing',
-          duration: 3000,
           loop: true,
+          duration: 3000,
         }}
-        delay={200}
       >
         <LinearGradient
           colors={colors}
