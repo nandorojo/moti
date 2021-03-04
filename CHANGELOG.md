@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.8](https://github.com/nandorojo/moti/compare/v0.5.7...v0.5.8) (2021-03-04)
+
+
+### Bug Fixes
+
+* spread -> assign ([8d0f89a](https://github.com/nandorojo/moti/commit/8d0f89a899e0c6e3e2b7285d98831addef48dd6c))
+
+
+
+
+
 ## [0.5.7](https://github.com/nandorojo/moti/compare/v0.5.6...v0.5.7) (2021-03-02)
 
 **Note:** Version bump only for package moti
