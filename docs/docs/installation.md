@@ -39,7 +39,7 @@ Please see the following guides:
 
 - [Expo Web](/web#expo-web-support)
 - [Next.js](/next)
-- [React Native Web](http://localhost:3000/web#other-react-native-web-setups)
+- [React Native Web](/web#other-react-native-web-setups)
 
 ## Hermes/Android Support
 

@@ -29,7 +29,7 @@ module.exports = async function (env, argv) {
   const config = await createExpoWebpackConfigAsync(
     {
       ...env,
-      babel: { dangerouslyAddModulePathsToTranspile: ['moti'] },
+      babel: { dangerouslyAddModulePathsToTranspile: ['moti', '@motify'] },
     },
     argv
   )

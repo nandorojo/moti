@@ -11,7 +11,7 @@ module.exports = {
       'examples/variants',
     ],
     Hooks: [],
-    Components: [],
+    Components: ['skeleton'],
     Web: ['web', 'next'],
     'API Reference': [
       'api/use-animation-state',

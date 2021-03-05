@@ -1,0 +1,233 @@
+---
+id: skeleton
+title: Skeleton
+---
+
+Moti's skeleton component is great for showing animated loading states. It works on all platforms, including web.
+
+```tsx
+import React from 'react'
+import { Skeleton } from '@motify/skeleton'
+
+const Loader = ({ children }) => <Skeleton>{children}</Skeleton>
+
+export default Loader
+```
+
+- [Video](https://twitter.com/FernandoTheRojo/status/1366902697010622466)
+- [TypeScript usage](https://twitter.com/FernandoTheRojo/status/1366912660273590273?s=20)
+- [Inspiration](https://twitter.com/FernandoTheRojo/status/1366903666578489346?s=20)
+
+## Install
+
+The skeleton ships as its own package, since it has dependencies outside of `moti`:
+
+```bash npm2yarn
+npm install @motify/skeleton
+```
+
+You'll also want to install `expo-linear-gradient`.
+
+_Please note that you must have Reanimated 2 installed. See [installation](/installation) steps for more info._
+
+### If you're using Expo:
+
+```bash
+expo install expo-linear-gradient
+```
+
+### If you aren't using Expo:
+
+```bash npm2yarn
+npm install expo-linear-gradient
+```
+
+Please make sure you complete any installation steps required for Expo's [linear gradient](https://docs.expo.io/versions/latest/sdk/linear-gradient/) component.
+
+## Video
+
+<div
+  style={{
+    position: 'relative',
+    paddingBottom: '209.59302325581396%',
+    height: 0,
+    width: '100%',
+  }}
+>
+  <iframe
+    src="https://www.loom.com/embed/f2d5ff02cfec46bc8795f46965ae9b52"
+    frameborder="0"
+    webkitallowfullscreen
+    mozallowfullscreen
+    allowfullscreen
+    style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      width: '100%',
+      height: '100%',
+    }}
+  ></iframe>
+</div>
+
+## Usage
+
+### Show/hide
+
+Skeleton will hide when data exists by default.
+
+```tsx
+<Skeleton>{!!data ? <Data /> : null}</Skeleton>
+```
+
+You can always `show` the skeleton:
+
+```tsx
+<Skeleton show={loading}>
+  <Data />
+</Skeleton>
+```
+
+Or hide it:
+
+```tsx
+<Skeleton show={false}>{!!data ? <Data /> : null}</Skeleton>
+```
+
+### Border radius
+
+Use `radius` to show a circle, square, or custom border radius. Defaults to `8`.
+
+### Circle
+
+```tsx
+<Skeleton height={48} width={48} radius="round">
+  {!!data ? <Data /> : null}
+</Skeleton>
+```
+
+### Square
+
+```tsx
+<Skeleton height={48} width={48} radius="square">
+  {!!data ? <Data /> : null}
+</Skeleton>
+```
+
+### Custom radius
+
+```tsx
+<Skeleton radius={16}>{!!data ? <Data /> : null}</Skeleton>
+```
+
+### Color modes
+
+`light` or `dark`
+
+```tsx
+<Skeleton colorMode="light" />
+```
+
+### Custom colors
+
+```tsx
+<Skeleton colors={['blue', 'cyan']} />
+```
+
+### Custom animation delay
+
+```tsx
+<Skeleton delay={250} />
+```
+
+### Custom animation transition
+
+```tsx
+<Skeleton
+  transition={{
+    translateX: {
+      // defaults to a 3000ms timing function
+      type: 'spring',
+    },
+  }}
+/>
+```
+
+## Full example
+
+Here's the code from the video above:
+
+```tsx
+import React, { useReducer } from 'react'
+import { StyleSheet, Pressable } from 'react-native'
+import { View } from 'moti'
+import { Skeleton } from '@motify/skeleton'
+
+const Spacer = ({ height = 16 }) => <View style={{ height }} />
+
+const transition = {
+  opacity: {
+    duration: 300,
+  },
+}
+
+export default function HelloWorld() {
+  const [dark, toggle] = useReducer((s) => !s, true)
+
+  const colorMode = dark ? 'dark' : 'light'
+
+  return (
+    <Pressable onPress={toggle} style={styles.container}>
+      <View
+        transition={{
+          type: 'timing',
+        }}
+        style={[styles.container, styles.padded]}
+        animate={{ backgroundColor: dark ? '#000000' : '#ffffff' }}
+      >
+        <Skeleton
+          transition={transition}
+          colorMode={colorMode}
+          radius="round"
+          height={75}
+          width={75}
+        />
+        <Spacer />
+        <Skeleton transition={transition} colorMode={colorMode} width={250} />
+        <Spacer height={8} />
+        <Skeleton
+          transition={transition}
+          colorMode={colorMode}
+          width={'100%'}
+        />
+        <Spacer height={8} />
+        <Skeleton
+          transition={transition}
+          colorMode={colorMode}
+          width={'100%'}
+        />
+      </View>
+    </Pressable>
+  )
+}
+
+const styles = StyleSheet.create({
+  shape: {
+    justifyContent: 'center',
+    height: 250,
+    width: 250,
+    borderRadius: 25,
+    marginRight: 10,
+    backgroundColor: 'white',
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  padded: {
+    padding: 16,
+  },
+})
+```
