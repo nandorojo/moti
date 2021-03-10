@@ -46,6 +46,18 @@ module.exports = {
         },
       ],
     },
+    algolia: {
+      apiKey: 'b76b3c92f921ee02e86acdf13ae7bb0e',
+      indexName: 'moti',
+
+      // Optional: see doc section bellow
+      contextualSearch: true,
+
+      // Optional: Algolia search parameters
+      // searchParameters: {},
+
+      //... other Algolia params
+    },
     footer: {
       style: 'dark',
       links: [
