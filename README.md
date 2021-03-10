@@ -36,3 +36,11 @@ The universal React Native animation library, powered by Reanimated 2.
 # Follow
 
 Follow me [on Twitter](https://twitter.com/fernandotherojo) to stay up to date.
+
+# Sponsor
+
+Please reach out to [Fernando Rojo](https://twitter.com/fernandotherojo) if you're interested in sponsoring Moti.
+
+<a href="https://splitbee.io?ref=badge">
+  <img src="https://splitbee-cdn.fra1.cdn.digitaloceanspaces.com/static/badge/splitbee-badge-dark.svg" alt="Analytics by Splitbee.io" />
+</a>
