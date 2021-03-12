@@ -43,7 +43,10 @@ export default function ExitBeforeEnter() {
   return (
     <Pressable onPress={toggle} style={styles.container}>
       <AnimatePresence exitBeforeEnter>
-        {visible ? <Shape bg="hotpink" key="hotpink" /> : <Shape bg="cyan" key="cyan" />}
+        { visible ? 
+          <Shape bg="hotpink" key="hotpink" /> 
+          : 
+          <Shape bg="cyan" key="cyan" /> }
       </AnimatePresence>
     </Pressable>
   )
