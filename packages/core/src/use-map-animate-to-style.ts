@@ -230,9 +230,9 @@ export default function useMapAnimateToStyle<Animate>({
   )
 
   // is any of this necessary?
-  const initialSV = useSharedValue(from || empty.object)
-  const animateSV = useSharedValue(animate || empty.object)
-  const exitSV = useSharedValue(exit || empty.object)
+  // const initialSV = useSharedValue(from || empty.object)
+  // const animateSV = useSharedValue(animate || empty.object)
+  // const exitSV = useSharedValue(exit || empty.object)
   const hasExitStyle =
     typeof exit === 'object' && !!Object.keys(exit ?? empty.object).length
 
@@ -246,9 +246,12 @@ export default function useMapAnimateToStyle<Animate>({
     }
     const variantStyle: Animate = state?.__state?.value || {}
 
-    const animateStyle = animateSV.value || {}
-    const initialStyle = initialSV.value || {}
-    const exitStyle = exitSV.value || {}
+    // const animateStyle = animateSV.value || {}
+    const animateStyle = animate || {}
+    const initialStyle = from || {}
+    const exitStyle = exit || {}
+    // const initialStyle = initialSV.value || {}
+    // const exitStyle = exitSV.value || {}
 
     const isExiting = !isPresent && hasExitStyle
 
@@ -256,7 +259,7 @@ export default function useMapAnimateToStyle<Animate>({
     if (stylePriority === 'state') {
       mergedStyles = Object.assign({}, animateStyle, variantStyle)
     } else {
-      mergedStyles = Object.assign(variantStyle, animateStyle)
+      mergedStyles = Object.assign({}, variantStyle, animateStyle)
     }
 
     if (isExiting && exitStyle) {
