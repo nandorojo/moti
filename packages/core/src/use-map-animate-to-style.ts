@@ -98,7 +98,7 @@ function animationConfig<Animate>(
 
   if ((transition as any)?.[key as keyof Animate]?.repeat != null) {
     repeatCount = (transition as any)?.[key as keyof Animate]?.repeat
-  } else if (transition?.repeat) {
+  } else if (transition?.repeat != null) {
     repeatCount = transition.repeat
   }
 
