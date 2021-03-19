@@ -104,7 +104,7 @@ function animationConfig<Animate>(
 
   if ((transition as any)?.[key as keyof Animate]?.repeatReverse != null) {
     repeatReverse = (transition as any)?.[key as keyof Animate]?.repeatReverse
-  } else if (transition?.repeatReverse) {
+  } else if (transition?.repeatReverse != null) {
     repeatReverse = transition.repeatReverse
   }
 
