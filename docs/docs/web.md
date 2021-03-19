@@ -44,17 +44,31 @@ Your app will now run with Expo Web!
 
 ### Spring animations
 
-In my experience, reanimated 2's spring animations are glitchy on web. I recommend using `timing` animations for now.
+By default, `moti` uses `type: 'spring'` for animations.
+
+However, Reanimated 2's spring animations are currently glitchy on web.
+
+If you want to use springs, I recommend setting `overshootClamping: false`. This seems to solve it on web:
+
+```tsx
+<MotiView transition={{ overshootClamping: false }} />
+```
+
+Thanks to [pranshuchittora](https://github.com/pranshuchittora) for discovering this workaround.
+
+See [Reanimated issue #1804](https://github.com/software-mansion/react-native-reanimated/issues?q=is%3Aissue+web+is%3Aclosed+) for more info on this problem. It should be solved once `react-native-web` merges [#1939](https://github.com/necolas/react-native-web/pull/1939). Once that's merged, you'll need to install the new version of RNW (`0.15.x`, presumably.)
+
+Another solution is to use `timing` transitions instead of the default `spring`.
 
 You can configure your animation settings using the `transition` prop of any Moti component.
 
 ```tsx
 import React from 'react'
-import { View } from 'moti'
+import { View as MotiView } from 'moti'
 
 export default function Timing() {
   return (
-    <View
+    <MotiView
       from={{
         scale: 0.8,
         opacity: 0,
