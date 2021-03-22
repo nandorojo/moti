@@ -470,6 +470,11 @@ export default function useMapAnimateToStyle<Animate>({
 
     debug('end of UAS', { final })
 
+    // TODO
+    // if (!final.transform?.length) {
+    //   delete final.transform
+    // }
+
     return final
   })
 
