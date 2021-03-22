@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/nandorojo/moti/compare/v0.6.5...v0.7.0) (2021-03-22)
+
+
+### Features
+
+* performant, dynamic-animation hook ([8f65da7](https://github.com/nandorojo/moti/commit/8f65da78fd913f87e089ddbc3c402fc42e41d9d2))
+
+
+
+
+
 ## [0.6.5](https://github.com/nandorojo/moti/compare/v0.6.4...v0.6.5) (2021-03-19)
 
 
