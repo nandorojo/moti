@@ -206,7 +206,7 @@ export interface MotiProps<
    *
    * If you know your styles in advance, and will be changing them throughout a component's lifecycle, then this is the preferred method to animate with.
    */
-  state?: UseAnimationState<any>
+  state?: Pick<UseAnimationState<any>, '__state'>
   /**
    * This is not a prop you will likely find yourself using.
    *
@@ -312,4 +312,56 @@ export type UseAnimationStateConfig<
    * If you pass a string here, it must match the key of one of your variants.
    */
   to?: ToKey
+}
+
+/**
+ * Used for `useDynamicAnimation`
+ */
+export type DynamicStyleProp<
+  // Style props of the component
+  // defaults to any styles, so that generics aren't Required
+  // in component usage, it will extract these from the style prop ideally
+  AnimateType = ImageStyle & ViewStyle & TextStyle,
+  // edit the style props to remove transform array, flattening it
+  // AnimateWithTransitions = Omit<AnimateType, 'transform'> & Partial<Transforms>,
+  AnimateWithTransitions = StyleValueWithReplacedTransforms<AnimateType>
+  // allow the style values to be arrays for sequences, where values are primitives or objects with configs
+> = NonNullable<StyleValueWithSequenceArrays<AnimateWithTransitions>>
+
+export type UseDynamicAnimationState = {
+  /**
+   * @private
+   * Internal state used to drive animations. You shouldn't use this. Use `.current` instead to read the current state. Use `animateTo` to edit it.
+   */
+  __state: Animated.SharedValue<any>
+  /**
+   * Read the current "state" (i.e. style object)
+   */
+  current: null | DynamicStyleProp
+  /**
+   * Set a new animation state using dynamic values.
+   *
+   * ```js
+   * const dynamicAnimation = useDynamicAnimation({ opacity: 0 })
+   *
+   * const onPress = () => {
+   *   dynamicAnimation.animateTo({ opacity: 1 })
+   * }
+   *
+   * const onMergeStyle = () => {
+   *   // or, merge your styles
+   *   // this uses the previous state, like useState from react
+   *   dynamicAnimation.animateTo((current) => ({ ...current, scale: 1 }))
+   *
+   *   // you can also synchronously read the current value
+   *   // these two options are the same!
+   *   dynamicAnimation.animateTo({ ...dynamicAnimation.current, scale: 1 })
+   * }
+   * ```
+   */
+  animateTo: (
+    key:
+      | DynamicStyleProp
+      | ((currentState: DynamicStyleProp) => DynamicStyleProp)
+  ) => void
 }
