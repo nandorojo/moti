@@ -9,7 +9,7 @@ Moti uses [Reanimated 2](https://docs.swmansion.com/react-native-reanimated/) un
 
 If you're starting a project from scratch, or just want to play around, you can use the Expo + Moti [starter](https://github.com/expo/examples/tree/master/with-moti).
 
-`npx create-react-native-app -t with-moti`
+`npx create-react-native-app with-moti`
 
 ## Install Moti
 
