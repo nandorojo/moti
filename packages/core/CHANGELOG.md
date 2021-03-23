@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.1](https://github.com/nandorojo/moti/compare/v0.7.0...v0.7.1) (2021-03-23)
+
+
+### Bug Fixes
+
+* nullable loop, allows false ([f65ae59](https://github.com/nandorojo/moti/commit/f65ae5920f2c9a9bc372ca196ed4f50b7c5d53c0))
+
+
+
+
+
 # [0.7.0](https://github.com/nandorojo/moti/compare/v0.6.5...v0.7.0) (2021-03-22)
 
 
