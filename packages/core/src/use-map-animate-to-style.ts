@@ -15,6 +15,14 @@ import Animated, {
 import { PackageName } from './constants/package-name'
 import type { MotiProps, Transforms, TransitionConfig } from './types'
 
+const debug = (...args: any[]) => {
+  'worklet'
+  if (args) {
+    // hi
+  }
+  // console.log('[moti-bug]', ...args)
+}
+
 const isColor = (styleKey: string) => {
   'worklet'
   return [
@@ -90,10 +98,11 @@ function animationConfig<Animate>(
     animationType = transition.type
   }
 
-  if ((transition as any)?.[key as keyof Animate]?.loop) {
-    repeatCount = Infinity
-  } else if (transition?.loop) {
-    repeatCount = Infinity
+  const loop =
+    (transition as any)?.[key as keyof Animate]?.loop ?? transition?.loop
+
+  if (loop != null) {
+    repeatCount = loop ? -1 : 0
   }
 
   if ((transition as any)?.[key as keyof Animate]?.repeat != null) {
@@ -107,6 +116,8 @@ function animationConfig<Animate>(
   } else if (transition?.repeatReverse != null) {
     repeatReverse = transition.repeatReverse
   }
+
+  debug({ loop, key, repeatCount, animationType })
 
   let config = {}
   // so sad, but fix it later :(
@@ -199,12 +210,6 @@ const empty = {
   object: {},
 }
 
-const debug = (...args: any[]) => {
-  'worklet'
-  args
-  // console.log('[moti-bug]', ...args)
-}
-
 export default function useMapAnimateToStyle<Animate>({
   animate,
   from = false,
@@ -229,17 +234,10 @@ export default function useMapAnimateToStyle<Animate>({
     [onDidAnimate]
   )
 
-  // is any of this necessary?
-  // const initialSV = useSharedValue(from || empty.object)
-  // const animateSV = useSharedValue(animate || empty.object)
-  // const exitSV = useSharedValue(exit || empty.object)
   const hasExitStyle =
     typeof exit === 'object' && !!Object.keys(exit ?? empty.object).length
 
-  debug('before animated style')
   const style = useAnimatedStyle(() => {
-    debug('inside animated style')
-
     const final = {
       // initializing here fixes reanimated object.__defineProperty bug(?)
       transform: [] as TransformsStyle['transform'],
@@ -467,8 +465,6 @@ export default function useMapAnimateToStyle<Animate>({
         }
       }
     })
-
-    debug('end of UAS', { final })
 
     // TODO
     // if (!final.transform?.length) {
