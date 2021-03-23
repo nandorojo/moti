@@ -9,7 +9,7 @@ const transition = {
   opacity: {
     duration: 300,
   },
-}
+} as const
 
 export default function HelloWorld() {
   const [dark, toggle] = useReducer((s) => !s, true)
@@ -25,27 +25,13 @@ export default function HelloWorld() {
         style={[styles.container, styles.padded]}
         animate={{ backgroundColor: dark ? '#000000' : '#ffffff' }}
       >
-        <Skeleton
-          transition={transition}
-          colorMode={colorMode}
-          radius="round"
-          height={75}
-          width={75}
-        />
+        <Skeleton colorMode={colorMode} radius="round" height={75} width={75} />
         <Spacer />
-        <Skeleton transition={transition} colorMode={colorMode} width={250} />
+        <Skeleton colorMode={colorMode} width={250} />
         <Spacer height={8} />
-        <Skeleton
-          transition={transition}
-          colorMode={colorMode}
-          width={'100%'}
-        />
+        <Skeleton colorMode={colorMode} width={'100%'} />
         <Spacer height={8} />
-        <Skeleton
-          transition={transition}
-          colorMode={colorMode}
-          width={'100%'}
-        />
+        <Skeleton colorMode={colorMode} width={'100%'} />
       </View>
     </Pressable>
   )
