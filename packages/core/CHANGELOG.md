@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.2](https://github.com/nandorojo/moti/compare/v0.7.1...v0.7.2) (2021-03-28)
+
+
+### Bug Fixes
+
+* animate presence callback ([8bde766](https://github.com/nandorojo/moti/commit/8bde766a64d8aebc81c0fa6ecbea5d9e59bab99b))
+
+
+
+
+
 ## [0.7.1](https://github.com/nandorojo/moti/compare/v0.7.0...v0.7.1) (2021-03-23)
 
 
