@@ -266,7 +266,11 @@ export default function useMapAnimateToStyle<Animate>({
 
     debug('here')
 
-    Object.keys(mergedStyles).forEach((key, index) => {
+    const exitingStyleProps: Record<string, boolean> = Object.keys(
+      exitStyle || {}
+    ).reduce((obj, styleKey) => ({ ...obj, [styleKey]: true }), {})
+
+    Object.keys(mergedStyles).forEach((key) => {
       const initialValue = initialStyle[key]
       const value = mergedStyles[key]
 
@@ -278,18 +282,22 @@ export default function useMapAnimateToStyle<Animate>({
         repeatReverse,
       } = animationConfig(key, transition)
 
-      const callback: (canceled: boolean, value?: any) => void = (
-        canceled,
+      const callback: (completed: boolean, value?: any) => void = (
+        completed,
         recentValue
       ) => {
         if (onDidAnimate) {
-          runOnJS(reanimatedOnDidAnimated)(key as any, canceled, recentValue)
+          runOnJS(reanimatedOnDidAnimated)(key as any, completed, recentValue)
         }
         if (isExiting) {
+          exitingStyleProps[key] = false
+          const areStylesExiting = Object.values(exitingStyleProps).some(
+            Boolean
+          )
           //   // if this is true, then we've finished our exit animations
-          const isLastStyleKeyToAnimate =
-            index + 1 === Object.keys(mergedStyles || {}).length
-          if (isLastStyleKeyToAnimate) {
+          // const isLastStyleKeyToAnimate =
+          //   index + 1 === Object.keys(mergedStyles || {}).length
+          if (!areStylesExiting) {
             runOnJS(reanimatedSafeToUnmount)()
           }
         }
