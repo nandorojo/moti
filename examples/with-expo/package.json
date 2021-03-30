@@ -1,7 +1,7 @@
 {
   "name": "with-expo",
   "description": "Example app for moti",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "private": true,
   "main": "__generated__/AppEntry.js",
   "scripts": {
@@ -13,7 +13,7 @@
     "postinstall": "expo-yarn-workspaces postinstall"
   },
   "dependencies": {
-    "@motify/skeleton": "^0.7.2",
+    "@motify/skeleton": "^0.7.3",
     "expo": "^40.0.0-beta.5",
     "expo-splash-screen": "~0.8.1",
     "expo-status-bar": "~1.0.3",
