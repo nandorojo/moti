@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.7](https://github.com/nandorojo/moti/compare/v0.7.6...v0.7.7) (2021-04-01)
+
+
+### Bug Fixes
+
+* initial bounce from spring ([9783548](https://github.com/nandorojo/moti/commit/97835481a63f4789bf3bab1cbd8313e2362b0ecf))
+* v2 stable spring support ([b9fad59](https://github.com/nandorojo/moti/commit/b9fad5970fb7427aaca7d8fdd9aa9bc895c84bb5))
+
+
+
+
+
 ## [0.7.6](https://github.com/nandorojo/moti/compare/v0.7.5...v0.7.6) (2021-04-01)
 
 
