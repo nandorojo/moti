@@ -143,7 +143,7 @@ function animationConfig<Animate>(
     animation = withSpring
     config = {
       // solve the missing velocity bug in 2.0.0-rc.0
-      velocity: 2,
+      // velocity: 2,
     } as Animated.WithSpringConfig
     const configKeys: (keyof Animated.WithSpringConfig)[] = [
       'damping',
@@ -310,7 +310,7 @@ export default function useMapAnimateToStyle<Animate>({
           if (isTransform(key) && final.transform) {
             // this syntax avoids reanimated .__defineObject error
             const transform = {}
-            if (animateInitialState) {
+            if (isMounted.value || animateInitialState) {
               transform[key] = animation(initialValue, config)
             } else {
               transform[key] = initialValue
@@ -321,7 +321,7 @@ export default function useMapAnimateToStyle<Animate>({
             final.transform.push(transform)
             // console.log({ final })
           } else {
-            if (animateInitialState) {
+            if (isMounted.value || animateInitialState) {
               final[key] = animation(initialValue, config)
             } else {
               final[key] = initialValue
