@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.5](https://github.com/nandorojo/moti/compare/v0.7.4...v0.7.5) (2021-04-01)
+
+
+### Bug Fixes
+
+* workletize hooks ([9eeff15](https://github.com/nandorojo/moti/commit/9eeff15797bae42bbc3e03f05d6d229a1b6b0f14))
+
+
+
+
+
 ## [0.7.4](https://github.com/nandorojo/moti/compare/v0.7.3...v0.7.4) (2021-04-01)
 
 

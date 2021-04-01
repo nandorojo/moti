@@ -1,7 +1,7 @@
 {
   "name": "moti",
   "private": false,
-  "version": "0.7.4",
+  "version": "0.7.5",
   "keywords": [
     "react-native",
     "ios",
@@ -37,8 +37,8 @@
     "clean": "del lib"
   },
   "dependencies": {
-    "@motify/components": "^0.7.4",
-    "@motify/core": "^0.7.4"
+    "@motify/components": "^0.7.5",
+    "@motify/core": "^0.7.5"
   },
   "devDependencies": {
     "typescript": "^4.0.3"
