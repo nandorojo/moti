@@ -57,24 +57,28 @@ export default function useDynamicAnimation(
     controller.current = {
       __state,
       get current(): DynamicStyleProp {
-        // return activeStyle.current.value
         return __state.value
       },
       animateTo(nextStateOrFunction) {
         'worklet'
-        const runAnimation = (nextStyleObject: DynamicStyleProp) => {
-          if (nextStyleObject) {
-            // activeStyle.current.value = nextStyleObject
-            __state.value = nextStyleObject as any
-          }
-        }
+        // const runAnimation = (nextStyleObject: DynamicStyleProp) => {
+        //   if (nextStyleObject) {
+        //     // activeStyle.current.value = nextStyleObject
+        //     __state.value = nextStyleObject
+        //   }
+        // }
+        const nextStyle =
+          typeof nextStateOrFunction === 'function'
+            ? nextStateOrFunction(__state.value)
+            : nextStateOrFunction
 
-        if (typeof nextStateOrFunction === 'function') {
-          // similar to setState, let people compose a function that takes in the current value and returns the next one
-          runAnimation(nextStateOrFunction(this.current as DynamicStyleProp))
-        } else {
-          runAnimation(nextStateOrFunction)
-        }
+        __state.value = nextStyle
+        // if (typeof nextStateOrFunction === 'function') {
+        //   // similar to setState, let people compose a function that takes in the current value and returns the next one
+        //   runAnimation(nextStateOrFunction(this.current as DynamicStyleProp))
+        // } else {
+        //   runAnimation(nextStateOrFunction)
+        // }
       },
     }
   }
