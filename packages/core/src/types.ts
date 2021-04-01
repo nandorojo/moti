@@ -364,6 +364,7 @@ export type UseDynamicAnimationState = {
    *   dynamicAnimation.animateTo({ ...dynamicAnimation.current, scale: 1 })
    * }
    * ```
+   * @worklet
    */
   animateTo: (
     key:
