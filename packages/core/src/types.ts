@@ -117,7 +117,7 @@ export type OnDidAnimate<
 
 export type StyleValueWithReplacedTransforms<StyleProp> = Omit<
   StyleProp,
-  'transform'
+  'transform' | keyof Transforms
 > &
   Partial<Transforms>
 
