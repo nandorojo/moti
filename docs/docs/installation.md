@@ -21,13 +21,17 @@ npm install moti
 
 ## Install Reanimated 2
 
-Moti requires that you install `react-native-reanimated`. The minimum version of Reanimated it's been tested on is `2.0.0-rc.0`.
+Moti requires that you install `react-native-reanimated`.
+
+Moti `0.8.x` and higher requires at least Reanimated v2 stable (`2.0.0` or higher). This version is compatible with Expo starting SDK 41.
+
+If you haven't upgraded Reanimated past `2.0.0-rc.0`, you can also use Moti `0.7.x`. However, I recommend upgrading to get the latest features/fixes.
 
 ### If you're using Expo
 
 Please follow the [Expo instructions](https://docs.expo.io/versions/latest/sdk/reanimated/#experimental-support-for-v2) for installing `react-native-reanimated` v2.
 
-You'll need at least [Expo SDK 40](https://docs.expo.io/workflow/upgrading-expo-sdk-walkthrough/).
+You'll need at least [Expo SDK 40](https://docs.expo.io/workflow/upgrading-expo-sdk-walkthrough/), but I recommend using SDK 41.
 
 ### If you aren't using Expo
 
@@ -43,7 +47,7 @@ Please see the following guides:
 
 ## Hermes/Android Support
 
-Moti uses `Proxy` under the hood, which is not supported on older versions of Hermes (see [hermes#33](https://github.com/facebook/hermes/issues/33)).
+Moti uses `Proxy` under the hood, which is not supported on older versions of Hermes (see [hermes#33](https://github.com/facebook/hermes/issues/33)). Follow the steps below if you're using Hermes.
 
 ### If you're using React Native 0.63.x
 
@@ -66,8 +70,6 @@ As mentioned in this [Moti issue](https://github.com/nandorojo/moti/issues/13), 
 ```sh
 Property 'Proxy' doesn't exist, js engine: hermes [Mon Feb 08 2021 19:21:54.427] ERROR Invariant Violation: Module AppRegistry is not a registered callable module (calling runApplication), js engine: hermes
 ```
-
-If you see this, you haven't correctly installed the right version of Hermes, so please confirm that.
 
 ## Using inline requires
 
