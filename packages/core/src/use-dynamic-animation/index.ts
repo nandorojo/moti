@@ -53,13 +53,14 @@ export default function useDynamicAnimation(
 
   const controller = useRef<UseDynamicAnimationState>()
 
-  if (controller.current === null) {
+  if (controller.current == null) {
     controller.current = {
       __state,
       get current(): DynamicStyleProp {
         return activeStyle.current.value
       },
       animateTo(nextStateOrFunction) {
+        'worklet'
         const runAnimation = (nextStyleObject: DynamicStyleProp) => {
           if (nextStyleObject) {
             activeStyle.current.value = nextStyleObject
