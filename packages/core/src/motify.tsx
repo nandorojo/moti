@@ -38,6 +38,7 @@ export default function motify<
           stylePriority,
           onDidAnimate,
           exit,
+          animateInitialState,
           ...props
         },
         ref
@@ -51,6 +52,7 @@ export default function motify<
           stylePriority,
           onDidAnimate,
           exit,
+          animateInitialState,
         })
 
         return (

@@ -219,6 +219,7 @@ export default function useMapAnimateToStyle<Animate>({
   stylePriority = 'animate',
   onDidAnimate,
   exit,
+  animateInitialState = false,
 }: MotiProps<Animate>) {
   const isMounted = useSharedValue(false, false)
   const [isPresent, safeToUnmount] = usePresence()
@@ -309,14 +310,22 @@ export default function useMapAnimateToStyle<Animate>({
           if (isTransform(key) && final.transform) {
             // this syntax avoids reanimated .__defineObject error
             const transform = {}
-            transform[key] = animation(initialValue, config)
+            if (animateInitialState) {
+              transform[key] = animation(initialValue, config)
+            } else {
+              transform[key] = initialValue
+            }
 
             // final.transform.push({ [key]: initialValue }) does not work!
             // @ts-ignore
             final.transform.push(transform)
             // console.log({ final })
           } else {
-            final[key] = animation(initialValue, config)
+            if (animateInitialState) {
+              final[key] = animation(initialValue, config)
+            } else {
+              final[key] = initialValue
+            }
           }
           return
         }

@@ -218,6 +218,12 @@ export interface MotiProps<
    *
    */
   stylePriority?: 'state' | 'animate'
+  /**
+   * If `true`, the `from` prop will be set to animate. This will be noticeable for some spring animations, and might make them jumpy on mount.
+   *
+   * Default: `false`
+   */
+  animateInitialState?: boolean
 }
 
 export type InternalControllerState<V> = number | V[keyof V]
