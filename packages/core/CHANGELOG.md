@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.4](https://github.com/nandorojo/moti/compare/v0.7.3...v0.7.4) (2021-04-01)
+
+
+### Bug Fixes
+
+* deprecated react native types message ([6cc94f9](https://github.com/nandorojo/moti/commit/6cc94f9cfeaf57c6215f50265d950ba2ef31afd2))
+
+
+
+
+
 ## [0.7.3](https://github.com/nandorojo/moti/compare/v0.7.2...v0.7.3) (2021-03-30)
 
 **Note:** Version bump only for package @motify/core
