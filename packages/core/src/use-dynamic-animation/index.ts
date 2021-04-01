@@ -60,7 +60,6 @@ export default function useDynamicAnimation(
         return activeStyle.current.value
       },
       animateTo(nextStateOrFunction) {
-        'worklet'
         const runAnimation = (nextStyleObject: DynamicStyleProp) => {
           if (nextStyleObject) {
             activeStyle.current.value = nextStyleObject

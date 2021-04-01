@@ -159,7 +159,6 @@ export default function useAnimationState<V extends Variants<V>>(
     controller.current = {
       __state,
       transitionTo(nextStateOrFunction) {
-        'worklet'
         const runTransition = (nextStateKey: keyof V) => {
           selectedVariant.current = nextStateKey
 
