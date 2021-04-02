@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.2](https://github.com/nandorojo/moti/compare/v0.8.1...v0.8.2) (2021-04-02)
+
+
+### Bug Fixes
+
+* [#48](https://github.com/nandorojo/moti/issues/48) Solve broken Skeleton, AnimatePresence ([080b7c9](https://github.com/nandorojo/moti/commit/080b7c9427e293d6b3201fd0b8bb16ecf6dd3370))
+
+
+
+
+
 ## [0.8.1](https://github.com/nandorojo/moti/compare/v0.8.0...v0.8.1) (2021-04-01)
 
 **Note:** Version bump only for package @motify/core
