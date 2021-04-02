@@ -262,14 +262,21 @@ export default function useMapAnimateToStyle<Animate>({
     }
 
     if (isExiting && exitStyle) {
-      mergedStyles = exitStyle as any
+      mergedStyles = Object.assign({}, exitStyle) as any
     }
 
     debug('here')
 
-    const exitingStyleProps: Record<string, boolean> = Object.keys(
-      exitStyle || {}
-    ).reduce((obj, styleKey) => ({ ...obj, [styleKey]: true }), {})
+    // reduce doesn't work with spreads/reanimated Objects!
+    // const exitingStyleProps: Record<string, boolean> = Object.keys(
+    //   mergedStyles || {}
+    // ).reduce((obj, styleKey) => ({ ...obj, [styleKey]: true }), {})
+
+    // use forEach instead!
+    const exitingStyleProps: Record<string, boolean> = {}
+    Object.keys(exitStyle || {}).forEach((key) => {
+      exitingStyleProps[key] = true
+    })
 
     Object.keys(mergedStyles).forEach((key) => {
       const initialValue = initialStyle[key]
