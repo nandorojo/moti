@@ -1,4 +1,9 @@
-import React, { ComponentType, forwardRef, PropsWithChildren } from 'react'
+import React, {
+  Component,
+  ComponentType,
+  forwardRef,
+  PropsWithChildren,
+} from 'react'
 import type { ImageProps, StyleProp, TextProps, ViewProps } from 'react-native'
 import type { MotiProps } from './types'
 import useMapAnimateToStyle from './use-map-animate-to-style'
@@ -9,14 +14,16 @@ export default function motify<
   Props extends ViewProps | TextProps | ImageProps,
   Style = Props['style'] extends StyleProp<infer S> ? S : Record<string, any>
 >(ComponentWithoutAnimation: ComponentType<Props>) {
-  const Component = Animated.createAnimatedComponent(ComponentWithoutAnimation)
+  const AnimatedComponent = Animated.createAnimatedComponent(
+    ComponentWithoutAnimation
+  )
 
   const withAnimations = () =>
     //  we might use these later
     // outerProps?: ExtraProps
     {
       const withStyles = forwardRef<
-        ComponentType<Props>,
+        Component<Props>,
         PropsWithChildren<Props> & MotiProps<Style>
       >(function Wrapped(
         {
@@ -47,7 +54,7 @@ export default function motify<
         })
 
         return (
-          <Component
+          <AnimatedComponent
             {...(props as Props)}
             style={[style, animated.style]}
             ref={ref}
