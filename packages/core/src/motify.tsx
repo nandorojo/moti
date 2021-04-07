@@ -1,18 +1,13 @@
-import React, { ComponentType, forwardRef } from 'react'
-import type { ImageStyle, TextStyle, ViewStyle } from 'react-native'
+import React, { ComponentType, forwardRef, PropsWithChildren } from 'react'
+import type { ImageProps, StyleProp, TextProps, ViewProps } from 'react-native'
 import type { MotiProps } from './types'
 import useMapAnimateToStyle from './use-map-animate-to-style'
 import Animated from 'react-native-reanimated'
 
 // https://www.framer.com/blog/posts/magic-motion/
 export default function motify<
-  Style,
-  Props extends { style?: Style },
-  Ref,
-  ExtraProps,
-  // Variants,
-  // Animate = ViewStyle & TextStyle
-  Animate = ViewStyle | ImageStyle | TextStyle
+  Props extends ViewProps | TextProps | ImageProps,
+  Style = Props['style'] extends StyleProp<infer S> ? S : Record<string, any>
 >(ComponentWithoutAnimation: ComponentType<Props>) {
   const Component = Animated.createAnimatedComponent(ComponentWithoutAnimation)
 
@@ -21,12 +16,8 @@ export default function motify<
     // outerProps?: ExtraProps
     {
       const withStyles = forwardRef<
-        Ref,
-        Props &
-          MotiProps<Animate> &
-          ExtraProps & {
-            children?: React.ReactNode
-          }
+        ComponentType<Props>,
+        PropsWithChildren<Props> & MotiProps<Style>
       >(function Wrapped(
         {
           animate,
