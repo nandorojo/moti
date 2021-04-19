@@ -4,14 +4,15 @@ import React, {
   forwardRef,
   PropsWithChildren,
 } from 'react'
-import type { ImageProps, StyleProp, TextProps, ViewProps } from 'react-native'
+import type { StyleProp } from 'react-native'
 import type { MotiProps } from './types'
 import useMapAnimateToStyle from './use-map-animate-to-style'
 import Animated from 'react-native-reanimated'
 
 // https://www.framer.com/blog/posts/magic-motion/
 export default function motify<
-  Props extends ViewProps | TextProps | ImageProps,
+  Props extends { style?: object | StyleProp<any> },
+  Ref = Component<Props>,
   Style = Props['style'] extends StyleProp<infer S> ? S : Record<string, any>
 >(ComponentWithoutAnimation: ComponentType<Props>) {
   const AnimatedComponent = Animated.createAnimatedComponent(
@@ -23,7 +24,7 @@ export default function motify<
     // outerProps?: ExtraProps
     {
       const withStyles = forwardRef<
-        Component<Props>,
+        Ref,
         PropsWithChildren<Props> & MotiProps<Style>
       >(function Wrapped(
         {
