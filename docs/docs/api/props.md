@@ -21,7 +21,7 @@ All `moti` components have a few useful props:
 <div
   style={{
     position: 'relative',
-    paddingBottom: '209.59302325581396%',
+    paddingBottom: '56%',
     height: 0,
     width: '100%',
   }}
