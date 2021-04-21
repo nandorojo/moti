@@ -136,8 +136,7 @@ export default function useAnimationState<V extends Variants<V>>(
 ) {
   const controller = useRef<UseAnimationState<V>>()
   const __state = useSharedValue<InternalControllerState<V>>(
-    from ? _variants[from] : 0,
-    false // don't rebuild it
+    from ? _variants[from] : 0
   )
 
   const selectedVariant = useRef(from)

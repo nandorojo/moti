@@ -1,49 +1,23 @@
 import React, { useReducer } from 'react'
 import { StyleSheet, Pressable } from 'react-native'
 import { View } from 'moti'
-import Animated, {
-  useAnimatedStyle,
-  withSequence,
-  withSpring,
-} from 'react-native-reanimated'
-
-function ShapeBug() {
-  const style = useAnimatedStyle(() => {
-    const makeSequence = (...values: number[]) => {
-      const sequence = values.map((value) => withSpring(value))
-      return withSequence(sequence[0], ...sequence.slice(1))
-    }
-
-    return {
-      transform: [
-        {
-          translateX: makeSequence(-100, 0, 100, 0),
-        },
-        {
-          translateY: makeSequence(0, -100, -100, 0),
-        },
-      ],
-    }
-  }, [])
-
-  return <Animated.View style={[styles.shape, style]} />
-}
 
 function Shape() {
   return (
     <View
-      // from={{
-      //   opacity: 0,
-      //   scale: 0.5,
-      // }}
       animate={{
-        translateY: [0, -100, -100, 0],
-        translateX: [-100, 0, 100, 0],
+        translateY: [
+          0,
+          {
+            value: 100,
+            type: 'timing',
+            delay: 600,
+            duration: 2500,
+          },
+          -100,
+          0,
+        ],
       }}
-      // transition={{
-      //   type: 'timing',
-      // }}
-      delay={300}
       style={styles.shape}
     />
   )
@@ -54,7 +28,7 @@ export default function HelloWorld() {
 
   return (
     <Pressable onPress={toggle} style={styles.container}>
-      {visible && <ShapeBug />}
+      {visible && <Shape />}
     </Pressable>
   )
 }

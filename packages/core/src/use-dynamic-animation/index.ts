@@ -46,10 +46,7 @@ export default function useDynamicAnimation(
     activeStyle.current.value = initialState()
   }
 
-  const __state = useSharedValue(
-    activeStyle.current.value,
-    false // don't rebuild it (for older versions)
-  )
+  const __state = useSharedValue(activeStyle.current.value)
 
   const controller = useRef<UseDynamicAnimationState>()
 

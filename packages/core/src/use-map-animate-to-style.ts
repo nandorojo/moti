@@ -221,7 +221,7 @@ export default function useMapAnimateToStyle<Animate>({
   exit,
   animateInitialState = false,
 }: MotiProps<Animate>) {
-  const isMounted = useSharedValue(false, false)
+  const isMounted = useSharedValue(false)
   const [isPresent, safeToUnmount] = usePresence()
 
   const reanimatedSafeToUnmount = useCallback(() => {
@@ -391,20 +391,23 @@ export default function useMapAnimateToStyle<Animate>({
             if (typeof step === 'object') {
               // TODO this should spread from step, but reanimated won't allow this on JS thread?
               // const { delay, value, ...transition } = step
-              const transition = step
-              const { delay, value } = step
+              const transition = Object.assign({}, step)
+
+              delete transition.delay
+              delete transition.value
 
               const {
                 // TODO merge stepConfig = {...stepConfig, customConfig} when reanimated lets us...
                 // as of now, it says multiple threads are interacting, IDK
-                // config: customConfig,
+                config: customConfig,
                 animation,
               } = animationConfig(key, transition)
 
-              stepConfig = Object.assign({}, stepConfig)
               // TODO test, does this work?
-              // stepConfig = Object.assign({}, stepConfig, customConfig)
+              stepConfig = Object.assign({}, stepConfig, customConfig)
               stepAnimation = animation
+
+              const { delay, value } = step
               if (delay != null) {
                 stepDelay = delay
               }
