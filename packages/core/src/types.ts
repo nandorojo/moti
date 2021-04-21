@@ -195,6 +195,31 @@ export interface MotiProps<
    */
   transition?: MotiTransitionProp<AnimateWithTransitions>
   /**
+   * Define animation configurations for exiting components.
+   *
+   * Options passed to `exitTransition` will only apply to the `exit` prop, when a component is exiting.
+   *
+   * By default,
+   *
+   * ```jsx
+   * <MotiView
+   *   // the animate prop uses the transition
+   *   transition={{ type: 'spring' }}
+   *   animate={{ opacity: 1, scale: 1 }}
+   *
+   *   // when exiting, it will use a timing transition
+   *   exitTransition={{ type: 'timing' }}
+   *   exit={{ opacity: 0, scale: .1 }}
+   * />
+   * ```
+   *
+   * By default, `exit` uses `transition` to configure its animations, so this prop is not required. However, if you pass `exitTransition`, it will override `transition` for exit animations.
+   *
+   * To see how to use this prop, see the `transition` prop docs. It is identical to that prop, except that it overrides it when exiting.
+   *
+   */
+  exitTransition?: MotiTransitionProp<AnimateWithTransitions>
+  /**
    * Optionally delay the `animate` field.
    *
    * To get more granular delay controls, use the `transition` prop.
