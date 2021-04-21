@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.10.0](https://github.com/nandorojo/moti/compare/v0.9.0...v0.10.0) (2021-04-21)
+
+
+### Features
+
+* add `exitTransition` support & docs! ([26a55ac](https://github.com/nandorojo/moti/commit/26a55acbfc66e29db9eee24fe1adeec923226acd))
+
+
+
+
+
 # [0.9.0](https://github.com/nandorojo/moti/compare/v0.8.2...v0.9.0) (2021-04-21)
 
 
