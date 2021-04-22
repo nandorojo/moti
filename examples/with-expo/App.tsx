@@ -4,6 +4,7 @@
 // export { default } from './src/Moti.Skeleton'
 // export { default } from './src/Moti.Gallery'
 // export { default } from './src/Moti.Sequence'
-export { default } from './src/Moti.Presence'
+// export { default } from './src/Moti.Presence'
+export { default } from './src/Moti.SV'
 // export { default } from './src/Moti.HelloWorld'
 // export { default } from './src/Moti.Variants'

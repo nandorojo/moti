@@ -1,5 +1,5 @@
 import { usePresence } from 'framer-motion'
-import { useCallback, useEffect } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import type { TransformsStyle } from 'react-native'
 import Animated, {
   useAnimatedStyle,
@@ -15,13 +15,13 @@ import Animated, {
 import { PackageName } from './constants/package-name'
 import type { MotiProps, Transforms, TransitionConfig } from './types'
 
-const debug = (...args: any[]) => {
-  'worklet'
-  if (args) {
-    // hi
-  }
-  // console.log('[moti]', ...args)
-}
+// const debug = (...args: any[]) => {
+//   'worklet'
+//   if (args) {
+//     // hi
+//   }
+//   console.log('[moti]', ...args)
+// }
 
 const isColor = (styleKey: string) => {
   'worklet'
@@ -117,8 +117,6 @@ function animationConfig<Animate>(
     repeatReverse = transition.repeatReverse
   }
 
-  debug({ loop, key, repeatCount, animationType })
-
   let config = {}
   // so sad, but fix it later :(
   let animation = (...props: any): any => props
@@ -203,31 +201,74 @@ function animationConfig<Animate>(
   }
 }
 
+function useLatest<T>(value: T) {
+  const ref = useRef(value)
+  if (ref.current !== value) {
+    ref.current = value
+  }
+  return ref
+}
+
 export default function useMapAnimateToStyle<Animate>({
-  animate,
-  from = false,
-  transition: transitionProp,
+  animate: animateProp,
+  from: _from = false,
+  transition: _transitionProp,
   delay: defaultDelay,
   state,
   stylePriority = 'animate',
   onDidAnimate,
-  exit,
+  exit: _exit,
   animateInitialState = false,
-  exitTransition,
+  exitTransition: _exitTransition,
 }: MotiProps<Animate>) {
   const isMounted = useSharedValue(false)
   const [isPresent, safeToUnmount] = usePresence()
 
-  const reanimatedSafeToUnmount = useCallback(() => {
-    safeToUnmount?.()
-  }, [safeToUnmount])
+  // memoize each JSON-able prop to avoid re-creating styles
+  const exitString = JSON.stringify(typeof _exit === 'object' ? _exit : {})
+  const exit = useMemo<typeof _exit>(() => JSON.parse(exitString), [exitString])
 
-  const reanimatedOnDidAnimated = useCallback<NonNullable<typeof onDidAnimate>>(
+  const transitionString = JSON.stringify(
+    typeof _transitionProp === 'object' ? _transitionProp : {}
+  )
+  const transitionProp = useMemo<typeof _transitionProp>(
+    () => JSON.parse(transitionString),
+    [transitionString]
+  )
+
+  const fromString = JSON.stringify(typeof _from === 'object' ? _from : {})
+  const from = useMemo<typeof _from>(() => JSON.parse(fromString), [fromString])
+
+  const exitTransitionString = JSON.stringify(
+    typeof _exitTransition === 'object' ? _exitTransition : {}
+  )
+  const exitTransition = useMemo<typeof _exitTransition>(
+    () => JSON.parse(exitTransitionString),
+    [exitTransitionString]
+  )
+
+  const reanimatedSafeToUnmount = useLatest(() => safeToUnmount?.())
+  const reanimatedOnDidAnimate = useLatest<NonNullable<typeof onDidAnimate>>(
     (...args) => {
       onDidAnimate?.(...args)
-    },
-    [onDidAnimate]
+    }
   )
+
+  // const animate = useDerivedValue(() => {
+  //   if (typeof animateProp === 'object' && 'value' in animateProp) {
+  //     // debug('[use-map-animate][animate.is-dv]', animateProp.value)
+  //     return animateProp.value
+  //   }
+  //   // debug('[use-map-animate][animate.no-dv]', animateProp)
+  //   return animateProp
+  // })
+
+  // const reanimatedOnDidAnimated = useCallback<NonNullable<typeof onDidAnimate>>(
+  //   (...args) => {
+  //     onDidAnimate?.(...args)
+  //   },
+  //   [onDidAnimate]
+  // )
 
   const hasExitStyle =
     typeof exit === 'object' && !!Object.keys(exit ?? {}).length
@@ -238,6 +279,9 @@ export default function useMapAnimateToStyle<Animate>({
       transform: [] as TransformsStyle['transform'],
     }
     const variantStyle: Animate = state?.__state?.value || {}
+
+    const animate =
+      animateProp && 'value' in animateProp ? animateProp.value : animateProp
 
     const animateStyle = animate || {}
     const initialStyle = from || {}
@@ -255,8 +299,6 @@ export default function useMapAnimateToStyle<Animate>({
     if (isExiting && exitStyle) {
       mergedStyles = Object.assign({}, exitStyle) as any
     }
-
-    debug('here')
 
     // reduce doesn't work with spreads/reanimated Objects!
     // const exitingStyleProps: Record<string, boolean> = Object.keys(
@@ -291,7 +333,11 @@ export default function useMapAnimateToStyle<Animate>({
         recentValue
       ) => {
         if (onDidAnimate) {
-          runOnJS(reanimatedOnDidAnimated)(key as any, completed, recentValue)
+          runOnJS(reanimatedOnDidAnimate.current)(
+            key as any,
+            completed,
+            recentValue
+          )
         }
         if (isExiting) {
           exitingStyleProps[key] = false
@@ -300,7 +346,7 @@ export default function useMapAnimateToStyle<Animate>({
           )
           // if this is true, then we've finished our exit animations
           if (!areStylesExiting) {
-            runOnJS(reanimatedSafeToUnmount)()
+            runOnJS(reanimatedSafeToUnmount.current)()
           }
         }
       }
@@ -483,7 +529,23 @@ export default function useMapAnimateToStyle<Animate>({
     // }
 
     return final
-  })
+  }, [
+    animateInitialState,
+    animateProp, // this might be a SV, so we don't memoize it?
+    defaultDelay,
+    exit,
+    exitTransition,
+    from,
+    hasExitStyle,
+    isMounted,
+    isPresent,
+    onDidAnimate,
+    reanimatedOnDidAnimate,
+    reanimatedSafeToUnmount,
+    state,
+    stylePriority,
+    transitionProp,
+  ])
 
   useEffect(() => {
     isMounted.value = true
