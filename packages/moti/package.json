@@ -40,6 +40,9 @@
     "@motify/components": "^0.10.0",
     "@motify/core": "^0.10.0"
   },
+  "peerDependencies": {
+    "react-native-reanimated": "*"
+  },
   "devDependencies": {
     "typescript": "^4.0.3"
   },
