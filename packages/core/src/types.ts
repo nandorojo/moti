@@ -122,7 +122,12 @@ export type StyleValueWithReplacedTransforms<StyleProp> = Omit<
 > &
   Partial<Transforms>
 
-export type MotiAnimationProp<Animate> = MotiProps<Animate>['animate']
+type OmitDerivedValue<T> = T extends Animated.DerivedValue<infer S> ? S : T
+type SelfOrDerivedValue<T> = T | Animated.DerivedValue<T>
+
+export type MotiAnimationProp<
+  Animate = ImageStyle | TextStyle | ViewStyle
+> = OmitDerivedValue<MotiProps<Animate>['animate']>
 export type MotiFromProp<Animate> = MotiProps<Animate>['from']
 export type MotiExitProp<Animate> = MotiProps<Animate>['exit']
 
@@ -157,7 +162,7 @@ export interface MotiProps<
    *
    * To set an initial value, see the `from` prop.
    */
-  animate?: Animate
+  animate?: SelfOrDerivedValue<Animate>
   /**
    * (Optional) specify styles which the component should animate from.
    *

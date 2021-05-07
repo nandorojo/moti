@@ -8,6 +8,7 @@ import Animated, {
   Extrapolate,
   withTiming,
   Easing,
+  runOnJS,
 } from 'react-native-reanimated'
 import {
   Dimensions,
@@ -127,7 +128,7 @@ function ImageTransition({ activeImage, onClose }) {
 
       animationProgress.value = withTiming(0, timingConfig, () => {
         imageOpacity.value = 1
-        onClose()
+        runOnJS(onClose)()
       })
 
       backdropOpacity.value = withTiming(0, timingConfig)
