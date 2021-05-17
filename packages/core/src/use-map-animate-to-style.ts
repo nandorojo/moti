@@ -291,7 +291,9 @@ export default function useMapAnimateToStyle<Animate>({
         recentValue
       ) => {
         if (onDidAnimate) {
-          runOnJS(reanimatedOnDidAnimated)(key as any, completed, recentValue)
+          runOnJS(reanimatedOnDidAnimated)(key as any, completed, recentValue, {
+            attempedValue: value,
+          })
         }
         if (isExiting) {
           exitingStyleProps[key] = false

@@ -15,6 +15,11 @@ All `moti` components have a few useful props:
 - `onDidAnimate` Callback function called after finishing a given animation.
   - First argument is the style prop string (`opacity`, `scale`, etc.)
   - The second argument is whether the animation `finished` or not (boolean)
+  - The third argument is `value`, which only exists in a sequence.
+  - The fourth argument is an event dictionary.
+    - It has an `attemptedValue` field, which indicates the value that the animation tried to get to.
+    - This is probably a better field to check for than the third argument.
+    - As long as the second argument, `finished`, is `true`, then the `attemptedValue` represents that the value that was animated to.
 
 ## `exitTransition`
 

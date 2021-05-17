@@ -113,7 +113,30 @@ export type OnDidAnimate<
   /**
    * This value is `undefined`, **unless** you are doing a repeating or looping animation. In that case, it gives you the value that it just animated to.
    */
-  value?: Animate[Key]
+  value: Animate[Key] | undefined,
+  /**
+   * An object containing metadata about this animation.
+   */
+  event: {
+    /**
+     * The value that this animation attempted to animate to.
+     *
+     * The reason it's marked as "attempted", is that if the animation didn't finish, then it didn't actually animate to this value.
+     *
+     * Usage:
+     *
+     * ```jsx
+     * <MotiView
+     *   onDidAnimate={(key, finished, value, { attemptedValue }) => {
+     *     if (key === 'opacity' && finished && attempedValue === 1) {
+     *       console.log('animated to 1!')
+     *     }
+     *   }}
+     * />
+     * ```
+     */
+    attempedValue: Animate[Key]
+  }
 ) => void
 
 export type StyleValueWithReplacedTransforms<StyleProp> = Omit<

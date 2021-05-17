@@ -123,10 +123,8 @@ const Skeleton = () => (
 
 const WithAnimatedPresence = () => (
   <AnimatePresence exitBeforeEnter>
-    {loading && (
-      <Skeleton key="skeleton" />
-    )}
-    
+    {loading && <Skeleton key="skeleton" />}
+
     {!loading && (
       <View
         key="content"
@@ -273,8 +271,17 @@ The `onDidAnimate` function prop gets called whenever an animation completes.
 <View
   from={{ opacity: 0 }}
   animate={{ opacity: 1 }}
-  onDidAnimate={(styleProp, didAnimationFinish) => {
+  onDidAnimate={(
+    styleProp,
+    didAnimationFinish,
+    maybeValue,
+    { attemptedValue }
+  ) => {
     console.log('[moti]', styleProp, didAnimationFinish) // [moti], opacity, true
+
+    if (styleProp === 'opacity' && didAnimationFinish) {
+      console.log('did animate opacity to: ' + attemptedValue)
+    }
   }}
 />
 ```
