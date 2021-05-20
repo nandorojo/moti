@@ -15,11 +15,11 @@ See a video of this example [here](https://twitter.com/FernandoTheRojo/status/13
 import { AnimatePresence } from 'framer-motion'
 import React, { useReducer } from 'react'
 import { StyleSheet, Pressable } from 'react-native'
-import { View } from 'moti'
+import { MotiView } from 'moti'
 
 function Shape({ bg }: { bg: string }) {
   return (
-    <View
+    <MotiView
       from={{
         opacity: 0,
         scale: 0.5,
