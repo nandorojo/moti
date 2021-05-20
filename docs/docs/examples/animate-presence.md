@@ -9,11 +9,11 @@ See a video of this example [here](https://twitter.com/FernandoTheRojo/status/13
 import React, { useReducer } from 'react'
 import { StyleSheet, Pressable } from 'react-native'
 
-import { View, AnimatePresence } from 'moti'
+import { MotiView, AnimatePresence } from 'moti'
 
 function Shape() {
   return (
-    <View
+    <MotiView
       from={{
         opacity: 0,
         scale: 0.9,

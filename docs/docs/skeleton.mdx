@@ -162,10 +162,10 @@ Here's the code from the video above:
 ```tsx
 import React, { useReducer } from 'react'
 import { StyleSheet, Pressable } from 'react-native'
-import { View } from 'moti'
+import { MotiView } from 'moti'
 import { Skeleton } from '@motify/skeleton'
 
-const Spacer = ({ height = 16 }) => <View style={{ height }} />
+const Spacer = ({ height = 16 }) => <MotiView style={{ height }} />
 
 const transition = {
   opacity: {
@@ -180,7 +180,7 @@ export default function HelloWorld() {
 
   return (
     <Pressable onPress={toggle} style={styles.container}>
-      <View
+      <MotiView
         transition={{
           type: 'timing',
         }}
@@ -208,7 +208,7 @@ export default function HelloWorld() {
           colorMode={colorMode}
           width={'100%'}
         />
-      </View>
+      </MotiView>
     </Pressable>
   )
 }
