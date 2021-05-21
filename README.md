@@ -3,7 +3,7 @@
 The universal React Native animation library, powered by Reanimated 2.
 
 ```jsx
-<View from={{ opacity: 0 }} animate={{ opacity: 1 }} />
+<MotiView from={{ opacity: 0 }} animate={{ opacity: 1 }} />
 ```
 
 # Documentation & Examples
