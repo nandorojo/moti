@@ -6,7 +6,7 @@ title: Overview
 Moti has a number of powerful features that make your animations slick and simple.
 
 ```ts
-import { View, Text } from 'moti'
+import { MotiView, Text } from 'moti'
 ```
 
 ## Mount animations
@@ -14,13 +14,13 @@ import { View, Text } from 'moti'
 You can set the initial state with `from`. Any styles passed to `animate` will transition for you.
 
 ```tsx
-<View from={{ opacity: 0 }} animate={{ opacity: 1 }} />
+<MotiView from={{ opacity: 0 }} animate={{ opacity: 1 }} />
 ```
 
 ## Animate based on React state
 
 ```tsx
-<View animate={{ opacity: isLoading ? 1 : 0 }} />
+<MotiView animate={{ opacity: isLoading ? 1 : 0 }} />
 ```
 
 This is useful for dynamic height changes, for instance.
@@ -28,7 +28,7 @@ This is useful for dynamic height changes, for instance.
 ```tsx
 const [height, setHeight] = useMeasure()
 
-<View
+<MotiView
   animate={{
     height,
   }}
@@ -40,7 +40,7 @@ const [height, setHeight] = useMeasure()
 Moti animations are highly configurable, thanks to the `transition` prop. If you've used `framer-motion`, this will look familiar.
 
 ```tsx
-<View
+<MotiView
   from={{ opacity: 0, scale: 0.5 }}
   animate={{ opacity: 1, scale: 1 }}
   transition={{
@@ -53,7 +53,7 @@ Moti animations are highly configurable, thanks to the `transition` prop. If you
 You can also configure different transitions per-style:
 
 ```tsx
-<View
+<MotiView
   from={{ opacity: 0, scale: 0.5 }}
   animate={{ opacity: 1, scale: 1 }}
   transition={{
@@ -92,7 +92,7 @@ const [visible, setVisible] = useState(false)
 
 <AnimatePresence>
   {visible && (
-    <View
+    <MotiView
       from={{ opacity: 1 }}
       animate={{ opacity: 1 }}
       exit={{
@@ -113,7 +113,7 @@ Make sure that its direct children have a unique `key` prop for this to work.
 
 ```tsx
 const Skeleton = () => (
-  <View
+  <MotiView
     animate={{ opacity: 1 }}
     exit={{
       opacity: 0,
@@ -123,12 +123,10 @@ const Skeleton = () => (
 
 const WithAnimatedPresence = () => (
   <AnimatePresence exitBeforeEnter>
-    {loading && (
-      <Skeleton key="skeleton" />
-    )}
-    
+    {loading && <Skeleton key="skeleton" />}
+
     {!loading && (
-      <View
+      <MotiView
         key="content"
         animate={{ opacity: 1 }}
         exit={{
@@ -149,7 +147,7 @@ The `exit` prop can be inside of a nested component. However, it's important tha
 You can use the `delay` prop
 
 ```tsx
-<View
+<MotiView
   // delay in milliseconds
   delay={200}
   from={{ translateY: -5 }}
@@ -160,7 +158,7 @@ You can use the `delay` prop
 Or, pass your `delay` in `transition`:
 
 ```tsx
-<View
+<MotiView
   from={{ translateY: -5 }}
   animate={{ translateY: 0 }}
   transition={{
@@ -172,7 +170,7 @@ Or, pass your `delay` in `transition`:
 You can also set a different delay per-style:
 
 ```tsx
-<View
+<MotiView
   from={{ translateY: -5, opacity: 0 }}
   animate={{ translateY: 0, opacity: 1 }}
   transition={{
@@ -191,7 +189,7 @@ You can also set a different delay per-style:
 To create a sequence animation, similar to CSS keyframes, just pass an array to any style:
 
 ```tsx
-<View
+<MotiView
   animate={{
     scale: [0.1, 1.1, 1],
   }}
@@ -203,7 +201,7 @@ This will animate to `0.1`, then `1.1`, then `1`.
 If you want to customize each step of the animation, you can also pass an object with a `value` field.
 
 ```tsx
-<View
+<MotiView
   animate={{
     scale: [
       // you can mix primitive values with objects, too
@@ -222,7 +220,7 @@ Any `transition` settings can be passed to a sequence object.
 Repeat an animation 4 times.
 
 ```tsx
-<View
+<MotiView
   from={{ opacity: 0 }}
   animate={{ opacity: 1 }}
   transition={{
@@ -236,7 +234,7 @@ By default, repetitions reverse, meaning they automatically animate back to wher
 You can disable this behavior with `repeatReverse: false`.
 
 ```tsx
-<View
+<MotiView
   from={{ opacity: 0 }}
   animate={{ opacity: 1 }}
   transition={{
@@ -252,7 +250,7 @@ Setting `repeatReverse` to `true` is like setting `animationDirection: alternate
 Infinitely loop from 0 to 1:
 
 ```tsx
-<View
+<MotiView
   from={{ opacity: 0 }}
   animate={{ opacity: 1 }}
   transition={{
@@ -270,11 +268,20 @@ Repetition styles can't be changed on the fly. Reanimated's `withRepeat` has som
 The `onDidAnimate` function prop gets called whenever an animation completes.
 
 ```tsx
-<View
+<MotiView
   from={{ opacity: 0 }}
   animate={{ opacity: 1 }}
-  onDidAnimate={(styleProp, didAnimationFinish) => {
+  onDidAnimate={(
+    styleProp,
+    didAnimationFinish,
+    maybeValue,
+    { attemptedValue }
+  ) => {
     console.log('[moti]', styleProp, didAnimationFinish) // [moti], opacity, true
+
+    if (styleProp === 'opacity' && didAnimationFinish) {
+      console.log('did animate opacity to: ' + attemptedValue)
+    }
   }}
 />
 ```
@@ -294,7 +301,7 @@ const animationState = useAnimationState({
 })
 
 // make sure to pass this to the `state` prop
-return <View state={animationState} />
+return <MotiView state={animationState} />
 ```
 
 Or set custom variants and update them on the fly:
@@ -317,7 +324,7 @@ const onPress = () => {
   }
 }
 
-return <View state={animationState} />
+return <MotiView state={animationState} />
 ```
 
 You can use this to create reusable animations, too:
@@ -337,7 +344,7 @@ const useFadeIn = () => {
 const FadeInComponent = () => {
   const fadeInState = useFadeIn()
 
-  return <View state={fadeInState} />
+  return <MotiView state={fadeInState} />
 }
 ```
 

@@ -20,7 +20,7 @@ const debug = (...args: any[]) => {
   if (args) {
     // hi
   }
-  // console.log('[moti-bug]', ...args)
+  // console.log('[moti]', ...args)
 }
 
 const isColor = (styleKey: string) => {
@@ -167,12 +167,9 @@ function animationConfig<Animate>(
     })
   } else if (animationType === 'decay') {
     // TODO decay doesn't work for now
-    // neither does __DEV__
-    // if (__DEV__) {
     console.error(
       `[${PackageName}]: You passed transition type: decay, but this isn't working for now. Honestly, not sure why yet. Try passing other transition fields, like clamp, velocity, and deceleration. If that solves it, please open an issue and let me know.`
     )
-    // }
     animation = withDecay
     config = {
       velocity: 2,
@@ -206,22 +203,19 @@ function animationConfig<Animate>(
   }
 }
 
-const empty = {
-  object: {},
-}
-
 export default function useMapAnimateToStyle<Animate>({
   animate,
   from = false,
-  transition,
+  transition: transitionProp,
   delay: defaultDelay,
   state,
   stylePriority = 'animate',
   onDidAnimate,
   exit,
   animateInitialState = false,
+  exitTransition,
 }: MotiProps<Animate>) {
-  const isMounted = useSharedValue(false, false)
+  const isMounted = useSharedValue(false)
   const [isPresent, safeToUnmount] = usePresence()
 
   const reanimatedSafeToUnmount = useCallback(() => {
@@ -236,7 +230,7 @@ export default function useMapAnimateToStyle<Animate>({
   )
 
   const hasExitStyle =
-    typeof exit === 'object' && !!Object.keys(exit ?? empty.object).length
+    typeof exit === 'object' && !!Object.keys(exit ?? {}).length
 
   const style = useAnimatedStyle(() => {
     const final = {
@@ -245,12 +239,9 @@ export default function useMapAnimateToStyle<Animate>({
     }
     const variantStyle: Animate = state?.__state?.value || {}
 
-    // const animateStyle = animateSV.value || {}
     const animateStyle = animate || {}
     const initialStyle = from || {}
     const exitStyle = exit || {}
-    // const initialStyle = initialSV.value || {}
-    // const exitStyle = exitSV.value || {}
 
     const isExiting = !isPresent && hasExitStyle
 
@@ -278,6 +269,11 @@ export default function useMapAnimateToStyle<Animate>({
       exitingStyleProps[key] = true
     })
 
+    let transition = transitionProp
+    if (isExiting && exitTransition) {
+      transition = Object.assign({}, transition, exitTransition)
+    }
+
     Object.keys(mergedStyles).forEach((key) => {
       const initialValue = initialStyle[key]
       const value = mergedStyles[key]
@@ -295,16 +291,16 @@ export default function useMapAnimateToStyle<Animate>({
         recentValue
       ) => {
         if (onDidAnimate) {
-          runOnJS(reanimatedOnDidAnimated)(key as any, completed, recentValue)
+          runOnJS(reanimatedOnDidAnimated)(key as any, completed, recentValue, {
+            attempedValue: value,
+          })
         }
         if (isExiting) {
           exitingStyleProps[key] = false
           const areStylesExiting = Object.values(exitingStyleProps).some(
             Boolean
           )
-          //   // if this is true, then we've finished our exit animations
-          // const isLastStyleKeyToAnimate =
-          //   index + 1 === Object.keys(mergedStyles || {}).length
+          // if this is true, then we've finished our exit animations
           if (!areStylesExiting) {
             runOnJS(reanimatedSafeToUnmount)()
           }
@@ -315,8 +311,7 @@ export default function useMapAnimateToStyle<Animate>({
         // if we haven't mounted, or if there's no other value to use besides the initial one, use it.
         if (isMounted.value === false || value == null) {
           if (isTransform(key) && final.transform) {
-            // this syntax avoids reanimated .__defineObject error
-            const transform = {}
+            const transform = {} as Transforms
             if (isMounted.value || animateInitialState) {
               transform[key] = animation(initialValue, config)
             } else {
@@ -324,9 +319,7 @@ export default function useMapAnimateToStyle<Animate>({
             }
 
             // final.transform.push({ [key]: initialValue }) does not work!
-            // @ts-ignore
             final.transform.push(transform)
-            // console.log({ final })
           } else {
             if (isMounted.value || animateInitialState) {
               final[key] = animation(initialValue, config)
@@ -374,9 +367,9 @@ export default function useMapAnimateToStyle<Animate>({
          * If there's something *obvious* that would benefit from abstraction, we can. But let's keep it simple.
          */
 
-        // remove null, false values to allow for conditional styles
         const sequence = value
           .filter((step) => {
+            // remove null, false values to allow for conditional styles
             if (typeof step === 'object') {
               return step?.value != null && step?.value !== false
             }
@@ -385,30 +378,26 @@ export default function useMapAnimateToStyle<Animate>({
           .map((step) => {
             let stepDelay = delayMs
             let stepValue = step
-            // let stepConfig = { ...config }
             let stepConfig = Object.assign({}, config)
             let stepAnimation = animation
             if (typeof step === 'object') {
-              // TODO this should spread from step, but reanimated won't allow this on JS thread?
-              // const { delay, value, ...transition } = step
-              const transition = step
-              const { delay, value } = step
+              // not allowed in Reanimated: { delay, value, ...transition } = step
+              const transition = Object.assign({}, step)
+              delete transition.delay
+              delete transition.value
 
-              const {
-                // TODO merge stepConfig = {...stepConfig, customConfig} when reanimated lets us...
-                // as of now, it says multiple threads are interacting, IDK
-                // config: customConfig,
-                animation,
-              } = animationConfig(key, transition)
+              const { config: inlineStepConfig, animation } = animationConfig(
+                key,
+                transition
+              )
 
-              stepConfig = Object.assign({}, stepConfig)
-              // TODO test, does this work?
-              // stepConfig = Object.assign({}, stepConfig, customConfig)
+              stepConfig = Object.assign({}, stepConfig, inlineStepConfig)
               stepAnimation = animation
-              if (delay != null) {
-                stepDelay = delay
+
+              if (step.delay != null) {
+                stepDelay = step.delay
               }
-              stepValue = value
+              stepValue = step.value
             }
 
             const sequenceValue = stepAnimation(stepValue, stepConfig, callback)

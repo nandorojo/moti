@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.11.0](https://github.com/nandorojo/moti/compare/v0.10.1...v0.11.0) (2021-05-17)
+
+
+### Features
+
+* add onDidAnimate callback 4th arg w/ attemptedValue; docs ([66dfa76](https://github.com/nandorojo/moti/commit/66dfa766fccf6b35606d61b9e262a2d90b35dde7))
+
+
+
+
+
+## [0.10.1](https://github.com/nandorojo/moti/compare/v0.10.0...v0.10.1) (2021-04-27)
+
+**Note:** Version bump only for package moti
+
+
+
+
+
+# [0.10.0](https://github.com/nandorojo/moti/compare/v0.9.0...v0.10.0) (2021-04-21)
+
+
+### Features
+
+* add `exitTransition` support & docs! ([26a55ac](https://github.com/nandorojo/moti/commit/26a55acbfc66e29db9eee24fe1adeec923226acd))
+
+
+
+
+
+# [0.9.0](https://github.com/nandorojo/moti/compare/v0.8.2...v0.9.0) (2021-04-21)
+
+
+### Features
+
+* upgrade reanimated, add custom sequence transitions! ([8e64014](https://github.com/nandorojo/moti/commit/8e640149b187c4e253746c2d80d1a5c2b2749d55))
+
+
+
+
+
 ## [0.8.2](https://github.com/nandorojo/moti/compare/v0.8.1...v0.8.2) (2021-04-02)
 
 

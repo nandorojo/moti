@@ -23,10 +23,10 @@ export default function motify<
     //  we might use these later
     // outerProps?: ExtraProps
     {
-      const withStyles = forwardRef<
+      const Motified = forwardRef<
         Ref,
         PropsWithChildren<Props> & MotiProps<Style>
-      >(function Wrapped(
+      >(function Moti(
         {
           animate,
           style,
@@ -38,6 +38,7 @@ export default function motify<
           onDidAnimate,
           exit,
           animateInitialState,
+          exitTransition,
           ...props
         },
         ref
@@ -51,6 +52,7 @@ export default function motify<
           stylePriority,
           onDidAnimate,
           exit,
+          exitTransition,
           animateInitialState,
         })
 
@@ -63,7 +65,7 @@ export default function motify<
         )
       })
 
-      return withStyles
+      return Motified
     }
 
   return withAnimations

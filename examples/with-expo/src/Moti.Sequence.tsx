@@ -5,18 +5,19 @@ import { View } from 'moti'
 function Shape() {
   return (
     <View
-      from={{
-        opacity: 0,
-        scale: 0.5,
-      }}
       animate={{
-        opacity: [1, 0, 1],
-        scale: [1, 2, 1],
+        translateY: [
+          0,
+          {
+            value: 100,
+            type: 'timing',
+            delay: 600,
+            duration: 2500,
+          },
+          -100,
+          0,
+        ],
       }}
-      transition={{
-        type: 'timing',
-      }}
-      delay={300}
       style={styles.shape}
     />
   )

@@ -6,7 +6,9 @@ title: Loop Animation
 Create a loop animation of a box that goes up and down infinitely.
 
 :::tip
-Loop animations cannot be changed on the fly. See the explanation at the bottom.
+Loop animations cannot be changed on the fly. If you want to restart a loop, you need to update a component's `key` prop.
+
+See the explanation at the bottom.
 :::
 
 ### Code
@@ -14,11 +16,11 @@ Loop animations cannot be changed on the fly. See the explanation at the bottom.
 ```tsx
 import React, { useReducer } from 'react'
 import { StyleSheet } from 'react-native'
-import { View } from 'moti'
+import { MotiView } from 'moti'
 
 function Shape() {
   return (
-    <View
+    <MotiView
       from={{
         translateY: -100,
       }}
@@ -38,9 +40,9 @@ function Shape() {
 
 export default function Loop() {
   return (
-    <View style={styles.container}>
+    <MotiView style={styles.container}>
       <Shape />
-    </View>
+    </MotiView>
   )
 }
 
@@ -62,6 +64,8 @@ const styles = StyleSheet.create({
   },
 })
 ```
+
+To restart a `loop`, you must re-render the component and change its `key` prop. Every time the `key` changes, it will restart its animation.
 
 ### Warning
 

@@ -8,7 +8,7 @@ Variants are a common use case for animations. Moti makes this easy.
 ```tsx
 import React from 'react'
 import { StyleSheet, Pressable } from 'react-native'
-import { View, useAnimationState } from 'moti'
+import { MotiView, useAnimationState } from 'moti'
 
 // you can create a reusable animation preset
 const useFadeInDown = () => {
@@ -59,8 +59,8 @@ function Shape() {
 
   return (
     <Pressable onPress={onPress}>
-      <View delay={300} state={fadeInDown} style={styles.shape} />
-      <View
+      <MotiView delay={300} state={fadeInDown} style={styles.shape} />
+      <MotiView
         transition={{
           type: 'spring',
         }}
@@ -74,9 +74,9 @@ function Shape() {
 
 export default function Variants() {
   return (
-    <View style={styles.container}>
+    <MotiView style={styles.container}>
       <Shape />
-    </View>
+    </MotiView>
   )
 }
 

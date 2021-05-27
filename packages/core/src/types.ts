@@ -32,12 +32,15 @@ export type Transforms = PerpectiveTransform &
   SkewXTransform &
   SkewYTransform
 
-export type TransitionConfig = (
+export type TransitionConfigWithoutRepeats = (
   | ({ type?: 'spring' } & Animated.WithSpringConfig)
   | ({ type: 'timing' } & Animated.WithTimingConfig)
   | ({ type: 'decay' } & Animated.DecayConfig)
 ) & {
   delay?: number
+}
+
+export type TransitionConfig = TransitionConfigWithoutRepeats & {
   /**
    * Number of times this animation should repeat. To make it infinite, use the `loop` boolean.
    *
@@ -70,8 +73,6 @@ export type TransitionConfig = (
   repeatReverse?: boolean
 }
 
-type SmartOmit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
-
 /**
  * Allow { scale: 1 }
  *
@@ -93,7 +94,7 @@ export type StyleValueWithSequenceArrays<T> = {
             value: T[keyof T]
             // withSequence does not support withRepeat!
             // let people pass any config, minus repetitions
-          } & SmartOmit<TransitionConfig, 'repeat' | 'repeatReverse' | 'loop'>)
+          } & TransitionConfigWithoutRepeats)
       )[]
 }
 
@@ -112,7 +113,30 @@ export type OnDidAnimate<
   /**
    * This value is `undefined`, **unless** you are doing a repeating or looping animation. In that case, it gives you the value that it just animated to.
    */
-  value?: Animate[Key]
+  value: Animate[Key] | undefined,
+  /**
+   * An object containing metadata about this animation.
+   */
+  event: {
+    /**
+     * The value that this animation attempted to animate to.
+     *
+     * The reason it's marked as "attempted", is that if the animation didn't finish, then it didn't actually animate to this value.
+     *
+     * Usage:
+     *
+     * ```jsx
+     * <MotiView
+     *   onDidAnimate={(key, finished, value, { attemptedValue }) => {
+     *     if (key === 'opacity' && finished && attempedValue === 1) {
+     *       console.log('animated to 1!')
+     *     }
+     *   }}
+     * />
+     * ```
+     */
+    attempedValue: Animate[Key]
+  }
 ) => void
 
 export type StyleValueWithReplacedTransforms<StyleProp> = Omit<
@@ -193,6 +217,31 @@ export interface MotiProps<
    * ```
    */
   transition?: MotiTransitionProp<AnimateWithTransitions>
+  /**
+   * Define animation configurations for exiting components.
+   *
+   * Options passed to `exitTransition` will only apply to the `exit` prop, when a component is exiting.
+   *
+   * By default,
+   *
+   * ```jsx
+   * <MotiView
+   *   // the animate prop uses the transition
+   *   transition={{ type: 'spring' }}
+   *   animate={{ opacity: 1, scale: 1 }}
+   *
+   *   // when exiting, it will use a timing transition
+   *   exitTransition={{ type: 'timing' }}
+   *   exit={{ opacity: 0, scale: .1 }}
+   * />
+   * ```
+   *
+   * By default, `exit` uses `transition` to configure its animations, so this prop is not required. However, if you pass `exitTransition`, it will override `transition` for exit animations.
+   *
+   * To see how to use this prop, see the `transition` prop docs. It is identical to that prop, except that it overrides it when exiting.
+   *
+   */
+  exitTransition?: MotiTransitionProp<AnimateWithTransitions>
   /**
    * Optionally delay the `animate` field.
    *

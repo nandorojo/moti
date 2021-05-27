@@ -1,19 +1,10 @@
----
-id: animate-presence
-title: Animate Presence
----
-
-See a video of this example [here](https://twitter.com/FernandoTheRojo/status/1349884929765765123).
-
-```tsx
 import React, { useReducer } from 'react'
 import { StyleSheet, Pressable } from 'react-native'
-
-import { MotiView, AnimatePresence } from 'moti'
+import { View, AnimatePresence } from 'moti'
 
 function Shape() {
   return (
-    <MotiView
+    <View
       from={{
         opacity: 0,
         scale: 0.9,
@@ -25,6 +16,10 @@ function Shape() {
       exit={{
         opacity: 0,
         scale: 0.9,
+      }}
+      exitTransition={{
+        type: 'timing',
+        duration: 2500,
       }}
       style={styles.shape}
     />
@@ -58,4 +53,3 @@ const styles = StyleSheet.create({
     backgroundColor: '#9c1aff',
   },
 })
-```

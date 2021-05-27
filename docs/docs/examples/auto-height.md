@@ -7,7 +7,7 @@ Animate changes in variable height. You can see a video of this example [here](h
 
 ```tsx
 import React, { ComponentProps, useReducer, useState } from 'react'
-import { View as MotiView } from 'moti'
+import { MotiView } from 'moti'
 import { Button, View } from 'react-native'
 
 function useLayout() {
