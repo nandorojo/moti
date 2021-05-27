@@ -25,7 +25,13 @@ export default function HelloWorld() {
         style={[styles.container, styles.padded]}
         animate={{ backgroundColor: dark ? '#000000' : '#ffffff' }}
       >
-        <Skeleton colorMode={colorMode} radius="round" height={75} width={75} />
+        <Skeleton
+          animationDirection={'left-to-right'}
+          colorMode={colorMode}
+          radius="round"
+          height={75}
+          width={75}
+        />
         <Spacer />
         <Skeleton colorMode={colorMode} width={250} />
         <Spacer height={8} />
