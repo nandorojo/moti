@@ -64,6 +64,11 @@ type Props = {
    * `light` or `dark`. Default: `dark`.
    */
   colorMode?: keyof typeof baseColors
+  /**
+   * Starting direction for animation.
+   * Default: 'right-to-left'
+   */
+  animationDirection?: 'right-to-left' | 'left-to-right'
   disableExitAnimation?: boolean
   transition?: MotiTransitionProp
 }
@@ -109,6 +114,7 @@ export default function Skeleton(props: Props) {
     backgroundColor = colors[0] ??
       colors[1] ??
       baseColors[colorMode]?.secondary,
+    animationDirection = 'right-to-left',
     disableExitAnimation,
     transition,
   } = props
@@ -185,6 +191,7 @@ export default function Skeleton(props: Props) {
               colors={colors}
               measuredWidth={measuredWidth}
               transition={transition}
+              animationDirection={animationDirection}
             />
           </MotiView>
         )}
@@ -198,12 +205,17 @@ const AnimatedGradient = React.memo(
     measuredWidth,
     colors,
     transition = {},
+    animationDirection,
   }: {
     measuredWidth: number
     colors: string[]
     transition?: MotiTransitionProp
+    animationDirection?: 'left-to-right' | 'right-to-left'
   }) {
     const backgroundSize = 6
+    const reversed = animationDirection === 'left-to-right'
+    const fromPosition = { translateX: 0 }
+    const toPosition = { translateX: -measuredWidth * (backgroundSize - 1) }
 
     return (
       <MotiView
@@ -228,15 +240,9 @@ const AnimatedGradient = React.memo(
               width: measuredWidth * backgroundSize,
             },
           ]}
-          from={{
-            translateX: 0,
-          }}
+          from={reversed ? toPosition : fromPosition}
           animate={
-            measuredWidth
-              ? {
-                  translateX: -measuredWidth * (backgroundSize - 1),
-                }
-              : undefined
+            measuredWidth ? (reversed ? fromPosition : toPosition) : undefined
           }
           transition={{
             loop: true,
