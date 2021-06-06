@@ -66,7 +66,6 @@ export function MotiProgressBar({
 }: MotiProgressBarProps) {
   const barState = useDynamicAnimation(() => ({
     translateX: '-100%',
-    // width: 0,
   }))
 
   // TODO this won't be necessary once Moti memoizes props for you.
@@ -163,15 +162,7 @@ export function MotiProgressBar({
 
   return useMemo(
     () => (
-      <View
-        // onLayout={({ nativeEvent }) => {
-        //   const { width } = nativeEvent.layout
-        //   if (width !== barState.current?.width) {
-        //     barState.animateTo((current) => ({ ...current, width }))
-        //   }
-        // }}
-        style={outerStyle}
-      >
+      <View style={outerStyle}>
         <MotiView
           transition={_transition}
           state={barState}
@@ -191,10 +182,5 @@ const styles = StyleSheet.create({
   bar: {
     width: '100%',
     height: '100%',
-    // position: 'absolute',
-    // left: 0,
-    // top: 0,
-    // right: 0,
-    // bottom: 0,
   },
 })
