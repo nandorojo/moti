@@ -292,7 +292,7 @@ export default function useMapAnimateToStyle<Animate>({
       ) => {
         if (onDidAnimate) {
           runOnJS(reanimatedOnDidAnimated)(key as any, completed, recentValue, {
-            attempedValue: value,
+            attemptedValue: value,
           })
         }
         if (isExiting) {
