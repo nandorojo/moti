@@ -1,0 +1,63 @@
+{
+  "name": "@motify/interactions",
+  "private": false,
+  "version": "0.11.0",
+  "keywords": [
+    "react-native",
+    "ios",
+    "android",
+    "web"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nandorojo/moti.git",
+    "directory": "packages/interactions"
+  },
+  "bugs": {
+    "url": "https://github.com/nandorojo/moti/issues"
+  },
+  "homepage": "https://github.com/nandorojo/moti.git#readme",
+  "main": "lib/commonjs/index.js",
+  "react-native": "src/index.ts",
+  "source": "src/index.ts",
+  "module": "lib/module/index.js",
+  "types": "lib/typescript/src/index.d.ts",
+  "files": [
+    "src",
+    "lib",
+    "!**/__tests__"
+  ],
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prepare": "bob build",
+    "clean": "del lib"
+  },
+  "dependencies": {
+    "@motify/core": "^0.11.0",
+    "@motify/components": "^0.11.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.3"
+  },
+  "peerDependencies": {
+    "react-native-gesture-handler": "*"
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      "commonjs",
+      "module",
+      [
+        "typescript",
+        {
+          "project": "tsconfig.build.json"
+        }
+      ]
+    ]
+  }
+}

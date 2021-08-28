@@ -6,6 +6,7 @@
 // export { default } from './src/Moti.Sequence'
 // export { default } from './src/Moti.Presence'
 // export { default } from './src/Headless-Exit'
-export { default } from './src/Moti.Progress'
+// export { default } from './src/Moti.Progress'
+export { default } from './src/Moti.Pressable'
 // export { default } from './src/Moti.HelloWorld'
 // export { default } from './src/Moti.Variants'

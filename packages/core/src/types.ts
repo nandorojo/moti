@@ -322,7 +322,7 @@ export type UseAnimationState<V> = {
    * @private
    * Internal state used to drive animations. You shouldn't use this. Use `.current` instead to read the current state. Use `transitionTo` to edit it.
    */
-  __state: Animated.SharedValue<any>
+  __state: Animated.SharedValue<any> | Animated.DerivedValue<any>
   /**
    * Transition to another state, as defined by this hook.
    *
