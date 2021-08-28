@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@motify/skeleton": "^0.11.0",
+    "@motify/interactions": "^0.11.0",
     "core-js": "^3",
     "expo": "^41.0.0",
     "expo-splash-screen": "~0.8.1",

@@ -1,5 +1,5 @@
-import React, { useReducer } from 'react'
-import { StyleSheet, Pressable } from 'react-native'
+import React from 'react'
+import { StyleSheet, View, Image } from 'react-native'
 import { MotiPressable } from '@motify/interactions'
 
 function Shape() {
@@ -9,43 +9,59 @@ function Shape() {
         opacity: 0,
         scale: 0.5,
       }}
-      animate={{
-        opacity: 1,
-        scale: 1,
+      animate={({ pressed }) => {
+        'worklet'
+
+        return {
+          opacity: pressed ? 0.2 : 1,
+          scale: pressed ? 2 : 1,
+        }
       }}
-      transition={{
-        type: 'timing',
-      }}
-      delay={300}
       style={styles.shape}
-    />
+    >
+      <Image
+        source={{
+          uri: beatGigLogo,
+        }}
+        width={100}
+        height={50}
+        style={styles.logo}
+        resizeMode="contain"
+      />
+    </MotiPressable>
   )
 }
 
 export default function HelloWorld() {
-  const [visible, toggle] = useReducer((s) => !s, true)
-
   return (
-    <Pressable onPress={toggle} style={styles.container}>
-      {visible && <Shape />}
-    </Pressable>
+    <View style={styles.container}>
+      <Shape />
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   shape: {
     justifyContent: 'center',
-    height: 250,
+    height: 180,
     width: 250,
     borderRadius: 25,
     marginRight: 10,
-    backgroundColor: 'white',
+    backgroundColor: 'black',
   },
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    backgroundColor: '#9c1aff',
+    backgroundColor: 'black',
+  },
+  logo: {
+    width: '80%',
+    alignSelf: 'center',
+    height: 0,
+    paddingBottom: '30%',
   },
 })
+
+const beatGigLogo = `https://beatgig.com/_next/static/images/beatgig-256-a2ce12989084a7604b2cb2994e29fccb.png`
