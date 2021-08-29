@@ -8,13 +8,13 @@ export type MotiPressableInteractionState = {
   pressed: boolean
 }
 
-type AnimateProp = MotiAnimationProp<ViewStyle>
-
-export type MotiPressableProp = AnimateProp | MotiPressableInteractionProp
+export type AnimateProp = MotiAnimationProp<ViewStyle>
 
 export type MotiPressableInteractionProp = (
   interaction: MotiPressableInteractionState
 ) => NonNullable<AnimateProp>
+
+export type MotiPressableProp = AnimateProp | MotiPressableInteractionProp
 
 export type MotiPressableProps = {
   /*
@@ -34,8 +34,9 @@ export type MotiPressableProps = {
    */
   animate?: MotiPressableProp
   /*
+   * @deprecated
+   *
    * The `state` prop is not available with this component.
-   * @disabled
    */
   state?: never
   onPress?: () => void
@@ -52,6 +53,8 @@ export type MotiPressableProps = {
    */
   id?: string
   disabled?: boolean
+  containerStyle?: ViewStyle
+  dangerouslySilenceDuplicateIdsWarning?: boolean
 } & Pick<
   ComponentProps<typeof MotiView>,
   'children' | 'exit' | 'from' | 'transition' | 'exitTransition' | 'style'

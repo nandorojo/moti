@@ -1,33 +1,34 @@
 import React from 'react'
-import { StyleSheet, View, Image } from 'react-native'
-import { MotiPressable } from '@motify/interactions'
+import { StyleSheet, View } from 'react-native'
+import { MotiImage } from 'moti'
+import { MotiPressable, usePressable } from '@motify/interactions'
 
-function Shape() {
+function Logo() {
+  const state = usePressable(({ pressed }) => {
+    'worklet'
+
+    return {
+      opacity: pressed ? 0.5 : 1,
+      scale: pressed ? 2 : 1,
+    }
+  })
+
   return (
-    <MotiPressable
-      from={{
-        opacity: 0,
-        scale: 0.5,
+    <MotiImage
+      source={{
+        uri: beatGigLogo,
       }}
-      animate={({ pressed }) => {
-        'worklet'
+      state={state}
+      style={styles.logo}
+      resizeMode="contain"
+    />
+  )
+}
 
-        return {
-          opacity: pressed ? 0.2 : 1,
-          scale: pressed ? 2 : 1,
-        }
-      }}
-      style={styles.shape}
-    >
-      <Image
-        source={{
-          uri: beatGigLogo,
-        }}
-        width={100}
-        height={50}
-        style={styles.logo}
-        resizeMode="contain"
-      />
+function App() {
+  return (
+    <MotiPressable style={styles.shape}>
+      <Logo />
     </MotiPressable>
   )
 }
@@ -35,7 +36,7 @@ function Shape() {
 export default function HelloWorld() {
   return (
     <View style={styles.container}>
-      <Shape />
+      <App />
     </View>
   )
 }
@@ -57,10 +58,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   },
   logo: {
-    width: '80%',
     alignSelf: 'center',
-    height: 0,
-    paddingBottom: '30%',
+    height: 50,
+    width: 200,
   },
 })
 

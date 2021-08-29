@@ -1,18 +1,18 @@
-import React, { useRef, useCallback } from 'react'
+import React, { useMemo } from 'react'
 import { Platform, Pressable } from 'react-native'
-import {
-  TouchableWithoutFeedback,
-  TapGestureHandler,
-  TapGestureHandlerGestureEvent,
-} from 'react-native-gesture-handler'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import Animated, {
   useSharedValue,
   runOnJS,
   useDerivedValue,
-  useAnimatedGestureHandler,
 } from 'react-native-reanimated'
 import { MotiView } from '@motify/components'
 import type { MotiPressableInteractionState, MotiPressableProps } from './types'
+import {
+  MotiPressableContext,
+  useMotiPressableContext,
+  INTERACTION_CONTAINER_ID,
+} from './context'
 
 const AnimatedTouchable = Animated.createAnimatedComponent(
   TouchableWithoutFeedback
@@ -35,20 +35,10 @@ export function MotiPressable(props: MotiPressableProps) {
     onLongPress,
     hitSlop,
     disabled,
+    containerStyle,
+    dangerouslySilenceDuplicateIdsWarning = false,
+    id,
   } = props
-
-  // const makeStyle = useCallback(
-  //   (interaction: MotiPressableInteractionState) => {
-  //     'worklet'
-
-  //     if (typeof animate === 'function') {
-  //       return animate(interaction)
-  //     }
-
-  //     return animate
-  //   },
-  //   [animate]
-  // )
 
   const hovered = useSharedValue(false)
   const pressed = useSharedValue(false)
@@ -58,46 +48,6 @@ export function MotiPressable(props: MotiPressableProps) {
     pressed: pressed.value,
   }))
 
-  // const whenPress = () => onPress?.()
-
-  // const tapHandler = useAnimatedGestureHandler<
-  //   TapGestureHandlerGestureEvent,
-  //   {
-  //     shouldTriggerPress: boolean
-  //   }
-  // >({
-  //   onStart(_, context) {
-  //     console.log('[start]')
-  //     context.shouldTriggerPress = true
-  //     pressed.value = true
-  //   },
-  //   onEnd(_, context) {
-  //     console.log('[end]')
-  //     pressed.value = false
-  //     if (context.shouldTriggerPress) {
-  //       if (onPress && !disabled) {
-  //         runOnJS(whenPress)()
-  //       }
-  //       context.shouldTriggerPress = false
-  //     }
-  //   },
-  //   onCancel(_, context) {
-  //     console.log('[cancel]')
-  //     context.shouldTriggerPress = false
-  //     pressed.value = false
-  //   },
-  //   onFail(_, context) {
-  //     console.log('[fail]')
-  //     context.shouldTriggerPress = false
-  //     pressed.value = false
-  //   },
-  //   onFinish(_, context) {
-  //     console.log('[finish]')
-  //     context.shouldTriggerPress = false
-  //     pressed.value = false
-  //   },
-  // })
-
   const __state = useDerivedValue(() => {
     if (typeof animate === 'function') {
       return animate(interaction.value)
@@ -106,7 +56,7 @@ export function MotiPressable(props: MotiPressableProps) {
     return animate
   }, [animate, interaction])
 
-  const state = useRef({ __state }).current
+  const state = useMemo(() => ({ __state }), [__state])
 
   const updateInteraction = (
     event: keyof MotiPressableInteractionState,
@@ -138,8 +88,9 @@ export function MotiPressable(props: MotiPressableProps) {
     </MotiView>
   )
 
+  let node: React.ReactNode
   if (Platform.OS === 'web') {
-    return (
+    node = (
       <Pressable
         // @ts-expect-error react-native-web doesn't have types 😢
         onHoverIn={updateInteraction('hovered', true, onHoverIn)}
@@ -149,22 +100,61 @@ export function MotiPressable(props: MotiPressableProps) {
         onLongPress={onLongPress}
         hitSlop={hitSlop}
         disabled={disabled}
+        style={containerStyle}
       >
-        {children}
+        {child}
       </Pressable>
+    )
+  } else {
+    node = (
+      <AnimatedTouchable
+        onPressIn={updateInteraction('pressed', true, onPressIn)}
+        onPressOut={updateInteraction('pressed', false, onPressOut)}
+        onLongPress={onLongPress}
+        hitSlop={hitSlop}
+        disabled={disabled}
+        onPress={onPress}
+        // @ts-expect-error missing containerStyle type
+        // TODO there is an added View child here, which Pressable doesn't  have.
+        // should we wrap the pressable children too?
+        containerStyle={containerStyle}
+      >
+        {child}
+      </AnimatedTouchable>
+    )
+  }
+
+  const context = useMotiPressableContext()
+
+  if (
+    !dangerouslySilenceDuplicateIdsWarning &&
+    id &&
+    context?.containers &&
+    id in context.containers
+  ) {
+    console.warn(
+      `[MotiPressable] Duplicate id ${id} used. This means that you incorrectly placed a <MotiPressable id="${id}" /> component inside another one with the same id.
+
+To silence this warning without solving the actual issue, you can use the dangerouslySilenceDuplicateIdsWarning prop. But you should probably refactor your code instead.`
     )
   }
 
   return (
-    <AnimatedTouchable
-      onPressIn={updateInteraction('pressed', true, onPressIn)}
-      onPressOut={updateInteraction('pressed', false, onPressOut)}
-      onLongPress={onLongPress}
-      hitSlop={hitSlop}
-      disabled={disabled}
-      onPress={onPress}
+    <MotiPressableContext.Provider
+      value={useMemo(() => {
+        const interactions = {
+          containers: {
+            ...context?.containers,
+            [INTERACTION_CONTAINER_ID]: interaction,
+          },
+        }
+        if (id) {
+          interactions.containers[id] = interaction
+        }
+        return interactions
+      }, [context?.containers, id, interaction])}
     >
-      {child}
-    </AnimatedTouchable>
+      {node}
+    </MotiPressableContext.Provider>
   )
 }
