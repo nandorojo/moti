@@ -9,7 +9,7 @@ Rather than using a `transform` array, we pass the values directly:
 
 ```tsx
 // ✅ pass scale, translateY directly
-<View
+<MotiView
   animate={{
     scale: 1,
     translateY: 5,
@@ -19,7 +19,7 @@ Rather than using a `transform` array, we pass the values directly:
 
 ```tsx
 // 🚨 not this
-<View
+<MotiView
   animate={{
     transform: [{ scale: 1 }, { translateY: 5 }],
   }}

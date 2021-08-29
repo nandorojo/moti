@@ -8,11 +8,11 @@ This is all it takes to create an animation that fades and scales in with Moti:
 ```tsx
 import React, { useReducer } from 'react'
 import { StyleSheet, Pressable } from 'react-native'
-import { View } from 'moti'
+import { MotiView } from 'moti'
 
 function Shape() {
   return (
-    <View
+    <MotiView
       from={{
         opacity: 0,
         scale: 0.5,

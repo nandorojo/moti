@@ -33,7 +33,7 @@ const onPress = () => {
   }
 }
 
-return <View state={animationState} />
+return <MotiView state={animationState} />
 ```
 
 ### When to use this
@@ -47,7 +47,7 @@ When using this hook, your animations are static, meaning they have to be known 
 ### Import
 
 ```ts
-import { View, useAnimationState } from 'moti'
+import { MotiView, useAnimationState } from 'moti'
 ```
 
 Moti exports typical `react-native` components, such as `View`, `Text`, etc.
@@ -70,7 +70,7 @@ const animationState = useAnimationState({
 ### Pass state to your Moti component
 
 ```tsx
-<View state={animationState} />
+<MotiView state={animationState} />
 ```
 
 Create your `animationState`, and pass it as your moti component's `state` prop.
@@ -101,7 +101,7 @@ return (
       animationState.transitionTo('active')
     }}
   >
-    <View style={styles.shape} state={animationState} />
+    <MotiView style={styles.shape} state={animationState} />
   </Pressable>
 )
 ```
@@ -136,7 +136,7 @@ return (
       })
     }}
   >
-    <View style={styles.shape} state={animationState} />
+    <MotiView style={styles.shape} state={animationState} />
   </Pressable>
 )
 ```
@@ -182,7 +182,7 @@ return (
       })
     }}
   >
-    <View style={styles.shape} state={animationState} />
+    <MotiView style={styles.shape} state={animationState} />
   </Pressable>
 )
 ```
@@ -191,7 +191,7 @@ return (
 
 ```tsx
 import React from 'react'
-import { useAnimationState, View } from 'moti'
+import { useAnimationState, MotiView } from 'moti'
 import { StyleSheet } from 'react-native'
 
 export default function PerformantView() {
@@ -206,7 +206,7 @@ export default function PerformantView() {
     },
   })
 
-  return <View style={styles.shape} state={animationState} />
+  return <MotiView style={styles.shape} state={animationState} />
 }
 
 const styles = StyleSheet.create({
@@ -232,7 +232,7 @@ const animationState = useAnimationState({
   },
 })
 
-return <View state={animationState} />
+return <MotiView state={animationState} />
 ```
 
 If both `from` and `to` are set, then it will transition from one to the other on the component's initial mount. If only `from` is set, this will be the initial state.
@@ -243,7 +243,7 @@ If you don't want mount animations, give your variants different names.
 ## Example
 
 ```jsx
-import { useAnimationState, View } from 'moti'
+import { useAnimationState, MotiView } from 'moti'
 
 const animator = useAnimationState({
   from: {
@@ -259,7 +259,7 @@ const animator = useAnimationState({
 
 return (
   <>
-    <View state={animator} style={{ height: 100 }} />
+    <MotiView state={animator} style={{ height: 100 }} />
     <Button
       title="Change!"
       onPressIn={() => {
@@ -276,7 +276,7 @@ You can also access the `current` state:
 ```jsx
 import React from 'react'
 import { Button } from 'react-native'
-import  as Moti from 'moti'
+import * as Moti from 'moti'
 
 const animator = Moti.useAnimationState({
   from: {
@@ -426,12 +426,12 @@ const state = useAnimationState({
   },
 })
 
-return <View state={state} />
+return <MotiView state={state} />
 ```
 
 ```jsx
 // ✅ do this instead
-<View animate={{ opacity: isLoading ? 1 : 0 }} />
+<MotiView animate={{ opacity: isLoading ? 1 : 0 }} />
 ```
 
 `useAnimationState` should _only_ be used for **static** variants, meaning the different potential states you'll be animating to will be known ahead of time.
