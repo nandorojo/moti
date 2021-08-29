@@ -22,7 +22,7 @@ export default function motify<
     {
       const Motified = forwardRef<
         Ref,
-        Props &
+        Animated.AnimateProps<Props> &
           MotiProps<Animate> &
           ExtraProps & {
             children?: React.ReactNode
