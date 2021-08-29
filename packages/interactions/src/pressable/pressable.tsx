@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, ReactNode } from 'react'
 import { Platform, Pressable } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import Animated, {
@@ -88,7 +88,7 @@ export function MotiPressable(props: MotiPressableProps) {
     </MotiView>
   )
 
-  let node: React.ReactNode
+  let node: ReactNode
   if (Platform.OS === 'web') {
     node = (
       <Pressable

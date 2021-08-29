@@ -69,10 +69,11 @@ usePressable(({ pressed }) => {
 
     const containerKeys = Object.keys(context.containers)
     if (containerKeys.length) {
-      if (containerKeys.length === 1) {
-        if (containerKeys[0] === INTERACTION_CONTAINER_ID) {
-          error += ` There is a <MotiPressable /> component as the parent of this hook, one but it doesn't have id="${id}" set as a prop. You should either add that prop to the parent <MotiPressable id="${id}" />, or remove the first argument of usePressable().`
-        }
+      if (
+        containerKeys.length === 1 &&
+        containerKeys[0] === INTERACTION_CONTAINER_ID
+      ) {
+        error += ` There is a <MotiPressable /> component as the parent of this hook, but it doesn't have id="${id}" set as a prop. You should either add that prop to the parent <MotiPressable id="${id}" />, or remove the first argument of usePressable().`
       } else {
         const possibleIds = containerKeys.filter(
           (key) => key !== INTERACTION_CONTAINER_ID
@@ -90,11 +91,7 @@ usePressable(({ pressed }) => {
   const __state = useDerivedValue(() => {
     const interaction = context.containers[id]
 
-    if (!interaction) {
-      return {}
-    }
-
-    return factory(interaction.value)
+    return interaction && factory(interaction.value)
   })
 
   return useMemo(
