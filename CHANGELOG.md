@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.13.0-alpha.0](https://github.com/nandorojo/moti/compare/v0.11.0...v0.13.0-alpha.0) (2021-08-29)
+
+
+### Bug Fixes
+
+* minor err fixes ([911f3b0](https://github.com/nandorojo/moti/commit/911f3b0580a69e40d04b253dfac7876d38bc8c70))
+* simplify implementation ([c8eb0b1](https://github.com/nandorojo/moti/commit/c8eb0b1c874397eb8f0e89c09e3aaaaea921f033))
+
+
+### Features
+
+* add animated TS types to moti types ([7845c44](https://github.com/nandorojo/moti/commit/7845c4462d54da6d3ebb9651cb32f8bc351f6a65))
+* add useMotiPressableInterpolate & useMotiPressableAnimatedProps ([7923000](https://github.com/nandorojo/moti/commit/79230004b0c00b2c832c6654ddb437ec095d9a5b))
+* init pressable ([7b9e897](https://github.com/nandorojo/moti/commit/7b9e8977837239a6592a624745c8291c37ef82c9))
+* progress bar, transform does not work? ([9823cd1](https://github.com/nandorojo/moti/commit/9823cd1a22dfd98fdf7fb776ec3e1cb7593ff7b0))
+* use-pressable[s] ([a36b5ec](https://github.com/nandorojo/moti/commit/a36b5ec0af72a48843e5fa8984a2d71dec9fcb5e))
+* web-only dropdown menu ([2b8c944](https://github.com/nandorojo/moti/commit/2b8c94407b15b3169dbe46541370a47af692f413))
+
+
+
+
+
 # [0.11.0](https://github.com/nandorojo/moti/compare/v0.10.1...v0.11.0) (2021-05-17)
 
 
