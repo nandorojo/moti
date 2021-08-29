@@ -9,7 +9,7 @@ type Factory<Props> = (interaction: MotiPressableInteractionState) => Props
 /**
  * `useInterpolateMotiPressable` lets you access the pressable state, and create a reanimated derived value from it.
  *
- * You probably won't need this hook often. `usePressable`, `usePressables`, and `useMotiPressableAnimatedProps` should cover most use-cases
+ * You probably won't need this hook often. `useMotiPressable`, `useMotiPressables`, and `useMotiPressableAnimatedProps` should cover most use-cases
  *
  * Example:
  * ```tsx
@@ -52,7 +52,7 @@ type Factory<Props> = (interaction: MotiPressableInteractionState) => Props
  *   'worklet'
  *
  *   return {
- *     done: swipePosition > 50 && !pressed,
+ *     done: swipePosition.value > 50 && !pressed,
  *   }
  * })
  * ```
@@ -64,7 +64,7 @@ type Factory<Props> = (interaction: MotiPressableInteractionState) => Props
  *   'worklet'
  *
  *   return {
- *     done: swipePosition > 50 && !pressed,
+ *     done: swipePosition.value > 50 && !pressed,
  *   }
  * })
  *

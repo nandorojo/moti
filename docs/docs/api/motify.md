@@ -1,33 +1,15 @@
 ---
 id: motify
-title: Motify
+title: motify
 ---
 
 ```ts
 import { motify } from 'moti'
 
-motify(MyComponent)()
+const MotifiedComponent = motify(MyComponent)()
 ```
 
-A higher-order component that turns any React Native component into an animated `moti` component.
-
-Think of it like moti's version of `Animated.createAnimatedComponent`.
-
-```jsx
-import React from 'react'
-import { View } from 'react-native'
-import { motify } from 'moti'
-
-function MyMotiComponent({ style }) {
-  // make sure you forward the style prop
-  return <View style={style} />
-}
-
-// notice that we call the function after!
-const MotifiedComponent = motify(MyMotiComponent)()
-
-export default MotifiedComponent
-```
+A higher-order component that turns any React Native class component into an animated `moti` component.
 
 You can now animate like you normally would:
 

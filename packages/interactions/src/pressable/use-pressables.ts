@@ -8,9 +8,9 @@ type Factory = (
 ) => ReturnType<MotiPressableInteractionProp>
 
 /**
- * `usePressables` lets you access the interaction state of *all* parent `MotiPressable` components.
+ * `useMotiPressables` lets you access the interaction state of *all* parent `MotiPressable` components.
  *
- * This offers more complex use-cases over `usePressable`, which only lets you access the interaction state of a single parent `MotiPressable` at a time.
+ * This offers more complex use-cases over `useMotiPressable`, which only lets you access the interaction state of a single parent `MotiPressable` at a time.
  *
  * Say you have a parent pressable, with a list of items:
  *
@@ -31,8 +31,8 @@ type Factory = (
  *  const state = useMotiPressables((containers) => {
  *    'worklet'
  *
- *    const list = containers.list
- *    const item = containers.['item-' + id]
+ *    const list = containers.list.value
+ *    const item = containers.['item-' + id].value
  *
  *    // when hovering a list,
  *    // fade out all items except the one actually hovered

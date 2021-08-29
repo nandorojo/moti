@@ -1,0 +1,359 @@
+---
+id: overview
+title: Overview
+---
+
+First, import:
+
+```tsx
+import { MotiPressable } from '@motify/interactions'
+```
+
+Next, animate your interactions:
+
+```tsx
+const onPress = () => Linking.openURL('beatgig.com')
+
+<MotiPressable
+  onPress={onPress}
+  animate={({ hovered, pressed }) => {
+    'worklet'
+
+    return {
+      opacity: hovered || pressed ? 0.5 : 1,
+    }
+  }}
+/>
+```
+
+Done ✅
+
+---
+
+The experimental `MotiPressable` component lets you animate based on `pressed` and `hovered` interactions, without triggering any re-renders.
+
+The usage is very similar to `Pressable` from `react-native`.
+
+The two differences are 1) you use the `animate` prop rather than `style`, and 2) the function you pass must be a `worklet`, resulting in faster performance and a better developer experience.
+
+## Installation
+
+```bash npm2yarn
+npm install @motify/interactions
+```
+
+Make sure you've also followed the [Installation steps](/installation) for `moti`.
+
+## Animating children
+
+A common use-case of a component like `Pressable` is styling children based on the animation state.
+
+Before `moti`, you might do this with the React Native `Pressable` component.
+
+```tsx
+<Pressable>
+  {({ pressed }) => <View style={{ opacity: pressed ? 0.5 : 1 }} />}
+</Pressable>
+```
+
+Moti takes a different approach to improve performance and composition.
+
+Rather than using React state to track the interaction, Moti uses Reanimated shared values with React Native Gesture Handler.
+
+As a result, Moti's interactions trigger zero re-renders, and all animations are handled on the native thread.
+
+### The Moti way
+
+Let's see what the above example might look like with Moti.
+
+First, change `Pressable` to `MotiPressable`. Next, remove the function child, and instead pass a component directly. Let's call it `Child`.
+
+```tsx
+<MotiPressable>
+  <Child />
+<MotiPressable>
+```
+
+Then, in the `Child` component, we can access the parent's interaction state with `useMotiPressable`
+
+```tsx
+import { useMotiPressable } from '@motify/interactions'
+
+const Child = () => {
+  const state = useMotiPressable(({ pressed }) => {
+    'worklet'
+
+    return {
+      opacity: pressed ? 0.5 : 1,
+    }
+  }, [])
+  return <MotiView state={state} />
+}
+```
+
+### Access a specific parent
+
+`useMotiPressable` also optionally takes a unique `id` as its first argument. This lets you access a specific parent pressable's interaction.
+
+For example, say you have a `list` component at the root, and you want to access its state:
+
+```tsx
+<MotiPressable id="list">
+  {items.map(id =>
+    <MotiPressable key={id}>
+      <Child />
+    </MotiPressable>
+  )}
+<MotiPressable>
+```
+
+Notice that the `MotiPressable` component now has an `id="list"` prop. This tells all of its children that it can be uniquely referred to as `list`.
+
+By default, the `useMotiPressable` would access the interaction state of its closest `MotiPressable` parent. That default behavior doesn't work for this case, since we want to animate based on the top-level list component.
+
+In the `Child` component, pass `list` as the first argument to `useMotiPressable`.
+
+```tsx
+import { useMotiPressable } from '@motify/interactions'
+
+const Child = () => {
+  const state = useMotiPressable(
+    'list',
+    ({ pressed }) => {
+      'worklet'
+
+      return {
+        opacity: pressed ? 0.5 : 1,
+      }
+    },
+    []
+  )
+  return <MotiView state={state} />
+}
+```
+
+That's it. Now, `useMotiPressable` will return animate based on the interaction state of the outer-most `MotiPressable`.
+
+### Access multiple parents
+
+In the previous section, we saw how to access a unique parent's interaction state. But what if we want to _combine_ the interaction states of multiple components for more complex animations?
+
+That's easy too. Our previous example looked like this:
+
+```tsx
+<MotiPressable id="list">
+  {items.map(id =>
+    <MotiPressable key={id}>
+      <Child />
+    </MotiPressable>
+  )}
+<MotiPressable>
+```
+
+Let's add a unique `id` prop to each `MotiPressable` item that's rendered in the list, called `item-${id}`.
+
+Let's also pass the `id` as a prop to the `Child`.
+
+```tsx
+<MotiPressable id="list">
+  {items.map(id =>
+    <MotiPressable id={`item-${id}`} key={id}>
+      <Child id={id} />
+    </MotiPressable>
+  )}
+<MotiPressable>
+```
+
+Now, the `Child` component can call `useMotiPressables` instead of `useMotiPressable`.
+
+Say we want to make all items fade away when you hover over the list, _except_ for the actual item you're hovering.
+
+```tsx
+import { useMotiPressables } from '@motify/interactions'
+
+const Child = ({ id }) => {
+  const state = useMotiPressables((containers) => {
+    'worklet'
+
+    // access items by their unique IDs
+    const list = containers.list.value
+    const item = containers[`item-${id}`].value
+
+    let opacity = 1
+
+    if (list.hovered && !item.hovered) {
+      opacity = 0.5
+    }
+
+    return {
+      opacity,
+    }
+  }, [])
+  return <MotiView state={state} />
+}
+```
+
+### Animated props
+
+Let's say you want to update a child component's props based on a parent's interaction state.
+
+For example, you have a dropdown menu whose `pointerEvents` should be `none` when it's container isn't hovered.
+
+```tsx
+const Menu = () => {
+  return (
+    <MotiPressable id="menu">
+      <MenuItems />
+    </MotiPressable>
+  )
+}
+
+const MenuItems = () => {
+  const animatedProps = useMotiPressableAnimatedProps(
+    'menu', // optional, access a unique pressable parent
+    ({ hovered }) => {
+      'worklet'
+
+      return {
+        pointerEvents: hovered ? 'auto' : 'none',
+      }
+    },
+    []
+  )
+  return (
+    <MotiView animatedProps={animatedProps}>{/* Menu items here...*/}</MotiView>
+  )
+}
+```
+
+You can also pass a TypeScript generic to `useMotiPressableAnimatedProps`:
+
+```tsx
+import { ViewProps } from 'react-native'
+
+// in your component:
+const animatedProps = useMotiPressableAnimatedProps<ViewProps>(
+  'menu',
+  ({ hovered }) => {
+    'worklet'
+
+    return {
+      pointerEvents: hovered ? 'auto' : 'none',
+    }
+  },
+  []
+)
+```
+
+`useMotiPressableAnimatedProps` relies on `useAnimatedProps` under the hood.
+
+### Interpolate interaction state
+
+A rare but available use-case is `useInterpolateMotiPressable`.
+
+As the name implies, this lets you access the shared value state of a parent pressable.
+
+Example:
+
+```tsx
+import { useSharedValue } from 'react-native-reanimated'
+import { useInterpolateMotiPressable } from '@motify/interactions'
+
+// in your component
+const mySharedValue = useSharedValue(0)
+useInterpolateMotiPressable(({ pressed }) => {
+  'worklet'
+
+  mySharedValue.value = pressed ? 1 : 0
+})
+```
+
+If you're passing a unique `id` prop to your pressable, you can also isolate this hook to that pressable.
+
+Say the parent pressable has `id="list"`, and you want to isolate this hook to the `list` pressable:
+
+```tsx
+<MotiPressable id="menu">
+  <Item />
+</MotiPressable>
+```
+
+Then, in the `Item` component:
+
+```tsx
+const mySharedValue = useSharedValue(0)
+useInterpolateMotiPressable('list', ({ pressed }) => {
+  'worklet'
+
+  mySharedValue.value = pressed ? 1 : 0
+})
+```
+
+It returns an `Animated.DerivedValue`. You can also type it with a generic:
+
+```tsx
+const swipePosition = useSharedValue(0)
+const interpolatedValue = useInterpolateMotiPressable<{ done: boolean }>(
+  'list',
+  ({ pressed }) => {
+    'worklet'
+
+    return {
+      done: swipePosition.value > 50 && !pressed,
+    }
+  }
+)
+```
+
+Just like any derived value, you can read the value it returns with `.value`:
+
+```tsx
+const swipePosition = useSharedValue(0)
+const interpolatedValue = useInterpolateMotiPressable<{ done: boolean }>(
+  'list',
+  ({ pressed }) => {
+    'worklet'
+
+    return {
+      done: swipePosition.value > 50 && !pressed,
+    }
+  }
+)
+
+// then, in some worklet
+const done = state.value.done
+```
+
+## Performance
+
+By default, this component should have better performance than the native `Pressable`. It triggers zero re-renders, and all animations are run on the native thread.
+
+If your component re-renders often, consider wrapping your hook with `useCallback` to improve performance:
+
+```tsx
+const animate = useCallback<MotiPressableInteractionProp>(({ pressed }) => {
+  'worklet'
+
+  return {
+    opacity: hovered || pressed ? 0.5 : 1,
+  }
+}, [])
+
+<MotiPressable
+  animate={animate}
+/>
+```
+
+For all the hooks provided, you can also pass a dependency array to improve performance. It works just like the dependency array for `useMemo`, and it's always the last argument for any of the pressable hooks.
+
+```tsx
+const state = useMotiPressable(({ pressed }) => {
+  'worklet'
+
+  return {
+    opacity: pressed ? 0.5 : 1,
+  }
+}, []) // see this array here!
+
+return <MotiView state={state} />
+```

@@ -11,6 +11,14 @@ module.exports = {
       'examples/variants',
     ],
     Hooks: [],
+    ['Interactions (Experimental)']: [
+      'interactions/overview',
+      'interactions/pressable',
+      'interactions/use-pressable',
+      'interactions/use-pressables',
+      'interactions/use-pressable-animated-props',
+      'interactions/use-pressable-interpolate',
+    ],
     Components: ['skeleton'],
     Web: ['web', 'next'],
     'API Reference': [

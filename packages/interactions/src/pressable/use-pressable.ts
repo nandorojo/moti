@@ -8,11 +8,9 @@ import { useFactory } from './use-validate-factory-or-id'
 type Id = MotiPressableInteractionIds['id']
 
 /**
- * `usePressable` lets you access the interaction state of a parent `MotiPressable` component.
+ * `useMotiPressable` lets you access the interaction state of a parent `MotiPressable` component.
  *
  * (If you need to access the interaction state of multiple `MotiPressable` parents, use `useMotiPressables` instead.)
- *
- * This offers more complex use-cases over `usePressable`, which only lets you access the interaction state of one parent `MotiPressable` at a time.
  *
  * ```tsx
  * <MotiPressable>
@@ -23,7 +21,7 @@ type Id = MotiPressableInteractionIds['id']
  * Then, in the `Item` component:
  *
  * ```tsx
- * const state = usePressable(({ pressed }) => {
+ * const state = useMotiPressable(({ pressed }) => {
  *   'worklet'
  *
  *   return {
@@ -42,10 +40,10 @@ type Id = MotiPressableInteractionIds['id']
  * </MotiPressable>
  * ```
  *
- * Then, in the `Item` component, add `list` as the first argument of `usePressable`:
+ * Then, in the `Item` component, add `list` as the first argument of `useMotiPressable`:
  *
  * ```tsx
- * const state = usePressable('list', ({ pressed }) => {
+ * const state = useMotiPressable('list', ({ pressed }) => {
  *   'worklet'
  *
  *   return {
@@ -59,7 +57,7 @@ type Id = MotiPressableInteractionIds['id']
  * Similar to `useMemo`, you can also pass in a dependency array as the last argument:
  *
  * ```tsx
- * const state = usePressable('list', ({ pressed, hovered }) => {
+ * const state = useMotiPressable('list', ({ pressed, hovered }) => {
  *   'worklet'
  *
  *   return {
@@ -81,7 +79,7 @@ function useMotiPressable(
    */
   id: Id,
   /**
-   * Function that receives the interaction state from the parent whose `id` prop matches the first argument of `usePressable`. Returns a style object.
+   * Function that receives the interaction state from the parent whose `id` prop matches the first argument of `useMotiPressable`. Returns a style object.
    * @worklet
    */
   factory: MotiPressableInteractionProp,
