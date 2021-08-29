@@ -1,17 +1,25 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { MotiImage } from 'moti'
-import { MotiPressable, usePressable } from '@motify/interactions'
+import {
+  MotiPressable,
+  useMotiPressable,
+  useMotiPressables,
+} from '@motify/interactions'
 
 function Logo() {
-  const state = usePressable(({ pressed }) => {
-    'worklet'
+  const state = useMotiPressable(
+    'logo',
+    ({ pressed, hovered }) => {
+      'worklet'
 
-    return {
-      opacity: pressed ? 0.5 : 1,
-      scale: pressed ? 2 : 1,
-    }
-  })
+      return {
+        opacity: pressed || hovered ? 0.5 : 1,
+        scale: pressed || hovered ? 2 : 1,
+      }
+    },
+    []
+  )
 
   return (
     <MotiImage
@@ -21,13 +29,14 @@ function Logo() {
       state={state}
       style={styles.logo}
       resizeMode="contain"
+      transition={{ type: 'timing' }}
     />
   )
 }
 
 function App() {
   return (
-    <MotiPressable style={styles.shape}>
+    <MotiPressable id="logo" style={styles.shape}>
       <Logo />
     </MotiPressable>
   )

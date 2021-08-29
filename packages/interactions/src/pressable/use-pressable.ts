@@ -1,98 +1,111 @@
-import {
-  INTERACTION_CONTAINER_ID,
-  MotiPressableInteractionIds,
-  useMotiPressableContext,
-} from './context'
+import { MotiPressableInteractionIds, useMotiPressableContext } from './context'
 import type { MotiPressableInteractionProp } from './types'
 import { useDerivedValue } from 'react-native-reanimated'
 import type { MotiProps } from 'packages/core/lib/typescript/src'
 import { useMemo } from 'react'
+import { useFactory } from './use-validate-factory-or-id'
 
 type Id = MotiPressableInteractionIds['id']
 
-function usePressable(
-  id: Id,
-  factory: MotiPressableInteractionProp
+/**
+ * `usePressable` lets you access the interaction state of a parent `MotiPressable` component.
+ *
+ * (If you need to access the interaction state of multiple `MotiPressable` parents, use `useMotiPressables` instead.)
+ *
+ * This offers more complex use-cases over `usePressable`, which only lets you access the interaction state of one parent `MotiPressable` at a time.
+ *
+ * ```tsx
+ * <MotiPressable>
+ *   <Item />
+ * </MotiPressable>
+ * ```
+ *
+ * Then, in the `Item` component:
+ *
+ * ```tsx
+ * const state = usePressable(({ pressed }) => {
+ *   'worklet'
+ *
+ *   return {
+ *     opactiy: pressed ? 0.5 : 1,
+ *   }
+ * })
+ *
+ * return <MotiView state={state} />
+ * ```
+ *
+ * You can also access a pressable via unique ID:
+ *
+ * ```tsx
+ * <MotiPressable id="list">
+ *   <Item />
+ * </MotiPressable>
+ * ```
+ *
+ * Then, in the `Item` component, add `list` as the first argument of `usePressable`:
+ *
+ * ```tsx
+ * const state = usePressable('list', ({ pressed }) => {
+ *   'worklet'
+ *
+ *   return {
+ *     opactiy: pressed ? 0.5 : 1,
+ *   }
+ * })
+ *
+ * return <MotiView state={state} />
+ * ```
+ *
+ * Similar to `useMemo`, you can also pass in a dependency array as the last argument:
+ *
+ * ```tsx
+ * const state = usePressable('list', ({ pressed, hovered }) => {
+ *   'worklet'
+ *
+ *   return {
+ *     opactiy: pressed && !loading ? 0.5 : 1,
+ *   }
+ * }, [loading])
+ */
+function useMotiPressable(
+  /**
+   * Function that receives the interaction state from the closest parent container and returns a style object.
+   * @worklet
+   */
+  factory: MotiPressableInteractionProp,
+  maybeDeps?: readonly any[]
 ): MotiProps['state']
-function usePressable(factory: MotiPressableInteractionProp): MotiProps['state']
-function usePressable(
+function useMotiPressable(
+  /**
+   * Optional: the unique `id` prop of the parent `MotiPressable` component. Useful if you want to access a unique component's interaction state without.
+   */
+  id: Id,
+  /**
+   * Function that receives the interaction state from the parent whose `id` prop matches the first argument of `usePressable`. Returns a style object.
+   * @worklet
+   */
+  factory: MotiPressableInteractionProp,
+  maybeDeps?: readonly any[]
+): MotiProps['state']
+function useMotiPressable(
   factoryOrId: MotiPressableInteractionProp | Id,
-  maybeFactory?: MotiPressableInteractionProp
+  maybeFactoryOrDeps?: MotiPressableInteractionProp | readonly any[],
+  maybeDeps?: readonly any[]
 ): MotiProps['state'] {
   const context = useMotiPressableContext()
 
-  const missingIdError = `
-
-If you're using a container ID, it should look like this:
-usePressable("${factoryOrId}", ({ pressed }) => {
-  'worklet'
-
-  return {
-    opacity: pressed ? 1 : 0
-  }
-})
-
-Otherwise, you could ignore the id and style relative to the closest parent pressable.
-
-usePressable(({ pressed }) => {
-    'worklet'
-
-    return {
-      opacity: pressed ? 1 : 0
-    }
-  })
-  `
-
-  let factory: MotiPressableInteractionProp
-  let id: Id = INTERACTION_CONTAINER_ID
-
-  if (typeof factoryOrId === 'function') {
-    factory = factoryOrId
-  } else if (typeof factoryOrId === 'string') {
-    id = factoryOrId
-    if (typeof maybeFactory === 'function') {
-      factory = maybeFactory
-    } else {
-      console.error(
-        `[usePressable] Received id ${factoryOrId} as first argument, but the second argument is not a valid function.` +
-          missingIdError
-      )
-    }
-  }
-
-  if (!context) {
-    console.error(
-      '[usePressable] Missing context. Are you sure this component is the child of a <MotiPressable /> component?'
-    )
-  } else if (!context.containers[id]) {
-    let error = `[usePressable] Received id "${id}", but there isn't a <MotiPressable id="${id}" /> component wrapping it. This will result in nothing happening.`
-
-    const containerKeys = Object.keys(context.containers)
-    if (containerKeys.length) {
-      if (
-        containerKeys.length === 1 &&
-        containerKeys[0] === INTERACTION_CONTAINER_ID
-      ) {
-        error += ` There is a <MotiPressable /> component as the parent of this hook, but it doesn't have id="${id}" set as a prop. You should either add that prop to the parent <MotiPressable id="${id}" />, or remove the first argument of usePressable().`
-      } else {
-        const possibleIds = containerKeys.filter(
-          (key) => key !== INTERACTION_CONTAINER_ID
-        )
-        if (possibleIds.length) {
-          error += ` Did you mean to use one of: ${possibleIds.join(', ')}`
-        }
-      }
-    }
-
-    error = error + missingIdError
-    console.error(error)
-  }
+  const { factory, id, deps } = useFactory<MotiPressableInteractionProp>(
+    'useMotiPressable',
+    factoryOrId,
+    maybeFactoryOrDeps,
+    maybeDeps
+  )
 
   const __state = useDerivedValue(() => {
     const interaction = context.containers[id]
 
     return interaction && factory(interaction.value)
-  })
+  }, deps)
 
   return useMemo(
     () => ({
@@ -102,4 +115,4 @@ usePressable(({ pressed }) => {
   )
 }
 
-export { usePressable }
+export { useMotiPressable }
