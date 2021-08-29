@@ -18,9 +18,12 @@ import { Ionicons } from '@expo/vector-icons'
 function MenuItemBg() {
   const state = useMotiPressable(
     'item',
-    ({ hovered, pressed }) => ({
-      opacity: hovered || pressed ? 0.4 : 0,
-    }),
+    ({ hovered, pressed }) => {
+      'worklet'
+      return {
+        opacity: hovered || pressed ? 0.4 : 0,
+      }
+    },
     []
   )
 
@@ -30,10 +33,14 @@ function MenuItemBg() {
 function MenuItemArrow() {
   const state = useMotiPressable(
     'item',
-    ({ hovered, pressed }) => ({
-      opacity: hovered || pressed ? 1 : 0,
-      translateX: hovered || pressed ? 0 : -10,
-    }),
+    ({ hovered, pressed }) => {
+      'worklet'
+
+      return {
+        opacity: hovered || pressed ? 1 : 0,
+        translateX: hovered || pressed ? 0 : -10,
+      }
+    },
     []
   )
 
@@ -136,9 +143,13 @@ function Dropdown() {
 function TriggerBg() {
   const state = useMotiPressable(
     'trigger',
-    ({ hovered, pressed }) => ({
-      opacity: hovered || pressed ? 0.2 : 0,
-    }),
+    ({ hovered, pressed }) => {
+      'worklet'
+
+      return {
+        opacity: hovered || pressed ? 0.2 : 0,
+      }
+    },
     []
   )
   return <MotiView state={state} style={styles.triggerBg} />
