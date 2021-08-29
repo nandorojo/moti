@@ -26,7 +26,7 @@
     "react-dom": "16.13.1",
     "react-native": "0.63.4",
     "react-native-gesture-handler": "~1.8.0",
-    "react-native-reanimated": "~2.1.0",
+    "react-native-reanimated": "~2.2.0",
     "react-native-unimodules": "~0.13.3",
     "react-native-web": "0.15.3",
     "react-navigation-stack": "^2.8.4",

@@ -13,6 +13,7 @@ import {
   useMotiPressableContext,
   INTERACTION_CONTAINER_ID,
 } from './context'
+import Hoverable from './hoverable'
 
 const AnimatedTouchable = Animated.createAnimatedComponent(
   TouchableWithoutFeedback
@@ -91,19 +92,22 @@ export function MotiPressable(props: MotiPressableProps) {
   let node: ReactNode
   if (Platform.OS === 'web') {
     node = (
-      <Pressable
-        // @ts-expect-error react-native-web doesn't have types 😢
+      <Hoverable
         onHoverIn={updateInteraction('hovered', true, onHoverIn)}
         onHoverOut={updateInteraction('hovered', false, onHoverOut)}
         onPressIn={updateInteraction('pressed', true, onPressIn)}
         onPressOut={updateInteraction('pressed', false, onPressOut)}
-        onLongPress={onLongPress}
-        hitSlop={hitSlop}
-        disabled={disabled}
-        style={containerStyle}
       >
-        {child}
-      </Pressable>
+        <Pressable
+          onLongPress={onLongPress}
+          hitSlop={hitSlop}
+          disabled={disabled}
+          style={containerStyle}
+          onPress={onPress}
+        >
+          {child}
+        </Pressable>
+      </Hoverable>
     )
   } else {
     node = (
