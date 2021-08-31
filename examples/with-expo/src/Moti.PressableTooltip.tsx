@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { MotiImage } from 'moti'
 import {
+  mergeAnimateProp,
   MotiPressable,
   useMotiPressable,
   useMotiPressableTransition,
@@ -45,7 +46,17 @@ function Logo() {
 
 function App() {
   return (
-    <MotiPressable id="logo" style={styles.shape}>
+    <MotiPressable
+      animate={(state) => {
+        'worklet'
+
+        return mergeAnimateProp(state, {
+          scale: state.pressed ? 0.9 : 1,
+        })
+      }}
+      id="logo"
+      style={styles.shape}
+    >
       <Logo />
     </MotiPressable>
   )
