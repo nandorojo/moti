@@ -1,6 +1,6 @@
 ---
 id: use-pressable-transition
-title: useMotiPressableTransitionTransition
+title: useMotiPressableTransition
 ---
 
 ```tsx
@@ -136,10 +136,10 @@ useMotiPressableTransition(id, factory, deps?)
 
 ### Arguments
 
-- `factory` is a worklet that receives the interaction state as the first argument, and returns a style object.
+- `factory` is a worklet that receives the interaction state as the first argument, and returns a transition object.
 - `id` is a unique string to identify the parent `MotiPressable` component whose interaction state you're trying to access.
 - `deps` is a dependency array, just like `useMemo`
 
 ### Returns
 
-A Moti `state` object, meant to be passed to any Moti component's `state` prop.
+A Moti `transition` object, meant to be passed to any Moti component's `transition` prop.
