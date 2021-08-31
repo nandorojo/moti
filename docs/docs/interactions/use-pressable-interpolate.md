@@ -28,7 +28,7 @@ useInterpolateMotiPressable(({ pressed }) => {
 
 If you're passing a unique `id` prop to your pressable, you can also isolate this hook to that pressable.
 
-Say the parent pressable has `id="list"`, and you want to isolate this hook to the `list` pressable:
+Say the parent pressable has `id="menu"`, and you want to isolate this hook to the `menu` pressable:
 
 ```tsx
 <MotiPressable id="menu">
@@ -40,7 +40,7 @@ Then, in the `Item` component:
 
 ```tsx
 const mySharedValue = useSharedValue(0)
-useInterpolateMotiPressable('list', ({ pressed }) => {
+useInterpolateMotiPressable('menu', ({ pressed }) => {
   'worklet'
 
   mySharedValue.value = pressed ? 1 : 0
@@ -54,7 +54,7 @@ useInterpolateMotiPressable('list', ({ pressed }) => {
 ```tsx
 const swipePosition = useSharedValue(0)
 const interpolatedValue = useInterpolateMotiPressable<{ done: boolean }>(
-  'list',
+  'menu',
   ({ pressed }) => {
     'worklet'
 
@@ -72,7 +72,7 @@ Just like any derived value, you can read the value it returns with `.value`:
 ```tsx
 const swipePosition = useSharedValue(0)
 const interpolatedValue = useInterpolateMotiPressable<{ done: boolean }>(
-  'list',
+  'menu',
   ({ pressed }) => {
     'worklet'
 
@@ -86,7 +86,7 @@ const interpolatedValue = useInterpolateMotiPressable<{ done: boolean }>(
 const done = state.value.done
 ```
 
-## Improve performance
+## Performance
 
 Similar to `useMemo`, you can also pass in a dependency array as the last argument:
 

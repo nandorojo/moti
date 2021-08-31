@@ -78,9 +78,11 @@ const ListItem = ({ id }) => {
 }
 ```
 
-## Improve performance
+## Performance
 
-Similar to `useMemo`, you can also pass in a dependency array as the last argument:
+This hook runs on the native thread and triggers zero re-renders. That means it's great for performance out-of-the-box.
+
+Similar to `useMemo`, you can also pass in a dependency array as the last argument to reduce updates:
 
 ```tsx
 const state = useMotiPressables(
@@ -93,7 +95,7 @@ const state = useMotiPressables(
       opacity: list.pressed && !loading ? 0.5 : 1,
     }
   },
-  [loading]
+  [loading] // pass an empty array if there are no dependencies
 )
 ```
 

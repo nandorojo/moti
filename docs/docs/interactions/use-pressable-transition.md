@@ -1,15 +1,36 @@
 ---
-id: use-pressable
-title: useMotiPressable
+id: use-pressable-transition
+title: useMotiPressableTransitionTransition
 ---
 
 ```tsx
-import { useMotiPressable } from '@motify/interactions'
+import { useMotiPressableTransition } from '@motify/interactions'
 ```
 
-`useMotiPressable` lets you access the interaction state of a parent `MotiPressable` component.
+`useMotiPressableTransition` lets you motify any Moti component's `transition` prop based on a parent's interaction state.
 
-(If you need to access the interaction state of multiple `MotiPressable` parents, use `useMotiPressables` instead.)
+Please refer to the Moti `transition` prop options to see what this hook should return.
+
+Example:
+
+```tsx
+const transition = useMotiPressableTransition(({ pressed, hovered }) => {
+  'worklet'
+
+  if (pressed) {
+    return {
+      type: 'timing',
+    }
+  }
+
+  return {
+    type: 'spring',
+    delay: 50,
+  }
+})
+
+return <MotiView transition={transition} />
+```
 
 ## Usage
 
@@ -25,15 +46,27 @@ Then, in the `Item` component:
 
 ```tsx
 const Item = () => {
-  const state = useMotiPressable(({ pressed }) => {
+  const state = useMotiPressableTransition(({ pressed }) => {
     'worklet'
 
+    if (pressed) {
+      return {
+        type: 'timing',
+      }
+    }
+
     return {
-      opactiy: pressed ? 0.5 : 1,
+      type: 'spring',
+      delay: 50,
+    }
+  })
+  const state = useMotiPressableState(({ pressed }) => {
+    return {
+      translateY: pressed ? -10 : 0,
     }
   })
 
-  return <MotiView state={state} />
+  return <MotiView transition={transition} state={state} />
 }
 ```
 
@@ -51,10 +84,10 @@ You can also access a pressable via unique ID. Say you have mutliple nested pres
 
 By adding `id="list"`, we can now access that unique component's interaction state.
 
-Then, in the `Item` component, add `list` as the first argument of `useMotiPressable`:
+Then, in the `Item` component, add `list` as the first argument of `useMotiPressableTransition`:
 
 ```tsx
-const state = useMotiPressable('list', ({ pressed }) => {
+const state = useMotiPressableTransition('list', ({ pressed }) => {
   'worklet'
 
   return {
@@ -62,8 +95,10 @@ const state = useMotiPressable('list', ({ pressed }) => {
   }
 })
 
-return <MotiView state={state} />
+return <MotiView transition={transition} />
 ```
+
+This lets you uniquely transition based on interactionns made on the `list` pressable.
 
 ## Performance
 
@@ -72,7 +107,7 @@ This hook runs on the native thread and triggers zero re-renders. That means it'
 Similar to `useMemo`, you can also pass in a dependency array as the last argument to reduce updates:
 
 ```tsx
-const state = useMotiPressable(
+const state = useMotiPressableTransition(
   'list',
   ({ pressed, hovered }) => {
     'worklet'
@@ -90,13 +125,13 @@ const state = useMotiPressable(
 The following usages are valid:
 
 ```tsx
-useMotiPressable(factory, deps?)
+useMotiPressableTransition(factory, deps?)
 ```
 
 If there's a unique MotiPressable component with an `id` prop as the parent:
 
 ```tsx
-useMotiPressable(id, factory, deps?)
+useMotiPressableTransition(id, factory, deps?)
 ```
 
 ### Arguments
