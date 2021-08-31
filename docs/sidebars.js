@@ -11,12 +11,13 @@ module.exports = {
       'examples/variants',
     ],
     Hooks: [],
-    ['Interactions (Experimental)']: [
+    ['Interactions (Alpha)']: [
       'interactions/overview',
       'interactions/pressable',
       'interactions/use-pressable',
       'interactions/use-pressables',
       'interactions/use-pressable-animated-props',
+      'interactions/use-pressable-transition',
       'interactions/use-pressable-interpolate',
     ],
     Components: ['skeleton'],

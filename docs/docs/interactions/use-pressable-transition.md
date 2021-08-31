@@ -102,7 +102,7 @@ This lets you uniquely transition based on interactionns made on the `list` pres
 
 ## Performance
 
-This hook runs on the native thread and triggers zero re-renders. That means it's great for performance out-of-the-box.
+This hook runs on the native thread and triggers zero re-renders. Like all things moti, it has great performance out-of-the-box.
 
 Similar to `useMemo`, you can also pass in a dependency array as the last argument to reduce updates:
 

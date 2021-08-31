@@ -57,3 +57,27 @@ useMotiPressableAnimatedProps(id, factory, deps?)
 ### Returns
 
 Animated props, to be passed a Reanimated or Moti component's `animatedProps` prop.
+
+## Web
+
+`animatedProps` cannot be used with `animate` on the same prop on Web.
+
+```tsx
+//  🚨 bad
+const animateProps = useMotiPressableAnimatedProps(...)
+
+<MotiView animate={...} animatedProps={animatedProps}>
+
+</MotiView>
+```
+
+If you need to do both, please split your usage into two components; one that receives the `animate` prop, and another that receives `animateProps`. This is a limitation in Reanimated 2.
+
+```tsx
+// ✅ good
+const animateProps = useMotiPressableAnimatedProps(...)
+
+<MotiView animatedProps={animatedProps}>
+  <MotiView animate={...} />
+</MotiView>
+```

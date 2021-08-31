@@ -26,15 +26,29 @@ const onPress = () => Linking.openURL('beatgig.com')
 />
 ```
 
-Done ✅
+## About
 
----
-
-The experimental `MotiPressable` component lets you animate based on `pressed` and `hovered` interactions, without triggering any re-renders.
+The `MotiPressable` component lets you animate based on `pressed` and `hovered` interactions, without triggering any re-renders.
 
 The usage is very similar to `Pressable` from `react-native`.
 
 The two differences are 1) you use the `animate` prop rather than `style`, and 2) the function you pass must be a `worklet`, resulting in faster performance and a better developer experience.
+
+Like always, `MotiPressable` relies on the native thread when tracking interactions.
+
+### Examples
+
+Check out these tweets from [Fernando Rojo](https://twitter.com/fernandotherojo) for more context:
+
+- [From Moti's API to MotiPressable](https://twitter.com/FernandoTheRojo/status/1431421726748024836)
+- [Remaking BeatGig's web dropdown menu with moti interactions](https://twitter.com/FernandoTheRojo/status/1432113422368448516?s=20)
+- [Animating children of a Pressable component without re-renders](https://twitter.com/FernandoTheRojo/status/1431768719886323714?s=20)
+
+<!--
+### Examples
+
+There are some examples in the `examples/with-expo/src` folder of the Moti repo.
+-->
 
 ## Installation
 
@@ -197,7 +211,7 @@ const Child = ({ id }) => {
 
 Let's say you want to update a child component's props based on a parent's interaction state.
 
-For example, you have a dropdown menu whose `pointerEvents` should be `none` when it's container isn't hovered.
+For example, you have a dropdown menu whose `pointerEvents` should be `none` when its container isn't hovered.
 
 ```tsx
 const Menu = () => {
@@ -246,6 +260,8 @@ const animatedProps = useMotiPressableAnimatedProps<ViewProps>(
 ```
 
 `useMotiPressableAnimatedProps` relies on `useAnimatedProps` under the hood.
+
+> `animatedProps` cannot be used with `animate` on the same prop on Web. If you need to do both, please split your usage into two components; one that receives the `animate` prop, and another that receives `animateProps`. This is a reanimated limitation.
 
 ### Interpolate interaction state
 
@@ -357,3 +373,9 @@ const state = useMotiPressable(({ pressed }) => {
 
 return <MotiView state={state} />
 ```
+
+## Web Support
+
+`MotiPressable` provides first-class support for Web, including `hovered` and `pressed` interactions.
+
+Please note that Reanimated 2 uses JS animations on Web. That said, `MotiPressable` still doesn't trigger re-renders on web.
