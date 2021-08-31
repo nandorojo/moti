@@ -1,7 +1,11 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { MotiImage } from 'moti'
-import { MotiPressable, useMotiPressable } from '@motify/interactions'
+import {
+  MotiPressable,
+  useMotiPressable,
+  useMotiPressableTransition,
+} from '@motify/interactions'
 import { useDerivedValue } from 'react-native-reanimated'
 
 function Logo() {
@@ -17,6 +21,14 @@ function Logo() {
     []
   )
 
+  const transition = useMotiPressableTransition(({ pressed }) => {
+    'worklet'
+
+    return {
+      delay: pressed ? 0 : 100,
+    }
+  })
+
   return (
     <MotiImage
       source={{
@@ -25,7 +37,8 @@ function Logo() {
       state={state}
       style={styles.logo}
       resizeMode="contain"
-      transition={useDerivedValue(() => ({ type: 'timing' }), [])}
+      // transition={useDerivedValue(() => ({ type: 'timing' }), [])}
+      transition={transition}
     />
   )
 }

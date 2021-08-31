@@ -12,19 +12,11 @@ type Returns<Factory> = {
   deps?: readonly any[]
 }
 
-type HookName = 'useMotiPressableAnimatedProps' | 'useMotiPressable'
+type HookName =
+  | 'useMotiPressableAnimatedProps'
+  | 'useMotiPressable'
+  | 'useMotiPressableTransition'
 
-// export function useFactory<Factory extends (...props: any[]) => any>(
-//   hookName: HookName,
-//   id: MotiPressableInteractionIds['id'],
-//   factory: Factory,
-//   deps?: readonly any[]
-// ): Returns<Factory>
-// export function useFactory<Factory extends (...props: any[]) => any>(
-//   hookName: HookName,
-//   factory: Factory,
-//   deps?: readonly any[]
-// ): Returns<Factory>
 export function useFactory<Factory extends (...props: any[]) => any>(
   hookName: HookName,
   factoryOrId: Factory | MotiPressableInteractionIds['id'],
@@ -35,7 +27,7 @@ export function useFactory<Factory extends (...props: any[]) => any>(
   const missingIdError = `
 
 If you're using a container ID, it should look like this:
-${hookName}("${factoryOrId}", ({ pressed }) => {
+${hookName}("${factoryOrId}", ({ pressed, hovered }) => {
   'worklet'
 
   return {
@@ -45,7 +37,7 @@ ${hookName}("${factoryOrId}", ({ pressed }) => {
 
 Otherwise, you could ignore the id and style relative to the closest parent pressable.
 
-${hookName}(({ pressed }) => {
+${hookName}(({ pressed, hovered }) => {
     'worklet'
 
     return {
@@ -67,7 +59,7 @@ ${hookName}(({ pressed }) => {
     deps = maybeDeps
   } else {
     throw new Error(
-      `[${hookName}] Received id ${factoryOrId} as first argument, but the second argument is not a valid function.` +
+      `[${hookName}] Invalid arguments. If the first argument is a unique ID string, the second must be a worklet function. Alternatively, the first argument can be a function, without an ID argument. However, received ${factoryOrId} as first argument, and ${maybeFactoryOrDeps} as the second one.` +
         missingIdError
     )
   }
@@ -77,6 +69,9 @@ ${hookName}(({ pressed }) => {
       `[${hookName}] Missing context. Are you sure this component is the child of a <MotiPressable /> component?`
     )
   } else if (!context.containers[id]) {
+    // this error will only happen if you set a unique ID
+    // why? because if there is indeed a context, and there's no unique ID
+    // ...then we fall back to the default INTERACTION_CONTAINER_ID, which exists if (context) {}
     let error = `[${hookName}] Received id "${id}", but there isn't a <MotiPressable id="${id}" /> component wrapping it. This will result in nothing happening.`
 
     const containerKeys = Object.keys(context.containers)

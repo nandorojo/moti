@@ -278,6 +278,7 @@ export default function useMapAnimateToStyle<Animate>({
     let transition: MotiTransition<Animate> | undefined
     if (transitionProp && 'value' in transitionProp) {
       transition = transitionProp.value
+      console.log('[transition] is SV', transition)
     } else {
       transition = transitionProp
     }
