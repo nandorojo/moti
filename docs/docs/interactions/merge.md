@@ -94,7 +94,18 @@ const PressableScale = ({ animate, ...props }: Props) => {
 And in your component:
 
 ```tsx
-<PressableScale />
+<PressableScale
+  animate={useMemo(
+    () => (interaction) => {
+      'worklet'
+
+      return {
+        opacity: interaction.pressed ? 0.5 : 1,
+      }
+    },
+    []
+  )}
+/>
 ```
 
 ## Usage with Dripsy
