@@ -149,9 +149,18 @@ export type MotiAnimationProp<Animate> = MotiProps<Animate>['animate']
 export type MotiFromProp<Animate> = MotiProps<Animate>['from']
 export type MotiExitProp<Animate> = MotiProps<Animate>['exit']
 
-export type MotiTransitionProp<
-  Animate = StyleValueWithReplacedTransforms<ImageStyle & TextStyle & ViewStyle>
-> = TransitionConfig & Partial<Record<keyof Animate, TransitionConfig>>
+type OrSharedValue<T> = T | Animated.SharedValue<T>
+
+type FallbackAnimateProp = StyleValueWithReplacedTransforms<
+  ImageStyle & TextStyle & ViewStyle
+>
+
+export type MotiTransition<Animate = FallbackAnimateProp> = TransitionConfig &
+  Partial<Record<keyof Animate, TransitionConfig>>
+
+export type MotiTransitionProp<Animate = FallbackAnimateProp> = OrSharedValue<
+  MotiTransition<Animate>
+>
 
 export interface MotiProps<
   // Style props of the component

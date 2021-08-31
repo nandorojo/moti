@@ -13,7 +13,12 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated'
 import { PackageName } from './constants/package-name'
-import type { MotiProps, Transforms, TransitionConfig } from './types'
+import type {
+  MotiProps,
+  MotiTransition,
+  Transforms,
+  TransitionConfig,
+} from './types'
 
 const debug = (...args: any[]) => {
   'worklet'
@@ -59,7 +64,7 @@ const isTransform = (styleKey: string) => {
 
 function animationDelay<Animate>(
   key: string,
-  transition: MotiProps<Animate>['transition'],
+  transition: MotiTransition<Animate> | undefined,
   defaultDelay?: number
 ) {
   'worklet'
@@ -78,7 +83,7 @@ function animationDelay<Animate>(
 
 function animationConfig<Animate>(
   styleProp: string,
-  transition: MotiProps<Animate>['transition']
+  transition: MotiTransition<Animate> | undefined
 ) {
   'worklet'
 
@@ -207,13 +212,13 @@ export default function useMapAnimateToStyle<Animate>({
   animate,
   from = false,
   transition: transitionProp,
+  exitTransition: exitTransitionProp,
   delay: defaultDelay,
   state,
   stylePriority = 'animate',
   onDidAnimate,
   exit,
   animateInitialState = false,
-  exitTransition,
 }: MotiProps<Animate>) {
   const isMounted = useSharedValue(false)
   const [isPresent, safeToUnmount] = usePresence()
@@ -269,8 +274,21 @@ export default function useMapAnimateToStyle<Animate>({
       exitingStyleProps[key] = true
     })
 
-    let transition = transitionProp
-    if (isExiting && exitTransition) {
+    // allow shared values as transitions
+    let transition: MotiTransition<Animate> | undefined
+    if (transitionProp && 'value' in transitionProp) {
+      transition = transitionProp.value
+    } else {
+      transition = transitionProp
+    }
+    if (isExiting && exitTransitionProp) {
+      let exitTransition: MotiTransition<Animate> | undefined
+      if (exitTransitionProp && 'value' in exitTransitionProp) {
+        exitTransition = exitTransitionProp.value
+      } else {
+        exitTransition = exitTransitionProp
+      }
+
       transition = Object.assign({}, transition, exitTransition)
     }
 
