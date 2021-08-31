@@ -19,6 +19,7 @@ module.exports = {
       'interactions/use-pressable-animated-props',
       'interactions/use-pressable-transition',
       'interactions/use-pressable-interpolate',
+      'interactions/merge',
     ],
     Components: ['skeleton'],
     Web: ['web', 'next'],
