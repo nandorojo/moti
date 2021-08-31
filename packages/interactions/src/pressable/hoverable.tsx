@@ -45,6 +45,7 @@ function isHoverEnabled(): boolean {
 
 import React, { useCallback, ReactChild, useRef } from 'react'
 import { useSharedValue, useAnimatedReaction } from 'react-native-reanimated'
+import { Platform } from 'react-native'
 
 export interface HoverableProps {
   onHoverIn?: () => void
@@ -64,24 +65,27 @@ export default function Hoverable({
   const showHover = useSharedValue(true)
   const isHovered = useSharedValue(false)
 
-  const hoverIn = useRef(onHoverIn)
-  const hoverOut = useRef(onHoverOut)
-  const pressIn = useRef(onPressIn)
-  const pressOut = useRef(onPressOut)
+  const hoverIn = useRef<undefined | (() => void)>(() => onHoverIn?.())
+  const hoverOut = useRef<undefined | (() => void)>(() => onHoverOut?.())
+  const pressIn = useRef<undefined | (() => void)>(() => onPressIn?.())
+  const pressOut = useRef<undefined | (() => void)>(() => onPressOut?.())
 
   hoverIn.current = onHoverIn
   hoverOut.current = onHoverOut
+  pressIn.current = onPressIn
+  pressOut.current = onPressOut
 
   useAnimatedReaction(
     () => {
-      return showHover.value && isHovered.value
+      return Platform.OS === 'web' && showHover.value && isHovered.value
     },
     (hovered, previouslyHovered) => {
       if (hovered !== previouslyHovered) {
-        if (hovered) {
-          hoverIn.current?.()
-        } else {
-          hoverOut.current?.()
+        if (hovered && hoverIn.current) {
+          // no need for runOnJS, it's always web
+          hoverIn.current()
+        } else if (hoverOut.current) {
+          hoverOut.current()
         }
       }
     },
@@ -110,12 +114,19 @@ export default function Hoverable({
     pressOut.current?.()
   }, [showHover])
 
+  let webProps = {}
+  if (Platform.OS === 'web') {
+    webProps = {
+      onMouseEnter: handleMouseEnter,
+      onMouseLeave: handleMouseLeave,
+      // prevent hover showing while responder
+      onResponderGrant: handleGrant,
+      onResponderRelease: handleRelease,
+    }
+  }
+
   return React.cloneElement(React.Children.only(children) as any, {
-    onMouseEnter: handleMouseEnter,
-    onMouseLeave: handleMouseLeave,
-    // prevent hover showing while responder
-    onResponderGrant: handleGrant,
-    onResponderRelease: handleRelease,
+    ...webProps,
     // if child is Touchable
     onPressIn: handleGrant,
     onPressOut: handleRelease,
