@@ -153,13 +153,13 @@ You can also use `mergeAnimateProp` in children components, with hooks like `use
 ```tsx
 import { MotiView } from 'moti'
 import {
-  MotiPressableAnimateProp,
+  MotiPressableProp,
   useMotiPressable,
   mergeAnimateProp,
 } from '@motify/interactions'
 
 type Props = {
-  animate?: MotiPressableAnimateProp
+  animate?: MotiPressableProp
 }
 
 export const ListItem = ({ animate }: Props) => {
