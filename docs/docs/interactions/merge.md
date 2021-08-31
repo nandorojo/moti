@@ -177,6 +177,23 @@ export const ListItem = ({ animate }: Props) => {
 
   return <MotiView state={state} />
 }
+
+export default function List() {
+  return (
+    <MotiPressable>
+      {items.map((id, index) => (
+        <ListItem
+          key={id}
+          animate={({ hovered }) => {
+            return {
+              translateX: hovered ? index * 2 : 0,
+            }
+          }}
+        />
+      ))}
+    </MotiPressable>
+  )
+}
 ```
 
 ## API
