@@ -194,7 +194,10 @@ export interface MotiProps<
    *
    * It follows the same API as the `exit` prop from `framer-motion`. Feel free to reference their docs: https://www.framer.com/api/motion/animate-presence/
    * */
-  exit?: AnimateWithTransitions | boolean
+  exit?:
+    | AnimateWithTransitions
+    | boolean
+    | ((custom?: unknown) => AnimateWithTransitions)
   /**
    * Define animation configurations.
    *
