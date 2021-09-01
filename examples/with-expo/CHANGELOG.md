@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.3](https://github.com/nandorojo/moti/compare/v0.12.2...v0.12.3) (2021-09-01)
+
+
+### Reverts
+
+* removing useValue hack, as order is not preserved. only solution is transform array ([034c8dc](https://github.com/nandorojo/moti/commit/034c8dc5d03d65e335258c8cef3a534cb99ea4ae))
+
+
+
+
+
 ## [0.12.2](https://github.com/nandorojo/moti/compare/v0.12.1...v0.12.2) (2021-09-01)
 
 
