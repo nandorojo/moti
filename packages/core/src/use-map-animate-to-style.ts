@@ -1,5 +1,5 @@
 import { PresenceContext, usePresence } from 'framer-motion'
-import { useCallback, useContext, useEffect, useRef } from 'react'
+import { useCallback, useContext, useEffect } from 'react'
 import { TransformsStyle, Platform } from 'react-native'
 import Animated, {
   useAnimatedStyle,
