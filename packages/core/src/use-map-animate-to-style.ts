@@ -1,6 +1,6 @@
 import { PresenceContext, usePresence } from 'framer-motion'
 import { useCallback, useContext, useEffect, useRef } from 'react'
-import type { TransformsStyle } from 'react-native'
+import { TransformsStyle, Platform } from 'react-native'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -11,10 +11,10 @@ import Animated, {
   withRepeat,
   withSequence,
   runOnJS,
-  useDerivedValue,
 } from 'react-native-reanimated'
 import { PackageName } from './constants/package-name'
 import type { MotiProps, Transforms, TransitionConfig } from './types'
+import { useValue } from './use-value'
 
 const debug = (...args: any[]) => {
   'worklet'
@@ -208,7 +208,10 @@ export default function useMapAnimateToStyle<Animate>({
   animate: animateProp,
   from: fromProp = false,
   transition: transitionProp,
-  delay: defaultDelay,
+  delay: defaultDelay = Platform.select({
+    // delay of 0 on web seems to fix mount animations not happening?
+    web: 0,
+  }),
   state,
   stylePriority = 'animate',
   onDidAnimate,
@@ -222,7 +225,7 @@ export default function useMapAnimateToStyle<Animate>({
 
   const disableInitialAnimation =
     presence?.initial === false && !animateInitialState
-  const custom = useDerivedValue(() => presence?.custom, [presence])
+  const custom = useCallback(() => presence?.custom, [presence])
 
   const reanimatedSafeToUnmount = useRef(() => {
     safeToUnmount?.()
@@ -235,9 +238,18 @@ export default function useMapAnimateToStyle<Animate>({
     [onDidAnimate]
   )
 
-  const animate = useDerivedValue(() => animateProp || {}, [animateProp])
-  const exit = useDerivedValue(() => exitProp || {}, [exitProp])
-  const from = useDerivedValue(() => fromProp || {}, [fromProp])
+  const animate = useValue(() => {
+    'worklet'
+    return animateProp || {}
+  }, [animateProp])
+  const exit = useValue(() => {
+    'worklet'
+    return exitProp || {}
+  }, [exitProp])
+  const from = useValue(() => {
+    'worklet'
+    return fromProp || {}
+  }, [fromProp])
 
   const hasExitStyle = !!(
     typeof exitProp === 'function' ||
@@ -257,7 +269,7 @@ export default function useMapAnimateToStyle<Animate>({
     const initialStyle = from.value
     let exitStyle = exit.value
     if (typeof exitStyle === 'function') {
-      exitStyle = exitStyle(custom.value)
+      exitStyle = exitStyle(custom())
     }
 
     const isExiting = !isPresent && hasExitStyle
