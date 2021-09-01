@@ -495,10 +495,10 @@ export default function useMapAnimateToStyle<Animate>({
   useEffect(
     function allowUnMountIfMissingExit() {
       if (!isPresent && !hasExitStyle) {
-        safeToUnmount?.()
+        reanimatedSafeToUnmount()
       }
     },
-    [exit, hasExitStyle, isPresent, safeToUnmount]
+    [hasExitStyle, isPresent, reanimatedSafeToUnmount]
   )
 
   return {
