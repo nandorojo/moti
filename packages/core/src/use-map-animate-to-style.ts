@@ -230,9 +230,7 @@ export default function useMapAnimateToStyle<Animate>({
   const reanimatedSafeToUnmount = useRef(() => {
     safeToUnmount?.()
   })
-  useEffect(function updateSafeToUnmount() {
-    reanimatedSafeToUnmount.current = () => safeToUnmount?.()
-  })
+  reanimatedSafeToUnmount.current = () => safeToUnmount?.()
 
   const reanimatedOnDidAnimated = useCallback<NonNullable<typeof onDidAnimate>>(
     (...args) => {
