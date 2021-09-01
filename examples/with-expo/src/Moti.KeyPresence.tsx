@@ -50,7 +50,7 @@ export default function Presence() {
             duration: 100,
           }}
           key={key}
-          style={styles.shape}
+          style={[styles.shape, key % 2 && { backgroundColor: 'black' }]}
         />
       </AnimatePresence>
     </Pressable>

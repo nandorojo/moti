@@ -14,7 +14,6 @@ import Animated, {
 } from 'react-native-reanimated'
 import { PackageName } from './constants/package-name'
 import type { MotiProps, Transforms, TransitionConfig } from './types'
-import { useValue } from './use-value'
 
 const debug = (...args: any[]) => {
   'worklet'
@@ -227,10 +226,9 @@ export default function useMapAnimateToStyle<Animate>({
     presence?.initial === false && !animateInitialState
   const custom = useCallback(() => presence?.custom, [presence])
 
-  const reanimatedSafeToUnmount = useRef(() => {
+  const reanimatedSafeToUnmount = useCallback(() => {
     safeToUnmount?.()
-  })
-  reanimatedSafeToUnmount.current = () => safeToUnmount?.()
+  }, [safeToUnmount])
 
   const reanimatedOnDidAnimated = useCallback<NonNullable<typeof onDidAnimate>>(
     (...args) => {
@@ -239,18 +237,18 @@ export default function useMapAnimateToStyle<Animate>({
     [onDidAnimate]
   )
 
-  const animate = useValue(() => {
-    'worklet'
-    return animateProp || {}
-  }, [animateProp])
-  const exit = useValue(() => {
-    'worklet'
-    return exitProp || {}
-  }, [exitProp])
-  const from = useValue(() => {
-    'worklet'
-    return fromProp || {}
-  }, [fromProp])
+  // const animate = useValue(() => {
+  //   'worklet'
+  //   return animateProp || {}
+  // }, [animateProp])
+  // const exit = useValue(() => {
+  //   'worklet'
+  //   return exitProp || {}
+  // }, [exitProp])
+  // const from = useValue(() => {
+  //   'worklet'
+  //   return fromProp || {}
+  // }, [fromProp])
 
   const hasExitStyle = !!(
     typeof exitProp === 'function' ||
@@ -266,9 +264,9 @@ export default function useMapAnimateToStyle<Animate>({
     }
     const variantStyle: Animate = state?.__state?.value || {}
 
-    const animateStyle = animate.value
-    const initialStyle = from.value
-    let exitStyle = exit.value
+    const animateStyle = animateProp || {}
+    const initialStyle = fromProp || {}
+    let exitStyle = exitProp || {}
     if (typeof exitStyle === 'function') {
       exitStyle = exitStyle(custom())
     }
@@ -340,7 +338,7 @@ export default function useMapAnimateToStyle<Animate>({
           )
           // if this is true, then we've finished our exit animations
           if (!areStylesExiting) {
-            runOnJS(reanimatedSafeToUnmount.current)()
+            runOnJS(reanimatedSafeToUnmount)()
           }
         }
       }
@@ -508,10 +506,10 @@ export default function useMapAnimateToStyle<Animate>({
   useEffect(
     function allowUnMountIfMissingExit() {
       if (!isPresent && !hasExitStyle) {
-        reanimatedSafeToUnmount.current()
+        reanimatedSafeToUnmount()
       }
     },
-    [hasExitStyle, isPresent]
+    [hasExitStyle, isPresent, reanimatedSafeToUnmount]
   )
 
   return {
