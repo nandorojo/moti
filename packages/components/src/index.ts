@@ -13,6 +13,8 @@ export const Image = motify(RImage)()
 export const ScrollView = motify(RScrollView)()
 export const SafeAreaView = motify(RSafeAreaView)()
 
+export * from './progress'
+
 export {
   View as MotiView,
   Text as MotiText,

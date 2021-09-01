@@ -13,10 +13,18 @@ function Shape() {
         opacity: 1,
         scale: 1,
       }}
-      exit={{
-        opacity: 0,
-        scale: 0.9,
+      exit={(custom) => {
+        'worklet'
+        console.log('[exit]', { custom })
+        return {
+          opacity: 0,
+          scale: 0.9,
+        }
       }}
+      // exit={{
+      //   opacity: 0,
+      //   scale: 0.9,
+      // }}
       exitTransition={{
         type: 'timing',
         duration: 2500,
@@ -31,7 +39,9 @@ export default function Presence() {
 
   return (
     <Pressable onPress={toggle} style={styles.container}>
-      <AnimatePresence>{visible && <Shape />}</AnimatePresence>
+      <AnimatePresence custom={!visible ? 'hidden' : 'visible'}>
+        {visible && <Shape key={'i'} />}
+      </AnimatePresence>
     </Pressable>
   )
 }

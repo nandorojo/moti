@@ -1,5 +1,5 @@
-import { usePresence } from 'framer-motion'
-import { useCallback, useEffect } from 'react'
+import { PresenceContext, usePresence } from 'framer-motion'
+import { useCallback, useContext, useEffect, useRef } from 'react'
 import type { TransformsStyle } from 'react-native'
 import Animated, {
   useAnimatedStyle,
@@ -11,6 +11,7 @@ import Animated, {
   withRepeat,
   withSequence,
   runOnJS,
+  useDerivedValue,
 } from 'react-native-reanimated'
 import { PackageName } from './constants/package-name'
 import type { MotiProps, Transforms, TransitionConfig } from './types'
@@ -204,23 +205,28 @@ function animationConfig<Animate>(
 }
 
 export default function useMapAnimateToStyle<Animate>({
-  animate,
-  from = false,
+  animate: animateProp,
+  from: fromProp = false,
   transition: transitionProp,
   delay: defaultDelay,
   state,
   stylePriority = 'animate',
   onDidAnimate,
-  exit,
+  exit: exitProp,
   animateInitialState = false,
   exitTransition,
 }: MotiProps<Animate>) {
   const isMounted = useSharedValue(false)
   const [isPresent, safeToUnmount] = usePresence()
+  const presence = useContext(PresenceContext)
 
-  const reanimatedSafeToUnmount = useCallback(() => {
+  const disableInitialAnimation =
+    presence?.initial === false && !animateInitialState
+  const custom = useDerivedValue(() => presence?.custom, [presence])
+
+  const reanimatedSafeToUnmount = useRef(() => {
     safeToUnmount?.()
-  }, [safeToUnmount])
+  }).current
 
   const reanimatedOnDidAnimated = useCallback<NonNullable<typeof onDidAnimate>>(
     (...args) => {
@@ -229,8 +235,16 @@ export default function useMapAnimateToStyle<Animate>({
     [onDidAnimate]
   )
 
-  const hasExitStyle =
-    typeof exit === 'object' && !!Object.keys(exit ?? {}).length
+  const animate = useDerivedValue(() => animateProp || {}, [animateProp])
+  const exit = useDerivedValue(() => exitProp || {}, [exitProp])
+  const from = useDerivedValue(() => fromProp || {}, [fromProp])
+
+  const hasExitStyle = !!(
+    typeof exitProp === 'function' ||
+    (typeof exitProp === 'object' &&
+      exitProp &&
+      Object.keys(exitProp).length > 0)
+  )
 
   const style = useAnimatedStyle(() => {
     const final = {
@@ -239,9 +253,12 @@ export default function useMapAnimateToStyle<Animate>({
     }
     const variantStyle: Animate = state?.__state?.value || {}
 
-    const animateStyle = animate || {}
-    const initialStyle = from || {}
-    const exitStyle = exit || {}
+    const animateStyle = animate.value
+    const initialStyle = from.value
+    let exitStyle = exit.value
+    if (typeof exitStyle === 'function') {
+      exitStyle = exitStyle(custom.value)
+    }
 
     const isExiting = !isPresent && hasExitStyle
 
@@ -250,6 +267,14 @@ export default function useMapAnimateToStyle<Animate>({
       mergedStyles = Object.assign({}, animateStyle, variantStyle)
     } else {
       mergedStyles = Object.assign({}, variantStyle, animateStyle)
+    }
+
+    if (!isMounted.value) {
+      if (!disableInitialAnimation) {
+        mergedStyles = initialStyle as Animate
+      }
+    } else {
+      mergedStyles = Object.assign({}, initialStyle, mergedStyles)
     }
 
     if (isExiting && exitStyle) {
@@ -275,7 +300,7 @@ export default function useMapAnimateToStyle<Animate>({
     }
 
     Object.keys(mergedStyles).forEach((key) => {
-      const initialValue = initialStyle[key]
+      // const initialValue = initialStyle[key]
       const value = mergedStyles[key]
 
       const {
@@ -304,30 +329,6 @@ export default function useMapAnimateToStyle<Animate>({
           if (!areStylesExiting) {
             runOnJS(reanimatedSafeToUnmount)()
           }
-        }
-      }
-
-      if (initialValue != null) {
-        // if we haven't mounted, or if there's no other value to use besides the initial one, use it.
-        if (isMounted.value === false || value == null) {
-          if (isTransform(key) && final.transform) {
-            const transform = {} as Transforms
-            if (isMounted.value || animateInitialState) {
-              transform[key] = animation(initialValue, config)
-            } else {
-              transform[key] = initialValue
-            }
-
-            // final.transform.push({ [key]: initialValue }) does not work!
-            final.transform.push(transform)
-          } else {
-            if (isMounted.value || animateInitialState) {
-              final[key] = animation(initialValue, config)
-            } else {
-              final[key] = initialValue
-            }
-          }
-          return
         }
       }
 
@@ -494,10 +495,10 @@ export default function useMapAnimateToStyle<Animate>({
   useEffect(
     function allowUnMountIfMissingExit() {
       if (!isPresent && !hasExitStyle) {
-        safeToUnmount?.()
+        reanimatedSafeToUnmount()
       }
     },
-    [hasExitStyle, isPresent, safeToUnmount]
+    [hasExitStyle, isPresent, reanimatedSafeToUnmount]
   )
 
   return {
