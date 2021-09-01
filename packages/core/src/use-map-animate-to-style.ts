@@ -513,7 +513,7 @@ export default function useMapAnimateToStyle<Animate>({
         reanimatedSafeToUnmount.current()
       }
     },
-    [hasExitStyle, isPresent, reanimatedSafeToUnmount]
+    [hasExitStyle, isPresent]
   )
 
   return {
