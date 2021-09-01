@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.2](https://github.com/nandorojo/moti/compare/v0.12.1...v0.12.2) (2021-09-01)
+
+
+### Bug Fixes
+
+* closes [#104](https://github.com/nandorojo/moti/issues/104), where exit completion never fired ([da4eafa](https://github.com/nandorojo/moti/commit/da4eafa66476c7d32a1fc5f0a1c925c3a8bc3786))
+
+
+
+
+
 ## [0.12.1](https://github.com/nandorojo/moti/compare/v0.12.0...v0.12.1) (2021-09-01)
 
 
