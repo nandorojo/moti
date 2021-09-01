@@ -229,7 +229,10 @@ export default function useMapAnimateToStyle<Animate>({
 
   const reanimatedSafeToUnmount = useRef(() => {
     safeToUnmount?.()
-  }).current
+  })
+  useEffect(function updateSafeToUnmount() {
+    reanimatedSafeToUnmount.current = () => safeToUnmount?.()
+  })
 
   const reanimatedOnDidAnimated = useCallback<NonNullable<typeof onDidAnimate>>(
     (...args) => {
@@ -339,7 +342,7 @@ export default function useMapAnimateToStyle<Animate>({
           )
           // if this is true, then we've finished our exit animations
           if (!areStylesExiting) {
-            runOnJS(reanimatedSafeToUnmount)()
+            runOnJS(reanimatedSafeToUnmount.current)()
           }
         }
       }
@@ -507,7 +510,7 @@ export default function useMapAnimateToStyle<Animate>({
   useEffect(
     function allowUnMountIfMissingExit() {
       if (!isPresent && !hasExitStyle) {
-        reanimatedSafeToUnmount()
+        reanimatedSafeToUnmount.current()
       }
     },
     [hasExitStyle, isPresent, reanimatedSafeToUnmount]
