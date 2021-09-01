@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0](https://github.com/nandorojo/moti/compare/v0.11.0...v0.12.0) (2021-09-01)
+
+
+### Bug Fixes
+
+* transform errors from [#85](https://github.com/nandorojo/moti/issues/85), [#83](https://github.com/nandorojo/moti/issues/83), [#76](https://github.com/nandorojo/moti/issues/76), [#65](https://github.com/nandorojo/moti/issues/65) ([fef3ad0](https://github.com/nandorojo/moti/commit/fef3ad0e593b56ef4477ccdc8488625fd331a282))
+
+
+### Features
+
+* add custom & initial props to animate-presence ([7fafc30](https://github.com/nandorojo/moti/commit/7fafc3065b51f210ffa934eb41dfd656e27c08bb))
+* progress bar, transform does not work? ([9823cd1](https://github.com/nandorojo/moti/commit/9823cd1a22dfd98fdf7fb776ec3e1cb7593ff7b0))
+
+
+
+
+
 # [0.11.0](https://github.com/nandorojo/moti/compare/v0.10.1...v0.11.0) (2021-05-17)
 
 **Note:** Version bump only for package with-expo
