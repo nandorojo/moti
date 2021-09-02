@@ -7,7 +7,6 @@ import {
   useMotiPressable,
   useMotiPressableTransition,
 } from '@motify/interactions'
-import { useDerivedValue } from 'react-native-reanimated'
 
 function Logo() {
   const state = useMotiPressable(

@@ -10,8 +10,8 @@ function Logo() {
       'worklet'
 
       return {
-        opacity: pressed || hovered ? 0.5 : 1,
-        scale: pressed || hovered ? 2 : 1,
+        opacity: pressed ? 0.25 : hovered ? 0.8 : 1,
+        scale: pressed ? 0.97 : hovered ? 1.05 : 1,
       }
     },
     []
@@ -25,7 +25,7 @@ function Logo() {
       state={state}
       style={styles.logo}
       resizeMode="contain"
-      transition={{ type: 'timing' }}
+      transition={{ type: 'timing', duration: 200 }}
     />
   )
 }
