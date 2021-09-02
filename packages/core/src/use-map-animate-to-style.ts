@@ -458,9 +458,6 @@ export default function useMapAnimateToStyle<Animate>({
                   sequence[0],
                   ...sequence.slice(1)
                 )
-                console.log('[transform][sequence] ', transformKey, {
-                  sequence,
-                })
               }
             } else {
               if (transition?.[transformKey]?.delay != null) {
