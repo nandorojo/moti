@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.14.0](https://github.com/nandorojo/moti/compare/v0.13.0...v0.14.0) (2021-09-02)
+
+
+### Bug Fixes
+
+* remove web delay default; attemptedValue typo ([df5174f](https://github.com/nandorojo/moti/commit/df5174fc6251b2694ab51d91bcca6f45c0fd06f9))
+
+
+### Features
+
+* transition & exitTransition can be shared/derived value ([0c945b7](https://github.com/nandorojo/moti/commit/0c945b7c40ff34315f3a385c61cb63d2ca3aea58))
+* use-moti-pressable-transition ([cf6162d](https://github.com/nandorojo/moti/commit/cf6162d3ed1a28f51232b7b5bb0a98bf3ba57749))
+
+
+
+# [0.13.0-alpha.0](https://github.com/nandorojo/moti/compare/v0.11.0...v0.13.0-alpha.0) (2021-08-29)
+
+
+### Features
+
+* add animated TS types to moti types ([7845c44](https://github.com/nandorojo/moti/commit/7845c4462d54da6d3ebb9651cb32f8bc351f6a65))
+* init pressable ([7b9e897](https://github.com/nandorojo/moti/commit/7b9e8977837239a6592a624745c8291c37ef82c9))
+* web-only dropdown menu ([2b8c944](https://github.com/nandorojo/moti/commit/2b8c94407b15b3169dbe46541370a47af692f413))
+
+
+
+
+
 # [0.13.0-alpha.0](https://github.com/nandorojo/moti/compare/v0.11.0...v0.13.0-alpha.0) (2021-08-29)
 
 # [0.13.0](https://github.com/nandorojo/moti/compare/v0.12.3...v0.13.0) (2021-09-02)

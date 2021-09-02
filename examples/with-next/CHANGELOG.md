@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.14.0](https://github.com/nandorojo/moti/compare/v0.13.0...v0.14.0) (2021-09-02)
+
+
+
+# [0.13.0-alpha.0](https://github.com/nandorojo/moti/compare/v0.11.0...v0.13.0-alpha.0) (2021-08-29)
+
+
+### Features
+
+* web-only dropdown menu ([2b8c944](https://github.com/nandorojo/moti/commit/2b8c94407b15b3169dbe46541370a47af692f413))
+
+
+
+
+
 # [0.13.0-alpha.0](https://github.com/nandorojo/moti/compare/v0.11.0...v0.13.0-alpha.0) (2021-08-29)
 
 
