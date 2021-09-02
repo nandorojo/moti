@@ -1,6 +1,6 @@
 import { PresenceContext, usePresence } from 'framer-motion'
 import { useCallback, useContext, useEffect } from 'react'
-import { TransformsStyle, Platform } from 'react-native'
+import type { TransformsStyle } from 'react-native'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -214,10 +214,7 @@ export default function useMapAnimateToStyle<Animate>({
   from: fromProp = false,
   transition: transitionProp,
   exitTransition: exitTransitionProp,
-  delay: defaultDelay = Platform.select({
-    // delay of 0 on web seems to fix mount animations not happening?
-    web: 0,
-  }),
+  delay: defaultDelay,
   state,
   stylePriority = 'animate',
   onDidAnimate,
@@ -359,7 +356,7 @@ export default function useMapAnimateToStyle<Animate>({
       ) => {
         if (onDidAnimate) {
           runOnJS(reanimatedOnDidAnimated)(key as any, completed, recentValue, {
-            attempedValue: value,
+            attemptedValue: value,
           })
         }
         if (isExiting) {
@@ -568,8 +565,6 @@ export default function useMapAnimateToStyle<Animate>({
         }
       }
     })
-
-    console.log('[UAS] final', final)
 
     // TODO
     // if (!final.transform?.length) {

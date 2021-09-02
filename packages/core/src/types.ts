@@ -149,14 +149,14 @@ export type OnDidAnimate<
      * ```jsx
      * <MotiView
      *   onDidAnimate={(key, finished, value, { attemptedValue }) => {
-     *     if (key === 'opacity' && finished && attempedValue === 1) {
+     *     if (key === 'opacity' && finished && attemptedValue === 1) {
      *       console.log('animated to 1!')
      *     }
      *   }}
      * />
      * ```
      */
-    attempedValue: Animate[Key]
+    attemptedValue: Animate[Key]
   }
 ) => void
 
