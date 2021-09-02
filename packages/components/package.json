@@ -1,7 +1,7 @@
 {
   "name": "@motify/components",
   "private": false,
-  "version": "0.14.0",
+  "version": "0.14.1",
   "keywords": [
     "react-native",
     "ios",
@@ -37,7 +37,7 @@
     "clean": "del lib"
   },
   "dependencies": {
-    "@motify/core": "^0.14.0"
+    "@motify/core": "^0.14.1"
   },
   "devDependencies": {
     "typescript": "^4.0.3"
