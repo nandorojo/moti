@@ -1,5 +1,5 @@
 {
-  "name": "@motify/components",
+  "name": "@motify/interactions",
   "private": false,
   "version": "0.13.0-alpha.0",
   "keywords": [
@@ -12,7 +12,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/nandorojo/moti.git",
-    "directory": "packages/components"
+    "directory": "packages/interactions"
   },
   "bugs": {
     "url": "https://github.com/nandorojo/moti/issues"
@@ -37,10 +37,14 @@
     "clean": "del lib"
   },
   "dependencies": {
+    "@motify/components": "^0.13.0-alpha.0",
     "@motify/core": "^0.13.0-alpha.0"
   },
   "devDependencies": {
     "typescript": "^4.0.3"
+  },
+  "peerDependencies": {
+    "react-native-gesture-handler": "*"
   },
   "react-native-builder-bob": {
     "source": "src",

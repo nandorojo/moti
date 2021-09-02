@@ -1,6 +1,6 @@
 import { PresenceContext, usePresence } from 'framer-motion'
 import { useCallback, useContext, useEffect } from 'react'
-import { TransformsStyle, Platform } from 'react-native'
+import type { TransformsStyle } from 'react-native'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -15,6 +15,7 @@ import Animated, {
 import { PackageName } from './constants/package-name'
 import type {
   MotiProps,
+  MotiTransition,
   SequenceItem,
   Transforms,
   TransitionConfig,
@@ -64,7 +65,7 @@ const isTransform = (styleKey: string) => {
 
 function animationDelay<Animate>(
   key: string,
-  transition: MotiProps<Animate>['transition'],
+  transition: MotiTransition<Animate> | undefined,
   defaultDelay?: number
 ) {
   'worklet'
@@ -83,7 +84,7 @@ function animationDelay<Animate>(
 
 function animationConfig<Animate>(
   styleProp: string,
-  transition: MotiProps<Animate>['transition']
+  transition: MotiTransition<Animate> | undefined
 ) {
   'worklet'
 
@@ -212,16 +213,13 @@ export default function useMapAnimateToStyle<Animate>({
   animate: animateProp,
   from: fromProp = false,
   transition: transitionProp,
-  delay: defaultDelay = Platform.select({
-    // delay of 0 on web seems to fix mount animations not happening?
-    web: 0,
-  }),
+  exitTransition: exitTransitionProp,
+  delay: defaultDelay,
   state,
   stylePriority = 'animate',
   onDidAnimate,
   exit: exitProp,
   animateInitialState = false,
-  exitTransition,
 }: MotiProps<Animate>) {
   const isMounted = useSharedValue(false)
   const [isPresent, safeToUnmount] = usePresence()
@@ -310,8 +308,21 @@ export default function useMapAnimateToStyle<Animate>({
       exitingStyleProps[key] = true
     })
 
-    let transition = transitionProp
-    if (isExiting && exitTransition) {
+    // allow shared values as transitions
+    let transition: MotiTransition<Animate> | undefined
+    if (transitionProp && 'value' in transitionProp) {
+      transition = transitionProp.value
+    } else {
+      transition = transitionProp
+    }
+    if (isExiting && exitTransitionProp) {
+      let exitTransition: MotiTransition<Animate> | undefined
+      if (exitTransitionProp && 'value' in exitTransitionProp) {
+        exitTransition = exitTransitionProp.value
+      } else {
+        exitTransition = exitTransitionProp
+      }
+
       transition = Object.assign({}, transition, exitTransition)
     }
 
@@ -345,7 +356,7 @@ export default function useMapAnimateToStyle<Animate>({
       ) => {
         if (onDidAnimate) {
           runOnJS(reanimatedOnDidAnimated)(key as any, completed, recentValue, {
-            attempedValue: value,
+            attemptedValue: value,
           })
         }
         if (isExiting) {
@@ -388,7 +399,7 @@ export default function useMapAnimateToStyle<Animate>({
 
       const getSequenceArray = (
         sequenceKey: string,
-        sequenceArray: SequenceItem<string | number | boolean>[]
+        sequenceArray: SequenceItem<any>[]
       ) => {
         'worklet'
         const sequence = sequenceArray
@@ -409,7 +420,6 @@ export default function useMapAnimateToStyle<Animate>({
               const stepTransition = Object.assign({}, step)
 
               delete stepTransition.delay
-              // @ts-expect-error we can delete the value since this is just for the transition
               delete stepTransition.value
 
               const { config: inlineStepConfig, animation } = animationConfig(
@@ -494,7 +504,7 @@ export default function useMapAnimateToStyle<Animate>({
 
             transform[key] = withSequence(sequence[0], ...sequence.slice(1))
 
-            // @ts-ignore
+            // @ts-expect-error transform had the wrong type
             final['transform'].push(transform)
           }
         } else {
@@ -524,7 +534,7 @@ export default function useMapAnimateToStyle<Animate>({
           transform[key] = finalValue
         }
 
-        // @ts-ignore
+        // @ts-expect-error transform had the wrong type
         final['transform'].push(transform)
       } else if (typeof value === 'object') {
         // shadows
@@ -555,8 +565,6 @@ export default function useMapAnimateToStyle<Animate>({
         }
       }
     })
-
-    console.log('[UAS] final', final)
 
     // TODO
     // if (!final.transform?.length) {

@@ -149,14 +149,14 @@ export type OnDidAnimate<
      * ```jsx
      * <MotiView
      *   onDidAnimate={(key, finished, value, { attemptedValue }) => {
-     *     if (key === 'opacity' && finished && attempedValue === 1) {
+     *     if (key === 'opacity' && finished && attemptedValue === 1) {
      *       console.log('animated to 1!')
      *     }
      *   }}
      * />
      * ```
      */
-    attempedValue: Animate[Key]
+    attemptedValue: Animate[Key]
   }
 ) => void
 
@@ -170,9 +170,18 @@ export type MotiAnimationProp<Animate> = MotiProps<Animate>['animate']
 export type MotiFromProp<Animate> = MotiProps<Animate>['from']
 export type MotiExitProp<Animate> = MotiProps<Animate>['exit']
 
-export type MotiTransitionProp<
-  Animate = StyleValueWithReplacedTransforms<ImageStyle & TextStyle & ViewStyle>
-> = TransitionConfig & Partial<Record<keyof Animate, TransitionConfig>>
+type OrSharedValue<T> = T | Animated.SharedValue<T>
+
+type FallbackAnimateProp = StyleValueWithReplacedTransforms<
+  ImageStyle & TextStyle & ViewStyle
+>
+
+export type MotiTransition<Animate = FallbackAnimateProp> = TransitionConfig &
+  Partial<Record<keyof Animate, TransitionConfig>>
+
+export type MotiTransitionProp<Animate = FallbackAnimateProp> = OrSharedValue<
+  MotiTransition<Animate>
+>
 
 export interface MotiProps<
   // Style props of the component
@@ -345,7 +354,7 @@ export type UseAnimationState<V> = {
    * @private
    * Internal state used to drive animations. You shouldn't use this. Use `.current` instead to read the current state. Use `transitionTo` to edit it.
    */
-  __state: Animated.SharedValue<any>
+  __state: Animated.SharedValue<any> | Animated.DerivedValue<any>
   /**
    * Transition to another state, as defined by this hook.
    *
