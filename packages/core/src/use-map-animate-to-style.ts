@@ -394,7 +394,7 @@ export default function useMapAnimateToStyle<Animate>({
         const sequence = sequenceArray
           .filter((step) => {
             // remove null, false values to allow for conditional styles
-            if (typeof step === 'object') {
+            if (step && typeof step === 'object') {
               return step?.value != null && step?.value !== false
             }
             return step != null && step !== false
@@ -404,7 +404,7 @@ export default function useMapAnimateToStyle<Animate>({
             let stepValue = step
             let stepConfig = Object.assign({}, config)
             let stepAnimation = animation
-            if (step && typeof step === 'object') {
+            if (typeof step === 'object') {
               // not allowed in Reanimated: { delay, value, ...transition } = step
               const stepTransition = Object.assign({}, step)
 
