@@ -2,10 +2,6 @@ import { MotiImage, AnimatePresence, Text } from 'moti'
 import React, { useState } from 'react'
 import { StyleSheet, View, Image, Dimensions } from 'react-native'
 
-// const photos: { url: string }[] = new Array(50).fill('').map((_, i) => ({
-//   url: `https://source.unsplash.com/random?sig=${i}`,
-// }))
-
 const photos = [
   `https://images.unsplash.com/photo-1551871812-10ecc21ffa2f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=929&q=80`,
   `https://images.unsplash.com/photo-1530447920184-b88c8872?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTN8fHJvY2tldHxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60`,
@@ -20,20 +16,9 @@ const width = size.width
 export default function Gallery() {
   const [[index, direction], setIndex] = useState([0, 0])
 
-  // React.useEffect(() => {
-  //   photos.forEach(({ url }) => {
-  //     Image.prefetch(url).catch(() => console.log('🥸'))
-  //   })
-  // }, [])
-
   const paginate = (direction: 1 | -1) => () => {
     setIndex(([current]) => {
       const nextIndex = current + direction
-      // if (nextIndex > photos.length - 1) return [0, direction * -1]
-
-      // if (nextIndex < 0) return [photos.length - 1, direction * -1]
-
-      // return [nextIndex, direction]
 
       const normalizedIndex = Math.max(
         0,
@@ -47,7 +32,7 @@ export default function Gallery() {
 
   return (
     <View style={styles.container}>
-      <AnimatePresence>
+      <AnimatePresence custom={direction}>
         <MotiImage
           from={{
             opacity: 0,
@@ -57,9 +42,13 @@ export default function Gallery() {
             opacity: 1,
             translateX: 0,
           }}
-          exit={{
-            opacity: 0,
-            translateX: direction < 0 ? -width : width,
+          exit={(custom) => {
+            'worklet'
+            console.log('[gallery] exiting', { custom })
+            return {
+              opacity: 0,
+              translateX: custom < 0 ? -width : width,
+            }
           }}
           style={styles.image}
           key={url}

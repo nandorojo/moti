@@ -1,47 +1,43 @@
 import React, { useReducer } from 'react'
 import { StyleSheet, Pressable } from 'react-native'
-import { View, AnimatePresence } from 'moti'
+import { MotiView } from 'moti'
 
 function Shape() {
   return (
-    <View
+    <MotiView
       from={{
         opacity: 0,
-        scale: 0.9,
+        transform: [
+          {
+            scale: 0,
+          },
+          {
+            rotateZ: '45deg',
+          },
+        ],
       }}
       animate={{
         opacity: 1,
-        scale: 1,
-      }}
-      exit={(custom) => {
-        'worklet'
-        console.log('[exit]', { custom })
-        return {
-          opacity: 0,
-          scale: 0.9,
-        }
-      }}
-      // exit={{
-      //   opacity: 0,
-      //   scale: 0.9,
-      // }}
-      exitTransition={{
-        type: 'timing',
-        duration: 2500,
+        transform: [
+          {
+            scale: [1, 0.5, { value: 1.5, delay: 1000 }],
+          },
+          {
+            rotateZ: ['0deg', '360deg'],
+          },
+        ],
       }}
       style={styles.shape}
     />
   )
 }
 
-export default function Presence() {
+export default function HelloWorld() {
   const [visible, toggle] = useReducer((s) => !s, true)
 
   return (
     <Pressable onPress={toggle} style={styles.container}>
-      <AnimatePresence custom={!visible ? 'hidden' : 'visible'}>
-        {visible && <Shape key={'i'} />}
-      </AnimatePresence>
+      {visible && <Shape />}
     </Pressable>
   )
 }

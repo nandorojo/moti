@@ -48,7 +48,9 @@ By default, `moti` uses `type: 'spring'` for animations.
 
 However, Reanimated 2's spring animations are currently glitchy on web.
 
-If you want to use springs, I recommend setting `overshootClamping: false`. This seems to solve it on web:
+#### Current workaround options (select one):
+1. Use `react-native-web` between versions (`0.15.2` through `0.15.6`) for a temporary patch and the default `type: spring` will work on web.
+2. Alternatively if you want to use springs, I recommend setting `overshootClamping: false`. This seems to solve it on web:
 
 ```tsx
 <MotiView transition={{ overshootClamping: false }} />
@@ -56,9 +58,7 @@ If you want to use springs, I recommend setting `overshootClamping: false`. This
 
 Thanks to [pranshuchittora](https://github.com/pranshuchittora) for discovering this workaround.
 
-See [Reanimated issue #1804](https://github.com/software-mansion/react-native-reanimated/issues?q=is%3Aissue+web+is%3Aclosed+) for more info on this problem. It should be solved once `react-native-web` merges [#1939](https://github.com/necolas/react-native-web/pull/1939). Once that's merged, you'll need to install the new version of RNW (`0.15.x`, presumably.)
-
-Another solution is to use `timing` transitions instead of the default `spring`.
+3. Another solution is to use `timing` transitions instead of the default `spring`.
 
 You can configure your animation settings using the `transition` prop of any Moti component.
 
@@ -85,3 +85,6 @@ export default function Timing() {
   )
 }
 ```
+
+
+4. For using `react-native-web` > 0.15.6, check the status on an upcoming [release](https://github.com/software-mansion/react-native-reanimated/releases) that includes this pull request regarding [Reanimated setNativeProps](https://github.com/software-mansion/react-native-reanimated/pull/2280). It should be solved once `react-native-web` resolves issue [#1935](https://github.com/necolas/react-native-web/issues/1935).

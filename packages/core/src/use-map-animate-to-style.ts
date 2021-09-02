@@ -1,6 +1,6 @@
-import { usePresence } from 'framer-motion'
-import { useCallback, useEffect } from 'react'
-import type { TransformsStyle } from 'react-native'
+import { PresenceContext, usePresence } from 'framer-motion'
+import { useCallback, useContext, useEffect } from 'react'
+import { TransformsStyle, Platform } from 'react-native'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -16,6 +16,7 @@ import { PackageName } from './constants/package-name'
 import type {
   MotiProps,
   MotiTransition,
+  SequenceItem,
   Transforms,
   TransitionConfig,
 } from './types'
@@ -209,19 +210,27 @@ function animationConfig<Animate>(
 }
 
 export default function useMapAnimateToStyle<Animate>({
-  animate,
-  from = false,
+  animate: animateProp,
+  from: fromProp = false,
   transition: transitionProp,
   exitTransition: exitTransitionProp,
-  delay: defaultDelay,
+  delay: defaultDelay = Platform.select({
+    // delay of 0 on web seems to fix mount animations not happening?
+    web: 0,
+  }),
   state,
   stylePriority = 'animate',
   onDidAnimate,
-  exit,
+  exit: exitProp,
   animateInitialState = false,
 }: MotiProps<Animate>) {
   const isMounted = useSharedValue(false)
   const [isPresent, safeToUnmount] = usePresence()
+  const presence = useContext(PresenceContext)
+
+  const disableInitialAnimation =
+    presence?.initial === false && !animateInitialState
+  const custom = useCallback(() => presence?.custom, [presence])
 
   const reanimatedSafeToUnmount = useCallback(() => {
     safeToUnmount?.()
@@ -234,8 +243,25 @@ export default function useMapAnimateToStyle<Animate>({
     [onDidAnimate]
   )
 
-  const hasExitStyle =
-    typeof exit === 'object' && !!Object.keys(exit ?? {}).length
+  // const animate = useValue(() => {
+  //   'worklet'
+  //   return animateProp || {}
+  // }, [animateProp])
+  // const exit = useValue(() => {
+  //   'worklet'
+  //   return exitProp || {}
+  // }, [exitProp])
+  // const from = useValue(() => {
+  //   'worklet'
+  //   return fromProp || {}
+  // }, [fromProp])
+
+  const hasExitStyle = !!(
+    typeof exitProp === 'function' ||
+    (typeof exitProp === 'object' &&
+      exitProp &&
+      Object.keys(exitProp).length > 0)
+  )
 
   const style = useAnimatedStyle(() => {
     const final = {
@@ -244,9 +270,12 @@ export default function useMapAnimateToStyle<Animate>({
     }
     const variantStyle: Animate = state?.__state?.value || {}
 
-    const animateStyle = animate || {}
-    const initialStyle = from || {}
-    const exitStyle = exit || {}
+    const animateStyle = animateProp || {}
+    const initialStyle = fromProp || {}
+    let exitStyle = exitProp || {}
+    if (typeof exitStyle === 'function') {
+      exitStyle = exitStyle(custom())
+    }
 
     const isExiting = !isPresent && hasExitStyle
 
@@ -255,6 +284,14 @@ export default function useMapAnimateToStyle<Animate>({
       mergedStyles = Object.assign({}, animateStyle, variantStyle)
     } else {
       mergedStyles = Object.assign({}, variantStyle, animateStyle)
+    }
+
+    if (!isMounted.value) {
+      if (!disableInitialAnimation) {
+        mergedStyles = initialStyle as Animate
+      }
+    } else {
+      mergedStyles = Object.assign({}, initialStyle, mergedStyles)
     }
 
     if (isExiting && exitStyle) {
@@ -292,8 +329,20 @@ export default function useMapAnimateToStyle<Animate>({
       transition = Object.assign({}, transition, exitTransition)
     }
 
+    const transformKeys = Object.keys(mergedStyles).filter((key) =>
+      isTransform(key)
+    )
+
+    if (transformKeys.length > 1) {
+      console.warn(
+        `[${PackageName}] Multiple inline transforms found. This won't animate properly. Instead, pass these to a transform array: ${transformKeys.join(
+          ', '
+        )}`
+      )
+    }
+
     Object.keys(mergedStyles).forEach((key) => {
-      const initialValue = initialStyle[key]
+      // const initialValue = initialStyle[key]
       const value = mergedStyles[key]
 
       const {
@@ -325,30 +374,6 @@ export default function useMapAnimateToStyle<Animate>({
         }
       }
 
-      if (initialValue != null) {
-        // if we haven't mounted, or if there's no other value to use besides the initial one, use it.
-        if (isMounted.value === false || value == null) {
-          if (isTransform(key) && final.transform) {
-            const transform = {} as Transforms
-            if (isMounted.value || animateInitialState) {
-              transform[key] = animation(initialValue, config)
-            } else {
-              transform[key] = initialValue
-            }
-
-            // final.transform.push({ [key]: initialValue }) does not work!
-            final.transform.push(transform)
-          } else {
-            if (isMounted.value || animateInitialState) {
-              final[key] = animation(initialValue, config)
-            } else {
-              final[key] = initialValue
-            }
-          }
-          return
-        }
-      }
-
       let { delayMs } = animationDelay(key, transition, defaultDelay)
 
       if (isColor(key)) {
@@ -374,21 +399,16 @@ export default function useMapAnimateToStyle<Animate>({
         // without this, those values will break I think
         return
       }
-      if (Array.isArray(value)) {
-        // we have a sequence
 
-        /**
-         * There is some code duplication in this section and in the ones below.
-         *
-         * However, I prefer this for open source. It makes it easier for collaborators to identify issues without a million wrappers.
-         *
-         * If there's something *obvious* that would benefit from abstraction, we can. But let's keep it simple.
-         */
-
-        const sequence = value
+      const getSequenceArray = (
+        sequenceKey: string,
+        sequenceArray: SequenceItem<any>[]
+      ) => {
+        'worklet'
+        const sequence = sequenceArray
           .filter((step) => {
             // remove null, false values to allow for conditional styles
-            if (typeof step === 'object') {
+            if (step && typeof step === 'object') {
               return step?.value != null && step?.value !== false
             }
             return step != null && step !== false
@@ -400,13 +420,14 @@ export default function useMapAnimateToStyle<Animate>({
             let stepAnimation = animation
             if (typeof step === 'object') {
               // not allowed in Reanimated: { delay, value, ...transition } = step
-              const transition = Object.assign({}, step)
-              delete transition.delay
-              delete transition.value
+              const stepTransition = Object.assign({}, step)
+
+              delete stepTransition.delay
+              delete stepTransition.value
 
               const { config: inlineStepConfig, animation } = animationConfig(
-                key,
-                transition
+                sequenceKey,
+                stepTransition
               )
 
               stepConfig = Object.assign({}, stepConfig, inlineStepConfig)
@@ -426,6 +447,57 @@ export default function useMapAnimateToStyle<Animate>({
           })
           .filter(Boolean)
 
+        return sequence
+      }
+
+      if (key === 'transform') {
+        if (!Array.isArray(value)) {
+          console.error(
+            `[${PackageName}]: Invalid transform value. Needs to be an array.`
+          )
+        } else {
+          value.forEach((transformObject) => {
+            final['transform'] = final['transform'] || []
+            const transformKey = Object.keys(transformObject)[0]
+            const transformValue = transformObject[transformKey]
+            const transform = {} as any
+
+            if (Array.isArray(transformValue)) {
+              // we have a sequence in this transform...
+              const sequence = getSequenceArray(transformKey, transformValue)
+
+              if (sequence.length) {
+                transform[transformKey] = withSequence(
+                  sequence[0],
+                  ...sequence.slice(1)
+                )
+              }
+            } else {
+              if (transition?.[transformKey]?.delay != null) {
+                delayMs = transition?.[transformKey]?.delay
+              }
+
+              let finalValue = animation(transformValue, config, callback)
+              if (shouldRepeat) {
+                finalValue = withRepeat(finalValue, repeatCount, repeatReverse)
+              }
+              if (delayMs != null) {
+                transform[transformKey] = withDelay(delayMs, finalValue)
+              } else {
+                transform[transformKey] = finalValue
+              }
+            }
+
+            if (Object.keys(transform).length) {
+              final['transform'].push(transform)
+            }
+          })
+        }
+      } else if (Array.isArray(value)) {
+        // we have a sequence
+
+        const sequence = getSequenceArray(key, value)
+
         if (isTransform(key)) {
           // we have a sequence of transforms
           final['transform'] = final['transform'] || []
@@ -435,7 +507,7 @@ export default function useMapAnimateToStyle<Animate>({
 
             transform[key] = withSequence(sequence[0], ...sequence.slice(1))
 
-            // @ts-ignore
+            // @ts-expect-error transform had the wrong type
             final['transform'].push(transform)
           }
         } else {
@@ -465,7 +537,7 @@ export default function useMapAnimateToStyle<Animate>({
           transform[key] = finalValue
         }
 
-        // @ts-ignore
+        // @ts-expect-error transform had the wrong type
         final['transform'].push(transform)
       } else if (typeof value === 'object') {
         // shadows
@@ -497,6 +569,8 @@ export default function useMapAnimateToStyle<Animate>({
       }
     })
 
+    console.log('[UAS] final', final)
+
     // TODO
     // if (!final.transform?.length) {
     //   delete final.transform
@@ -512,10 +586,10 @@ export default function useMapAnimateToStyle<Animate>({
   useEffect(
     function allowUnMountIfMissingExit() {
       if (!isPresent && !hasExitStyle) {
-        safeToUnmount?.()
+        reanimatedSafeToUnmount()
       }
     },
-    [hasExitStyle, isPresent, safeToUnmount]
+    [hasExitStyle, isPresent, reanimatedSafeToUnmount]
   )
 
   return {

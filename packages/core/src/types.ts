@@ -32,6 +32,9 @@ export type Transforms = PerpectiveTransform &
   SkewXTransform &
   SkewYTransform
 
+export type MotiTranformProps = Partial<Transforms> &
+  Pick<ViewStyle, 'transform'>
+
 export type TransitionConfigWithoutRepeats = (
   | ({ type?: 'spring' } & Animated.WithSpringConfig)
   | ({ type: 'timing' } & Animated.WithTimingConfig)
@@ -73,6 +76,16 @@ export type TransitionConfig = TransitionConfigWithoutRepeats & {
   repeatReverse?: boolean
 }
 
+export type SequenceItem<Value> =
+  | // raw style values
+  Value
+  // or dictionaries with transition configs
+  | ({
+      value: Value
+      // withSequence does not support withRepeat!
+      // let people pass any config, minus repetitions
+    } & TransitionConfigWithoutRepeats)
+
 /**
  * Allow { scale: 1 }
  *
@@ -82,21 +95,29 @@ export type TransitionConfig = TransitionConfigWithoutRepeats & {
  * Or { scale: [{ value: 0, delay: 300, type: 'spring' }, 1]}
  * to allow more granular specification of sequence values
  */
-export type StyleValueWithSequenceArrays<T> = {
-  [key in keyof T]:
-    | T[keyof T] // either the value
+export type StyleValueWithSequenceArraysWithoutTransform<
+  T,
+  Key extends keyof T = keyof T,
+  // since transform is an array, it can't be here
+  KeyWithoutTransform extends Exclude<Key, 'transform'> = Exclude<
+    Key,
+    'transform'
+  >
+> = {
+  [key in KeyWithoutTransform]:
+    | T[KeyWithoutTransform] // either the value
     // or an array of values for a sequence
-    | (
-        | // raw style values
-        T[keyof T]
-        // or dictionaries with transition configs
-        | ({
-            value: T[keyof T]
-            // withSequence does not support withRepeat!
-            // let people pass any config, minus repetitions
-          } & TransitionConfigWithoutRepeats)
-      )[]
+    | SequenceItem<T[KeyWithoutTransform]>[]
 }
+
+export type StyleValueWithSequenceArraysWithTransform = {
+  transform: StyleValueWithSequenceArrays<Transforms>[]
+}
+
+export type StyleValueWithSequenceArrays<T> = Partial<
+  StyleValueWithSequenceArraysWithoutTransform<T> &
+    StyleValueWithSequenceArraysWithTransform
+>
 
 export type OnDidAnimate<
   Animate = ImageStyle & TextStyle & ViewStyle,
@@ -141,9 +162,9 @@ export type OnDidAnimate<
 
 export type StyleValueWithReplacedTransforms<StyleProp> = Omit<
   StyleProp,
-  'transform' | keyof Transforms
+  keyof Transforms
 > &
-  Partial<Transforms>
+  MotiTranformProps
 
 export type MotiAnimationProp<Animate> = MotiProps<Animate>['animate']
 export type MotiFromProp<Animate> = MotiProps<Animate>['from']
@@ -203,7 +224,10 @@ export interface MotiProps<
    *
    * It follows the same API as the `exit` prop from `framer-motion`. Feel free to reference their docs: https://www.framer.com/api/motion/animate-presence/
    * */
-  exit?: AnimateWithTransitions | boolean
+  exit?:
+    | AnimateWithTransitions
+    | boolean
+    | ((custom?: unknown) => AnimateWithTransitions)
   /**
    * Define animation configurations.
    *
@@ -294,7 +318,6 @@ export type Variants<
   // in component usage, it will extract these from the style prop ideally
   AnimateType = ImageStyle & TextStyle & ViewStyle,
   // edit the style props to remove transform array, flattening it
-  // AnimateWithTransitions = Omit<AnimateType, 'transform'> & Partial<Transforms>,
   AnimateWithTransitions = StyleValueWithReplacedTransforms<AnimateType>,
   // allow the style values to be arrays for sequences, where values are primitives or objects with configs
   Animate = StyleValueWithSequenceArrays<AnimateWithTransitions>

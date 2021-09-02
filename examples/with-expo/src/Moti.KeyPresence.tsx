@@ -13,18 +13,10 @@ function Shape() {
         opacity: 1,
         scale: 1,
       }}
-      exit={(custom) => {
-        'worklet'
-        console.log('[exit]', { custom })
-        return {
-          opacity: 0,
-          scale: 0.9,
-        }
+      exit={{
+        opacity: 0,
+        scale: 0.9,
       }}
-      // exit={{
-      //   opacity: 0,
-      //   scale: 0.9,
-      // }}
       exitTransition={{
         type: 'timing',
         duration: 2500,
@@ -35,12 +27,31 @@ function Shape() {
 }
 
 export default function Presence() {
-  const [visible, toggle] = useReducer((s) => !s, true)
+  const [key, increment] = useReducer((state) => state + 1, 0)
 
   return (
-    <Pressable onPress={toggle} style={styles.container}>
-      <AnimatePresence custom={!visible ? 'hidden' : 'visible'}>
-        {visible && <Shape key={'i'} />}
+    <Pressable onPress={increment} style={styles.container}>
+      <AnimatePresence exitBeforeEnter>
+        <View
+          from={{
+            opacity: 0,
+            scale: 0.9,
+          }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+          }}
+          exit={{
+            opacity: 0,
+            scale: 0.9,
+          }}
+          exitTransition={{
+            type: 'timing',
+            duration: 100,
+          }}
+          key={key}
+          style={[styles.shape, key % 2 && { backgroundColor: 'black' }]}
+        />
       </AnimatePresence>
     </Pressable>
   )
