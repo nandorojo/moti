@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.13.0](https://github.com/nandorojo/moti/compare/v0.12.3...v0.13.0) (2021-09-02)
+
+
+### Features
+
+* transform support, with sequences ([665bdf6](https://github.com/nandorojo/moti/commit/665bdf6df362d05b5bff2bd1ec12b36a69d84118))
+
+
+
+
+
 ## [0.12.3](https://github.com/nandorojo/moti/compare/v0.12.2...v0.12.3) (2021-09-01)
 
 
