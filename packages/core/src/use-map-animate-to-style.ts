@@ -13,7 +13,12 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated'
 import { PackageName } from './constants/package-name'
-import type { MotiProps, Transforms, TransitionConfig } from './types'
+import type {
+  MotiProps,
+  SequenceItem,
+  Transforms,
+  TransitionConfig,
+} from './types'
 
 const debug = (...args: any[]) => {
   'worklet'
@@ -310,6 +315,18 @@ export default function useMapAnimateToStyle<Animate>({
       transition = Object.assign({}, transition, exitTransition)
     }
 
+    const transformKeys = Object.keys(mergedStyles).filter((key) =>
+      isTransform(key)
+    )
+
+    if (transformKeys.length > 1) {
+      console.warn(
+        `[${PackageName}] Multiple inline transforms found. This won't animate properly. Instead, pass these to a transform array: ${transformKeys.join(
+          ', '
+        )}`
+      )
+    }
+
     Object.keys(mergedStyles).forEach((key) => {
       // const initialValue = initialStyle[key]
       const value = mergedStyles[key]
@@ -368,21 +385,16 @@ export default function useMapAnimateToStyle<Animate>({
         // without this, those values will break I think
         return
       }
-      if (Array.isArray(value)) {
-        // we have a sequence
 
-        /**
-         * There is some code duplication in this section and in the ones below.
-         *
-         * However, I prefer this for open source. It makes it easier for collaborators to identify issues without a million wrappers.
-         *
-         * If there's something *obvious* that would benefit from abstraction, we can. But let's keep it simple.
-         */
-
-        const sequence = value
+      const getSequenceArray = (
+        sequenceKey: string,
+        sequenceArray: SequenceItem<string | number | boolean>[]
+      ) => {
+        'worklet'
+        const sequence = sequenceArray
           .filter((step) => {
             // remove null, false values to allow for conditional styles
-            if (typeof step === 'object') {
+            if (step && typeof step === 'object') {
               return step?.value != null && step?.value !== false
             }
             return step != null && step !== false
@@ -394,13 +406,15 @@ export default function useMapAnimateToStyle<Animate>({
             let stepAnimation = animation
             if (typeof step === 'object') {
               // not allowed in Reanimated: { delay, value, ...transition } = step
-              const transition = Object.assign({}, step)
-              delete transition.delay
-              delete transition.value
+              const stepTransition = Object.assign({}, step)
+
+              delete stepTransition.delay
+              // @ts-expect-error we can delete the value since this is just for the transition
+              delete stepTransition.value
 
               const { config: inlineStepConfig, animation } = animationConfig(
-                key,
-                transition
+                sequenceKey,
+                stepTransition
               )
 
               stepConfig = Object.assign({}, stepConfig, inlineStepConfig)
@@ -419,6 +433,60 @@ export default function useMapAnimateToStyle<Animate>({
             return sequenceValue
           })
           .filter(Boolean)
+
+        return sequence
+      }
+
+      if (key === 'transform') {
+        if (!Array.isArray(value)) {
+          console.error(
+            `[${PackageName}]: Invalid transform value. Needs to be an array.`
+          )
+        } else {
+          value.forEach((transformObject) => {
+            final['transform'] = final['transform'] || []
+            const transformKey = Object.keys(transformObject)[0]
+            const transformValue = transformObject[transformKey]
+            const transform = {} as any
+
+            if (Array.isArray(transformValue)) {
+              // we have a sequence in this transform...
+              const sequence = getSequenceArray(transformKey, transformValue)
+
+              if (sequence.length) {
+                transform[transformKey] = withSequence(
+                  sequence[0],
+                  ...sequence.slice(1)
+                )
+                console.log('[transform][sequence] ', transformKey, {
+                  sequence,
+                })
+              }
+            } else {
+              if (transition?.[transformKey]?.delay != null) {
+                delayMs = transition?.[transformKey]?.delay
+              }
+
+              let finalValue = animation(transformValue, config, callback)
+              if (shouldRepeat) {
+                finalValue = withRepeat(finalValue, repeatCount, repeatReverse)
+              }
+              if (delayMs != null) {
+                transform[transformKey] = withDelay(delayMs, finalValue)
+              } else {
+                transform[transformKey] = finalValue
+              }
+            }
+
+            if (Object.keys(transform).length) {
+              final['transform'].push(transform)
+            }
+          })
+        }
+      } else if (Array.isArray(value)) {
+        // we have a sequence
+
+        const sequence = getSequenceArray(key, value)
 
         if (isTransform(key)) {
           // we have a sequence of transforms
@@ -490,6 +558,8 @@ export default function useMapAnimateToStyle<Animate>({
         }
       }
     })
+
+    console.log('[UAS] final', final)
 
     // TODO
     // if (!final.transform?.length) {
