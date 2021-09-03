@@ -44,7 +44,8 @@
     "typescript": "^4.0.3"
   },
   "peerDependencies": {
-    "react-native-gesture-handler": "*"
+    "react-native-gesture-handler": "*",
+    "react-native-reanimated": "*"
   },
   "react-native-builder-bob": {
     "source": "src",

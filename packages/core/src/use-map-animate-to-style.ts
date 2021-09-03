@@ -331,7 +331,7 @@ export default function useMapAnimateToStyle<Animate>({
     )
 
     if (transformKeys.length > 1) {
-      console.warn(
+      console.error(
         `[${PackageName}] Multiple inline transforms found. This won't animate properly. Instead, pass these to a transform array: ${transformKeys.join(
           ', '
         )}`

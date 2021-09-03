@@ -136,7 +136,7 @@ export function MotiPressable(props: MotiPressableProps) {
     context?.containers &&
     id in context.containers
   ) {
-    console.warn(
+    console.error(
       `[MotiPressable] Duplicate id ${id} used. This means that you incorrectly placed a <MotiPressable id="${id}" /> component inside another one with the same id.
 
 To silence this warning without solving the actual issue, you can use the dangerouslySilenceDuplicateIdsWarning prop. But you should probably refactor your code instead.`
