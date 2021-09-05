@@ -3,7 +3,7 @@ id: transforms
 title: Transforms
 ---
 
-Moti has a the same API for transforms as a normal React Native component.
+Moti has the same API for transforms as a normal React Native component.
 
 It also comes with some added convenience.
 
@@ -92,7 +92,7 @@ Make sure the order in the `from` and `animate` prop is the same. In this case, 
 
 ## Sequences
 
-Sequences for `transform` work like normal. Simply pass an array in place of your value
+Sequences for `transform` works like normal. Simply pass an array in place of your value
 
 ```tsx
 <MotiView
