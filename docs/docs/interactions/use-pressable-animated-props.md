@@ -15,6 +15,7 @@ If you've used `useAnimatedProps` from `react-native-reanimated` before, then th
 const Menu = () => {
   return (
     <MotiPressable>
+      <Trigger />
       <MenuItems />
     </MotiPressable>
   )
