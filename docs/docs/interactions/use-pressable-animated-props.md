@@ -1,6 +1,6 @@
 ---
 id: use-pressable-animated-props
-title: useMotiPressableAnimatedProps
+title: useMotiPressableAnimatedProps()
 ---
 
 ```tsx

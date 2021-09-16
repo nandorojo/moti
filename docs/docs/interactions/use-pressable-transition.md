@@ -1,6 +1,6 @@
 ---
 id: use-pressable-transition
-title: useMotiPressableTransition
+title: useMotiPressableTransition()
 ---
 
 ```tsx

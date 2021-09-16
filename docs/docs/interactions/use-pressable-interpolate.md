@@ -1,6 +1,6 @@
 ---
 id: use-pressable-interpolate
-title: useInterpolateMotiPressable
+title: useInterpolateMotiPressable()
 ---
 
 ```tsx
