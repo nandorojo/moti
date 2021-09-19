@@ -97,7 +97,7 @@ Sequences for `transform` works like normal. Simply pass an array in place of yo
 ```tsx
 <MotiView
   animate={{
-    scale: [0, 1.1, { value: 1, delay: 200 }], // scale to 0, 1.1, then 200
+    scale: [0, 1.1, { value: 1, delay: 200 }], // scale to 0, 1.1, then 1 (with delay 200 ms)
   }}
 />
 ```
