@@ -1,7 +1,7 @@
 {
   "name": "@motify/interactions",
   "private": false,
-  "version": "0.14.2",
+  "version": "0.15.0",
   "keywords": [
     "react-native",
     "ios",
@@ -37,8 +37,8 @@
     "clean": "del lib"
   },
   "dependencies": {
-    "@motify/components": "^0.14.2",
-    "@motify/core": "^0.14.2"
+    "@motify/components": "^0.15.0",
+    "@motify/core": "^0.15.0"
   },
   "devDependencies": {
     "typescript": "^4.0.3"

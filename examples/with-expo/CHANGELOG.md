@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.15.0](https://github.com/nandorojo/moti/compare/v0.14.2...v0.15.0) (2021-09-22)
+
+
+### Features
+
+* allow sequence repeats; fix custom presence; initialStyle only if exists ([32aa445](https://github.com/nandorojo/moti/commit/32aa445777f734c31d8bdfab717d5e09e703fbc7))
+
+
+
+
+
 ## [0.14.2](https://github.com/nandorojo/moti/compare/v0.14.1...v0.14.2) (2021-09-03)
 
 **Note:** Version bump only for package with-expo

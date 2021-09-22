@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.15.0](https://github.com/nandorojo/moti/compare/v0.14.2...v0.15.0) (2021-09-22)
+
+
+### Bug Fixes
+
+* inital style ([60c3167](https://github.com/nandorojo/moti/commit/60c31675a6021c36358af1668b938495ff9c95b7))
+* typos in /docs/api/transforms.md ([71d0470](https://github.com/nandorojo/moti/commit/71d047041856db30c21ac02c2ec63dd649b46f58))
+* typos in docs/api/props.md ([8ea2c3f](https://github.com/nandorojo/moti/commit/8ea2c3f621facba57e1ca222448efe4e3f3e1cec))
+
+
+### Features
+
+* allow sequence repeats; fix custom presence; initialStyle only if exists ([32aa445](https://github.com/nandorojo/moti/commit/32aa445777f734c31d8bdfab717d5e09e703fbc7))
+
+
+
+
+
 ## [0.14.2](https://github.com/nandorojo/moti/compare/v0.14.1...v0.14.2) (2021-09-03)
 
 **Note:** Version bump only for package moti
