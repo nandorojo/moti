@@ -227,7 +227,10 @@ export default function useMapAnimateToStyle<Animate>({
 
   const disableInitialAnimation =
     presence?.initial === false && !animateInitialState
-  const custom = useCallback(() => presence?.custom, [presence])
+  const custom = useCallback(() => {
+    'worklet'
+    return presence?.custom
+  }, [presence])
 
   const reanimatedSafeToUnmount = useCallback(() => {
     safeToUnmount?.()
@@ -239,19 +242,6 @@ export default function useMapAnimateToStyle<Animate>({
     },
     [onDidAnimate]
   )
-
-  // const animate = useValue(() => {
-  //   'worklet'
-  //   return animateProp || {}
-  // }, [animateProp])
-  // const exit = useValue(() => {
-  //   'worklet'
-  //   return exitProp || {}
-  // }, [exitProp])
-  // const from = useValue(() => {
-  //   'worklet'
-  //   return fromProp || {}
-  // }, [fromProp])
 
   const hasExitStyle = !!(
     typeof exitProp === 'function' ||
@@ -283,10 +273,12 @@ export default function useMapAnimateToStyle<Animate>({
       mergedStyles = Object.assign({}, variantStyle, animateStyle)
     }
 
-    if (!isMounted.value) {
-      if (!disableInitialAnimation) {
-        mergedStyles = initialStyle as Animate
-      }
+    if (
+      !isMounted.value &&
+      !disableInitialAnimation &&
+      Object.keys(initialStyle).length
+    ) {
+      mergedStyles = initialStyle as Animate
     } else {
       mergedStyles = Object.assign({}, initialStyle, mergedStyles)
     }
@@ -464,10 +456,15 @@ export default function useMapAnimateToStyle<Animate>({
               const sequence = getSequenceArray(transformKey, transformValue)
 
               if (sequence.length) {
-                transform[transformKey] = withSequence(
-                  sequence[0],
-                  ...sequence.slice(1)
-                )
+                let finalValue = withSequence(sequence[0], ...sequence.slice(1))
+                if (shouldRepeat) {
+                  finalValue = withRepeat(
+                    finalValue,
+                    repeatCount,
+                    repeatReverse
+                  )
+                }
+                transform[transformKey] = finalValue
               }
             } else {
               if (transition?.[transformKey]?.delay != null) {
@@ -494,6 +491,10 @@ export default function useMapAnimateToStyle<Animate>({
         // we have a sequence
 
         const sequence = getSequenceArray(key, value)
+        let finalValue = withSequence(sequence[0], ...sequence.slice(1))
+        if (shouldRepeat) {
+          finalValue = withRepeat(finalValue, repeatCount, repeatReverse)
+        }
 
         if (isTransform(key)) {
           // we have a sequence of transforms
@@ -502,7 +503,7 @@ export default function useMapAnimateToStyle<Animate>({
           if (sequence.length) {
             const transform = {}
 
-            transform[key] = withSequence(sequence[0], ...sequence.slice(1))
+            transform[key] = finalValue
 
             // @ts-expect-error transform had the wrong type
             final['transform'].push(transform)
@@ -511,7 +512,7 @@ export default function useMapAnimateToStyle<Animate>({
           // we have a normal sequence of items
           // shadows not supported
           if (sequence.length) {
-            final[key] = withSequence(sequence[0], ...sequence.slice(1))
+            final[key] = finalValue
           }
         }
       } else if (isTransform(key)) {
