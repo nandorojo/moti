@@ -13,7 +13,7 @@ import { useMotiPressables } from '@motify/interactions'
 
 ```tsx
 const ListItem = ({ id }) => {
-  const state = useMotiPressables((container) => {
+  const state = useMotiPressables((containers) => {
     'worklet'
 
     // access items by their unique IDs
