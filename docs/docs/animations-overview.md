@@ -259,9 +259,9 @@ Infinitely loop from 0 to 1:
 />
 ```
 
-Sequences animations can't be used with repeat animations.
-
 Repetition styles can't be changed on the fly. Reanimated's `withRepeat` has some limitations, so just keep that in mind.
+
+If you're trying to change them on the fly via re-render, you may have to update the component's `key`.
 
 ## Listen to animation changes
 
