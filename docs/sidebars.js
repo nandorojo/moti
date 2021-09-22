@@ -11,7 +11,7 @@ module.exports = {
       'examples/variants',
     ],
     Hooks: [],
-    ['Interactions (Alpha)']: [
+    ['Interactions']: [
       'interactions/overview',
       'interactions/pressable',
       'interactions/use-pressable',

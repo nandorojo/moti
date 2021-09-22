@@ -1,6 +1,6 @@
 ---
 id: use-pressable
-title: useMotiPressable
+title: useMotiPressable()
 ---
 
 ```tsx

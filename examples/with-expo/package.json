@@ -37,7 +37,6 @@
     "@types/lodash.set": "^4.3.6",
     "babel-loader": "^8.2.2",
     "babel-plugin-module-resolver": "^4.0.0",
-    "babel-preset-expo": "8.3.0",
-    "expo-cli": "^4.0.13"
+    "babel-preset-expo": "8.3.0"
   }
 }

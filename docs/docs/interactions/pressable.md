@@ -1,6 +1,6 @@
 ---
 id: pressable
-title: MotiPressable
+title: <MotiPressable />
 ---
 
 A near-replacement for React Native's `Pressable` component, with animations run on the native thread.
