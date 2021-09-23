@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.1](https://github.com/nandorojo/moti/compare/v0.15.0...v0.15.1) (2021-09-23)
+
+**Note:** Version bump only for package @motify/interactions
+
+
+
+
+
 # [0.15.0](https://github.com/nandorojo/moti/compare/v0.14.2...v0.15.0) (2021-09-22)
 
 **Note:** Version bump only for package @motify/interactions
