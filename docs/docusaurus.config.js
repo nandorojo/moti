@@ -2,7 +2,7 @@ module.exports = {
   title: 'Moti',
   tagline:
     'The universal animation library for React Native, by Fernando Rojo.',
-  url: 'https://github.com/nandorojo/moti',
+  url: 'https://moti.fyi',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -107,7 +107,7 @@ module.exports = {
       ],
       copyright: `Copyright © ${new Date().getFullYear()} Fernando Rojo`,
     },
-    twitterImage: 'img/Banner Gradient.png',
+    twitterImage: 'https://moti.fyi/img/Banner Gradient.png',
     ogImage: 'img/Banner Gradient.png',
   },
   presets: [
