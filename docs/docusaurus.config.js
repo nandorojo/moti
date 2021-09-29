@@ -107,7 +107,8 @@ module.exports = {
       ],
       copyright: `Copyright © ${new Date().getFullYear()} Fernando Rojo`,
     },
-    twitterImage: 'https://moti.fyi/img/Banner Gradient.png',
+    twitterImage: 'https://moti.fyi/img/Banner%20Gradient.png',
+    image: 'https://moti.fyi/img/Banner%20Gradient.png',
     ogImage: 'img/Banner Gradient.png',
   },
   presets: [
