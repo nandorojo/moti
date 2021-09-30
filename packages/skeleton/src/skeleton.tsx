@@ -109,6 +109,7 @@ export default function Skeleton(props: Props) {
     backgroundColor = colors[0] ??
       colors[1] ??
       baseColors[colorMode]?.secondary,
+    backgroundSize = 6,
     disableExitAnimation,
     transition,
   } = props
@@ -183,6 +184,7 @@ export default function Skeleton(props: Props) {
                 transition || null
               )}`}
               colors={colors}
+              backgroundSize={backgroundSize}
               measuredWidth={measuredWidth}
               transition={transition}
             />
@@ -197,13 +199,14 @@ const AnimatedGradient = React.memo(
   function AnimatedGradient({
     measuredWidth,
     colors,
+    backgroundSize,
     transition = {},
   }: {
     measuredWidth: number
     colors: string[]
+    backgroundSize: number,
     transition?: MotiTransitionProp
   }) {
-    const backgroundSize = 6
 
     return (
       <MotiView
