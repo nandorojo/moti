@@ -365,23 +365,6 @@ export default function useMapAnimateToStyle<Animate>({
 
       let { delayMs } = animationDelay(key, transition, defaultDelay)
 
-      if (isColor(key)) {
-        // TODO: FIX THIS
-        // if (__DEV__) {
-        if (
-          typeof value === 'string' &&
-          !value.startsWith('rgb') &&
-          !value.startsWith('#')
-        ) {
-          console.error(
-            `[${PackageName}]: You passed ${key}: ${value}, but not all color values are supported yet in Reanimated 2. ☹️
-
-      Please use an rgb or hex formatted color.`
-          )
-        }
-        // }
-      }
-
       if (value == null || value === false) {
         // skip missing values
         // this is useful if you want to do {opacity: loading && 1}
