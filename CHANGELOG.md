@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.3](https://github.com/nandorojo/moti/compare/v0.15.2...v0.15.3) (2021-09-30)
+
+
+### Bug Fixes
+
+* passing backgroundSize prop to AnimatedGradient ([dee8986](https://github.com/nandorojo/moti/commit/dee8986dc0bed765b0721bbc312c733b93f45eb4))
+
+
+
+
+
 ## [0.15.2](https://github.com/nandorojo/moti/compare/v0.15.1...v0.15.2) (2021-09-23)
 
 **Note:** Version bump only for package moti
