@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.4](https://github.com/nandorojo/moti/compare/v0.15.3...v0.15.4) (2021-10-05)
+
+
+### Features
+
+* add `hoveredValue` and `pressedValue` props to `MotiPressable` for controlled usage ([16cc7e1](https://github.com/nandorojo/moti/commit/16cc7e13f0a115cab8becc9d0ca8e4aefda2f033))
+
+
+
+
+
 ## [0.15.3](https://github.com/nandorojo/moti/compare/v0.15.2...v0.15.3) (2021-09-30)
 
 

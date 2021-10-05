@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.4](https://github.com/nandorojo/moti/compare/v0.15.3...v0.15.4) (2021-10-05)
+
+**Note:** Version bump only for package with-expo
+
+
+
+
+
 ## [0.15.3](https://github.com/nandorojo/moti/compare/v0.15.2...v0.15.3) (2021-09-30)
 
 **Note:** Version bump only for package with-expo

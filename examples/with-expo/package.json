@@ -1,7 +1,7 @@
 {
   "name": "with-expo",
   "description": "Example app for moti",
-  "version": "0.15.3",
+  "version": "0.15.4",
   "private": true,
   "main": "__generated__/AppEntry.js",
   "scripts": {
@@ -13,7 +13,7 @@
     "postinstall": "expo-yarn-workspaces postinstall"
   },
   "dependencies": {
-    "@motify/interactions": "^0.15.3",
+    "@motify/interactions": "^0.15.4",
     "@motify/skeleton": "^0.15.3",
     "core-js": "^3",
     "expo": "^41.0.0",
