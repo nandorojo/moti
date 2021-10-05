@@ -39,10 +39,15 @@ export function MotiPressable(props: MotiPressableProps) {
     containerStyle,
     dangerouslySilenceDuplicateIdsWarning = false,
     id,
+    hoveredValue,
+    pressedValue,
   } = props
 
-  const hovered = useSharedValue(false)
-  const pressed = useSharedValue(false)
+  const _hovered = useSharedValue(false)
+  const _pressed = useSharedValue(false)
+
+  const hovered = hoveredValue || _hovered
+  const pressed = pressedValue || _pressed
 
   const interaction = useDerivedValue<MotiPressableInteractionState>(() => ({
     hovered: hovered.value,

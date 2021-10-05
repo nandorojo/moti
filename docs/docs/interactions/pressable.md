@@ -65,6 +65,16 @@ export type MotiPressableProps = {
   disabled?: boolean
   containerStyle?: ViewStyle
   dangerouslySilenceDuplicateIdsWarning?: boolean
+  /*
+   * (Optional) a custom shared value to track the `pressed` state.
+   * This lets you get access to the pressed state from outside of the component in a controlled fashion.
+   */
+  pressedValue?: Animated.SharedValue<boolean>
+  /*
+   * (Optional) a custom shared value to track the `pressed` state.
+   * This lets you get access to the pressed state from outside of the component in a controlled fashion.
+   */
+  hoveredValue?: Animated.SharedValue<boolean>
 } & Pick<
   ComponentProps<typeof MotiView>,
   'children' | 'exit' | 'from' | 'transition' | 'exitTransition' | 'style'
