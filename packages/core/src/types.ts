@@ -210,7 +210,7 @@ export interface MotiProps<
    *
    * To set an initial value, see the `from` prop.
    */
-  animate?: Animate
+  animate?: OrSharedValue<Animate>
   /**
    * (Optional) specify styles which the component should animate from.
    *

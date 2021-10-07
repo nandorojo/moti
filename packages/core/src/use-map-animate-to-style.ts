@@ -257,7 +257,14 @@ export default function useMapAnimateToStyle<Animate>({
     }
     const variantStyle: Animate = state?.__state?.value || {}
 
-    const animateStyle = animateProp || {}
+    let animateStyle: Animate
+
+    if (animateProp && 'value' in animateProp) {
+      animateStyle = (animateProp.value || {}) as Animate
+    } else {
+      animateStyle = (animateProp || {}) as Animate
+    }
+
     const initialStyle = fromProp || {}
     let exitStyle = exitProp || {}
     if (typeof exitStyle === 'function') {
