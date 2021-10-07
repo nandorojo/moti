@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.16.0](https://github.com/nandorojo/moti/compare/v0.15.4...v0.16.0) (2021-10-07)
+
+
+### Features
+
+* shared values in animate prop ([4ffb25f](https://github.com/nandorojo/moti/commit/4ffb25fc1a21fe739405cb932c54e610d982381b))
+
+
+
+
+
 ## [0.15.3](https://github.com/nandorojo/moti/compare/v0.15.2...v0.15.3) (2021-09-30)
 
 **Note:** Version bump only for package @motify/core
