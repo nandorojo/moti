@@ -4,7 +4,7 @@ title: Moti + Next.js
 sidebar_label: Next.js Usage
 ---
 
-There are 3 quick steps to getting Moti setup in a Next.js app.
+There are 2 quick steps to getting Moti setup in a Next.js app.
 
 ## Step 1
 
@@ -17,7 +17,6 @@ yarn add next-transpile-modules
 Your `next.config.js` file should look something like this:
 
 ```js
-/* eslint-disable @typescript-eslint/no-var-requires */
 const { withExpo } = require('@expo/next-adapter')
 const withFonts = require('next-fonts')
 const withImages = require('next-images')
