@@ -11,7 +11,7 @@ There are 2 quick steps to getting Moti setup in a Next.js app.
 Add `moti` to transpile modules.
 
 ```sh
-yarn add -D next-transpile-modules
+yarn add next-transpile-modules
 ```
 
 Your `next.config.js` file should look something like this:
