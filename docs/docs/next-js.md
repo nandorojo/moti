@@ -25,6 +25,8 @@ const withPlugins = require('next-compose-plugins')
 const withTM = require('next-transpile-modules')([
   'moti',
   '@motify/core',
+  '@motify/components',
+  // '@motify/interactions' // uncomment if you use these
   // you can add other modules that need traspiling here
 ])
 
