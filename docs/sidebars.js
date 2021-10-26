@@ -9,6 +9,7 @@ module.exports = {
       'examples/exit-before-enter',
       'examples/loop',
       'examples/variants',
+      'examples/dropdown',
     ],
     Hooks: [],
     ['Interactions']: [
