@@ -1,5 +1,14 @@
-//  stitches,
+---
+id: dropdown
+title: Hover Dropdown
+---
 
+Here is an example of a Web-only dropdown, triggered by hovered interactions.
+
+You can preview this example [on Expo Snack](https://snack.expo.dev/@nandorojo/moti-hover-menu?supportedPlatforms=web).
+
+```tsx
+import React from 'react'
 import {
   StyleSheet,
   SafeAreaView,
@@ -8,7 +17,6 @@ import {
   ViewProps,
   Platform,
 } from 'react-native'
-import React from 'react'
 import {
   MotiPressable,
   useMotiPressable,
@@ -47,7 +55,11 @@ function MenuItemArrow() {
   )
 
   return (
-    <MotiView style={styles.itemArrow} state={state}>
+    <MotiView
+      transition={{ type: 'timing' }}
+      style={styles.itemArrow}
+      state={state}
+    >
       <Ionicons name="ios-arrow-forward" size={18} color="white" />
     </MotiView>
   )
@@ -65,7 +77,7 @@ function MenuItem({
   icon: React.ComponentProps<typeof Ionicons>['name']
 }) {
   return (
-    <MotiPressable style={styles.item} id="item">
+    <MotiPressable onPress={console.log} style={styles.item} id="item">
       <MenuItemBg />
       <View style={[styles.iconContainer, { backgroundColor: color }]}>
         <Ionicons size={32} color="black" name={icon} />
@@ -114,7 +126,7 @@ function Dropdown() {
       transition={{ type: 'timing' }}
     >
       <MotiView
-        style={styles.dropdownContent}
+        style={[styles.dropdownContent, shadow]}
         transition={{ type: 'timing', delay: 20 }}
         state={dropdownState}
       >
@@ -226,12 +238,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderRadius: 8,
     paddingVertical: 32,
-    ...shadow,
   },
   trigger: {
     fontSize: 16,
     fontWeight: 'bold',
     alignItems: 'center',
+    ...Platform.select({
+      web: { cursor: 'pointer' },
+    }),
   },
   triggerBg: {
     backgroundColor: 'white',
@@ -250,7 +264,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     flexDirection: 'row',
     marginTop: 8,
-    overflow: 'hidden',
+    ...Platform.select({
+      web: { cursor: 'pointer' },
+    }),
   },
   itemBg: {
     ...StyleSheet.absoluteFillObject,
@@ -295,3 +311,4 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
 })
+```

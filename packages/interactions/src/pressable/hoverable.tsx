@@ -77,7 +77,9 @@ export default function Hoverable({
 
   useAnimatedReaction(
     () => {
-      return Platform.OS === 'web' && showHover.value && isHovered.value
+      // hovering out via click won't trigger this
+      // return Platform.OS === 'web' && showHover.value && isHovered.value
+      return Platform.OS === 'web' && isHovered.value
     },
     (hovered, previouslyHovered) => {
       if (hovered !== previouslyHovered) {
