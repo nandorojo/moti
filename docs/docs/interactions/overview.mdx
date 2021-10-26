@@ -1,7 +1,32 @@
 ---
 id: overview
 title: Interactions Overview
+hide_title: true
 ---
+
+# Moti Interactions
+
+<img
+  src="/img/Interactions.png"
+  style={{ borderRadius: 16, display: 'block' }}
+/>
+
+## Snippet
+
+```jsx
+<MotiPressable
+  onPress={onPress}
+  animate={({ hovered, pressed }) => {
+    'worklet'
+
+    return {
+      opacity: hovered || pressed ? 0.5 : 1,
+    }
+  }}
+/>
+```
+
+## Video
 
 <div
   style={{

@@ -6,18 +6,21 @@ The universal React Native animation library, powered by Reanimated 2.
 <MotiView from={{ opacity: 0 }} animate={{ opacity: 1 }} />
 ```
 
-## Next.js Conf
-
-<img width="1779" alt="Screen Shot 2021-10-22 at 3 00 05 PM" src="https://user-images.githubusercontent.com/13172299/138509139-412b2d32-841b-4a7e-950e-f8721c1da17f.png">
-
-I'm speaking at [Next.js Conf 2021](https://nextjs.org/conf/speakers/fernando) on October 26 about React Native + Next.js. Get your ticket to see how we do it.
-
-
 # Documentation & Examples
 
 - [Documentation](https://moti.fyi)
 - [Installation](https://moti.fyi/installation)
 - [Examples](https://moti.fyi/examples/hello-world)
+
+## Next.js Conf
+
+<img
+  width="1779"
+  alt="Screen Shot 2021-10-22 at 3 00 05 PM"
+  src="https://user-images.githubusercontent.com/13172299/138509139-412b2d32-841b-4a7e-950e-f8721c1da17f.png"
+/>
+
+I spoke at at [Next.js Conf 2021](https://fernandorojo.co/conf) on October 26 about React Native + Next.js. [Watch the video](https://t.co/LkmxHXVz3K?amp=1) to see how we do it.
 
 # Highlights
 
