@@ -6,7 +6,7 @@ title: Overview
 Moti has a number of powerful features that make your animations slick and simple.
 
 ```ts
-import { MotiView, Text } from 'moti'
+import { MotiView, MotiText } from 'moti'
 ```
 
 ## Mount animations
