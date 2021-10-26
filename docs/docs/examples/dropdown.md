@@ -230,10 +230,8 @@ const styles = StyleSheet.create({
     top: '100%',
     width: 500,
     paddingTop: 4,
-    // left: 0,
   },
   dropdownContent: {
-    // backgroundColor: '#1F2023',
     backgroundColor: 'black',
     paddingHorizontal: 16,
     borderRadius: 8,
