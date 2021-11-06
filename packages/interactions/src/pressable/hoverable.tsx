@@ -83,9 +83,9 @@ export default function Hoverable({
     },
     (hovered, previouslyHovered) => {
       if (hovered !== previouslyHovered) {
-        if (hovered && hoverIn.current) {
+        if (hovered) {
           // no need for runOnJS, it's always web
-          hoverIn.current()
+          hoverIn.current?.()
         } else if (hoverOut.current) {
           hoverOut.current()
         }
