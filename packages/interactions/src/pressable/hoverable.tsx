@@ -20,14 +20,14 @@ if (canUseDOM) {
   const HOVER_THRESHOLD_MS = 1000
   let lastTouchTimestamp = 0
 
-  function enableHover() {
+  const enableHover = () => {
     if (isEnabled || Date.now() - lastTouchTimestamp < HOVER_THRESHOLD_MS) {
       return
     }
     isEnabled = true
   }
 
-  function disableHover() {
+  const disableHover = () => {
     lastTouchTimestamp = Date.now()
     if (isEnabled) {
       isEnabled = false
