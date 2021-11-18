@@ -62,15 +62,23 @@ export function useMotiPressables(
    * Function that receives the interaction state from all parent containers and returns a style object/
    * @worklet
    */
-  factory: Factory
+  factory: Factory,
+  deps: readonly any[] = []
 ) {
   const context = useMotiPressableContext()
+
+  if (!deps) {
+    console.warn(
+      '[@motify/interactions] useMotiPressables is missing a dependency array as the second argument. https://moti.fyi/interactions/use-pressables. You can use this hook to your ESLint plugin for hooks using the additionalHooks field: https://www.npmjs.com/package/eslint-plugin-react-hooks'
+    )
+  }
 
   const __state = useDerivedValue(() => {
     const animatedResult = factory(context.containers)
 
     return animatedResult
-  })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [context.containers, ...deps])
 
   const state = useMemo(() => ({ __state }), [__state])
 

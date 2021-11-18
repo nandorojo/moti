@@ -21,6 +21,7 @@ module.exports = {
       'interactions/use-pressable-transition',
       'interactions/use-pressable-interpolate',
       'interactions/merge',
+      'interactions/eslint',
     ],
     Components: ['skeleton'],
     Web: ['web', 'next'],

@@ -28,7 +28,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
       exit,
       children,
       exitTransition,
-      transition,
+      transition: transitionProp,
       style,
       onPressOut,
       onPressIn,
@@ -51,10 +51,21 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
     const hovered = hoveredValue || _hovered
     const pressed = pressedValue || _pressed
 
-    const interaction = useDerivedValue<MotiPressableInteractionState>(() => ({
-      hovered: hovered.value,
-      pressed: pressed.value,
-    }))
+    const interaction = useDerivedValue<MotiPressableInteractionState>(
+      () => ({
+        hovered: hovered.value,
+        pressed: pressed.value,
+      }),
+      [hovered, pressed]
+    )
+
+    const transition = useDerivedValue(() => {
+      if (typeof transitionProp === 'function') {
+        return transitionProp(interaction.value)
+      }
+
+      return transitionProp || {}
+    }, [transitionProp, interaction])
 
     const __state = useDerivedValue(() => {
       if (typeof animate === 'function') {
