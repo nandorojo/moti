@@ -35,7 +35,7 @@ You'll need at least [Expo SDK 40](https://docs.expo.io/workflow/upgrading-expo-
 
 ### If you aren't using Expo
 
-Please follow Reanimated's [installation instructions](https://docs.swmansion.com/react-native-reanimated/docs/installation) for v2.
+Please follow Reanimated's [installation instructions](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/installation) for v2.
 
 ## Web support
 
