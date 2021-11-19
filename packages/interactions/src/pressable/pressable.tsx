@@ -43,6 +43,22 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
       id,
       hoveredValue,
       pressedValue,
+      // Accessibility props
+      accessibilityActions,
+      accessibilityElementsHidden,
+      accessibilityHint,
+      accessibilityIgnoresInvertColors,
+      accessibilityLabel,
+      accessibilityLiveRegion,
+      accessibilityRole,
+      accessibilityState,
+      accessibilityValue,
+      accessibilityViewIsModal,
+      accessible,
+      onAccessibilityTap,
+      onAccessibilityAction,
+      onAccessibilityEscape,
+      importantForAccessibility,
     } = props
 
     const _hovered = useSharedValue(false)
@@ -112,6 +128,22 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
             style={containerStyle}
             onPress={onPress}
             ref={ref}
+            // Accessibility props
+            accessibilityActions={accessibilityActions}
+            accessibilityElementsHidden={accessibilityElementsHidden}
+            accessibilityHint={accessibilityHint}
+            accessibilityIgnoresInvertColors={accessibilityIgnoresInvertColors}
+            accessibilityLabel={accessibilityLabel}
+            accessibilityLiveRegion={accessibilityLiveRegion}
+            accessibilityRole={accessibilityRole}
+            accessibilityState={accessibilityState}
+            accessibilityValue={accessibilityValue}
+            accessibilityViewIsModal={accessibilityViewIsModal}
+            accessible={accessible}
+            onAccessibilityTap={onAccessibilityTap}
+            onAccessibilityAction={onAccessibilityAction}
+            onAccessibilityEscape={onAccessibilityEscape}
+            importantForAccessibility={importantForAccessibility}
           >
             {child}
           </Pressable>
@@ -131,6 +163,22 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
           // TODO there is an added View child here, which Pressable doesn't  have.
           // should we wrap the pressable children too?
           containerStyle={containerStyle}
+          // Accessibility props
+          accessibilityActions={accessibilityActions}
+          accessibilityElementsHidden={accessibilityElementsHidden}
+          accessibilityHint={accessibilityHint}
+          accessibilityIgnoresInvertColors={accessibilityIgnoresInvertColors}
+          accessibilityLabel={accessibilityLabel}
+          accessibilityLiveRegion={accessibilityLiveRegion}
+          accessibilityRole={accessibilityRole}
+          accessibilityState={accessibilityState}
+          accessibilityValue={accessibilityValue}
+          accessibilityViewIsModal={accessibilityViewIsModal}
+          accessible={accessible}
+          onAccessibilityTap={onAccessibilityTap}
+          onAccessibilityAction={onAccessibilityAction}
+          onAccessibilityEscape={onAccessibilityEscape}
+          importantForAccessibility={importantForAccessibility}
         >
           {child}
         </AnimatedTouchable>
