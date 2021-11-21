@@ -572,7 +572,7 @@ export default function useMapAnimateToStyle<Animate>({
     exitTransitionProp,
     fromProp,
     hasExitStyle,
-    isMounted.value,
+    isMounted,
     isPresent,
     onDidAnimate,
     reanimatedOnDidAnimated,
