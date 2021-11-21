@@ -1,7 +1,8 @@
 import type { ComponentProps } from 'react'
-import type { MotiView } from '@motify/components' 
+import type { MotiView } from '@motify/components'
 import type { ViewStyle, Insets, PressableProps } from 'react-native'
 import type { MotiAnimationProp, MotiTransition } from '@motify/core'
+import type Animated from 'react-native-reanimated'
 
 export type MotiPressableInteractionState = {
   hovered: boolean
@@ -114,4 +115,4 @@ export type MotiPressableProps = {
     | 'onAccessibilityAction'
     | 'onAccessibilityEscape'
     | 'importantForAccessibility'
-  >; 
+  >

@@ -1,7 +1,7 @@
 {
   "name": "@motify/interactions",
   "private": false,
-  "version": "0.16.2-alpha.5+2495f64",
+  "version": "0.16.2-alpha.6+a87dd85",
   "keywords": [
     "react-native",
     "ios",
@@ -37,8 +37,8 @@
     "clean": "del lib"
   },
   "dependencies": {
-    "@motify/components": "^0.16.2-alpha.5+2495f64",
-    "@motify/core": "^0.16.2-alpha.5+2495f64"
+    "@motify/components": "^0.16.2-alpha.6+a87dd85",
+    "@motify/core": "^0.16.2-alpha.6+a87dd85"
   },
   "devDependencies": {
     "typescript": "^4.0.3"
@@ -61,5 +61,5 @@
       ]
     ]
   },
-  "gitHead": "2495f64a4a7c42e9045ce8b79839a64f7999a652"
+  "gitHead": "a87dd85f8ef10fd1a45bdb820328a4c22f9a5392"
 }
