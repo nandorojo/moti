@@ -14,7 +14,7 @@ import {
   useMotiPressableContext,
   INTERACTION_CONTAINER_ID,
 } from './context'
-import Hoverable from './hoverable'
+import { Hoverable } from './hoverable'
 
 const AnimatedTouchable = Animated.createAnimatedComponent(
   TouchableWithoutFeedback
@@ -43,6 +43,8 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
       id,
       hoveredValue,
       pressedValue,
+      onLayout,
+      onContainerLayout,
       // Accessibility props
       accessibilityActions,
       accessibilityElementsHidden,
@@ -118,6 +120,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
         exitTransition={exitTransition}
         state={state}
         style={style}
+        onLayout={onLayout}
       >
         {children}
       </MotiView>
@@ -129,8 +132,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
         <Hoverable
           onHoverIn={updateInteraction('hovered', true, onHoverIn)}
           onHoverOut={updateInteraction('hovered', false, onHoverOut)}
-          onPressIn={updateInteraction('pressed', true, onPressIn)}
-          onPressOut={updateInteraction('pressed', false, onPressOut)}
+          childRef={ref}
         >
           <Pressable
             onLongPress={onLongPress}
@@ -138,7 +140,10 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
             disabled={disabled}
             style={containerStyle}
             onPress={onPress}
+            onPressIn={updateInteraction('pressed', true, onPressIn)}
+            onPressOut={updateInteraction('pressed', false, onPressOut)}
             ref={ref}
+            onLayout={onContainerLayout}
             // Accessibility props
             accessibilityActions={accessibilityActions}
             accessibilityElementsHidden={accessibilityElementsHidden}
@@ -170,6 +175,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
           disabled={disabled}
           onPress={onPress}
           ref={ref}
+          onLayout={onContainerLayout}
           // @ts-expect-error missing containerStyle type
           // TODO there is an added View child here, which Pressable doesn't  have.
           // should we wrap the pressable children too?

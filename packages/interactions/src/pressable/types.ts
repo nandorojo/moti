@@ -94,9 +94,13 @@ export type MotiPressableProps = {
    * This lets you get access to the pressed state from outside of the component in a controlled fashion.
    */
   hoveredValue?: Animated.SharedValue<boolean>
+  /**
+   * `onLayout` for the container component.
+   */
+  onContainerLayout?: PressableProps['onLayout']
 } & Pick<
   ComponentProps<typeof MotiView>,
-  'children' | 'exit' | 'from' | 'exitTransition' | 'style'
+  'children' | 'exit' | 'from' | 'exitTransition' | 'style' | 'onLayout'
 > &
   Pick<
     PressableProps,
