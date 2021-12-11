@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react'
 import type { MotiView } from '@motify/components'
-import type { ViewStyle, Insets } from 'react-native'
+import type { ViewStyle, Insets, PressableProps } from 'react-native'
 import type { MotiAnimationProp } from '@motify/core'
 import type Animated from 'react-native-reanimated'
 
@@ -69,4 +69,22 @@ export type MotiPressableProps = {
 } & Pick<
   ComponentProps<typeof MotiView>,
   'children' | 'exit' | 'from' | 'transition' | 'exitTransition' | 'style'
->
+> &
+  Pick<
+    PressableProps,
+    | 'accessibilityActions'
+    | 'accessibilityElementsHidden'
+    | 'accessibilityHint'
+    | 'accessibilityIgnoresInvertColors'
+    | 'accessibilityLabel'
+    | 'accessibilityLiveRegion'
+    | 'accessibilityRole'
+    | 'accessibilityState'
+    | 'accessibilityValue'
+    | 'accessibilityViewIsModal'
+    | 'accessible'
+    | 'onAccessibilityTap'
+    | 'onAccessibilityAction'
+    | 'onAccessibilityEscape'
+    | 'importantForAccessibility'
+  >;
