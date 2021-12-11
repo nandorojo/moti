@@ -1,6 +1,6 @@
 ---
 id: motify
-title: motify
+title: motify()
 ---
 
 ```ts

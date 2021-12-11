@@ -11,7 +11,7 @@ module.exports = {
       'examples/variants',
       'examples/dropdown',
     ],
-    Hooks: [],
+    Hooks: ['hooks/use-animation-state', 'hooks/use-dynamic-animation'],
     ['Interactions']: [
       'interactions/overview',
       'interactions/pressable',
@@ -22,13 +22,9 @@ module.exports = {
       'interactions/use-pressable-interpolate',
       'interactions/merge',
     ],
-    Components: ['skeleton'],
+    Resources: ['resources/videos'],
+    Skeleton: ['skeleton'],
     Web: ['web', 'next'],
-    'API Reference': [
-      'api/use-animation-state',
-      'api/motify',
-      'api/imports',
-      'api/props',
-    ],
+    'API Reference': ['api/motify', 'api/imports', 'api/props'],
   },
 }

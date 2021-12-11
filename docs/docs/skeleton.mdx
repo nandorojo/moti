@@ -1,6 +1,7 @@
 ---
 id: skeleton
 title: Skeleton
+sidebar_label: Overview
 ---
 
 Moti's skeleton component is great for showing animated loading states. It works on all platforms, including web.
@@ -130,12 +131,6 @@ Use `radius` to show a circle, square, or custom border radius. Defaults to `8`.
 <Skeleton colorMode="light" />
 ```
 
-### Custom colors
-
-```tsx
-<Skeleton colors={['blue', 'cyan']} />
-```
-
 ### Custom animation delay
 
 ```tsx
@@ -167,12 +162,6 @@ import { Skeleton } from '@motify/skeleton'
 
 const Spacer = ({ height = 16 }) => <MotiView style={{ height }} />
 
-const transition = {
-  opacity: {
-    duration: 300,
-  },
-}
-
 export default function HelloWorld() {
   const [dark, toggle] = useReducer((s) => !s, true)
 
@@ -187,27 +176,13 @@ export default function HelloWorld() {
         style={[styles.container, styles.padded]}
         animate={{ backgroundColor: dark ? '#000000' : '#ffffff' }}
       >
-        <Skeleton
-          transition={transition}
-          colorMode={colorMode}
-          radius="round"
-          height={75}
-          width={75}
-        />
+        <Skeleton colorMode={colorMode} radius="round" height={75} width={75} />
         <Spacer />
-        <Skeleton transition={transition} colorMode={colorMode} width={250} />
+        <Skeleton colorMode={colorMode} width={250} />
         <Spacer height={8} />
-        <Skeleton
-          transition={transition}
-          colorMode={colorMode}
-          width={'100%'}
-        />
+        <Skeleton colorMode={colorMode} width={'100%'} />
         <Spacer height={8} />
-        <Skeleton
-          transition={transition}
-          colorMode={colorMode}
-          width={'100%'}
-        />
+        <Skeleton colorMode={colorMode} width={'100%'} />
       </MotiView>
     </Pressable>
   )
