@@ -348,4 +348,4 @@ const FadeInComponent = () => {
 }
 ```
 
-Read more about [`useAnimationState`](api/use-animation-state).
+Read more about [`useAnimationState`](use-animation-state).
