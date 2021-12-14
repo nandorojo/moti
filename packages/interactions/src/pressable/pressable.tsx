@@ -61,6 +61,8 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
       onAccessibilityAction,
       onAccessibilityEscape,
       importantForAccessibility,
+      onFocus,
+      onBlur,
     } = props
 
     const _hovered = useSharedValue(false)
@@ -160,6 +162,9 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
             onAccessibilityAction={onAccessibilityAction}
             onAccessibilityEscape={onAccessibilityEscape}
             importantForAccessibility={importantForAccessibility}
+            // @ts-expect-error RNW types
+            onFocus={onFocus}
+            onBlur={onBlur}
           >
             {child}
           </Pressable>
@@ -196,6 +201,8 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
           onAccessibilityAction={onAccessibilityAction}
           onAccessibilityEscape={onAccessibilityEscape}
           importantForAccessibility={importantForAccessibility}
+          onFocus={onFocus}
+          onBlur={onBlur}
         >
           {child}
         </AnimatedTouchable>

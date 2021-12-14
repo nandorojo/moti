@@ -24,6 +24,8 @@ export type MotiPressableTransitionProp = InteractableProp<MotiTransition>
 export type MotiPressableProp = InteractableProp<AnimateProp>
 
 export type MotiPressableProps = {
+  onFocus?: () => void
+  onBlur?: () => void
   /*
    * Worklet that returns the `transition` prop. Or, just a normal `transition` prop, similar to `MotiView`.
    *
