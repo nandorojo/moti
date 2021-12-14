@@ -1,10 +1,12 @@
 ---
 id: use-dynamic-animation
 title: useDynamicAnimation
-sidebar_label: useDynamicAnimation
+sidebar_label: useDynamicAnimation()
 ---
 
 `useDynamicAnimation` is a hook that lets you use style objects dynamically, rather than using static variants.
+
+It has all the same performance benefits of `useAnimationState`, with a more expressive API.
 
 ## `useDynamicAnimation(initialState?)`
 
@@ -36,7 +38,7 @@ return <MotiView state={animation} />
 
 ## Arguments
 
-Receives one (optional) argument: a pure function which returns the initial state. This is similar to React's `useState`.
+Receives one (optional) argument: a pure function which returns the initial state. This is similar to React `useState`'s first argument.
 
 ```ts
 const animation = useDynamicAnimation(() => {
@@ -51,7 +53,7 @@ const animation = useDynamicAnimation(() => {
 
 ### `current`
 
-Get the current animation state. Unlike `useState`'s return value, this can be safely read and accessed asynchronously.
+Get the current animation state. Unlike `useState`'s return value, this can be safely read and accessed synchronously.
 
 ```ts
 const animation = useDynamicAnimation(() => {
@@ -113,6 +115,25 @@ const { current, animateTo } = useDynamicAnimation()
 const animation = useDynamicAnimation()
 ```
 
+## Sequences
+
+Any Moti styles are valid here. For example, if you want a sequence animation, just pass an array.
+
+```ts
+const animation = useDynamicAnimation(() => {
+  return {
+    opacity: 1,
+  }
+})
+
+const onPress = () => {
+  aniamtion.animateTo({
+    // sequence
+    opacity: [1, 0.5, { value: 0, delay: 1000 }],
+  })
+}
+```
+
 ## Full example: Touchable pulse
 
 ```tsx
@@ -131,6 +152,7 @@ export default function HoverPulse({
   ...props
 }) {
   const animation = useDynamicAnimation(() => ({
+    // this is the initial state
     scale: 1,
   }))
 

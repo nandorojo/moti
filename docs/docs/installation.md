@@ -85,7 +85,7 @@ Only do this if you notice your app isn't working with Moti and you have inline 
 ## Create your first animation
 
 ```tsx
-import { View as MotiView } from 'moti'
+import { MotiView } from 'moti'
 
 export const FadeIn = () => (
   <MotiView
