@@ -4789,6 +4789,36 @@
     globby "^11.0.0"
     read-yaml-file "^1.1.0"
 
+"@motify/components@^0.16.1":
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/@motify/components/-/components-0.16.1.tgz#252601820910275f82df5ab277e8b710c77c4274"
+  integrity sha512-UvHpVP72TNz7kSa1cWUMFKpSqs1xPaOrAj7Xbpn5rA43ZyfY3kFg7jDZ/sMCcMJRgTRTCOna2HKYGKv7Y2eHFg==
+  dependencies:
+    "@motify/core" "^0.16.1"
+
+"@motify/core@^0.16.1":
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/@motify/core/-/core-0.16.1.tgz#f99b2152017f2b817868f6a92d0a6fef42e2b95d"
+  integrity sha512-tmh4bSyZbMHCMKoQrSngwx5VoZgo4nb5IwZNkL8l0JZJh//spjA3dVNmDWpXwTNc53RpkTsWHFm5OWGl1kNW/w==
+  dependencies:
+    framer-motion "^3.9.1"
+
+"@motify/interactions@^0.16.1":
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/@motify/interactions/-/interactions-0.16.1.tgz#7522c7c95e7b1d90651f27bfbeebdea6b34aab9c"
+  integrity sha512-ax5DRDKE62k81evFoA1FZxy6xLiDPj+JlP3pq/lyUi/kn3c/HxPOpkB89Nu6QDw9A1PfrA9kg1OVco3TT9nASQ==
+  dependencies:
+    "@motify/components" "^0.16.1"
+    "@motify/core" "^0.16.1"
+
+"@motify/skeleton@^0.16.1":
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/@motify/skeleton/-/skeleton-0.16.1.tgz#a6b2e246e97b931b080ff1925e7cf225134b0de2"
+  integrity sha512-RuAVA4180lYaV9VQzbgTe4CCit4iyABnB8ozNOqn0upbcUkyESwdMg/di7j2/+eYeaNQ5iAsqe4xA51LVRDIrg==
+  dependencies:
+    "@motify/components" "^0.16.1"
+    "@motify/core" "^0.16.1"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -14119,6 +14149,14 @@ module-alias@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/module-alias/-/module-alias-2.2.2.tgz#151cdcecc24e25739ff0aa6e51e1c5716974c0e0"
   integrity sha512-A/78XjoX2EmNvppVWEhM2oGk3x4lLxnkEA4jTbaK97QKSDjkIoOsKQlfylt/d3kKKi596Qy3NP5XrXJ6fZIC9Q==
+
+moti@^0.16.1:
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/moti/-/moti-0.16.1.tgz#7a22cf19680a52422c199086d23dd5b085e26449"
+  integrity sha512-AgbWHRZdt7DZ0BMZ/wrY7PUpaNqTSjIeEoHi346SK75oymB1a7SiEIJnRShtS6Z5t+8YY9I+7A5Zq/vzbjlNMw==
+  dependencies:
+    "@motify/components" "^0.16.1"
+    "@motify/core" "^0.16.1"
 
 move-concurrently@^1.0.1:
   version "1.0.1"
