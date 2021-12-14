@@ -563,7 +563,24 @@ export default function useMapAnimateToStyle<Animate>({
     // }
 
     return final
-  })
+  }, [
+    animateProp,
+    custom,
+    defaultDelay,
+    disableInitialAnimation,
+    exitProp,
+    exitTransitionProp,
+    fromProp,
+    hasExitStyle,
+    isMounted,
+    isPresent,
+    onDidAnimate,
+    reanimatedOnDidAnimated,
+    reanimatedSafeToUnmount,
+    state,
+    stylePriority,
+    transitionProp,
+  ])
 
   useEffect(() => {
     isMounted.value = true

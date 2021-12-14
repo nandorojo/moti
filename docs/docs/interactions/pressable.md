@@ -15,17 +15,65 @@ export const Pressable = () => {
   return (
     <MotiPressable
       onPress={onPress}
-      animate={useCallback(({ hovered, pressed }) => {
-        'worklet'
+      animate={useMemo(
+        () => ({ hovered, pressed }) => {
+          'worklet'
 
-        return {
-          opacity: hovered || pressed ? 0.5 : 1,
-        }
-      }, [])}
+          return {
+            opacity: hovered || pressed ? 0.5 : 1,
+          }
+        },
+        []
+      )}
     />
   )
 }
 ```
+
+## Customized transitions
+
+You can also use the `hovered` and `pressed` state to customize your `transition` prop.
+
+For example, if you want to delay your animations when someone releases your button, you can pass a function to `transition`:
+
+```tsx
+import { MotiPressable } from '@motify/interactions'
+import { useCallback } from 'react'
+
+export const Pressable = () => {
+  const onPress = () => Linking.openURL('beatgig.com')
+
+  return (
+    <MotiPressable
+      onPress={onPress}
+      animate={useMemo(
+        () => ({ hovered, pressed }) => {
+          'worklet'
+
+          return {
+            opacity: hovered || pressed ? 0.5 : 1,
+          }
+        },
+        []
+      )}
+      transition={useMemo(
+        () => ({ hovered, pressed }) => {
+          'worklet'
+
+          return {
+            delay: hovered || pressed ? 0 : 100,
+          }
+        },
+        []
+      )}
+    />
+  )
+}
+```
+
+Here, `opacity` will stay at `0.5` for an extra `100` milliseconds after hovering/pressing both become `false`.
+
+---
 
 For more info, see the [interactions overview](/interactions/overview).
 

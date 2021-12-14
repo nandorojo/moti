@@ -1,7 +1,7 @@
 import type { ComponentProps } from 'react'
 import type { MotiView } from '@motify/components'
 import type { ViewStyle, Insets, PressableProps } from 'react-native'
-import type { MotiAnimationProp } from '@motify/core'
+import type { MotiAnimationProp, MotiTransition } from '@motify/core'
 import type Animated from 'react-native-reanimated'
 
 export type MotiPressableInteractionState = {
@@ -11,23 +11,53 @@ export type MotiPressableInteractionState = {
 
 export type AnimateProp = MotiAnimationProp<ViewStyle>
 
-export type MotiPressableInteractionProp = (
+type Interactable<T> = (
   interaction: MotiPressableInteractionState
-) => NonNullable<AnimateProp>
+) => NonNullable<T>
 
-export type MotiPressableProp = AnimateProp | MotiPressableInteractionProp
+type InteractableProp<T> = Interactable<T> | T
+
+export type MotiPressableInteractionProp = Interactable<AnimateProp>
+
+export type MotiPressableTransitionProp = InteractableProp<MotiTransition>
+
+export type MotiPressableProp = InteractableProp<AnimateProp>
 
 export type MotiPressableProps = {
+  onFocus?: () => void
+  onBlur?: () => void
   /*
-   * Worklet that returns the `animated` prop. Or, just a normal `animate` prop, similar to `MotiView`.
+   * Worklet that returns the `transition` prop. Or, just a normal `transition` prop, similar to `MotiView`.
    *
-   * It's recomended that you memoize this prop with `useCallback`.
+   * It's recomended that you memoize this prop with `useMemo`.
    *
    * ```tsx
    * <MotiPressable
-   *   animate={useCallback(({ hovered }) => ({
-   *     opacity: hovered ? 0.8 : 1
-   *   }), [])}
+   *   transition={useMemo(() => ({ hovered, pressed }) => {
+   *    'worklet'
+   *     return {
+   *      delay: hovered || pressed ? 0 : 200
+   *    }
+   *   }, [])}
+   * />
+   * ```
+   *
+   * @worklet
+   */
+  transition?: MotiPressableTransitionProp
+  /*
+   * Worklet that returns the `animated` prop. Or, just a normal `animate` prop, similar to `MotiView`.
+   *
+   * It's recomended that you memoize this prop with `useMemo`.
+   *
+   * ```tsx
+   * <MotiPressable
+   *   animate={useMemo(() => ({ hovered, pressed }) => {
+   *    'worklet'
+   *     return {
+   *      opacity: hovered ? 0.8 : 1
+   *    }
+   *   }, [])}
    * />
    * ```
    *
@@ -66,9 +96,13 @@ export type MotiPressableProps = {
    * This lets you get access to the pressed state from outside of the component in a controlled fashion.
    */
   hoveredValue?: Animated.SharedValue<boolean>
+  /**
+   * `onLayout` for the container component.
+   */
+  onContainerLayout?: PressableProps['onLayout']
 } & Pick<
   ComponentProps<typeof MotiView>,
-  'children' | 'exit' | 'from' | 'transition' | 'exitTransition' | 'style'
+  'children' | 'exit' | 'from' | 'exitTransition' | 'style' | 'onLayout'
 > &
   Pick<
     PressableProps,
@@ -87,4 +121,4 @@ export type MotiPressableProps = {
     | 'onAccessibilityAction'
     | 'onAccessibilityEscape'
     | 'importantForAccessibility'
-  >;
+  >

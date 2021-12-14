@@ -14,7 +14,7 @@ import {
   useMotiPressableContext,
   INTERACTION_CONTAINER_ID,
 } from './context'
-import Hoverable from './hoverable'
+import { Hoverable } from './hoverable'
 
 const AnimatedTouchable = Animated.createAnimatedComponent(
   TouchableWithoutFeedback
@@ -28,7 +28,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
       exit,
       children,
       exitTransition,
-      transition,
+      transition: transitionProp,
       style,
       onPressOut,
       onPressIn,
@@ -43,6 +43,8 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
       id,
       hoveredValue,
       pressedValue,
+      onLayout,
+      onContainerLayout,
       // Accessibility props
       accessibilityActions,
       accessibilityElementsHidden,
@@ -59,6 +61,8 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
       onAccessibilityAction,
       onAccessibilityEscape,
       importantForAccessibility,
+      onFocus,
+      onBlur,
     } = props
 
     const _hovered = useSharedValue(false)
@@ -67,10 +71,21 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
     const hovered = hoveredValue || _hovered
     const pressed = pressedValue || _pressed
 
-    const interaction = useDerivedValue<MotiPressableInteractionState>(() => ({
-      hovered: hovered.value,
-      pressed: pressed.value,
-    }))
+    const interaction = useDerivedValue<MotiPressableInteractionState>(
+      () => ({
+        hovered: hovered.value,
+        pressed: pressed.value,
+      }),
+      [hovered, pressed]
+    )
+
+    const transition = useDerivedValue(() => {
+      if (typeof transitionProp === 'function') {
+        return transitionProp(interaction.value)
+      }
+
+      return transitionProp || {}
+    }, [transitionProp, interaction])
 
     const __state = useDerivedValue(() => {
       if (typeof animate === 'function') {
@@ -107,6 +122,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
         exitTransition={exitTransition}
         state={state}
         style={style}
+        onLayout={onLayout}
       >
         {children}
       </MotiView>
@@ -118,8 +134,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
         <Hoverable
           onHoverIn={updateInteraction('hovered', true, onHoverIn)}
           onHoverOut={updateInteraction('hovered', false, onHoverOut)}
-          onPressIn={updateInteraction('pressed', true, onPressIn)}
-          onPressOut={updateInteraction('pressed', false, onPressOut)}
+          childRef={ref}
         >
           <Pressable
             onLongPress={onLongPress}
@@ -127,7 +142,10 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
             disabled={disabled}
             style={containerStyle}
             onPress={onPress}
+            onPressIn={updateInteraction('pressed', true, onPressIn)}
+            onPressOut={updateInteraction('pressed', false, onPressOut)}
             ref={ref}
+            onLayout={onContainerLayout}
             // Accessibility props
             accessibilityActions={accessibilityActions}
             accessibilityElementsHidden={accessibilityElementsHidden}
@@ -144,6 +162,9 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
             onAccessibilityAction={onAccessibilityAction}
             onAccessibilityEscape={onAccessibilityEscape}
             importantForAccessibility={importantForAccessibility}
+            // @ts-expect-error RNW types
+            onFocus={onFocus}
+            onBlur={onBlur}
           >
             {child}
           </Pressable>
@@ -159,6 +180,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
           disabled={disabled}
           onPress={onPress}
           ref={ref}
+          onLayout={onContainerLayout}
           // @ts-expect-error missing containerStyle type
           // TODO there is an added View child here, which Pressable doesn't  have.
           // should we wrap the pressable children too?
@@ -179,6 +201,8 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
           onAccessibilityAction={onAccessibilityAction}
           onAccessibilityEscape={onAccessibilityEscape}
           importantForAccessibility={importantForAccessibility}
+          onFocus={onFocus}
+          onBlur={onBlur}
         >
           {child}
         </AnimatedTouchable>

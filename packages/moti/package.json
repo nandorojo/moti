@@ -1,7 +1,7 @@
 {
   "name": "moti",
   "private": false,
-  "version": "0.16.1",
+  "version": "0.16.2-alpha.6+a87dd85",
   "keywords": [
     "react-native",
     "ios",
@@ -37,8 +37,8 @@
     "clean": "del lib"
   },
   "dependencies": {
-    "@motify/components": "^0.16.1",
-    "@motify/core": "^0.16.1"
+    "@motify/components": "^0.16.2-alpha.6+a87dd85",
+    "@motify/core": "^0.16.2-alpha.6+a87dd85"
   },
   "peerDependencies": {
     "react-native-reanimated": "*"
@@ -60,5 +60,5 @@
       ]
     ]
   },
-  "gitHead": "1df6da7b6c46cdb8b334794b12dbe9e3c6aa3413"
+  "gitHead": "a87dd85f8ef10fd1a45bdb820328a4c22f9a5392"
 }

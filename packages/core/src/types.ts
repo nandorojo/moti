@@ -227,7 +227,7 @@ export interface MotiProps<
   exit?:
     | AnimateWithTransitions
     | boolean
-    | ((custom?: unknown) => AnimateWithTransitions)
+    | ((custom?: any) => AnimateWithTransitions)
   /**
    * Define animation configurations.
    *
