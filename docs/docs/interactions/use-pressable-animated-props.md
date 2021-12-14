@@ -4,7 +4,7 @@ title: useMotiPressableAnimatedProps()
 ---
 
 ```tsx
-import { useMotiPressableAnimatedProps } from '@motify/interactions'
+import { useMotiPressableAnimatedProps } from 'moti/interactions'
 ```
 
 If you've used `useAnimatedProps` from `react-native-reanimated` before, then this will look familiar. It serves the same purpose, with the added feature of using the `hovered` and `pressed` states.

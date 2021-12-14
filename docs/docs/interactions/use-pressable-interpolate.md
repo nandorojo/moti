@@ -4,7 +4,7 @@ title: useInterpolateMotiPressable()
 ---
 
 ```tsx
-import { useInterpolateMotiPressable } from '@motify/interactions'
+import { useInterpolateMotiPressable } from 'moti/interactions'
 ```
 
 In the rare case that you want more customization over pressable state, you can use `useInterpolateMotiPressable`. As the name implies, it lets you interpolate based on the current interaction state of a parent `MotiPressable`.
@@ -13,7 +13,7 @@ In the rare case that you want more customization over pressable state, you can 
 
 ```tsx
 import { useSharedValue } from 'react-native-reanimated'
-import { useInterpolateMotiPressable } from '@motify/interactions'
+import { useInterpolateMotiPressable } from 'moti/interactions'
 
 // in your component
 const mySharedValue = useSharedValue(0)

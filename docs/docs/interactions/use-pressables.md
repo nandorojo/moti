@@ -4,7 +4,7 @@ title: useMotiPressables()
 ---
 
 ```tsx
-import { useMotiPressables } from '@motify/interactions'
+import { useMotiPressables } from 'moti/interactions'
 ```
 
 `useMotiPressables` lets you access the interaction state of multiple `MotiPressable` parents. This lets you combine multiple different interactions and build animation states with ease.
@@ -54,7 +54,7 @@ Now, the `ListItem` component can call `useMotiPressables` instead of `useMotiPr
 Say we want to make all items fade away when you hover over the list, _except_ for the actual item you're hovering.
 
 ```tsx
-import { useMotiPressables } from '@motify/interactions'
+import { useMotiPressables } from 'moti/interactions'
 
 const ListItem = ({ id }) => {
   const state = useMotiPressables((containers) => {

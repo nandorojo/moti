@@ -4,7 +4,7 @@ title: useMotiPressableTransition()
 ---
 
 ```tsx
-import { useMotiPressableTransition } from '@motify/interactions'
+import { useMotiPressableTransition } from 'moti/interactions'
 ```
 
 `useMotiPressableTransition` lets you motify any Moti component's `transition` prop based on a parent's interaction state.

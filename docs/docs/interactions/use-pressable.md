@@ -4,7 +4,7 @@ title: useMotiPressable()
 ---
 
 ```tsx
-import { useMotiPressable } from '@motify/interactions'
+import { useMotiPressable } from 'moti/interactions'
 ```
 
 `useMotiPressable` lets you access the interaction state of a parent `MotiPressable` component.

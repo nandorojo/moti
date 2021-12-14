@@ -59,7 +59,7 @@ hide_title: true
 First, import:
 
 ```tsx
-import { MotiPressable } from '@motify/interactions'
+import { MotiPressable } from moti/interactions'
 ```
 
 Next, animate your interactions:
@@ -105,21 +105,7 @@ There are some examples in the `examples/with-expo/src` folder of the Moti repo.
 
 ## Installation
 
-```bash npm2yarn
-npm install @motify/interactions
-```
-
-Make sure you've also followed the [Installation steps](/installation) for `moti`. If you're using a version of `moti` that is older than `0.14.x`, upgrade here:
-
-```bash npm2yarn
-npm install moti
-```
-
-And if you're using any other Moti components, upgrade those too:
-
-```bash npm2yarn
-npm install @motify/skeleton
-```
+Versions before 0.17.0 required you to install `@motify/interactions`. This is no longer the case. [See the PR](https://github.com/nandorojo/moti/pull/136).
 
 ## Animating children
 
@@ -154,7 +140,7 @@ First, change `Pressable` to `MotiPressable`. Next, remove the function child, a
 Then, in the `Child` component, we can access the parent's interaction state with `useMotiPressable`
 
 ```tsx
-import { useMotiPressable } from '@motify/interactions'
+import { useMotiPressable } from moti/interactions'
 
 const Child = () => {
   const state = useMotiPressable(({ pressed }) => {
@@ -191,7 +177,7 @@ By default, the `useMotiPressable` would access the interaction state of its clo
 In the `Child` component, pass `list` as the first argument to `useMotiPressable`.
 
 ```tsx
-import { useMotiPressable } from '@motify/interactions'
+import { useMotiPressable } from moti/interactions'
 
 const Child = () => {
   const state = useMotiPressable(
@@ -246,7 +232,7 @@ Now, the `Child` component can call `useMotiPressables` instead of `useMotiPress
 Say we want to make all items fade away when you hover over the list, _except_ for the actual item you're hovering.
 
 ```tsx
-import { useMotiPressables } from '@motify/interactions'
+import { useMotiPressables } from moti/interactions'
 
 const Child = ({ id }) => {
   const state = useMotiPressables((containers) => {
@@ -336,7 +322,7 @@ Example:
 
 ```tsx
 import { useSharedValue } from 'react-native-reanimated'
-import { useInterpolateMotiPressable } from '@motify/interactions'
+import { useInterpolateMotiPressable } from moti/interactions'
 
 // in your component
 const mySharedValue = useSharedValue(0)
