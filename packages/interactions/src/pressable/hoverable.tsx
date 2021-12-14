@@ -2,6 +2,7 @@
 // this file was repurosed from there
 // via this issue https://gist.github.com/necolas/1c494e44e23eb7f8c5864a2fac66299a
 // because RNW's pressable doesn't bubble events to parent pressables: https://github.com/necolas/react-native-web/issues/1875
+// click listeners copied from https://gist.github.com/roryabraham/65cd1d2d5e8a48da78fec6a6e3105398
 
 /* eslint-disable no-inner-declarations */
 import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment'
@@ -43,51 +44,67 @@ function isHoverEnabled(): boolean {
   return isEnabled
 }
 
-import React, { useCallback, ReactChild, useRef } from 'react'
+import React, { useCallback, ReactChild, useRef, useEffect } from 'react'
 import { useSharedValue, useAnimatedReaction } from 'react-native-reanimated'
-import { Platform } from 'react-native'
+import { HoveredContext } from './hoverable-context'
+import { mergeRefs } from './merge-refs'
 
 export interface HoverableProps {
   onHoverIn?: () => void
   onHoverOut?: () => void
-  onPressIn?: () => void
-  onPressOut?: () => void
   children: NonNullable<ReactChild>
+  childRef?: React.Ref<any>
 }
 
-export default function Hoverable({
+export function Hoverable({
   onHoverIn,
   onHoverOut,
   children,
-  onPressIn,
-  onPressOut,
+  childRef,
 }: HoverableProps) {
-  const showHover = useSharedValue(true)
   const isHovered = useSharedValue(false)
 
   const hoverIn = useRef<undefined | (() => void)>(() => onHoverIn?.())
   const hoverOut = useRef<undefined | (() => void)>(() => onHoverOut?.())
-  const pressIn = useRef<undefined | (() => void)>(() => onPressIn?.())
-  const pressOut = useRef<undefined | (() => void)>(() => onPressOut?.())
+
+  const localRef = useRef<HTMLDivElement>(null)
 
   hoverIn.current = onHoverIn
   hoverOut.current = onHoverOut
-  pressIn.current = onPressIn
-  pressOut.current = onPressOut
 
+  useEffect(
+    function disableHoverOnClickOutside() {
+      // https://gist.github.com/necolas/1c494e44e23eb7f8c5864a2fac66299a#gistcomment-3629646
+      const listener = (event: MouseEvent) => {
+        if (
+          localRef.current &&
+          event.target instanceof HTMLElement &&
+          !localRef.current.contains(event.target)
+        ) {
+          isHovered.value = false
+        }
+      }
+      document.addEventListener('mousedown', listener)
+
+      return () => {
+        document.removeEventListener('mousedown', listener)
+      }
+    },
+    [isHovered]
+  )
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useAnimatedReaction(
     () => {
       // hovering out via click won't trigger this
-      // return Platform.OS === 'web' && showHover.value && isHovered.value
-      return Platform.OS === 'web' && isHovered.value
+      return isHovered.value
     },
     (hovered, previouslyHovered) => {
       if (hovered !== previouslyHovered) {
         if (hovered) {
-          // no need for runOnJS, it's always web
           hoverIn.current?.()
-        } else if (hoverOut.current) {
-          hoverOut.current()
+        } else {
+          hoverOut.current?.()
         }
       }
     },
@@ -106,31 +123,15 @@ export default function Hoverable({
     }
   }, [isHovered])
 
-  const handleGrant = useCallback(() => {
-    showHover.value = false
-    pressIn.current?.()
-  }, [showHover])
+  const child = React.Children.only(children) as React.ReactElement
 
-  const handleRelease = useCallback(() => {
-    showHover.value = true
-    pressOut.current?.()
-  }, [showHover])
-
-  let webProps = {}
-  if (Platform.OS === 'web') {
-    webProps = {
-      onMouseEnter: handleMouseEnter,
-      onMouseLeave: handleMouseLeave,
-      // prevent hover showing while responder
-      onResponderGrant: handleGrant,
-      onResponderRelease: handleRelease,
-    }
-  }
-
-  return React.cloneElement(React.Children.only(children) as any, {
-    ...webProps,
-    // if child is Touchable
-    onPressIn: handleGrant,
-    onPressOut: handleRelease,
-  })
+  return (
+    <HoveredContext.Provider value={isHovered}>
+      {React.cloneElement(child, {
+        onMouseEnter: handleMouseEnter,
+        onMouseLeave: handleMouseLeave,
+        ref: mergeRefs([localRef, childRef || null]),
+      })}
+    </HoveredContext.Provider>
+  )
 }
