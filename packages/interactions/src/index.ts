@@ -1,5 +1,5 @@
 export * from './pressable'
-console.warn(`@motify/interactions is deprecated. It has moved to 'moti/interactions'. Please uninstall this library, upgrade "moti", and update your imports.
+console.warn(`@motify/interactions is deprecated. It has moved to 'moti/interactions'. Please uninstall @motify/interactions, upgrade "moti", and update your imports.
 
 yarn remove @motify/interactions
 yarn add moti
