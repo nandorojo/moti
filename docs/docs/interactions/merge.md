@@ -57,7 +57,7 @@ That's where `mergeAnimateProp` comes in. Pass it the interaction state, `animat
 
 ```tsx
 import React, { ComponentProps } from 'react'
-import { MotiPressable, mergeAnimateProp } from '@motify/interactions'
+import { MotiPressable, mergeAnimateProp } from 'moti/interactions'
 
 type Props = ComponentProps<typeof MotiPressable>
 
@@ -112,7 +112,7 @@ And in your component:
 
 ```tsx
 import React, { ComponentProps } from 'react'
-import { MotiPressable, mergeAnimateProp } from '@motify/interactions'
+import { MotiPressable, mergeAnimateProp } from 'moti/interactions'
 import { styled } from 'dripsy'
 
 const DripsyMotiPressable = styled(MotiPressable)()
@@ -156,7 +156,7 @@ import {
   MotiPressableProp,
   useMotiPressable,
   mergeAnimateProp,
-} from '@motify/interactions'
+} from 'moti/interactions'
 
 type Props = {
   animate?: MotiPressableProp

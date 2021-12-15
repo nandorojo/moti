@@ -3,33 +3,29 @@
   "description": "Example app for moti",
   "version": "0.16.1",
   "private": true,
-  "main": "__generated__/AppEntry.js",
   "scripts": {
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
-    "start": "expo start",
-    "test": "jest",
-    "postinstall": "expo-yarn-workspaces postinstall"
+    "start": "expo start --dev-client",
+    "test": "jest"
   },
   "dependencies": {
     "@motify/interactions": "^0.16.1",
     "@motify/skeleton": "^0.16.1",
     "core-js": "^3",
-    "expo": "^41.0.0",
-    "expo-splash-screen": "~0.8.1",
-    "expo-status-bar": "~1.0.3",
+    "expo": "^44.0.0-beta.2",
+    "expo-splash-screen": "~0.14.0",
+    "expo-status-bar": "~1.2.0",
     "lodash.set": "^4.3.2",
     "moti": "^0.16.1",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "react-native": "0.63.4",
-    "react-native-gesture-handler": "~1.8.0",
-    "react-native-reanimated": "~2.2.0",
-    "react-native-unimodules": "~0.13.3",
-    "react-native-web": "0.15.3",
-    "react-navigation-stack": "^2.8.4",
-    "react-spring": "^8.0.27"
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-native": "0.64.3",
+    "react-native-gesture-handler": "~2.1.0",
+    "react-native-reanimated": "~2.3.1",
+    "react-native-unimodules": "~0.15.0",
+    "react-native-web": "0.17.1"
   },
   "devDependencies": {
     "@babel/core": "~7.12.10",
@@ -37,6 +33,8 @@
     "@types/lodash.set": "^4.3.6",
     "babel-loader": "^8.2.2",
     "babel-plugin-module-resolver": "^4.0.0",
-    "babel-preset-expo": "8.3.0"
+    "babel-preset-expo": "9.0.1",
+    "esbuild": "^0.13.13",
+    "metro-minify-esbuild": "^0.1.0"
   }
 }

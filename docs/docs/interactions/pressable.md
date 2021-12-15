@@ -6,7 +6,7 @@ title: <MotiPressable />
 A near-replacement for React Native's `Pressable` component, with animations run on the native thread.
 
 ```tsx
-import { MotiPressable } from '@motify/interactions'
+import { MotiPressable } from 'moti/interactions'
 import { useCallback } from 'react'
 
 export const Pressable = () => {
@@ -37,7 +37,7 @@ You can also use the `hovered` and `pressed` state to customize your `transition
 For example, if you want to delay your animations when someone releases your button, you can pass a function to `transition`:
 
 ```tsx
-import { MotiPressable } from '@motify/interactions'
+import { MotiPressable } from 'moti/interactions'
 import { useCallback } from 'react'
 
 export const Pressable = () => {

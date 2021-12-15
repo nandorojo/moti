@@ -1,6 +1,8 @@
 {
-  "extends": "../../tsconfig",
+  "extends": "expo-module-scripts/tsconfig.base",
   "compilerOptions": {
-    "outDir": "./lib/typescript"
-  }
+    "outDir": "./build"
+  },
+  "include": ["./src", "./src/interactions"],
+  "exclude": ["**/__mocks__/*", "**/__tests__/*"]
 }

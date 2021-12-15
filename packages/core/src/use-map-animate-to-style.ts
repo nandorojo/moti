@@ -1,7 +1,7 @@
 import { PresenceContext, usePresence } from 'framer-motion'
 import { useCallback, useContext, useEffect } from 'react'
 import type { TransformsStyle } from 'react-native'
-import Animated, {
+import {
   useAnimatedStyle,
   useSharedValue,
   withDecay,
@@ -11,6 +11,11 @@ import Animated, {
   withRepeat,
   withSequence,
   runOnJS,
+} from 'react-native-reanimated'
+import type {
+  WithDecayConfig,
+  WithSpringConfig,
+  WithTimingConfig,
 } from 'react-native-reanimated'
 import { PackageName } from './constants/package-name'
 import type {
@@ -131,12 +136,12 @@ function animationConfig<Animate>(
 
   if (animationType === 'timing') {
     const duration =
-      ((transition as any)?.[key as keyof Animate] as Animated.WithTimingConfig)
-        ?.duration ?? (transition as Animated.WithTimingConfig)?.duration
+      ((transition as any)?.[key as keyof Animate] as WithTimingConfig)
+        ?.duration ?? (transition as WithTimingConfig)?.duration
 
     const easing =
-      ((transition as any)?.[key as keyof Animate] as Animated.WithTimingConfig)
-        ?.easing ?? (transition as Animated.WithTimingConfig)?.easing
+      ((transition as any)?.[key as keyof Animate] as WithTimingConfig)
+        ?.easing ?? (transition as WithTimingConfig)?.easing
 
     if (easing) {
       config['easing'] = easing
@@ -150,8 +155,8 @@ function animationConfig<Animate>(
     config = {
       // solve the missing velocity bug in 2.0.0-rc.0
       // velocity: 2,
-    } as Animated.WithSpringConfig
-    const configKeys: (keyof Animated.WithSpringConfig)[] = [
+    } as WithSpringConfig
+    const configKeys: (keyof WithSpringConfig)[] = [
       'damping',
       'mass',
       'overshootClamping',
@@ -172,19 +177,16 @@ function animationConfig<Animate>(
       }
     })
   } else if (animationType === 'decay') {
-    // TODO decay doesn't work for now
-    console.error(
-      `[${PackageName}]: You passed transition type: decay, but this isn't working for now. Honestly, not sure why yet. Try passing other transition fields, like clamp, velocity, and deceleration. If that solves it, please open an issue and let me know.`
-    )
     animation = withDecay
     config = {
       velocity: 2,
       deceleration: 2,
     }
-    const configKeys: (keyof Animated.WithDecayConfig)[] = [
+    const configKeys: (keyof WithDecayConfig)[] = [
       'clamp',
       'velocity',
       'deceleration',
+      'velocityFactor',
     ]
     configKeys.forEach((configKey) => {
       'worklet'
@@ -325,20 +327,19 @@ export default function useMapAnimateToStyle<Animate>({
       transition = Object.assign({}, transition, exitTransition)
     }
 
-    const transformKeys = Object.keys(mergedStyles).filter((key) =>
-      isTransform(key)
-    )
-
-    if (transformKeys.length > 1) {
-      console.error(
-        `[${PackageName}] Multiple inline transforms found. This won't animate properly. Instead, pass these to a transform array: ${transformKeys.join(
-          ', '
-        )}`
-      )
-    }
+    // const transformKeys = Object.keys(mergedStyles).filter((key) =>
+    //   isTransform(key)
+    // )
+    //
+    // if (transformKeys.length > 1) {
+    //   console.error(
+    //     `[${PackageName}] Multiple inline transforms found. This won't animate properly. Instead, pass these to a transform array: ${transformKeys.join(
+    //       ', '
+    //     )}`
+    //   )
+    // }
 
     Object.keys(mergedStyles).forEach((key) => {
-      // const initialValue = initialStyle[key]
       const value = mergedStyles[key]
 
       const {

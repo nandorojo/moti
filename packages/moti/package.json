@@ -18,32 +18,40 @@
     "url": "https://github.com/nandorojo/moti/issues"
   },
   "homepage": "https://github.com/nandorojo/moti.git#readme",
-  "main": "lib/commonjs/index.js",
+  "main": "build/index.js",
   "react-native": "src/index.tsx",
   "source": "src/index.tsx",
-  "module": "lib/module/index.js",
-  "types": "lib/typescript/src/index.d.ts",
+  "types": "build/index.d.ts",
   "files": [
     "src",
-    "lib",
-    "!**/__tests__"
+    "build",
+    "!**/__tests__",
+    "interactions",
+    "skeleton"
   ],
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "prepare": "bob build",
-    "clean": "del lib"
+    "prepare:bob": "bob build",
+    "clean:bob": "del lib",
+    "build": "expo-module build",
+    "clean": "expo-module clean",
+    "test": "expo-module test",
+    "prepare": "expo-module prepare",
+    "prepublishOnly": "expo-module prepublishOnly",
+    "expo-module": "expo-module"
   },
   "dependencies": {
     "@motify/components": "^0.16.2-alpha.6+a87dd85",
     "@motify/core": "^0.16.2-alpha.6+a87dd85"
   },
-  "peerDependencies": {
-    "react-native-reanimated": "*"
-  },
+  "peerDependencies": {},
   "devDependencies": {
+    "expo-linear-gradient": "^10.0.3",
+    "expo-module-scripts": "^2.0.0",
+    "react-native-reanimated": "*",
     "typescript": "^4.0.3"
   },
   "react-native-builder-bob": {

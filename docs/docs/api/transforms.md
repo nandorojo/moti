@@ -7,7 +7,7 @@ Moti has the same API for transforms as a normal React Native component.
 
 It also comes with some added convenience.
 
-Like always, you can do this:
+Like always, you can use a `transform` array:
 
 ```tsx
 <MotiView
@@ -20,7 +20,7 @@ Like always, you can do this:
 />
 ```
 
-Writing a transform array can be bulky. If you only have _one_ transform, you can pass it to Moti directly:
+Writing a transform array can be bulky. You can also pass your transforms directly:
 
 ```tsx
 <MotiView
@@ -35,7 +35,59 @@ Writing a transform array can be bulky. If you only have _one_ transform, you ca
 
 ## Using multiple transforms
 
-If you're using multiple transforms together, such as `scale` and `translateY`, you _must_ use an array.
+If you're using multiple transforms, be sure to retain their order inside of each prop.
+
+```tsx
+// ✅ scale first, then translateX
+<MotiView
+  from={{
+    scale: 0,
+    translateX: -10,
+  }}
+  animate={{
+    scale: 1,
+    translateX: 0,
+  }}
+/>
+```
+
+> This only works with Reanimated `2.3.0`+. For older versions, scroll down.
+
+This will break your animation, since they have different orders:
+
+```tsx
+// 🚨 from & animate don't have the same orders for transforms!
+// this will break
+<MotiView
+  from={{
+    translateX: -10
+    scale: 0,
+  }}
+  animate={{
+    scale: 1,
+    translateX: 0
+  }}
+/>
+```
+
+If you prefer to use an array for multiple transforms, you can do that too. Be sure to retain the order of your transforms across props.
+
+```tsx
+<MotiView
+  from={{
+    transform: [{ scale: 0 }, { translateX: -10 }],
+  }}
+  animate={{
+    transform: [{ scale: 1 }, { translateX: 0 }],
+  }}
+/>
+```
+
+## Using multiple transforms (on old versions of Reanimated)
+
+> The following only applies if you're using Reanimated `2.2` or older. As of `2.3.0`, you can use multiple transforms without an array if you want.
+
+If you're using multiple transforms together, such as `scale` and `translateY`, and you're using Reanimated `2.2` or older, you _must_ use an array.
 
 This example is okay, since `scale` is the only transform:
 
