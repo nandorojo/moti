@@ -16,10 +16,10 @@ config.resolver.nodeModulesPath = [
   path.resolve(workspaceRoot, 'node_modules'),
 ]
 
-// config.transformer = {
-//   ...config.transformer,
-//   minifierPath: 'metro-minify-esbuild',
-//   minifierConfig: {},
-// }
+config.transformer = {
+  ...config.transformer,
+  minifierPath: 'metro-minify-esbuild',
+  minifierConfig: {},
+}
 
 module.exports = config

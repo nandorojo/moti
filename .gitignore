@@ -64,3 +64,8 @@ lib/
 **/web-build
 **/.expo
 .env
+
+**/*/ios
+
+# CocoaPods
+Pods
