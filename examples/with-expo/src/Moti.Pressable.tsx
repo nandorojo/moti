@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { MotiImage } from 'moti'
-import { MotiPressable, useMotiPressable } from '@motify/interactions'
+import { MotiPressable, useMotiPressable } from 'moti/interactions'
 
 function Logo() {
   const state = useMotiPressable(
