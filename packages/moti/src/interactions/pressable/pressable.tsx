@@ -179,11 +179,9 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
           hitSlop={hitSlop}
           disabled={disabled}
           onPress={onPress}
+          // @ts-expect-error incorrect ref type
           ref={ref}
           onLayout={onContainerLayout}
-          // @ts-expect-error missing containerStyle type
-          // TODO there is an added View child here, which Pressable doesn't  have.
-          // should we wrap the pressable children too?
           containerStyle={containerStyle}
           // Accessibility props
           accessibilityActions={accessibilityActions}

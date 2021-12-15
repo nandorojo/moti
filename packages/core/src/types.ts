@@ -1,5 +1,10 @@
-// import type { UseAnimationState } from './use-animator/types'
-import type Animated from 'react-native-reanimated'
+import type {
+  SharedValue,
+  WithDecayConfig,
+  WithSpringConfig,
+  WithTimingConfig,
+  DerivedValue,
+} from 'react-native-reanimated'
 
 import type {
   PerpectiveTransform,
@@ -36,9 +41,9 @@ export type MotiTranformProps = Partial<Transforms> &
   Pick<ViewStyle, 'transform'>
 
 export type TransitionConfigWithoutRepeats = (
-  | ({ type?: 'spring' } & Animated.WithSpringConfig)
-  | ({ type: 'timing' } & Animated.WithTimingConfig)
-  | ({ type: 'decay' } & Animated.DecayConfig)
+  | ({ type?: 'spring' } & WithSpringConfig)
+  | ({ type: 'timing' } & WithTimingConfig)
+  | ({ type: 'decay' } & WithDecayConfig)
 ) & {
   delay?: number
 }
@@ -170,7 +175,7 @@ export type MotiAnimationProp<Animate> = MotiProps<Animate>['animate']
 export type MotiFromProp<Animate> = MotiProps<Animate>['from']
 export type MotiExitProp<Animate> = MotiProps<Animate>['exit']
 
-type OrSharedValue<T> = T | Animated.SharedValue<T>
+type OrSharedValue<T> = T | SharedValue<T>
 
 type FallbackAnimateProp = StyleValueWithReplacedTransforms<
   ImageStyle & TextStyle & ViewStyle
@@ -354,7 +359,7 @@ export type UseAnimationState<V> = {
    * @private
    * Internal state used to drive animations. You shouldn't use this. Use `.current` instead to read the current state. Use `transitionTo` to edit it.
    */
-  __state: Animated.SharedValue<any> | Animated.DerivedValue<any>
+  __state: SharedValue<any> | DerivedValue<any>
   /**
    * Transition to another state, as defined by this hook.
    *
@@ -420,7 +425,7 @@ export type UseDynamicAnimationState = {
    * @private
    * Internal state used to drive animations. You shouldn't use this. Use `.current` instead to read the current state. Use `animateTo` to edit it.
    */
-  __state: Animated.SharedValue<any>
+  __state: SharedValue<any>
   /**
    * Read the current "state" (i.e. style object)
    */

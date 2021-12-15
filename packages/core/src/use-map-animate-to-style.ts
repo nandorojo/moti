@@ -1,7 +1,7 @@
 import { PresenceContext, usePresence } from 'framer-motion'
 import { useCallback, useContext, useEffect } from 'react'
 import type { TransformsStyle } from 'react-native'
-import Animated, {
+import {
   useAnimatedStyle,
   useSharedValue,
   withDecay,
@@ -11,6 +11,11 @@ import Animated, {
   withRepeat,
   withSequence,
   runOnJS,
+} from 'react-native-reanimated'
+import type {
+  WithDecayConfig,
+  WithSpringConfig,
+  WithTimingConfig,
 } from 'react-native-reanimated'
 import { PackageName } from './constants/package-name'
 import type {
@@ -131,12 +136,12 @@ function animationConfig<Animate>(
 
   if (animationType === 'timing') {
     const duration =
-      ((transition as any)?.[key as keyof Animate] as Animated.WithTimingConfig)
-        ?.duration ?? (transition as Animated.WithTimingConfig)?.duration
+      ((transition as any)?.[key as keyof Animate] as WithTimingConfig)
+        ?.duration ?? (transition as WithTimingConfig)?.duration
 
     const easing =
-      ((transition as any)?.[key as keyof Animate] as Animated.WithTimingConfig)
-        ?.easing ?? (transition as Animated.WithTimingConfig)?.easing
+      ((transition as any)?.[key as keyof Animate] as WithTimingConfig)
+        ?.easing ?? (transition as WithTimingConfig)?.easing
 
     if (easing) {
       config['easing'] = easing
@@ -150,8 +155,8 @@ function animationConfig<Animate>(
     config = {
       // solve the missing velocity bug in 2.0.0-rc.0
       // velocity: 2,
-    } as Animated.WithSpringConfig
-    const configKeys: (keyof Animated.WithSpringConfig)[] = [
+    } as WithSpringConfig
+    const configKeys: (keyof WithSpringConfig)[] = [
       'damping',
       'mass',
       'overshootClamping',
@@ -177,7 +182,7 @@ function animationConfig<Animate>(
       velocity: 2,
       deceleration: 2,
     }
-    const configKeys: (keyof Animated.WithDecayConfig)[] = [
+    const configKeys: (keyof WithDecayConfig)[] = [
       'clamp',
       'velocity',
       'deceleration',
