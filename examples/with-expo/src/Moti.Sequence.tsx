@@ -5,40 +5,15 @@ import { View } from 'moti'
 function Shape() {
   return (
     <View
-      // from={{
-      //   opacity: 0,
-      //   translateX: -100,
-      //   translateY: -100,
-      // }}
+      from={{
+        opacity: 0,
+        translateX: -100,
+        translateY: -100,
+      }}
       animate={{
         opacity: 1,
-        translateX: [0, 100],
-        translateY: [0, 100],
-        // translateY: [
-        //   0,
-        //   {
-        //     value: 100,
-        //     type: 'timing',
-        //     delay: 600,
-        //     duration: 2500,
-        //   },
-        //   -100,
-        //   0,
-        // ],
-        // translateX: [
-        //   0,
-        //   {
-        //     value: 100,
-        //     type: 'timing',
-        //     delay: 600,
-        //     duration: 2500,
-        //   },
-        //   -100,
-        //   0,
-        // ],
-      }}
-      transition={{
-        type: 'timing',
+        translateX: [0, 100, 0],
+        translateY: [0, 100, 0],
       }}
       style={styles.shape}
     />

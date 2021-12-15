@@ -327,17 +327,17 @@ export default function useMapAnimateToStyle<Animate>({
       transition = Object.assign({}, transition, exitTransition)
     }
 
-    const transformKeys = Object.keys(mergedStyles).filter((key) =>
-      isTransform(key)
-    )
-
-    if (transformKeys.length > 1) {
-      console.error(
-        `[${PackageName}] Multiple inline transforms found. This won't animate properly. Instead, pass these to a transform array: ${transformKeys.join(
-          ', '
-        )}`
-      )
-    }
+    // const transformKeys = Object.keys(mergedStyles).filter((key) =>
+    //   isTransform(key)
+    // )
+    //
+    // if (transformKeys.length > 1) {
+    //   console.error(
+    //     `[${PackageName}] Multiple inline transforms found. This won't animate properly. Instead, pass these to a transform array: ${transformKeys.join(
+    //       ', '
+    //     )}`
+    //   )
+    // }
 
     Object.keys(mergedStyles).forEach((key) => {
       const value = mergedStyles[key]
