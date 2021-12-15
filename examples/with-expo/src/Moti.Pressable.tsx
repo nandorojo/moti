@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { MotiImage } from 'moti'
+import { MotiImage, MotiView } from 'moti'
 import { MotiPressable, useMotiPressable } from 'moti/interactions'
 
 function Logo() {
@@ -10,21 +10,18 @@ function Logo() {
       'worklet'
 
       return {
-        opacity: pressed ? 0.25 : hovered ? 0.8 : 1,
+        // opacity: pressed ? 0.25 : hovered ? 0.8 : 1,
         scale: pressed ? 0.97 : hovered ? 1.05 : 1,
+        backgroundColor: pressed ? '#ffffff' : '#000000',
       }
     },
     []
   )
 
   return (
-    <MotiImage
-      source={{
-        uri: beatGigLogo,
-      }}
+    <MotiView
       state={state}
       style={styles.logo}
-      resizeMode="contain"
       transition={{ type: 'timing', duration: 200 }}
     />
   )
