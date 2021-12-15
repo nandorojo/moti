@@ -3,14 +3,12 @@
   "description": "Example app for moti",
   "version": "0.16.1",
   "private": true,
-  "main": "__generated__/AppEntry.js",
   "scripts": {
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "start": "expo start",
-    "test": "jest",
-    "postinstall": "expo-yarn-workspaces postinstall"
+    "test": "jest"
   },
   "dependencies": {
     "@motify/interactions": "^0.16.1",

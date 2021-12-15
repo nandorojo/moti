@@ -27,7 +27,7 @@ export default function HelloWorld() {
 
   return (
     <Pressable onPress={toggle} style={styles.container}>
-      {visible && <Shape />}
+      {/* {visible && <Shape />} */}
     </Pressable>
   )
 }
