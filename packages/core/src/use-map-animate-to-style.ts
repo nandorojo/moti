@@ -172,10 +172,6 @@ function animationConfig<Animate>(
       }
     })
   } else if (animationType === 'decay') {
-    // TODO decay doesn't work for now
-    console.error(
-      `[${PackageName}]: You passed transition type: decay, but this isn't working for now. Honestly, not sure why yet. Try passing other transition fields, like clamp, velocity, and deceleration. If that solves it, please open an issue and let me know.`
-    )
     animation = withDecay
     config = {
       velocity: 2,
@@ -185,6 +181,7 @@ function animationConfig<Animate>(
       'clamp',
       'velocity',
       'deceleration',
+      'velocityFactor',
     ]
     configKeys.forEach((configKey) => {
       'worklet'
@@ -338,7 +335,6 @@ export default function useMapAnimateToStyle<Animate>({
     }
 
     Object.keys(mergedStyles).forEach((key) => {
-      // const initialValue = initialStyle[key]
       const value = mergedStyles[key]
 
       const {
