@@ -1,7 +1,7 @@
 {
   "name": "@motify/components",
   "private": false,
-  "version": "0.17.0",
+  "version": "0.17.1",
   "keywords": [
     "react-native",
     "ios",
@@ -37,11 +37,11 @@
     "clean": "del lib"
   },
   "dependencies": {
-    "@motify/core": "^0.17.0"
+    "@motify/core": "^0.17.1"
   },
   "devDependencies": {
-    "typescript": "^4.0.3",
-    "react-native-reanimated": "~2.3.1"
+    "react-native-reanimated": "~2.3.1",
+    "typescript": "^4.0.3"
   },
   "react-native-builder-bob": {
     "source": "src",

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.1](https://github.com/nandorojo/moti/compare/v0.17.0...v0.17.1) (2021-12-15)
+
+**Note:** Version bump only for package @motify/skeleton
+
+
+
+
+
 # [0.17.0](https://github.com/nandorojo/moti/compare/v0.16.1...v0.17.0) (2021-12-15)
 
 

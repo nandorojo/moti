@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.1](https://github.com/nandorojo/moti/compare/v0.17.0...v0.17.1) (2021-12-15)
+
+
+### Features
+
+* add support for layout, entering & exiting props from reanimated ([1d09705](https://github.com/nandorojo/moti/commit/1d097052fc1c3c22c749ed53885b6c34fadcd714))
+
+
+
+
+
 # [0.17.0](https://github.com/nandorojo/moti/compare/v0.16.1...v0.17.0) (2021-12-15)
 
 **Note:** Version bump only for package next-dripsy-example

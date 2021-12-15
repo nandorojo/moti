@@ -1,7 +1,7 @@
 {
   "name": "moti",
   "private": false,
-  "version": "0.17.0",
+  "version": "0.17.1",
   "keywords": [
     "react-native",
     "ios",
@@ -44,8 +44,8 @@
     "expo-module": "expo-module"
   },
   "dependencies": {
-    "@motify/components": "^0.17.0",
-    "@motify/core": "^0.17.0"
+    "@motify/components": "^0.17.1",
+    "@motify/core": "^0.17.1"
   },
   "devDependencies": {
     "expo-linear-gradient": "^10.0.3",
