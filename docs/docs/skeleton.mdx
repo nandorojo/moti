@@ -8,7 +8,7 @@ Moti's skeleton component is great for showing animated loading states. It works
 
 ```tsx
 import React from 'react'
-import { Skeleton } from '@motify/skeleton'
+import { Skeleton } from 'moti/skeleton'
 
 const Loader = ({ children }) => <Skeleton>{children}</Skeleton>
 
@@ -21,11 +21,13 @@ export default Loader
 
 ## Install
 
-The skeleton ships as its own package, since it has dependencies outside of `moti`:
+Prior to version `0.17.0`, the skeleton was installed as its own package. This is no longer the case.
 
-```bash npm2yarn
-npm install @motify/skeleton
-```
+If you have `@motify/skeleton` in your `package.json`, be sure to delete it and upgrade `moti`.
+
+[See the PR](https://github.com/nandorojo/moti/pull/136).
+
+### Peer dependency
 
 You'll also want to install `expo-linear-gradient`.
 
@@ -158,7 +160,7 @@ Here's the code from the video above:
 import React, { useReducer } from 'react'
 import { StyleSheet, Pressable } from 'react-native'
 import { MotiView } from 'moti'
-import { Skeleton } from '@motify/skeleton'
+import { Skeleton } from 'moti/skeleton'
 
 const Spacer = ({ height = 16 }) => <MotiView style={{ height }} />
 

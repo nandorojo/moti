@@ -26,7 +26,8 @@
     "src",
     "build",
     "!**/__tests__",
-    "interactions"
+    "interactions",
+    "skeleton"
   ],
   "sideEffects": false,
   "publishConfig": {
@@ -46,11 +47,11 @@
     "@motify/components": "^0.16.2-alpha.6+a87dd85",
     "@motify/core": "^0.16.2-alpha.6+a87dd85"
   },
-  "peerDependencies": {
-    "react-native-reanimated": "*"
-  },
+  "peerDependencies": {},
   "devDependencies": {
+    "expo-linear-gradient": "^10.0.3",
     "expo-module-scripts": "^2.0.0",
+    "react-native-reanimated": "*",
     "typescript": "^4.0.3"
   },
   "react-native-builder-bob": {

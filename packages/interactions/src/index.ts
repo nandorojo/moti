@@ -4,5 +4,7 @@ console.warn(`@motify/interactions is deprecated. It has moved to 'moti/interact
 yarn remove @motify/interactions
 yarn add moti
 
+Finally, find and replace all your imports.
+
 For more info: https://github.com/nandorojo/moti/pull/136
 `)
