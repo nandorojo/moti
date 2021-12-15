@@ -23,15 +23,17 @@ npm install moti
 
 Moti requires that you install `react-native-reanimated`.
 
-Moti `0.8.x` and higher requires at least Reanimated v2 stable (`2.0.0` or higher). This version is compatible with Expo starting SDK 41.
+Moti `0.17.x` requires Reanimated `2.3.0` or higher. This version is compatible with Expo SDK 44.
 
-If you haven't upgraded Reanimated past `2.0.0-rc.0`, you can also use Moti `0.7.x`. However, I recommend upgrading to get the latest features/fixes.
+Moti `0.16.x` is compatible with Reanimated `2.2.0`. This is compatible with Expo SDK 43.
+
+Moti `0.8.x` and higher requires at least Reanimated v2 stable (`2.0.0` or higher). This version is compatible with Expo starting SDK 41.
 
 ### If you're using Expo
 
 Please follow the [Expo instructions](https://docs.expo.io/versions/latest/sdk/reanimated/#experimental-support-for-v2) for installing `react-native-reanimated` v2.
 
-You'll need at least [Expo SDK 40](https://docs.expo.io/workflow/upgrading-expo-sdk-walkthrough/), but I recommend using SDK 41.
+You'll need at least [Expo SDK 40](https://docs.expo.io/workflow/upgrading-expo-sdk-walkthrough/) for Reanimated 2, but I recommend using the latest SDK.
 
 ### If you aren't using Expo
 
@@ -41,9 +43,9 @@ Please follow Reanimated's [installation instructions](https://docs.swmansion.co
 
 Please see the following guides:
 
-- [Expo Web](/web#expo-web-support)
+- [Expo Web](/web)
 - [Next.js](/next)
-- [React Native Web](/web#other-react-native-web-setups)
+- [React Native Web](/web)
 
 ## Hermes/Android Support
 

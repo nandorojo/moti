@@ -113,6 +113,12 @@ Interactions now comes bundled with `moti`. You can import it like so:
 import { MotiPressable } from 'moti/interactions'
 ```
 
+### Peer dependencies
+
+As of `moti@0.17.0`, `moti/interactions` uses `react-native-gesture-handler` v2. Upgrading may not be required, but it is recommended. This is the version included in Expo SDK 44.
+
+You'll need to wrap your app with `GestureHandlerRootView` from `react-native-gesture-handler`. Please [see their docs](https://docs.swmansion.com/react-native-gesture-handler/docs/#js) for installation instructions.
+
 ## Animating children
 
 A common use-case of a component like `Pressable` is styling children based on the animation state.
