@@ -2,7 +2,33 @@ import React, { forwardRef, ComponentType, FunctionComponent } from 'react'
 import type { ImageStyle, TextStyle, ViewStyle } from 'react-native'
 import type { MotiProps } from './types'
 import useMapAnimateToStyle from './use-map-animate-to-style'
-import Animated from 'react-native-reanimated'
+import Animated, {
+  BaseAnimationBuilder,
+  EntryExitAnimationFunction,
+  LayoutAnimationFunction,
+} from 'react-native-reanimated'
+
+// copied from reanimated
+// if we use Animated.AnimateProps
+// then we get this TypeScript error:
+// Exported variable 'View' has or is using name 'AnimatedNode' from external module "react-native-reanimated" but cannot be named.
+type AnimatedProps<Props> = {
+  animatedProps?: Partial<Props>
+  layout?:
+    | BaseAnimationBuilder
+    | LayoutAnimationFunction
+    | typeof BaseAnimationBuilder
+  entering?:
+    | BaseAnimationBuilder
+    | typeof BaseAnimationBuilder
+    | EntryExitAnimationFunction
+    | Keyframe
+  exiting?:
+    | BaseAnimationBuilder
+    | typeof BaseAnimationBuilder
+    | EntryExitAnimationFunction
+    | Keyframe
+}
 
 export default function motify<
   Style,
@@ -18,10 +44,8 @@ export default function motify<
   const withAnimations = () => {
     const Motified = forwardRef<
       Ref,
-      {
-        // This sucks, but if we use Animated.AnimateProps<Props> it breaks types
-        animatedProps?: any
-      } & Props &
+      Props &
+        AnimatedProps<Props> &
         MotiProps<Animate> &
         ExtraProps & {
           children?: React.ReactNode

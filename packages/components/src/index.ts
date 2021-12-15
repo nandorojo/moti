@@ -7,11 +7,11 @@ import {
   SafeAreaView as RSafeAreaView,
 } from 'react-native'
 
-export const View = motify(RView)()
-export const Text = motify(RText)()
-export const Image = motify(RImage)()
-export const ScrollView = motify(RScrollView)()
-export const SafeAreaView = motify(RSafeAreaView)()
+const View = motify(RView)()
+const Text = motify(RText)()
+const Image = motify(RImage)()
+const ScrollView = motify(RScrollView)()
+const SafeAreaView = motify(RSafeAreaView)()
 
 export * from './progress'
 
@@ -21,4 +21,9 @@ export {
   Image as MotiImage,
   ScrollView as MotiScrollView,
   SafeAreaView as MotiSafeAreaView,
+  View,
+  Text,
+  Image,
+  ScrollView,
+  SafeAreaView,
 }
