@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.17.0](https://github.com/nandorojo/moti/compare/v0.16.1...v0.17.0) (2021-12-15)
+
+
+### Bug Fixes
+
+* hover callback ([aae7e16](https://github.com/nandorojo/moti/commit/aae7e16e778e735e54e78220fb2cacfb4e27245d))
+
+
+### Features
+
+* add deps arrays, docs, & close [#120](https://github.com/nandorojo/moti/issues/120) ([96c01ec](https://github.com/nandorojo/moti/commit/96c01ec6d703560d834534543bc32c97f4a6740d))
+* focus props ([a3ec203](https://github.com/nandorojo/moti/commit/a3ec20347ac21f0ce5c39be4027f95518d9ac3c9))
+* interactions: export <MotiHover />, improve hover listeners; add onContainerLayout & onLayout ([b77bf3f](https://github.com/nandorojo/moti/commit/b77bf3fb91d94be875bca8c183d47203c3073a6d))
+* move skeleton into moti import ([dab7a4f](https://github.com/nandorojo/moti/commit/dab7a4f8f05d206a3cafb640023965830973c792))
+* pass accessibility props to MotiPressable ([38e7ca8](https://github.com/nandorojo/moti/commit/38e7ca83611f6019622911751f056835f20128a4))
+
+
+
+
+
 ## [0.16.1](https://github.com/nandorojo/moti/compare/v0.16.0...v0.16.1) (2021-11-03)
 
 **Note:** Version bump only for package @motify/interactions

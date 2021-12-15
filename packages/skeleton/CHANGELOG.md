@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.17.0](https://github.com/nandorojo/moti/compare/v0.16.1...v0.17.0) (2021-12-15)
+
+
+### Features
+
+* move skeleton into moti import ([dab7a4f](https://github.com/nandorojo/moti/commit/dab7a4f8f05d206a3cafb640023965830973c792))
+
+
+
+
+
 ## [0.16.1](https://github.com/nandorojo/moti/compare/v0.16.0...v0.16.1) (2021-11-03)
 
 **Note:** Version bump only for package @motify/skeleton

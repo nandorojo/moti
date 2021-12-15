@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.17.0](https://github.com/nandorojo/moti/compare/v0.16.1...v0.17.0) (2021-12-15)
+
+
+### Bug Fixes
+
+* custom types ([8586b26](https://github.com/nandorojo/moti/commit/8586b26bdd79449da77d2a1205377d3728e3e957))
+* dep ([2495f64](https://github.com/nandorojo/moti/commit/2495f64a4a7c42e9045ce8b79839a64f7999a652))
+
+
+### Features
+
+* add decay support ([be6618e](https://github.com/nandorojo/moti/commit/be6618eb8da49662831e3f53aa0fed94f779a850))
+* add deps arrays, docs, & close [#120](https://github.com/nandorojo/moti/issues/120) ([96c01ec](https://github.com/nandorojo/moti/commit/96c01ec6d703560d834534543bc32c97f4a6740d))
+
+
+
+
+
 ## [0.16.1](https://github.com/nandorojo/moti/compare/v0.16.0...v0.16.1) (2021-11-03)
 
 **Note:** Version bump only for package @motify/core
