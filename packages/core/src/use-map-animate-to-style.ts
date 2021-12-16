@@ -535,8 +535,7 @@ export function useMotify<Animate>({
       }
     }
 
-    // TODO
-    if (!final.transform?.length || final.transform == undefined) {
+    if (!final.transform?.length) {
       delete final.transform
     }
 
