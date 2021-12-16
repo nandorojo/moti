@@ -165,8 +165,7 @@ function animationConfig<Animate>(
       'stiffness',
       'velocity',
     ]
-    configKeys.forEach((configKey) => {
-      'worklet'
+    for (const configKey of configKeys) {
       const styleSpecificConfig = transition?.[key]?.[configKey]
       const transitionConfigForKey = transition?.[configKey]
 
@@ -175,7 +174,7 @@ function animationConfig<Animate>(
       } else if (transitionConfigForKey != null) {
         config[configKey] = transitionConfigForKey
       }
-    })
+    }
   } else if (animationType === 'decay') {
     animation = withDecay
     config = {
@@ -188,8 +187,7 @@ function animationConfig<Animate>(
       'deceleration',
       'velocityFactor',
     ]
-    configKeys.forEach((configKey) => {
-      'worklet'
+    for (const configKey of configKeys) {
       // is this necessary ^ don't think so...?
       const styleSpecificConfig = transition?.[key]?.[configKey]
       const transitionConfigForKey = transition?.[configKey]
@@ -199,7 +197,7 @@ function animationConfig<Animate>(
       } else if (transitionConfigForKey != null) {
         config[configKey] = transitionConfigForKey
       }
-    })
+    }
   }
 
   return {
@@ -211,7 +209,7 @@ function animationConfig<Animate>(
   }
 }
 
-export default function useMapAnimateToStyle<Animate>({
+export function useMotify<Animate>({
   animate: animateProp,
   from: fromProp = false,
   transition: transitionProp,
@@ -296,18 +294,10 @@ export default function useMapAnimateToStyle<Animate>({
       mergedStyles = Object.assign({}, exitStyle) as any
     }
 
-    debug('here')
-
-    // reduce doesn't work with spreads/reanimated Objects!
-    // const exitingStyleProps: Record<string, boolean> = Object.keys(
-    //   mergedStyles || {}
-    // ).reduce((obj, styleKey) => ({ ...obj, [styleKey]: true }), {})
-
-    // use forEach instead!
     const exitingStyleProps: Record<string, boolean> = {}
-    Object.keys(exitStyle || {}).forEach((key) => {
+    for (const key in exitStyle || {}) {
       exitingStyleProps[key] = true
-    })
+    }
 
     // allow shared values as transitions
     let transition: MotiTransition<Animate> | undefined
@@ -327,19 +317,8 @@ export default function useMapAnimateToStyle<Animate>({
       transition = Object.assign({}, transition, exitTransition)
     }
 
-    // const transformKeys = Object.keys(mergedStyles).filter((key) =>
-    //   isTransform(key)
-    // )
-    //
-    // if (transformKeys.length > 1) {
-    //   console.error(
-    //     `[${PackageName}] Multiple inline transforms found. This won't animate properly. Instead, pass these to a transform array: ${transformKeys.join(
-    //       ', '
-    //     )}`
-    //   )
-    // }
-
-    Object.keys(mergedStyles).forEach((key) => {
+    for (const _key in mergedStyles) {
+      const key = _key as string
       const value = mergedStyles[key]
 
       const {
@@ -377,23 +356,21 @@ export default function useMapAnimateToStyle<Animate>({
         // skip missing values
         // this is useful if you want to do {opacity: loading && 1}
         // without this, those values will break I think
-        return
+        continue
       }
 
       const getSequenceArray = (
         sequenceKey: string,
         sequenceArray: SequenceItem<any>[]
       ) => {
-        'worklet'
-        const sequence = sequenceArray
-          .filter((step) => {
-            // remove null, false values to allow for conditional styles
-            if (step && typeof step === 'object') {
-              return step?.value != null && step?.value !== false
-            }
-            return step != null && step !== false
-          })
-          .map((step) => {
+        const sequence: any[] = []
+
+        for (const step of sequenceArray) {
+          const shouldPush =
+            typeof step === 'object'
+              ? step && step?.value != null && step?.value !== false
+              : step != null && step !== false
+          if (shouldPush) {
             let stepDelay = delayMs
             let stepValue = step
             let stepConfig = Object.assign({}, config)
@@ -421,11 +398,11 @@ export default function useMapAnimateToStyle<Animate>({
 
             const sequenceValue = stepAnimation(stepValue, stepConfig, callback)
             if (stepDelay != null) {
-              return withDelay(stepDelay, sequenceValue)
+              sequence.push(withDelay(stepDelay, sequenceValue))
             }
-            return sequenceValue
-          })
-          .filter(Boolean)
+            sequence.push(sequenceValue)
+          }
+        }
 
         return sequence
       }
@@ -436,7 +413,7 @@ export default function useMapAnimateToStyle<Animate>({
             `[${PackageName}]: Invalid transform value. Needs to be an array.`
           )
         } else {
-          value.forEach((transformObject) => {
+          for (const transformObject of value) {
             final['transform'] = final['transform'] || []
             const transformKey = Object.keys(transformObject)[0]
             const transformValue = transformObject[transformKey]
@@ -476,7 +453,7 @@ export default function useMapAnimateToStyle<Animate>({
             if (Object.keys(transform).length) {
               final['transform'].push(transform)
             }
-          })
+          }
         }
       } else if (Array.isArray(value)) {
         // we have a sequence
@@ -531,7 +508,7 @@ export default function useMapAnimateToStyle<Animate>({
       } else if (typeof value === 'object') {
         // shadows
         final[key] = {}
-        Object.keys(value || {}).forEach((innerStyleKey) => {
+        for (const innerStyleKey in value || {}) {
           let finalValue = animation(value, config, callback)
 
           if (shouldRepeat) {
@@ -543,7 +520,7 @@ export default function useMapAnimateToStyle<Animate>({
           } else {
             final[key][innerStyleKey] = finalValue
           }
-        })
+        }
       } else {
         let finalValue = animation(value, config, callback)
         if (shouldRepeat) {
@@ -556,12 +533,12 @@ export default function useMapAnimateToStyle<Animate>({
           final[key] = finalValue
         }
       }
-    })
+    }
 
     // TODO
-    // if (!final.transform?.length) {
-    //   delete final.transform
-    // }
+    if (!final.transform?.length || final.transform == undefined) {
+      delete final.transform
+    }
 
     return final
   }, [
