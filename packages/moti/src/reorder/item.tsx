@@ -12,16 +12,17 @@ import React, {
 } from 'react'
 import { View, ViewStyle, ViewProps } from 'react-native'
 import {
-  Gesture,
-  GestureDetector,
   GestureUpdateEvent,
   PanGestureHandlerEventPayload,
+  PanGestureHandler,
+  PanGestureHandlerGestureEvent,
 } from 'react-native-gesture-handler'
 import {
   Transition,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
+  useAnimatedGestureHandler,
 } from 'react-native-reanimated'
 
 import { ReorderContext } from './context'
@@ -104,35 +105,68 @@ export function ReorderItem<V>(
     y: 0,
   })
 
-  const gesture = Gesture.Pan()
-    .onStart(({ translationX, translationY }) => {
-      prevPoint.value = {
-        x: translationX,
-        y: translationY,
-      }
-    })
-    .onUpdate((event) => {
-      const { velocityX, velocityY, translationY, translationX } = event
-      const velocity = axis === 'x' ? velocityX : velocityY
-      if (axis === 'x' || drag) {
-        pointX.value = translationX + prevPoint.value.x
-      }
-      if (axis === 'y' || drag) {
-        pointY.value = translationY + prevPoint.value.y
-      }
-      if (velocity) {
-        updateOrder(value, axis === 'x' ? pointX.value : pointY.value, velocity)
-      }
-      onDrag?.(event)
-    })
-    .onEnd(() => {
-      prevPoint.value = point.value
-    })
+  // const gesture = Gesture.Pan()
+  //   .onStart(({ translationX, translationY }) => {
+  //     prevPoint.value = {
+  //       x: translationX,
+  //       y: translationY,
+  //     }
+  //   })
+  //   .onUpdate((event) => {
+  //     const { velocityX, velocityY, translationY, translationX } = event
+  //     const velocity = axis === 'x' ? velocityX : velocityY
+  //     if (axis === 'x' || drag) {
+  //       pointX.value = translationX + prevPoint.value.x
+  //     }
+  //     if (axis === 'y' || drag) {
+  //       pointY.value = translationY + prevPoint.value.y
+  //     }
+  //     if (velocity) {
+  //       updateOrder(value, axis === 'x' ? pointX.value : pointY.value, velocity)
+  //     }
+  //     onDrag?.(event)
+  //   })
+  //   .onEnd(() => {
+  //     prevPoint.value = point.value
+  //   })
+
+  const panGestureHandler = useAnimatedGestureHandler<PanGestureHandlerGestureEvent>(
+    {
+      // onStart(event) {
+      //   const { translationX, translationY } = event
+      //   prevPoint.value = {
+      //     x: translationX,
+      //     y: translationY,
+      //   }
+      // },
+      onActive(event) {
+        const { velocityX, velocityY, translationY, translationX } = event
+        const velocity = axis === 'x' ? velocityX : velocityY
+        if (axis === 'x' || drag) {
+          pointX.value = translationX + prevPoint.value.x
+        }
+        if (axis === 'y' || drag) {
+          pointY.value = translationY + prevPoint.value.y
+        }
+        if (velocity) {
+          updateOrder(
+            value,
+            axis === 'x' ? pointX.value : pointY.value,
+            velocity
+          )
+        }
+        onDrag?.(event)
+      },
+      onEnd() {
+        prevPoint.value = point.value
+      },
+    }
+  )
 
   return (
-    <GestureDetector gesture={gesture}>
+    <PanGestureHandler onGestureEvent={panGestureHandler}>
       <Component
-        // {...props}
+        {...props}
         style={useMemo(() => [style, animatedStyle], [style, animatedStyle])}
         // @ts-expect-error they haven't updated types...
         layout={Transition}
@@ -153,11 +187,10 @@ export function ReorderItem<V>(
           },
           []
         )}
-        // ref={externalRef}
       >
         {children}
       </Component>
-    </GestureDetector>
+    </PanGestureHandler>
   )
 }
 

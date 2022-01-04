@@ -24,7 +24,7 @@ function Item({ item }: { item: string }) {
 }
 
 export default function HelloWorld() {
-  const [items, setItems] = useState(['Car', 'Bike', 'Boat'])
+  const [items, setItems] = useState(['🚗 Car', '🚴‍♂️ Bike', '🚢 Boat'])
 
   return (
     <Pressable style={styles.container}>

@@ -93,6 +93,11 @@ export function ReorderGroup<V>(
     },
     updateOrder: (id, offset, velocity) => {
       'worklet'
+      console.log('[update-order]', {
+        id,
+        offset,
+        velocity,
+      })
       if (isReordering.current) return
 
       const newOrder = checkReorder(order, id, offset, velocity)
