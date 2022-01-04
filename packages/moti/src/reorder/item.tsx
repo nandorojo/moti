@@ -1,7 +1,8 @@
 // @ts-nocheck
 // forked from https://github.com/framer/motion/blob/main/src/components/Reorder/Item.tsx
 import type { MotiView } from '@motify/components'
-import { motify, useReactiveSharedValue } from '@motify/core'
+import { motify } from '@motify/core'
+import { motion } from 'framer-motion'
 import { Box } from 'framer-motion/types/projection/geometry/types'
 import React, {
   useContext,
@@ -10,7 +11,7 @@ import React, {
   forwardRef,
   useMemo,
 } from 'react'
-import { View, ViewStyle, ViewProps } from 'react-native'
+import { View, ViewStyle, ViewProps, Platform } from 'react-native'
 import {
   GestureUpdateEvent,
   PanGestureHandlerEventPayload,
@@ -25,7 +26,6 @@ import Animated, {
   useAnimatedGestureHandler,
   withTiming,
 } from 'react-native-reanimated'
-import { motion } from 'framer-motion'
 
 import { ReorderContext } from './context'
 import { useConstant } from './use-constant'
@@ -103,6 +103,17 @@ export function ReorderItem<V>(
 
   const shouldShift = useSharedValue(true)
 
+  const shift = useSharedValue({
+    x: 0,
+    y: 0,
+  })
+  useEffect(() => {
+    shift.value = {
+      x: 0,
+      y: 0,
+    }
+  })
+
   useEffect(() => {
     // a hack to make sure that re-rendering the order doesn't make us "double count" our drag position.
     // if we go from index 2 to 1, then it re-renders, it immediately jumps from 0 to 1, since our
@@ -131,12 +142,9 @@ export function ReorderItem<V>(
         if (axis === 'y') {
           pointY.value = translationY
         }
+        shift.value[axis] = axis === 'x' ? translationX : translationY
         if (velocity && shouldShift.value) {
-          updateOrder(
-            value,
-            axis === 'x' ? pointX.value : pointY.value,
-            velocity
-          )
+          updateOrder(value, shift.value[axis], velocity)
         }
         onDrag?.(event)
       },
@@ -144,18 +152,14 @@ export function ReorderItem<V>(
         isDragging.value = false
         pointY.value = withTiming(0)
         pointX.value = withTiming(0)
+        shift.value = {
+          x: 0,
+          y: 0,
+        }
       },
     }
   )
 
-  const placeholderStyle = useAnimatedStyle(
-    () => ({
-      width: placeholderDimensions.value.width,
-      height: placeholderDimensions.value.height,
-      display: isDragging.value ? 'flex' : 'none',
-    }),
-    [isDragging, placeholderDimensions]
-  )
   const animatedStyle = useAnimatedStyle(
     () => ({
       transform: [{ translateX: pointX.value }, { translateY: pointY.value }],
@@ -165,10 +169,14 @@ export function ReorderItem<V>(
     [point]
   )
 
+  const Layout = Platform.select({
+    web: motion.div,
+    default: View,
+  })
+
   return (
-    <motion.div layout>
+    <Layout layout>
       <Animated.View>
-        {/* <Animated.View style={placeholderStyle} /> */}
         <PanGestureHandler onGestureEvent={panGestureHandler}>
           <Component
             layout={Transition}
@@ -205,7 +213,7 @@ export function ReorderItem<V>(
           </Component>
         </PanGestureHandler>
       </Animated.View>
-    </motion.div>
+    </Layout>
   )
 }
 
