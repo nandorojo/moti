@@ -17,13 +17,15 @@ import {
   PanGestureHandler,
   PanGestureHandlerGestureEvent,
 } from 'react-native-gesture-handler'
-import {
+import Animated, {
   Transition,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
   useAnimatedGestureHandler,
+  withTiming,
 } from 'react-native-reanimated'
+import { motion } from 'framer-motion'
 
 import { ReorderContext } from './context'
 import { useConstant } from './use-constant'
@@ -74,6 +76,11 @@ export function ReorderItem<V>(
 
   const layout = useRef<Box | null>(null)
 
+  const placeholderDimensions = useSharedValue({
+    width: 0,
+    height: 0,
+  })
+
   if (!context) {
     console.error('Reorder.Item must be a child of Reorder.Group')
   }
@@ -92,63 +99,39 @@ export function ReorderItem<V>(
     y: pointY.value,
   }))
 
-  const animatedStyle = useAnimatedStyle(
-    () => ({
-      transform: [{ translateX: pointX.value }, { translateY: pointY.value }],
-      zIndex: point.value[axis] ? 1 : undefined,
-    }),
-    [point]
-  )
+  const isDragging = useSharedValue(false)
 
-  const prevPoint = useSharedValue({
-    x: 0,
-    y: 0,
+  const shouldShift = useSharedValue(true)
+
+  useEffect(() => {
+    // a hack to make sure that re-rendering the order doesn't make us "double count" our drag position.
+    // if we go from index 2 to 1, then it re-renders, it immediately jumps from 0 to 1, since our
+    // pointY is still -60px (for example), which is enough to go back again.
+    // we could reset the pointY to 0, but then it like snaps into place weirdly
+    // maybe we need to maintain 2 different memories: one for the actual translateY, and one for the offset
+    if (isDragging.value) {
+      shouldShift.value = false
+      setTimeout(() => {
+        shouldShift.value = true
+      }, 300)
+    }
   })
-
-  // const gesture = Gesture.Pan()
-  //   .onStart(({ translationX, translationY }) => {
-  //     prevPoint.value = {
-  //       x: translationX,
-  //       y: translationY,
-  //     }
-  //   })
-  //   .onUpdate((event) => {
-  //     const { velocityX, velocityY, translationY, translationX } = event
-  //     const velocity = axis === 'x' ? velocityX : velocityY
-  //     if (axis === 'x' || drag) {
-  //       pointX.value = translationX + prevPoint.value.x
-  //     }
-  //     if (axis === 'y' || drag) {
-  //       pointY.value = translationY + prevPoint.value.y
-  //     }
-  //     if (velocity) {
-  //       updateOrder(value, axis === 'x' ? pointX.value : pointY.value, velocity)
-  //     }
-  //     onDrag?.(event)
-  //   })
-  //   .onEnd(() => {
-  //     prevPoint.value = point.value
-  //   })
 
   const panGestureHandler = useAnimatedGestureHandler<PanGestureHandlerGestureEvent>(
     {
-      // onStart(event) {
-      //   const { translationX, translationY } = event
-      //   prevPoint.value = {
-      //     x: translationX,
-      //     y: translationY,
-      //   }
-      // },
+      onStart() {
+        isDragging.value = true
+      },
       onActive(event) {
         const { velocityX, velocityY, translationY, translationX } = event
         const velocity = axis === 'x' ? velocityX : velocityY
-        if (axis === 'x' || drag) {
-          pointX.value = translationX + prevPoint.value.x
+        if (axis === 'x') {
+          pointX.value = translationX
         }
-        if (axis === 'y' || drag) {
-          pointY.value = translationY + prevPoint.value.y
+        if (axis === 'y') {
+          pointY.value = translationY
         }
-        if (velocity) {
+        if (velocity && shouldShift.value) {
           updateOrder(
             value,
             axis === 'x' ? pointX.value : pointY.value,
@@ -158,39 +141,71 @@ export function ReorderItem<V>(
         onDrag?.(event)
       },
       onEnd() {
-        prevPoint.value = point.value
+        isDragging.value = false
+        pointY.value = withTiming(0)
+        pointX.value = withTiming(0)
       },
     }
   )
 
-  return (
-    <PanGestureHandler onGestureEvent={panGestureHandler}>
-      <Component
-        {...props}
-        style={useMemo(() => [style, animatedStyle], [style, animatedStyle])}
-        // @ts-expect-error they haven't updated types...
-        layout={Transition}
-        onLayout={useMemo(
-          () => ({ nativeEvent }) => {
-            const { x, y, width, height } = nativeEvent.layout
+  const placeholderStyle = useAnimatedStyle(
+    () => ({
+      width: placeholderDimensions.value.width,
+      height: placeholderDimensions.value.height,
+      display: isDragging.value ? 'flex' : 'none',
+    }),
+    [isDragging, placeholderDimensions]
+  )
+  const animatedStyle = useAnimatedStyle(
+    () => ({
+      transform: [{ translateX: pointX.value }, { translateY: pointY.value }],
+      zIndex: point.value[axis] ? 1 : undefined,
+      // position: isDragging.value ? 'absolute' : 'relative',
+    }),
+    [point]
+  )
 
-            layout.current = {
-              x: {
-                min: x,
-                max: x + width,
+  return (
+    <motion.div layout>
+      <Animated.View>
+        {/* <Animated.View style={placeholderStyle} /> */}
+        <PanGestureHandler onGestureEvent={panGestureHandler}>
+          <Component
+            layout={Transition}
+            {...props}
+            style={useMemo(() => [style, animatedStyle], [
+              style,
+              animatedStyle,
+            ])}
+            onLayout={useMemo(
+              () => ({ nativeEvent }) => {
+                const { x, y, width, height } = nativeEvent.layout
+
+                placeholderDimensions.value = {
+                  width,
+                  height,
+                }
+
+                layout.current = {
+                  x: {
+                    min: x,
+                    max: x + width,
+                  },
+                  y: {
+                    min: y,
+                    max: y + height,
+                  },
+                }
+                registerItem(value, layout.current!)
               },
-              y: {
-                min: y,
-                max: y + height,
-              },
-            }
-          },
-          []
-        )}
-      >
-        {children}
-      </Component>
-    </PanGestureHandler>
+              []
+            )}
+          >
+            {children}
+          </Component>
+        </PanGestureHandler>
+      </Animated.View>
+    </motion.div>
   )
 }
 

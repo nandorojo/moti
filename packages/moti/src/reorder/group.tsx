@@ -80,36 +80,39 @@ export function ReorderGroup<V>(
     console.warn('Reorder.Group must be provided a values prop')
   }
 
-  const context: ReorderContextProps<any> = {
-    axis,
-    registerItem: (value, layout) => {
-      /**
-       * Ensure entries can't add themselves more than once
-       */
-      if (layout && order.findIndex((entry) => value === entry.value) === -1) {
-        order.push({ value, layout: layout[axis] })
-        order.sort(compareMin)
-      }
-    },
-    updateOrder: (id, offset, velocity) => {
-      'worklet'
-      console.log('[update-order]', {
-        id,
-        offset,
-        velocity,
-      })
-      if (isReordering.current) return
+  const context: ReorderContextProps<any> = React.useMemo(
+    () => ({
+      axis,
+      registerItem: (value, layout) => {
+        /**
+         * Ensure entries can't add themselves more than once
+         */
+        if (
+          layout &&
+          order.findIndex((entry) => value === entry.value) === -1
+        ) {
+          order.push({ value, layout: layout[axis] })
+          order.sort(compareMin)
+        }
+      },
+      updateOrder: (id, offset, velocity) => {
+        'worklet'
+        if (isReordering.current) return
 
-      const newOrder = checkReorder(order, id, offset, velocity)
+        const newOrder = checkReorder(order, id, offset, velocity)
 
-      if (order !== newOrder) {
-        isReordering.current = true
-        runOnJS(onReorder)(
-          newOrder.map(getValue).filter((value) => values.indexOf(value) !== -1)
-        )
-      }
-    },
-  }
+        if (order !== newOrder) {
+          isReordering.current = true
+          runOnJS(onReorder)(
+            newOrder
+              .map(getValue)
+              .filter((value) => values.indexOf(value) !== -1)
+          )
+        }
+      },
+    }),
+    [values, axis, onReorder]
+  )
 
   useEffect(() => {
     isReordering.current = false
