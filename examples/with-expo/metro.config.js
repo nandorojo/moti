@@ -16,6 +16,19 @@ config.resolver.nodeModulesPath = [
   path.resolve(workspaceRoot, 'node_modules'),
 ]
 
+const defaultSourceExts = require('metro-config/src/defaults/defaults')
+  .sourceExts
+
+// fix framer-motion 5 on native
+// https://github.com/facebook/metro/issues/535#issuecomment-970443661
+config.resolver.sourceExts = process.env.RN_SRC_EXT
+  ? [
+      ...process.env.RN_SRC_EXT.split(',').concat(defaultSourceExts),
+      'mjs',
+      'cjs',
+    ] // <-- mjs added here
+  : [...defaultSourceExts, 'mjs', 'cjs']
+
 config.transformer = {
   ...config.transformer,
   minifierPath: 'metro-minify-esbuild',

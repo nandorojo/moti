@@ -7,7 +7,13 @@ const node_modules = path.resolve(__dirname, '../..', 'node_modules')
 const packages = path.resolve(__dirname, '../..', 'packages')
 
 module.exports = async function (env, argv) {
-  const config = await createExpoWebpackConfigAsync(env, argv)
+  const config = await createExpoWebpackConfigAsync(
+    {
+      ...env,
+      babel: { dangerouslyAddModulePathsToTranspile: ['framer-motion'] },
+    },
+    argv
+  )
 
   config.context = path.resolve(__dirname, '../..')
 
@@ -16,6 +22,13 @@ module.exports = async function (env, argv) {
     include: /(packages|example)\/.+/,
     exclude: /node_modules/,
     use: 'babel-loader',
+  })
+
+  // fix framer-motion 5
+  config.module.rules.push({
+    type: 'javascript/auto',
+    test: /\.mjs$/,
+    use: [],
   })
 
   // TODO: This doesn't seem to work but maybe something similar
@@ -35,18 +48,22 @@ module.exports = async function (env, argv) {
     '@expo/vector-icons': path.resolve(node_modules, '@expo/vector-icons'),
   })
 
-  fs.readdirSync(packages)
-    .filter((name) => !name.startsWith('.'))
-    .forEach((name) => {
-      console.log(name, packages)
-      config.resolve.alias[
-        name === 'moti' ? 'moti' : `@motify/${name}`
-      ] = path.resolve(
-        packages,
-        name,
-        require(`../../packages/${name}/package.json`).source
-      )
-    })
+  fs.readdirSync(packages).forEach((name) => {
+    console.log(name, packages)
+    config.resolve.alias[
+      name === 'moti' ? 'moti$' : `@motify/${name}`
+    ] = path.resolve(
+      packages,
+      name,
+      require(`../../packages/${name}/package.json`).source
+    )
+  })
+  config.resolve.alias['moti/reorder'] = path.resolve(
+    packages,
+    'moti',
+    'src/reorder',
+    'index.tsx'
+  )
 
   return config
 }

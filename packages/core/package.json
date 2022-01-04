@@ -29,7 +29,7 @@
     "!**/__tests__"
   ],
   "dependencies": {
-    "framer-motion": "^3.9.1"
+    "framer-motion": "^4"
   },
   "sideEffects": false,
   "gitHead": "a87dd85f8ef10fd1a45bdb820328a4c22f9a5392",
