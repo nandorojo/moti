@@ -130,6 +130,7 @@ export function ReorderGroup<V>(
 export const Group = forwardRef(ReorderGroup)
 
 function getValue<V>(item: ItemData<V>) {
+  'worklet'
   return item.value
 }
 
