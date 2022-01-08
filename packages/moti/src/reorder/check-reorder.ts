@@ -1,10 +1,12 @@
 // @ts-nocheck
 // forked from https://github.com/framer/motion/blob/main/src/components/Reorder/utils/check-reorder.ts
 import { ItemData } from 'framer-motion/types/components/Reorder/types'
-import { mix } from 'popmotion'
+
+import { mix } from './mix'
 
 // From https://github.com/framer/motion/blob/main/src/utils/array.ts#L10
 export function moveItem<T>([...arr]: T[], fromIndex: number, toIndex: number) {
+  'worklet'
   const startIndex = fromIndex < 0 ? arr.length + fromIndex : fromIndex
 
   if (startIndex >= 0 && startIndex < arr.length) {
