@@ -1,7 +1,7 @@
 const aliasPackages = (...packageNames) => {
   const alias = {}
   for (const packageName of packageNames) {
-    alias[`moti/${packageName}`] = `../../packages/${packageName}/src`
+    alias[`moti/${packageName}`] = `../../packages/moti/src/${packageName}`
   }
   return alias
 }
