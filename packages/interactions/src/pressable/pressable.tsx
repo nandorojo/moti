@@ -1,12 +1,11 @@
 import React, { useMemo, ReactNode, forwardRef } from 'react'
 import { Platform, Pressable } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
-import Animated, {
+import {
   useSharedValue,
   runOnJS,
   useDerivedValue,
 } from 'react-native-reanimated'
-import { MotiView } from '@motify/components'
 import type { View } from 'react-native'
 import type { MotiPressableInteractionState, MotiPressableProps } from './types'
 import {
@@ -15,10 +14,10 @@ import {
   INTERACTION_CONTAINER_ID,
 } from './context'
 import { Hoverable } from './hoverable'
+import { motify } from 'packages/core/lib/typescript/src'
 
-const AnimatedTouchable = Animated.createAnimatedComponent(
-  TouchableWithoutFeedback
-)
+const MotiTouchable = motify(TouchableWithoutFeedback)()
+const MotiRNPressable = motify(Pressable)()
 
 export const MotiPressable = forwardRef<View, MotiPressableProps>(
   function MotiPressable(props, ref) {
@@ -38,13 +37,11 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
       onLongPress,
       hitSlop,
       disabled,
-      containerStyle,
       dangerouslySilenceDuplicateIdsWarning = false,
       id,
       hoveredValue,
       pressedValue,
       onLayout,
-      onContainerLayout,
       // Accessibility props
       accessibilityActions,
       accessibilityElementsHidden,
@@ -114,20 +111,6 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
       }
     }
 
-    const child = (
-      <MotiView
-        from={from}
-        exit={exit}
-        transition={transition}
-        exitTransition={exitTransition}
-        state={state}
-        style={style}
-        onLayout={onLayout}
-      >
-        {children}
-      </MotiView>
-    )
-
     let node: ReactNode
     if (Platform.OS === 'web') {
       node = (
@@ -136,16 +119,15 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
           onHoverOut={updateInteraction('hovered', false, onHoverOut)}
           childRef={ref}
         >
-          <Pressable
+          <MotiRNPressable
             onLongPress={onLongPress}
             hitSlop={hitSlop}
             disabled={disabled}
-            style={containerStyle}
             onPress={onPress}
             onPressIn={updateInteraction('pressed', true, onPressIn)}
             onPressOut={updateInteraction('pressed', false, onPressOut)}
             ref={ref}
-            onLayout={onContainerLayout}
+            onLayout={onLayout}
             // Accessibility props
             accessibilityActions={accessibilityActions}
             accessibilityElementsHidden={accessibilityElementsHidden}
@@ -165,24 +147,28 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
             // @ts-expect-error RNW types
             onFocus={onFocus}
             onBlur={onBlur}
+            from={from}
+            exit={exit}
+            transition={transition}
+            exitTransition={exitTransition}
+            state={state}
+            style={style}
           >
-            {child}
-          </Pressable>
+            {children}
+          </MotiRNPressable>
         </Hoverable>
       )
     } else {
       node = (
-        <AnimatedTouchable
+        <MotiTouchable
           onPressIn={updateInteraction('pressed', true, onPressIn)}
           onPressOut={updateInteraction('pressed', false, onPressOut)}
           onLongPress={onLongPress}
           hitSlop={hitSlop}
           disabled={disabled}
           onPress={onPress}
-          // @ts-expect-error incorrect ref types, lol
           ref={ref}
-          onLayout={onContainerLayout}
-          containerStyle={containerStyle}
+          onLayout={onLayout}
           // Accessibility props
           accessibilityActions={accessibilityActions}
           accessibilityElementsHidden={accessibilityElementsHidden}
@@ -201,9 +187,15 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
           importantForAccessibility={importantForAccessibility}
           onFocus={onFocus}
           onBlur={onBlur}
+          from={from}
+          exit={exit}
+          transition={transition}
+          exitTransition={exitTransition}
+          state={state}
+          style={style}
         >
-          {child}
-        </AnimatedTouchable>
+          {children}
+        </MotiTouchable>
       )
     }
 
