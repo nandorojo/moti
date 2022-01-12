@@ -182,7 +182,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
           // @ts-expect-error incorrect ref types, lol
           ref={ref}
           onLayout={onContainerLayout}
-          containerStyle={containerStyle}
+          style={containerStyle}
           // Accessibility props
           accessibilityActions={accessibilityActions}
           accessibilityElementsHidden={accessibilityElementsHidden}
