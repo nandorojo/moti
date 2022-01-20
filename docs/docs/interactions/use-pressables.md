@@ -30,9 +30,9 @@ const ListItem = ({ id }) => {
       opacity,
     }
   }, [])
-}
 
-return <MotiView state={state} />
+  return <MotiView state={state} />
+}
 ```
 
 ## Walk Through
