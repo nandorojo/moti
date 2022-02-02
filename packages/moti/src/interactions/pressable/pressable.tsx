@@ -108,6 +108,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
         hovered.value = enabled
       } else if (event === 'pressed') {
         pressed.value = enabled
+        hovered.value = false
       }
       if (callback) {
         runOnJS(callback)()

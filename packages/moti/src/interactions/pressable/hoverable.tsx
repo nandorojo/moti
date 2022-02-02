@@ -35,9 +35,19 @@ if (canUseDOM) {
     }
   }
 
-  document.addEventListener('touchstart', disableHover, true)
-  document.addEventListener('touchmove', disableHover, true)
-  document.addEventListener('mousemove', enableHover, true)
+  document.addEventListener('touchstart', disableHover, {
+    // https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
+    capture: true,
+    passive: true,
+  })
+  document.addEventListener('touchmove', disableHover, {
+    capture: true,
+    passive: true,
+  })
+  document.addEventListener('mousemove', enableHover, {
+    capture: true,
+    passive: true,
+  })
 }
 
 function isHoverEnabled(): boolean {
