@@ -69,15 +69,16 @@ const isTransform = (styleKey: string) => {
 }
 
 function animationDelay<Animate>(
-  key: string,
+  _key: string,
   transition: MotiTransition<Animate> | undefined,
   defaultDelay?: number
 ) {
   'worklet'
+  const key = _key as keyof Animate
   let delayMs: TransitionConfig['delay'] = defaultDelay
 
-  if ((transition as any)?.[key as keyof Animate]?.delay != null) {
-    delayMs = (transition as any)?.[key as keyof Animate]?.delay
+  if (transition?.[key]?.delay != null) {
+    delayMs = transition?.[key]?.delay
   } else if (transition?.delay != null) {
     delayMs = transition.delay
   }
@@ -93,37 +94,39 @@ function animationConfig<Animate>(
 ) {
   'worklet'
 
-  const key = styleProp
+  const key = styleProp as Extract<keyof Animate, string>
   let repeatCount = 0
   let repeatReverse = true
 
   let animationType: Required<TransitionConfig>['type'] = 'spring'
   if (isColor(key) || key === 'opacity') animationType = 'timing'
 
+  const styleSpecificTransition = transition?.[key]
+
   // say that we're looking at `width`
   // first, check if we have transition.width.type
-  if ((transition as any)?.[key as keyof Animate]?.type) {
-    animationType = (transition as any)[key]?.type
+
+  if (styleSpecificTransition?.type) {
+    animationType = styleSpecificTransition.type
   } else if (transition?.type) {
     // otherwise, fallback to transition.type
     animationType = transition.type
   }
 
-  const loop =
-    (transition as any)?.[key as keyof Animate]?.loop ?? transition?.loop
+  const loop = styleSpecificTransition?.loop ?? transition?.loop
 
   if (loop != null) {
     repeatCount = loop ? -1 : 0
   }
 
-  if ((transition as any)?.[key as keyof Animate]?.repeat != null) {
-    repeatCount = (transition as any)?.[key as keyof Animate]?.repeat
+  if (styleSpecificTransition?.repeat != null) {
+    repeatCount = styleSpecificTransition?.repeat
   } else if (transition?.repeat != null) {
     repeatCount = transition.repeat
   }
 
-  if ((transition as any)?.[key as keyof Animate]?.repeatReverse != null) {
-    repeatReverse = (transition as any)?.[key as keyof Animate]?.repeatReverse
+  if (styleSpecificTransition?.repeatReverse != null) {
+    repeatReverse = styleSpecificTransition.repeatReverse
   } else if (transition?.repeatReverse != null) {
     repeatReverse = transition.repeatReverse
   }
@@ -136,12 +139,12 @@ function animationConfig<Animate>(
 
   if (animationType === 'timing') {
     const duration =
-      ((transition as any)?.[key as keyof Animate] as WithTimingConfig)
-        ?.duration ?? (transition as WithTimingConfig)?.duration
+      (transition?.[key] as WithTimingConfig | undefined)?.duration ??
+      (transition as WithTimingConfig | undefined)?.duration
 
     const easing =
-      ((transition as any)?.[key as keyof Animate] as WithTimingConfig)
-        ?.easing ?? (transition as WithTimingConfig)?.easing
+      (transition?.[key] as WithTimingConfig | undefined)?.easing ??
+      (transition as WithTimingConfig | undefined)?.easing
 
     if (easing) {
       config['easing'] = easing
@@ -152,10 +155,7 @@ function animationConfig<Animate>(
     animation = withTiming
   } else if (animationType === 'spring') {
     animation = withSpring
-    config = {
-      // solve the missing velocity bug in 2.0.0-rc.0
-      // velocity: 2,
-    } as WithSpringConfig
+    config = {} as WithSpringConfig
     const configKeys: (keyof WithSpringConfig)[] = [
       'damping',
       'mass',
