@@ -399,8 +399,9 @@ export function useMotify<Animate>({
             const sequenceValue = stepAnimation(stepValue, stepConfig, callback)
             if (stepDelay != null) {
               sequence.push(withDelay(stepDelay, sequenceValue))
+            } else {
+              sequence.push(sequenceValue)
             }
-            sequence.push(sequenceValue)
           }
         }
 
