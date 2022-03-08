@@ -101,6 +101,10 @@ export type MotiPressableProps = {
    */
   onContainerLayout?: PressableProps['onLayout']
   href?: string
+  /**
+   * Web-only.
+   */
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
 } & Pick<
   ComponentProps<typeof MotiView>,
   'children' | 'exit' | 'from' | 'exitTransition' | 'style' | 'onLayout'

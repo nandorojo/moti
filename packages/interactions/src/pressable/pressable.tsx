@@ -64,6 +64,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
       onFocus,
       onBlur,
       href,
+      onClick,
     } = props
 
     const _hovered = useSharedValue(false)
@@ -167,6 +168,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
             onFocus={onFocus}
             onBlur={onBlur}
             href={href}
+            onClick={onClick}
           >
             {child}
           </Pressable>
