@@ -65,12 +65,17 @@ Relevant release notes for v0.5.2-rc1 [here](https://github.com/facebook/hermes/
 
 Upgrade Hermes to `0.7.*`.
 
-### Possible error
-
+### Possible errors
 As mentioned in this [Moti issue](https://github.com/nandorojo/moti/issues/13), if you don't install the correct version of Hermes, you might see this error:
 
 ```sh
 Property 'Proxy' doesn't exist, js engine: hermes [Mon Feb 08 2021 19:21:54.427] ERROR Invariant Violation: Module AppRegistry is not a registered callable module (calling runApplication), js engine: hermes
+```
+
+As mentioned in this [Moti issue](https://github.com/nandorojo/moti/issues/114), if you encounter `Cannot read property 'MotiView'` or similar errors, make sure to import react-native-reanimated into your App.js (or .ts).
+```js
+// App.js
+import 'react-native-reanimated'
 ```
 
 ## Using inline requires
