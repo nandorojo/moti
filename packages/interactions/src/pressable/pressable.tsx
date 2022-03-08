@@ -63,6 +63,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
       importantForAccessibility,
       onFocus,
       onBlur,
+      href,
     } = props
 
     const _hovered = useSharedValue(false)
@@ -165,6 +166,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
             // @ts-expect-error RNW types
             onFocus={onFocus}
             onBlur={onBlur}
+            href={href}
           >
             {child}
           </Pressable>

@@ -1,10 +1,10 @@
 import React, { useReducer } from 'react'
 import { StyleSheet, Pressable } from 'react-native'
-import { View } from 'moti'
+import { MotiView } from 'moti'
 
 function Shape() {
   return (
-    <View
+    <MotiView
       from={{
         opacity: 0,
         translateX: -100,
@@ -20,12 +20,45 @@ function Shape() {
   )
 }
 
+function ShapeRotator() {
+  return (
+    <MotiView
+      from={{
+        opacity: 0,
+        scale: 0.5,
+        rotateZ: '0deg',
+        borderRadius: 25,
+      }}
+      animate={{
+        opacity: [1, { value: 0, delay: 1700 }],
+        scale: [1, { value: 0.5, delay: 1500 }],
+        rotateZ: '170deg',
+        borderRadius: 125,
+      }}
+      onDidAnimate={(key, finished, value, { attemptedValue }) => {
+        finished && console.log('[moti]', key, value, attemptedValue)
+      }}
+      transition={{
+        rotateZ: {
+          delay: 900,
+        },
+        borderRadius: {
+          delay: 950,
+          type: 'timing',
+          duration: 300,
+        },
+      }}
+      style={styles.shape}
+    />
+  )
+}
+
 export default function HelloWorld() {
   const [visible, toggle] = useReducer((s) => !s, true)
 
   return (
     <Pressable onPress={toggle} style={styles.container}>
-      {visible && <Shape />}
+      {visible && <ShapeRotator />}
     </Pressable>
   )
 }
@@ -35,7 +68,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 250,
     width: 250,
-    borderRadius: 25,
     marginRight: 10,
     backgroundColor: 'black',
   },
