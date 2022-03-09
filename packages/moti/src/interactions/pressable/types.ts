@@ -100,6 +100,7 @@ export type MotiPressableProps = {
    * `onLayout` for the container component.
    */
   onContainerLayout?: PressableProps['onLayout']
+  href?: string
 } & Pick<
   ComponentProps<typeof MotiView>,
   'children' | 'exit' | 'from' | 'exitTransition' | 'style' | 'onLayout'

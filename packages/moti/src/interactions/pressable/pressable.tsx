@@ -1,20 +1,21 @@
+import { MotiView } from '@motify/components'
 import React, { useMemo, ReactNode, forwardRef } from 'react'
 import { Platform, Pressable } from 'react-native'
+import type { View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import Animated, {
   useSharedValue,
   runOnJS,
   useDerivedValue,
 } from 'react-native-reanimated'
-import { MotiView } from '@motify/components'
-import type { View } from 'react-native'
-import type { MotiPressableInteractionState, MotiPressableProps } from './types'
+
 import {
   MotiPressableContext,
   useMotiPressableContext,
   INTERACTION_CONTAINER_ID,
 } from './context'
 import { Hoverable } from './hoverable'
+import type { MotiPressableInteractionState, MotiPressableProps } from './types'
 
 const AnimatedTouchable = Animated.createAnimatedComponent(
   TouchableWithoutFeedback
@@ -63,6 +64,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
       importantForAccessibility,
       onFocus,
       onBlur,
+      href,
     } = props
 
     const _hovered = useSharedValue(false)
@@ -165,6 +167,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
             // @ts-expect-error RNW types
             onFocus={onFocus}
             onBlur={onBlur}
+            href={href}
           >
             {child}
           </Pressable>
@@ -179,7 +182,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
           hitSlop={hitSlop}
           disabled={disabled}
           onPress={onPress}
-          // @ts-expect-error incorrect ref type
+          // @ts-expect-error incorrect ref types, lol
           ref={ref}
           onLayout={onContainerLayout}
           containerStyle={containerStyle}
