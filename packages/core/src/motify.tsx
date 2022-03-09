@@ -54,7 +54,7 @@ export default function motify<
       {
         animate,
         style,
-        from = false as const,
+        from,
         transition,
         delay,
         state,

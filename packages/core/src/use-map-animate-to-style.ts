@@ -36,36 +36,41 @@ const debug = (...args: any[]) => {
 
 const isColor = (styleKey: string) => {
   'worklet'
-  return [
-    'backgroundColor',
-    'borderBottomColor',
-    'borderColor',
-    'borderEndColor',
-    'borderLeftColor',
-    'borderRightColor',
-    'borderStartColor',
-    'borderTopColor',
-    'color',
-  ].includes(styleKey)
+  const keys = {
+    backgroundColor: true,
+    borderBottomColor: true,
+    borderLeftColor: true,
+    borderRightColor: true,
+    borderTopColor: true,
+    color: true,
+    shadowColor: true,
+    borderColor: true,
+    borderEndColor: true,
+    borderStartColor: true,
+  }
+
+  return Boolean(keys[styleKey])
 }
 
 const isTransform = (styleKey: string) => {
   'worklet'
-  const transforms: (keyof Transforms)[] = [
-    'perspective',
-    'rotate',
-    'rotateX',
-    'rotateY',
-    'rotateZ',
-    'scale',
-    'scaleX',
-    'scaleY',
-    'translateX',
-    'translateY',
-    'skewX',
-    'skewY',
-  ]
-  return transforms.includes(styleKey as keyof Transforms)
+
+  const transforms: Record<keyof Transforms, true> = {
+    perspective: true,
+    rotate: true,
+    rotateX: true,
+    rotateY: true,
+    rotateZ: true,
+    scale: true,
+    scaleX: true,
+    scaleY: true,
+    translateX: true,
+    translateY: true,
+    skewX: true,
+    skewY: true,
+  }
+
+  return Boolean(transforms[styleKey])
 }
 
 function animationDelay<Animate>(
@@ -243,11 +248,11 @@ export function useMotify<Animate>({
     [onDidAnimate]
   )
 
-  const hasExitStyle = !!(
+  const hasExitStyle = Boolean(
     typeof exitProp === 'function' ||
-    (typeof exitProp === 'object' &&
-      exitProp &&
-      Object.keys(exitProp).length > 0)
+      (typeof exitProp === 'object' &&
+        exitProp &&
+        Object.keys(exitProp).length > 0)
   )
 
   const style = useAnimatedStyle(() => {
