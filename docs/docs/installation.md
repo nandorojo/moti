@@ -73,6 +73,7 @@ Property 'Proxy' doesn't exist, js engine: hermes [Mon Feb 08 2021 19:21:54.427]
 ```
 
 As mentioned in this [Moti issue](https://github.com/nandorojo/moti/issues/114), if you encounter `Cannot read property 'MotiView'` or similar errors, make sure to import react-native-reanimated into your App.js (or .ts).
+
 ```js
 // App.js
 import 'react-native-reanimated'
