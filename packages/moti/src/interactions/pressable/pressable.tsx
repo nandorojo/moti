@@ -3,7 +3,7 @@ import React, { useMemo, ReactNode, forwardRef } from 'react'
 import { Platform, Pressable } from 'react-native'
 import type { View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
-import Animated, {
+import {
   useSharedValue,
   runOnJS,
   useDerivedValue,
@@ -16,10 +16,6 @@ import {
 } from './context'
 import { Hoverable } from './hoverable'
 import type { MotiPressableInteractionState, MotiPressableProps } from './types'
-
-const AnimatedTouchable = Animated.createAnimatedComponent(
-  TouchableWithoutFeedback
-)
 
 export const MotiPressable = forwardRef<View, MotiPressableProps>(
   function MotiPressable(props, ref) {
@@ -126,7 +122,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
         style={style}
         onLayout={onLayout}
       >
-        {children}
+        {typeof children == 'function' ? children(interaction) : children}
       </MotiView>
     )
 
@@ -175,7 +171,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
       )
     } else {
       node = (
-        <AnimatedTouchable
+        <TouchableWithoutFeedback
           onPressIn={updateInteraction('pressed', true, onPressIn)}
           onPressOut={updateInteraction('pressed', false, onPressOut)}
           onLongPress={onLongPress}
@@ -206,7 +202,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
           onBlur={onBlur}
         >
           {child}
-        </AnimatedTouchable>
+        </TouchableWithoutFeedback>
       )
     }
 

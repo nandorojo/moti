@@ -13,7 +13,7 @@
   --ifm-color-text: white;
   --ifm-color-background: black;
   --ifm-color-primary: #50e3c2;
-  /* 
+  /*
   --ifm-color-primary-dark: #e60073;
   --ifm-color-primary-darker: #d9006d;
   --ifm-color-primary-darkest: #b3005a;
@@ -28,6 +28,12 @@
   --ifm-color-primary-lighter: rgb(102, 212, 189);
   --ifm-color-primary-lightest: rgb(146, 224, 208);
   --ifm-code-font-size: 95%;
+
+  --ifm-container-width-xl: 1140px;
+}
+
+.padding-top--md {
+  padding-top: 2rem !important;
 }
 
 .docusaurus-highlight-code-line {

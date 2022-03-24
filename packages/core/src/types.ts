@@ -214,8 +214,10 @@ export interface MotiProps<
    * If you want to use transforms, such as `translateY` or `scale`, pass the keys directly to this prop, rather than using a `transform` array.
    *
    * To set an initial value, see the `from` prop.
+   *
+   * @worklet
    */
-  animate?: OrSharedValue<Animate>
+  animate?: OrSharedValue<Animate> | (() => Animate)
   /**
    * (Optional) specify styles which the component should animate from.
    *

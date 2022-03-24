@@ -267,6 +267,9 @@ export function useMotify<Animate>({
     if (animateProp && 'value' in animateProp) {
       animateStyle = (animateProp.value || {}) as Animate
     } else {
+      if (typeof animateProp == 'function') {
+        animateStyle = animateProp() as Animate
+      }
       animateStyle = (animateProp || {}) as Animate
     }
 

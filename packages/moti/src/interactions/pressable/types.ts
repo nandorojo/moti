@@ -1,8 +1,9 @@
-import type { ComponentProps } from 'react'
 import type { MotiView } from '@motify/components'
-import type { ViewStyle, Insets, PressableProps } from 'react-native'
 import type { MotiAnimationProp, MotiTransition } from '@motify/core'
+import type { ComponentProps } from 'react'
+import type { ViewStyle, Insets, PressableProps } from 'react-native'
 import type Animated from 'react-native-reanimated'
+import { DerivedValue } from 'react-native-reanimated'
 
 export type MotiPressableInteractionState = {
   hovered: boolean
@@ -101,9 +102,14 @@ export type MotiPressableProps = {
    */
   onContainerLayout?: PressableProps['onLayout']
   href?: string
+  children?:
+    | React.ReactElement
+    | ((
+        interaction: DerivedValue<MotiPressableInteractionState>
+      ) => React.ReactNode)
 } & Pick<
   ComponentProps<typeof MotiView>,
-  'children' | 'exit' | 'from' | 'exitTransition' | 'style' | 'onLayout'
+  'exit' | 'from' | 'exitTransition' | 'style' | 'onLayout'
 > &
   Pick<
     PressableProps,
