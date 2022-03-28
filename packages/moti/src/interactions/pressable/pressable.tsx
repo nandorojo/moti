@@ -119,10 +119,23 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
         transition={transition}
         exitTransition={exitTransition}
         state={state}
+        // TODO change API to this
+        // animate={useMemo(() => {
+        //   'worklet'
+
+        //   if (typeof animate === 'function') {
+        //     return animate(interaction.value)
+        //   }
+
+        //   return animate
+        // }, [])}
         style={style}
         onLayout={onLayout}
       >
-        {typeof children == 'function' ? children(interaction) : children}
+        {typeof children == 'function'
+          ? // @ts-expect-error it thinks ReactNode can be a function, but it's fine.
+            children(interaction)
+          : children}
       </MotiView>
     )
 

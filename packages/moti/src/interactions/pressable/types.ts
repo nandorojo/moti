@@ -103,7 +103,7 @@ export type MotiPressableProps = {
   onContainerLayout?: PressableProps['onLayout']
   href?: string
   children?:
-    | React.ReactElement
+    | React.ReactNode
     | ((
         interaction: DerivedValue<MotiPressableInteractionState>
       ) => React.ReactNode)
