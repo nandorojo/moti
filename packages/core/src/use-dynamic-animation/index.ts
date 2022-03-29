@@ -1,4 +1,4 @@
-import type { DynamicStyleProp, UseDynamicAnimationState } from './../types'
+import type { DynamicStyleProp, UseDynamicAnimationState } from '../types'
 import { useSharedValue } from 'react-native-reanimated'
 import { useRef } from 'react'
 
