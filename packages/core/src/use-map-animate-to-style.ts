@@ -28,10 +28,16 @@ import type {
 
 const debug = (...args: any[]) => {
   'worklet'
+
+  // @ts-expect-error moti
+  if (!global.shouldDebugMoti) {
+    return
+  }
+
   if (args) {
     // hi
   }
-  // console.log('[moti]', ...args)
+  console.log('[moti]', ...args)
 }
 
 const isColor = (styleKey: string) => {
@@ -136,7 +142,7 @@ function animationConfig<Animate>(
     repeatReverse = transition.repeatReverse
   }
 
-  debug({ loop, key, repeatCount, animationType })
+  // debug({ loop, key, repeatCount, animationType })
 
   let config = {}
   // so sad, but fix it later :(
@@ -264,14 +270,15 @@ export function useMotify<Animate>({
 
     let animateStyle: Animate
 
-    if (animateProp && 'value' in animateProp) {
+    if (typeof animateProp == 'function') {
+      animateStyle = (animateProp() || {}) as Animate
+    } else if (animateProp && 'value' in animateProp) {
       animateStyle = (animateProp.value || {}) as Animate
     } else {
-      if (typeof animateProp == 'function') {
-        animateStyle = animateProp() as Animate
-      }
       animateStyle = (animateProp || {}) as Animate
     }
+
+    debug('style', animateStyle)
 
     const initialStyle = fromProp || {}
     let exitStyle = exitProp || {}
