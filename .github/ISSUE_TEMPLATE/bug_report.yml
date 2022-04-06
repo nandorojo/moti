@@ -35,9 +35,9 @@ body:
     label: Versions
     description: |
       examples:
-        - **OS**: Ubuntu 20.04
-        - **Node**: 13.14.0
-        - **npm**: 7.6.3
+        - **Moti**: 0.18.0
+        - **Reanimated**: 2.5.0
+        - **React Native**: 0.68.0
     value: |
         - Moti:
         - Reanimated:
