@@ -1,0 +1,68 @@
+name: 🐞 Bug
+description: File a bug/issue
+title: "🐞 <title>"
+labels: [Bug, Needs Triage]
+body:
+- type: checkboxes
+  attributes:
+    label: Is there an existing issue for this?
+    description: Please search to see if an issue already exists for the bug you encountered.
+    options:
+    - label: I have searched the existing issues
+      required: true
+- type: textarea
+  attributes:
+    label: Current Behavior
+    description: Describe what's happening in 1-2 sentences.
+  validations:
+    required: false
+- type: textarea
+  attributes:
+    label: Expected Behavior
+    description: A concise description of what you expected to happen.
+  validations:
+    required: false
+- type: textarea
+  attributes:
+    label: Steps To Reproduce
+    description: Steps to reproduce the behavior.
+    placeholder: |
+      1. Add a MotiView component...
+      2. Change to Animated.View...
+  validations:
+    required: false
+- type: textarea
+  attributes:
+    label: Versions
+    description: |
+      examples:
+        - **OS**: Ubuntu 20.04
+        - **Node**: 13.14.0
+        - **npm**: 7.6.3
+    value: |
+        - Moti:
+        - Reanimated:
+        - React Native:
+    render: markdown
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Screenshots
+    description: |
+      Please add screenshots / videos that show the behavior if applicable.
+  validations:
+    required: false
+- type: textarea
+  attributes:
+    label: Reproduction
+    description: |
+      Please add a link to an Expo Snack or a **minimal reproduction**.
+      
+      You can use the starter app:
+      
+      ```sh
+      npx create-react-native-app -t with-moti
+      ```
+  validations:
+    required: true
