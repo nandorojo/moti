@@ -140,7 +140,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
     )
 
     let node: ReactNode
-    if (Platform.OS === 'web') {
+    if (Platform.OS === 'web' || Platform.OS === 'android') {
       node = (
         <Hoverable
           onHoverIn={updateInteraction('hovered', true, onHoverIn)}
