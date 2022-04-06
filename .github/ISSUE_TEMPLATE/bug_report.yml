@@ -1,6 +1,6 @@
 name: 🐞 Bug
 description: File a bug/issue
-title: "🐞 <title>"
+title: ""
 labels: [Bug, Needs Triage]
 body:
 - type: checkboxes
