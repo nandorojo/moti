@@ -68,6 +68,7 @@ Upgrade Hermes to `0.7.*`.
 ## Possible errors
 
 ### Property 'Proxy' doesn't exist
+
 As mentioned in this [Moti issue](https://github.com/nandorojo/moti/issues/13), if you don't install the correct version of Hermes, you might see this error:
 
 ```sh
@@ -75,7 +76,8 @@ Property 'Proxy' doesn't exist, js engine: hermes [Mon Feb 08 2021 19:21:54.427]
 ```
 
 ### Cannot read property 'MotiView'
-As mentioned in this [Moti issue](https://github.com/nandorojo/moti/issues/114), if you encounter `Cannot read property 'MotiView'` or similar errors, make sure to import react-native-reanimated into your App.js (or .ts).
+
+As mentioned in [#114](https://github.com/nandorojo/moti/issues/114), if you encounter `Cannot read property 'MotiView'`, import `react-native-reanimated` at the top of your `App.js` (or `App.tsx`) file.
 
 ```js
 // App.js
@@ -90,8 +92,6 @@ If you're using [Inline Requires](https://instagram-engineering.com/making-insta
 // App.js
 import 'react-native-reanimated'
 ```
-
-Only do this if you notice your app isn't working with Moti and you have inline requires enabled.
 
 ## Create your first animation
 
