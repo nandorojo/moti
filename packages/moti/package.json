@@ -21,7 +21,7 @@
   "main": "build/index.js",
   "react-native": "src/index.tsx",
   "source": "src/index.tsx",
-  "types": "build/index.d.ts",
+  "types": "./index.d.ts",
   "files": [
     "src",
     "build",
