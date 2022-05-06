@@ -127,7 +127,7 @@ const animation = useDynamicAnimation(() => {
 })
 
 const onPress = () => {
-  aniamtion.animateTo({
+  animation.animateTo({
     // sequence
     opacity: [1, 0.5, { value: 0, delay: 1000 }],
   })
