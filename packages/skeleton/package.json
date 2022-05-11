@@ -1,7 +1,7 @@
 {
   "name": "@motify/skeleton",
   "private": false,
-  "version": "0.18.0-alpha.17+3f81227",
+  "version": "0.18.0",
   "keywords": [
     "react-native",
     "ios",
@@ -37,8 +37,8 @@
     "clean": "del lib"
   },
   "dependencies": {
-    "@motify/components": "^0.18.0-alpha.17+3f81227",
-    "@motify/core": "^0.18.0-alpha.17+3f81227"
+    "@motify/components": "^0.18.0",
+    "@motify/core": "^0.18.0"
   },
   "devDependencies": {
     "expo-linear-gradient": "^9.0.0",
