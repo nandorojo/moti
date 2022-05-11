@@ -311,7 +311,12 @@ export function useMotify<Animate>({
 
     const exitingStyleProps: Record<string, boolean> = {}
     for (const key in exitStyle || {}) {
-      exitingStyleProps[key] = true
+      const disabledExitStyles = {
+        position: true,
+      }
+      if (!disabledExitStyles[key]) {
+        exitingStyleProps[key] = true
+      }
     }
 
     // allow shared values as transitions
@@ -349,9 +354,15 @@ export function useMotify<Animate>({
         recentValue
       ) => {
         if (onDidAnimate) {
-          runOnJS(reanimatedOnDidAnimated)(key as any, completed, recentValue, {
-            attemptedValue: value,
-          })
+          runOnJS(reanimatedOnDidAnimated)(
+            // @ts-expect-error key is a string
+            key,
+            completed,
+            recentValue,
+            {
+              attemptedValue: value,
+            }
+          )
         }
         if (isExiting) {
           exitingStyleProps[key] = false

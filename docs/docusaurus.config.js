@@ -14,6 +14,10 @@ module.exports = {
       src: 'https://cdn.splitbee.io/sb.js',
       async: true,
     },
+    {
+      scrc: 'https://snack.expo.dev/embed',
+      async: true,
+    },
   ],
   themeConfig: {
     colorMode: {
