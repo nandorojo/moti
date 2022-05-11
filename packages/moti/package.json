@@ -1,7 +1,7 @@
 {
   "name": "moti",
   "private": false,
-  "version": "0.17.1",
+  "version": "0.18.0-alpha.17+3f81227",
   "keywords": [
     "react-native",
     "ios",
@@ -21,13 +21,14 @@
   "main": "build/index.js",
   "react-native": "src/index.tsx",
   "source": "src/index.tsx",
-  "types": "build/index.d.ts",
+  "types": "./index.d.ts",
   "files": [
     "src",
     "build",
     "!**/__tests__",
     "interactions",
-    "skeleton"
+    "skeleton",
+    "index.d.ts"
   ],
   "sideEffects": false,
   "publishConfig": {
@@ -44,8 +45,8 @@
     "expo-module": "expo-module"
   },
   "dependencies": {
-    "@motify/components": "^0.17.1",
-    "@motify/core": "^0.17.1"
+    "@motify/components": "^0.18.0-alpha.17+3f81227",
+    "@motify/core": "^0.18.0-alpha.17+3f81227"
   },
   "devDependencies": {
     "expo-linear-gradient": "^10.0.3",
@@ -67,5 +68,5 @@
       ]
     ]
   },
-  "gitHead": "a87dd85f8ef10fd1a45bdb820328a4c22f9a5392"
+  "gitHead": "3f8122778be80f775d62748ad658719d38745056"
 }

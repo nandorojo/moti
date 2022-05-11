@@ -1,6 +1,6 @@
 export { default as Skeleton } from './skeleton'
 
-console.warn(`@motify/skeleton is deprecated. It has moved to 'moti/skeleton'. Please uninstall @motify/skeleton, upgrade "moti", and update your imports.
+console.error(`@motify/skeleton is deprecated. It has moved to 'moti/skeleton'. Please uninstall @motify/skeleton, upgrade "moti", and update your imports. In the next version, this will throw an error.
 
 yarn remove @motify/skeleton
 yarn add moti

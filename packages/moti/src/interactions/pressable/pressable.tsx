@@ -1,24 +1,21 @@
+import { MotiView } from '@motify/components'
 import React, { useMemo, ReactNode, forwardRef } from 'react'
 import { Platform, Pressable } from 'react-native'
+import type { View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
-import Animated, {
+import {
   useSharedValue,
   runOnJS,
   useDerivedValue,
 } from 'react-native-reanimated'
-import { MotiView } from '@motify/components'
-import type { View } from 'react-native'
-import type { MotiPressableInteractionState, MotiPressableProps } from './types'
+
 import {
   MotiPressableContext,
   useMotiPressableContext,
   INTERACTION_CONTAINER_ID,
 } from './context'
 import { Hoverable } from './hoverable'
-
-const AnimatedTouchable = Animated.createAnimatedComponent(
-  TouchableWithoutFeedback
-)
+import type { MotiPressableInteractionState, MotiPressableProps } from './types'
 
 export const MotiPressable = forwardRef<View, MotiPressableProps>(
   function MotiPressable(props, ref) {
@@ -63,6 +60,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
       importantForAccessibility,
       onFocus,
       onBlur,
+      href,
     } = props
 
     const _hovered = useSharedValue(false)
@@ -121,15 +119,28 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
         transition={transition}
         exitTransition={exitTransition}
         state={state}
+        // TODO change API to this
+        // animate={useMemo(() => {
+        //   'worklet'
+
+        //   if (typeof animate === 'function') {
+        //     return animate(interaction.value)
+        //   }
+
+        //   return animate
+        // }, [])}
         style={style}
         onLayout={onLayout}
       >
-        {children}
+        {typeof children == 'function'
+          ? // @ts-expect-error it thinks ReactNode can be a function, but it's fine.
+            children(interaction)
+          : children}
       </MotiView>
     )
 
     let node: ReactNode
-    if (Platform.OS === 'web') {
+    if (Platform.OS === 'web' || Platform.OS === 'android') {
       node = (
         <Hoverable
           onHoverIn={updateInteraction('hovered', true, onHoverIn)}
@@ -165,6 +176,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
             // @ts-expect-error RNW types
             onFocus={onFocus}
             onBlur={onBlur}
+            href={href}
           >
             {child}
           </Pressable>
@@ -172,17 +184,17 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
       )
     } else {
       node = (
-        <AnimatedTouchable
+        <TouchableWithoutFeedback
           onPressIn={updateInteraction('pressed', true, onPressIn)}
           onPressOut={updateInteraction('pressed', false, onPressOut)}
           onLongPress={onLongPress}
           hitSlop={hitSlop}
           disabled={disabled}
           onPress={onPress}
-          // @ts-expect-error incorrect ref type
+          // @ts-expect-error incorrect ref types, lol
           ref={ref}
           onLayout={onContainerLayout}
-          containerStyle={containerStyle}
+          style={containerStyle}
           // Accessibility props
           accessibilityActions={accessibilityActions}
           accessibilityElementsHidden={accessibilityElementsHidden}
@@ -203,7 +215,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
           onBlur={onBlur}
         >
           {child}
-        </AnimatedTouchable>
+        </TouchableWithoutFeedback>
       )
     }
 

@@ -16,7 +16,7 @@ type Props = {
    * Optional height of the skeleton. Defauls to a `minHeight` of `32`
    */
   height?: number | string
-  children?: React.ReactChild
+  children?: React.ReactChild | null
   /**
    * `boolean` specifying whether the skeleton should be visible. By default, it shows if there are no children. This way, you can conditionally display children, and automatically hide the skeleton when they exist.
    *
@@ -204,10 +204,9 @@ const AnimatedGradient = React.memo(
   }: {
     measuredWidth: number
     colors: string[]
-    backgroundSize: number,
+    backgroundSize: number
     transition?: MotiTransitionProp
   }) {
-
     return (
       <MotiView
         style={StyleSheet.absoluteFillObject}

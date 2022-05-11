@@ -29,9 +29,27 @@ function Logo() {
 
 function App() {
   return (
-    <MotiPressable id="logo" style={styles.shape}>
-      <Logo />
-    </MotiPressable>
+    <>
+      <MotiPressable id="logo" style={styles.shape}>
+        <Logo />
+      </MotiPressable>
+      <MotiPressable>
+        {(interaction) => {
+          return (
+            <MotiView
+              style={styles.shape}
+              animate={() => {
+                'worklet'
+
+                const { pressed, hovered } = interaction.value
+
+                return {}
+              }}
+            />
+          )
+        }}
+      </MotiPressable>
+    </>
   )
 }
 

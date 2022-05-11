@@ -1,6 +1,6 @@
 {
   "name": "@motify/core",
-  "version": "0.17.1",
+  "version": "0.18.0-alpha.17+3f81227",
   "private": false,
   "license": "MIT",
   "keywords": [
@@ -29,10 +29,10 @@
     "!**/__tests__"
   ],
   "dependencies": {
-    "framer-motion": "^3.9.1"
+    "framer-motion": "^6.3.0"
   },
   "sideEffects": false,
-  "gitHead": "a87dd85f8ef10fd1a45bdb820328a4c22f9a5392",
+  "gitHead": "3f8122778be80f775d62748ad658719d38745056",
   "scripts": {
     "prepare": "bob build",
     "clean": "del lib"

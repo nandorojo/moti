@@ -1,7 +1,7 @@
 import React, { forwardRef, ComponentType, FunctionComponent } from 'react'
 import type { ImageStyle, TextStyle, ViewStyle } from 'react-native'
 import type { MotiProps } from './types'
-import useMapAnimateToStyle from './use-map-animate-to-style'
+import { useMotify } from './use-map-animate-to-style'
 import Animated, {
   BaseAnimationBuilder,
   EntryExitAnimationFunction,
@@ -54,7 +54,7 @@ export default function motify<
       {
         animate,
         style,
-        from = false as const,
+        from,
         transition,
         delay,
         state,
@@ -67,7 +67,7 @@ export default function motify<
       },
       ref
     ) {
-      const animated = useMapAnimateToStyle({
+      const animated = useMotify({
         animate,
         from,
         transition,
