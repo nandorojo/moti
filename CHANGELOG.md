@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.18.1](https://github.com/nandorojo/moti/compare/v0.18.0...v0.18.1) (2022-05-11)
+
+
+### Bug Fixes
+
+* autocomplete for skeleton, interactions ([81482c2](https://github.com/nandorojo/moti/commit/81482c2bc0900b059ae4f439f05b082b579bf6ad))
+* children for MotiPressable & Skeleton ([1a99002](https://github.com/nandorojo/moti/commit/1a9900213d2f8a0f8d175ab7c8c22ae203d9ad5e))
+* MotiPressable on Android, close [#179](https://github.com/nandorojo/moti/issues/179) ([8afb173](https://github.com/nandorojo/moti/commit/8afb173398e2f734af41303dbcaf077087866eb9))
+* partially fix [#185](https://github.com/nandorojo/moti/issues/185) ([a4d7d18](https://github.com/nandorojo/moti/commit/a4d7d18010fe0b285c5150ac9d32191ce23590e5))
+* remove warnings ([afa1114](https://github.com/nandorojo/moti/commit/afa1114ac6ea3f8949199cb109b8606b8d16ecc0))
+* snacks ([b7c4e6a](https://github.com/nandorojo/moti/commit/b7c4e6a90de453469fefbd75a53442874ac90bf2))
+
+
+
+
+
 
 
 **Note:** Version bump only for package moti

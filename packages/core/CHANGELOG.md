@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.18.1](https://github.com/nandorojo/moti/compare/v0.18.0...v0.18.1) (2022-05-11)
+
+
+### Bug Fixes
+
+* partially fix [#185](https://github.com/nandorojo/moti/issues/185) ([a4d7d18](https://github.com/nandorojo/moti/commit/a4d7d18010fe0b285c5150ac9d32191ce23590e5))
+* remove warnings ([afa1114](https://github.com/nandorojo/moti/commit/afa1114ac6ea3f8949199cb109b8606b8d16ecc0))
+
+
+
+
+
 
 
 **Note:** Version bump only for package @motify/core
