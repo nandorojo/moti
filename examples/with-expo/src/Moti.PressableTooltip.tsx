@@ -6,7 +6,7 @@ import {
   MotiPressable,
   useMotiPressable,
   useMotiPressableTransition,
-} from '@motify/interactions'
+} from 'moti/interactions'
 
 function Logo() {
   const state = useMotiPressable(

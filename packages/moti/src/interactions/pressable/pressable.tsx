@@ -1,4 +1,3 @@
-import { MotiView } from '@motify/components'
 import React, { useMemo, ReactNode, forwardRef } from 'react'
 import { Platform, Pressable } from 'react-native'
 import type { View } from 'react-native'
@@ -9,6 +8,7 @@ import {
   useDerivedValue,
 } from 'react-native-reanimated'
 
+import { View as MotiView } from '../../components/view'
 import {
   MotiPressableContext,
   useMotiPressableContext,

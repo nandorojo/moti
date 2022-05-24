@@ -44,9 +44,8 @@
     "prepublishOnly": "expo-module prepublishOnly",
     "expo-module": "expo-module"
   },
-  "dependencies": {
-    "@motify/components": "^0.18.1",
-    "@motify/core": "^0.18.1"
+  "peerDependencies": {
+    "react-native-reanimated": "*"
   },
   "devDependencies": {
     "expo-linear-gradient": "^10.0.3",

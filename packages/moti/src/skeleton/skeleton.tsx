@@ -1,9 +1,9 @@
+import { LinearGradient } from 'expo-linear-gradient'
 import React, { useState } from 'react'
-import { View as MotiView } from '@motify/components'
 import { View, StyleSheet } from 'react-native'
 
-import { LinearGradient } from 'expo-linear-gradient'
-import { AnimatePresence, MotiTransitionProp } from '@motify/core'
+import { View as MotiView } from '../components'
+import { AnimatePresence, MotiTransitionProp } from '../core'
 
 type Props = {
   /**
