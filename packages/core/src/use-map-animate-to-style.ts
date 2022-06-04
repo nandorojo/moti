@@ -313,6 +313,7 @@ export function useMotify<Animate>({
     for (const key in exitStyle || {}) {
       const disabledExitStyles = {
         position: true,
+        zIndex: true
       }
       if (!disabledExitStyles[key]) {
         exitingStyleProps[key] = true
