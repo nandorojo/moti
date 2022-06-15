@@ -13,7 +13,7 @@ type Props = {
    */
   boxHeight?: number | string
   /**
-   * Optional height of the skeleton. Defauls to a `minHeight` of `32`
+   * Optional height of the skeleton. Defaults to a `minHeight` of `32`
    */
   height?: number | string
   children?: React.ReactChild | null
