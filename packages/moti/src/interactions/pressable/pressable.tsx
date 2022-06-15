@@ -157,8 +157,6 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
             onPress={onPress}
             onPressIn={updateInteraction('pressed', true, onPressIn)}
             onPressOut={updateInteraction('pressed', false, onPressOut)}
-            onKeyDown={onKeyDown}
-            onKeyUp={onKeyUp}
             ref={ref}
             onLayout={onContainerLayout}
             // Accessibility props
@@ -178,6 +176,8 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
             onAccessibilityEscape={onAccessibilityEscape}
             importantForAccessibility={importantForAccessibility}
             // @ts-expect-error RNW types
+            onKeyDown={onKeyDown}
+            onKeyUp={onKeyUp}
             onFocus={onFocus}
             onBlur={onBlur}
             href={href}
