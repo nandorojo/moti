@@ -191,8 +191,6 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
         <TouchableWithoutFeedback
           onPressIn={updateInteraction('pressed', true, onPressIn)}
           onPressOut={updateInteraction('pressed', false, onPressOut)}
-          onKeyDown={onKeyDown}
-          onKeyUp={onKeyUp}
           onLongPress={onLongPress}
           hitSlop={hitSlop}
           disabled={disabled}
