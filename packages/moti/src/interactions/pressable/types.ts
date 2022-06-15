@@ -76,6 +76,8 @@ export type MotiPressableProps = {
   onPressOut?: () => void
   onHoverIn?: () => void
   onHoverOut?: () => void
+  onKeyDown?: () => void
+  onKeyUp?: () => void
   onLongPress?: () => void
   hitSlop?: Insets
   /*

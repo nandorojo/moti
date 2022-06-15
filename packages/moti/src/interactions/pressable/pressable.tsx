@@ -31,6 +31,8 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
       onPressIn,
       onHoverIn,
       onHoverOut,
+      onKeyDown,
+      onKeyUp,
       onPress,
       onLongPress,
       hitSlop,
@@ -155,6 +157,8 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
             onPress={onPress}
             onPressIn={updateInteraction('pressed', true, onPressIn)}
             onPressOut={updateInteraction('pressed', false, onPressOut)}
+            onKeyDown={onKeyDown}
+            onKeyUp={onKeyUp}
             ref={ref}
             onLayout={onContainerLayout}
             // Accessibility props
@@ -187,6 +191,8 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
         <TouchableWithoutFeedback
           onPressIn={updateInteraction('pressed', true, onPressIn)}
           onPressOut={updateInteraction('pressed', false, onPressOut)}
+          onKeyDown={onKeyDown}
+          onKeyUp={onKeyUp}
           onLongPress={onLongPress}
           hitSlop={hitSlop}
           disabled={disabled}
