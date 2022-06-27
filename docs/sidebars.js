@@ -10,6 +10,7 @@ module.exports = {
       'examples/loop',
       'examples/variants',
       'examples/dropdown',
+      'examples/action-menu',
     ],
     Hooks: ['hooks/use-animation-state', 'hooks/use-dynamic-animation'],
     ['Interactions']: [
