@@ -15,7 +15,7 @@ module.exports = {
       async: true,
     },
     {
-      scrc: 'https://snack.expo.dev/embed',
+      src: 'https://snack.expo.dev/embed',
       async: true,
     },
   ],
