@@ -1,20 +1,13 @@
-import { Image } from './image'
-import { SafeAreaView } from './safe-area-view'
-import { ScrollView } from './scroll-view'
-import { Text } from './text'
-import { View } from './view'
+export { Image } from './image'
+export { Image as MotiImage } from './image'
+export { SafeAreaView } from './safe-area-view'
+export { SafeAreaView as MotiSafeAreaView } from './safe-area-view'
+export { ScrollView } from './scroll-view'
+export { ScrollView as MotiScrollView } from './scroll-view'
+export { Text } from './text'
+export { Text as MotiText } from './text'
+export { View } from './view'
+export { View as MotiView } from './view'
 
-export * from './progress'
-
-export {
-  View as MotiView,
-  Text as MotiText,
-  Image as MotiImage,
-  ScrollView as MotiScrollView,
-  SafeAreaView as MotiSafeAreaView,
-  View,
-  Text,
-  Image,
-  ScrollView,
-  SafeAreaView,
-}
+export { MotiProgressBar } from './progress'
+export type { MotiProgressBarProps } from './progress'
