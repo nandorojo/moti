@@ -30,7 +30,7 @@ Notice that `motify()` returns a function. At the moment, the function it return
 This is the component file in `moti`:
 
 ```tsx
-import { motify } from '@motify/core'
+import { motify } from '../moti'
 import {
   View as RView,
   Text as RText,
