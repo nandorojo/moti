@@ -330,6 +330,8 @@ export function useMotify<Animate>({
       let exitTransition: MotiTransition<Animate> | undefined
       if (exitTransitionProp && 'value' in exitTransitionProp) {
         exitTransition = exitTransitionProp.value
+      } else if (typeof exitTransitionProp == 'function') {
+        exitTransition = exitTransitionProp(custom())
       } else {
         exitTransition = exitTransitionProp
       }
