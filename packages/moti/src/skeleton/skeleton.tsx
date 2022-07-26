@@ -1,5 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient'
-import React, { useState } from 'react'
+import React, { useState, createContext, useContext } from 'react'
 import { View, StyleSheet } from 'react-native'
 
 import { View as MotiView } from '../components'
@@ -36,6 +36,8 @@ type Props = {
    * <Skeleton show={false}>
    *   {data ? <Data /> : null}
    * </Skeleton>
+   *
+   * If you have multiple skeletons, you can use the `<Skeleton.Group show={loading} /> as a parent rather than use this prop directly.
    */
   show?: boolean
   /**
@@ -97,10 +99,11 @@ for (let i = 0; i++; i < 3) {
 }
 
 export default function Skeleton(props: Props) {
+  const skeletonGroupContext = useContext(SkeletonGroupContext)
   const {
     radius = 8,
     children,
-    show = !children,
+    show = skeletonGroupContext ?? !children,
     width,
     height = children ? undefined : DEFAULT_SIZE,
     boxHeight,
@@ -259,6 +262,40 @@ const AnimatedGradient = React.memo(
     )
   },
   function propsAreEqual(prev, next) {
-    return JSON.stringify(prev) === JSON.stringify(next)
+    if (prev.measuredWidth !== next.measuredWidth) return false
+
+    if (prev.backgroundSize !== next.backgroundSize) return false
+
+    const didColorsChange = prev.colors.some((color, index) => {
+      return color !== next.colors[index]
+    })
+
+    if (didColorsChange) return false
+
+    // transition changes will not be respected, but it'll be in the key
+    return true
   }
 )
+
+const SkeletonGroupContext = createContext<boolean | undefined>(undefined)
+
+function SkeletonGroup({
+  children,
+  show,
+}: {
+  children: React.ReactNode
+  /**
+   * If `true`, all `Skeleton` children components will be shown.
+   *
+   * If `false`, the `Skeleton` children will be hidden.
+   */
+  show: boolean
+}) {
+  return (
+    <SkeletonGroupContext.Provider value={show}>
+      {children}
+    </SkeletonGroupContext.Provider>
+  )
+}
+
+Skeleton.Group = SkeletonGroup
