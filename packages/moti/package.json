@@ -67,5 +67,8 @@
       ]
     ]
   },
-  "gitHead": "3f8122778be80f775d62748ad658719d38745056"
+  "gitHead": "3f8122778be80f775d62748ad658719d38745056",
+  "dependencies": {
+    "framer-motion": "^6.5.1"
+  }
 }
