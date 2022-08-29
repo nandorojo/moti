@@ -220,6 +220,61 @@ function animationConfig<Animate>(
   }
 }
 
+const getSequenceArray = (
+  sequenceKey: string,
+  sequenceArray: SequenceItem<any>[],
+  delayMs: number | undefined,
+  config: {},
+  animation: (...props: any) => any,
+  callback: (completed: boolean, value?: any) => void
+) => {
+  'worklet'
+
+  const sequence: any[] = []
+
+  for (const step of sequenceArray) {
+    const shouldPush =
+      typeof step === 'object'
+        ? step && step?.value != null && step?.value !== false
+        : step != null && step !== false
+    if (shouldPush) {
+      let stepDelay = delayMs
+      let stepValue = step
+      let stepConfig = Object.assign({}, config)
+      let stepAnimation = animation
+      if (typeof step === 'object') {
+        // not allowed in Reanimated: { delay, value, ...transition } = step
+        const stepTransition = Object.assign({}, step)
+
+        delete stepTransition.delay
+        delete stepTransition.value
+
+        const { config: inlineStepConfig, animation } = animationConfig(
+          sequenceKey,
+          stepTransition
+        )
+
+        stepConfig = Object.assign({}, stepConfig, inlineStepConfig)
+        stepAnimation = animation
+
+        if (step.delay != null) {
+          stepDelay = step.delay
+        }
+        stepValue = step.value
+      }
+
+      const sequenceValue = stepAnimation(stepValue, stepConfig, callback)
+      if (stepDelay != null) {
+        sequence.push(withDelay(stepDelay, sequenceValue))
+      } else {
+        sequence.push(sequenceValue)
+      }
+    }
+  }
+
+  return sequence
+}
+
 export function useMotify<Animate>({
   animate: animateProp,
   from: fromProp = false,
@@ -386,55 +441,6 @@ export function useMotify<Animate>({
         continue
       }
 
-      const getSequenceArray = (
-        sequenceKey: string,
-        sequenceArray: SequenceItem<any>[]
-      ) => {
-        const sequence: any[] = []
-
-        for (const step of sequenceArray) {
-          const shouldPush =
-            typeof step === 'object'
-              ? step && step?.value != null && step?.value !== false
-              : step != null && step !== false
-          if (shouldPush) {
-            let stepDelay = delayMs
-            let stepValue = step
-            let stepConfig = Object.assign({}, config)
-            let stepAnimation = animation
-            if (typeof step === 'object') {
-              // not allowed in Reanimated: { delay, value, ...transition } = step
-              const stepTransition = Object.assign({}, step)
-
-              delete stepTransition.delay
-              delete stepTransition.value
-
-              const { config: inlineStepConfig, animation } = animationConfig(
-                sequenceKey,
-                stepTransition
-              )
-
-              stepConfig = Object.assign({}, stepConfig, inlineStepConfig)
-              stepAnimation = animation
-
-              if (step.delay != null) {
-                stepDelay = step.delay
-              }
-              stepValue = step.value
-            }
-
-            const sequenceValue = stepAnimation(stepValue, stepConfig, callback)
-            if (stepDelay != null) {
-              sequence.push(withDelay(stepDelay, sequenceValue))
-            } else {
-              sequence.push(sequenceValue)
-            }
-          }
-        }
-
-        return sequence
-      }
-
       if (key === 'transform') {
         if (!Array.isArray(value)) {
           console.error(
@@ -449,7 +455,7 @@ export function useMotify<Animate>({
 
             if (Array.isArray(transformValue)) {
               // we have a sequence in this transform...
-              const sequence = getSequenceArray(transformKey, transformValue)
+              const sequence = getSequenceArray(transformKey, transformValue, delayMs, config, animation, callback)
 
               if (sequence.length) {
                 let finalValue = withSequence(sequence[0], ...sequence.slice(1))
@@ -486,7 +492,7 @@ export function useMotify<Animate>({
       } else if (Array.isArray(value)) {
         // we have a sequence
 
-        const sequence = getSequenceArray(key, value)
+        const sequence = getSequenceArray(key, value, delayMs, config, animation, callback)
         let finalValue = withSequence(sequence[0], ...sequence.slice(1))
         if (shouldRepeat) {
           finalValue = withRepeat(finalValue, repeatCount, repeatReverse)
