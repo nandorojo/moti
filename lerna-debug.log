@@ -1,0 +1,7 @@
+74 error Error: A GH_TOKEN environment variable is required.
+74 error     at createGitHubClient (/Users/fernandorojo/Developer/madison-green/moti/node_modules/@lerna/github-client/lib/github-client.js:17:11)
+74 error     at createClient (/Users/fernandorojo/Developer/madison-green/moti/node_modules/@lerna/version/lib/create-release.js:16:14)
+74 error     at createRelease (/Users/fernandorojo/Developer/madison-green/moti/node_modules/@lerna/version/lib/create-release.js:25:18)
+74 error     at /Users/fernandorojo/Developer/madison-green/moti/node_modules/@lerna/version/index.js:282:9
+74 error     at /Users/fernandorojo/Developer/madison-green/moti/node_modules/p-waterfall/index.js:4:73
+74 error     at /Users/fernandorojo/Developer/madison-green/moti/node_modules/p-reduce/index.js:16:10
