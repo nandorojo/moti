@@ -1,7 +1,7 @@
 import { MotiPressableInteractionIds, useMotiPressableContext } from './context'
 import type { MotiPressableInteractionProp } from './types'
 import { useDerivedValue } from 'react-native-reanimated'
-import type { MotiProps } from '@motify/core'
+import type { MotiProps } from '../../core'
 import { useMemo } from 'react'
 import { useFactory } from './use-validate-factory-or-id'
 

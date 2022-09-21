@@ -3,7 +3,7 @@ import { useDerivedValue } from 'react-native-reanimated'
 import type Animated from 'react-native-reanimated'
 import { MotiPressableInteractionIds, useMotiPressableContext } from './context'
 import { useFactory } from './use-validate-factory-or-id'
-import type { MotiTransition } from '@motify/core'
+import type { MotiTransition } from '../../core'
 
 type Factory<Props> = (interaction: MotiPressableInteractionState) => Props
 

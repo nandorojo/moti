@@ -13,7 +13,7 @@ import {
   MotiPressable,
   useMotiPressable,
   useMotiPressableAnimatedProps,
-} from '@motify/interactions'
+} from 'moti/interactions'
 import { MotiView } from 'moti'
 import { Ionicons } from '@expo/vector-icons'
 

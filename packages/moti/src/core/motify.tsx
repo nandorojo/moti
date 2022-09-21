@@ -1,12 +1,15 @@
 import React, { forwardRef, ComponentType, FunctionComponent } from 'react'
 import type { ImageStyle, TextStyle, ViewStyle } from 'react-native'
-import type { MotiProps } from './types'
-import { useMotify } from './use-map-animate-to-style'
 import Animated, {
   BaseAnimationBuilder,
   EntryExitAnimationFunction,
   LayoutAnimationFunction,
 } from 'react-native-reanimated'
+
+import type { MotiProps } from './types'
+import { useMotify } from './use-motify'
+
+const { createAnimatedComponent } = Animated
 
 // copied from reanimated
 // if we use Animated.AnimateProps
@@ -37,7 +40,7 @@ export default function motify<
   ExtraProps,
   Animate = ViewStyle | ImageStyle | TextStyle
 >(ComponentWithoutAnimation: ComponentType<Props>) {
-  const Component = Animated.createAnimatedComponent(
+  const Component = createAnimatedComponent(
     ComponentWithoutAnimation as FunctionComponent<Props>
   )
 
@@ -83,14 +86,16 @@ export default function motify<
       return (
         <Component
           {...(props as any)} // TODO
-          style={[style, animated.style]}
+          style={style ? [style, animated.style] : animated.style}
           ref={ref as any} // TODO
         />
       )
     })
 
     Motified.displayName = `Moti.${
-      Component.displayName || Component.name || 'NoName'
+      ComponentWithoutAnimation.displayName ||
+      ComponentWithoutAnimation.name ||
+      'NoName'
     }`
 
     return Motified
