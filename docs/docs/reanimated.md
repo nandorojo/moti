@@ -332,6 +332,7 @@ const Moti = () => (
 #### Reanimated
 
 ```tsx
+import { useEffect } from 'react'
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
 
 export const Reanimated = () => {
@@ -346,6 +347,11 @@ export const Reanimated = () => {
       }),
     }
   })
+
+  useEffect(() => {
+    isMounted.value = true
+  }, [])
+
   return <Animated.View style={style} />
 }
 ```
