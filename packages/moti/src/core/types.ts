@@ -1,12 +1,4 @@
 import type {
-  SharedValue,
-  WithDecayConfig,
-  WithSpringConfig,
-  WithTimingConfig,
-  DerivedValue,
-} from 'react-native-reanimated'
-
-import type {
   PerpectiveTransform,
   RotateTransform,
   RotateXTransform,
@@ -23,6 +15,13 @@ import type {
   TextStyle,
   ViewStyle,
 } from 'react-native'
+import type {
+  SharedValue,
+  WithDecayConfig,
+  WithSpringConfig,
+  WithTimingConfig,
+  DerivedValue,
+} from 'react-native-reanimated'
 
 export type Transforms = PerpectiveTransform &
   RotateTransform &
@@ -281,7 +280,9 @@ export interface MotiProps<
    * To see how to use this prop, see the `transition` prop docs. It is identical to that prop, except that it overrides it when exiting.
    *
    */
-  exitTransition?: MotiTransitionProp<AnimateWithTransitions>
+  exitTransition?:
+    | MotiTransitionProp<AnimateWithTransitions>
+    | ((custom?: any) => MotiTransition<AnimateWithTransitions>)
   /**
    * Optionally delay the `animate` field.
    *

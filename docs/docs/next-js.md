@@ -22,14 +22,7 @@ const withFonts = require('next-fonts')
 const withImages = require('next-images')
 const withPlugins = require('next-compose-plugins')
 
-const withTM = require('next-transpile-modules')([
-  'moti',
-
-  // add these for moti versions before 0.0.19
-  // '@motify/core',
-  // '@motify/components'
-])
-
+const withTM = require('next-transpile-modules')(['moti']) 
 module.exports = withPlugins(
   [withTM, withFonts, withImages, [withExpo, { projectRoot: __dirname }]],
   {

@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react'
 import { StyleSheet, Pressable } from 'react-native'
 import { View } from 'moti'
-import { Skeleton } from '@motify/skeleton'
+import { Skeleton } from 'moti/skeleton'
 
 const Spacer = ({ height = 16 }) => <View style={{ height }} />
 
