@@ -26,18 +26,18 @@ module.exports = {
       respectPrefersColorScheme: false,
     },
     navbar: {
-      title: '',
+      title: 'by Fernando Rojo',
       logo: {
         alt: 'Moti Logo',
         src: 'img/logo-grad.svg',
       },
       items: [
-        {
-          to: '/',
-          activeBasePath: '/',
-          label: 'Docs',
-          position: 'left',
-        },
+        // {
+        //   to: '/',
+        //   activeBasePath: '/',
+        //   label: 'Docs',
+        //   position: 'left',
+        // },
         {
           href: 'https://twitter.com/fernandotherojo',
           label: 'Twitter',

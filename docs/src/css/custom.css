@@ -68,3 +68,157 @@
   height:505px;
   width:100%;
 }
+
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #25c2a0;
+  --ifm-color-primary-dark: rgb(33, 175, 144);
+  --ifm-color-primary-darker: rgb(31, 165, 136);
+  --ifm-color-primary-darkest: rgb(26, 136, 112);
+  --ifm-color-primary-light: rgb(70, 203, 174);
+  --ifm-color-primary-lighter: rgb(102, 212, 189);
+  --ifm-color-primary-lightest: rgb(146, 224, 208);
+  --ifm-code-font-size: 95%;
+
+  --ifm-color-primary: #002aff;
+  --ifm-color-primary-dark: #0026e6;
+  --ifm-color-primary-darker: #0024d9;
+  --ifm-color-primary-darkest: #001db3;
+  --ifm-color-primary-light: #1a3fff;
+  --ifm-color-primary-lighter: #264aff;
+  --ifm-color-primary-lightest: #4d6aff;
+
+  --ifm-border-color: #f4f2f4;
+  --ifm-toc-border-color: var(--ifm-border-color);
+  --ifm-background-color: white;
+  --ifm-navbar-background-color: transparent;
+
+  --ifm-navbar-shadow: 0 0 0 1px var(--ifm-border-color);
+  --ifm-container-width-xl: 1140px;
+  /* background-color */
+
+  /* --ifm-color-primary: #ff0059;
+  --ifm-color-primary-dark: #e60050;
+  --ifm-color-primary-darker: #d9004c;
+  --ifm-color-primary-darkest: #b3003e;
+  --ifm-color-primary-light: #ff1a6a;
+  --ifm-color-primary-lighter: #ff2672;
+  --ifm-color-primary-lightest: #ff4d8b;
+
+  --ifm-color-primary: #6600ff;
+  --ifm-color-primary-dark: #5c00e6;
+  --ifm-color-primary-darker: #5700d9;
+  --ifm-color-primary-darkest: #4700b3;
+  --ifm-color-primary-light: #751aff;
+  --ifm-color-primary-lighter: #7d26ff;
+  --ifm-color-primary-lightest: #944dff; */
+
+  --ifm-menu-color-background-active: #E4DEFC;
+  --ifm-menu-color-active: var(--ifm-color-content);
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url(/font/Satoshi-Medium.ttf);
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url(/font/Satoshi-Bold.ttf);
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url(/font/Satoshi-MediumItalic.ttf);
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url(/font/Satoshi-Medium.ttf);
+  font-weight: 500;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+li,
+footer * {
+  font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+}
+
+html {
+  font-size: 17px;
+}
+
+p {
+  font-size: 18px;
+}
+
+.menu {
+  font-size: 17px;
+  /* font-weight: bold; */
+}
+
+.docusaurus-highlight-code-line {
+  background-color: rgba(0, 0, 0, 0.1);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+[data-theme='dark'] {
+  --ifm-color-primary: #00ccff;
+  --ifm-color-primary-dark: #00b8e6;
+  --ifm-color-primary-darker: #00add9;
+  --ifm-color-primary-darkest: #008fb3;
+  --ifm-color-primary-light: #1ad1ff;
+  --ifm-color-primary-lighter: #26d4ff;
+  --ifm-color-primary-lightest: #4ddbff;
+
+  --ifm-border-color: hsl(243 4.9% 18.8%);
+  --ifm-toc-border-color: var(--ifm-border-color);
+  --ifm-background-color: hsl(246 6% 9%);
+
+  --ifm-code-border-radius: 16px;
+
+
+  --ifm-menu-color-background-active: #32275F;
+}
+
+html[data-theme='dark'] .docusaurus-highlight-code-line {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+[data-theme='light'] .shiki.min-dark {
+  display: none;
+}
+
+[data-theme='dark'] .shiki.min-light {
+  display: none;
+}
+
+main img {
+  border-radius: 16px
+}
+
+.navbar {
+  backdrop-filter: blur(12px);
+}
+
+.menu__link, .menu__list-item-collapsible {
+  border-radius: 999px;
+}
+
+aside {
+  border-right-width: 0px!important;
+}

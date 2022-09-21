@@ -24,10 +24,10 @@ const withPlugins = require('next-compose-plugins')
 
 const withTM = require('next-transpile-modules')([
   'moti',
-  '@motify/core',
-  '@motify/components',
-  // '@motify/interactions' // uncomment if you use these
-  // you can add other modules that need traspiling here
+
+  // add these for moti versions before 0.0.19
+  // '@motify/core',
+  // '@motify/components'
 ])
 
 module.exports = withPlugins(
@@ -55,4 +55,3 @@ export default function App({ Component, pageProps }) {
 ```
 
 We're going to use `requestAnimationFrame` with Reanimated web, so that polyfill makes it usable with server-side rendering frameworks.
- 
