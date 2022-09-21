@@ -29,6 +29,7 @@ module.exports = async function (env, argv) {
   const config = await createExpoWebpackConfigAsync(
     {
       ...env,
+      // for moti 0.19+, you can remove @motify here
       babel: { dangerouslyAddModulePathsToTranspile: ['moti', '@motify'] },
     },
     argv
