@@ -200,3 +200,25 @@ const styles = StyleSheet.create({
   },
 })
 ```
+
+## `<Skeleton.Group />`
+
+If you have many skeleton components, you can now wrap them with a single `<Skeleton.Group show={loading} />` component. This will help you achieve this [type of effect](https://twitter.com/pacocoursey/status/1428057307670323202).
+
+```tsx
+import { Image, Text } from 'react-native'
+import { Skeleton } from 'moti/skeleton'
+
+export function ListItem({ loading, item }) {
+  return (
+    <Skeleton.Group show={loading}>
+      <Skeleton>
+        <Image src={{ uri: image.avatar }} />
+      </Skeleton>
+      <Skeleton>
+        <Text>{item.title || ' '}</Text>
+      </Skeleton>
+    </Skeleton.Group>
+  )
+}
+```
