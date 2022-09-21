@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.19](https://github.com/nandorojo/moti/compare/v0.19.0...v0.0.19) (2022-09-21)
+
+
+### Bug Fixes
+
+* add framer motion; revert [#152](https://github.com/nandorojo/moti/issues/152) ([97795bc](https://github.com/nandorojo/moti/commit/97795bc3fd57a5f21667274b2c11430c58b06818))
+
+
+### Features
+
+* skeleton group ([e9d35a5](https://github.com/nandorojo/moti/commit/e9d35a5ba8ac1d7cb97e3189dd96a2f613ca7487))
+
+
+
+
+
 # [0.18.0](https://github.com/nandorojo/moti/compare/v0.18.1...v0.18.0) (2022-05-11)
 
 **Note:** Version bump only for package moti
