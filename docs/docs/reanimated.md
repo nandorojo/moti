@@ -201,7 +201,7 @@ If you're chaining together multiple animations with complex things done in each
 
 Moti lets you listen to changes in animations with the `onDidAnimate` prop, but it's harder to know which step of the animation was fired.
 
-## Direct Comparisons
+## Direct comparisons
 
 ### Mount animations
 
