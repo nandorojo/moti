@@ -17,6 +17,7 @@ import type {
   WithSpringConfig,
   WithTimingConfig,
 } from 'react-native-reanimated'
+
 import { PackageName } from './constants/package-name'
 import type {
   MotiProps,
@@ -24,6 +25,7 @@ import type {
   SequenceItem,
   Transforms,
   TransitionConfig,
+  WithTransition,
 } from './types'
 
 const debug = (...args: any[]) => {
@@ -199,7 +201,6 @@ function animationConfig<Animate>(
       'velocityFactor',
     ]
     for (const configKey of configKeys) {
-      // is this necessary ^ don't think so...?
       const styleSpecificConfig = transition?.[key]?.[configKey]
       const transitionConfigForKey = transition?.[configKey]
 
@@ -224,7 +225,7 @@ const getSequenceArray = (
   sequenceKey: string,
   sequenceArray: SequenceItem<any>[],
   delayMs: number | undefined,
-  config: {},
+  config: object,
   animation: (...props: any) => any,
   callback: (completed: boolean, value?: any) => void
 ) => {
@@ -321,7 +322,7 @@ export function useMotify<Animate>({
       // initializing here fixes reanimated object.__defineProperty bug(?)
       transform: [] as TransformsStyle['transform'],
     }
-    const variantStyle: Animate = state?.__state?.value || {}
+    const variantStyle: Animate & WithTransition = state?.__state?.value || {}
 
     let animateStyle: Animate
 
@@ -368,7 +369,7 @@ export function useMotify<Animate>({
     for (const key in exitStyle || {}) {
       const disabledExitStyles = {
         position: true,
-        zIndex: true
+        zIndex: true,
       }
       if (!disabledExitStyles[key]) {
         exitingStyleProps[key] = true
@@ -382,6 +383,12 @@ export function useMotify<Animate>({
     } else {
       transition = transitionProp
     }
+
+    // let the state prop drive transitions too
+    if (variantStyle.transition) {
+      transition = Object.assign({}, transition, variantStyle.transition)
+    }
+
     if (isExiting && exitTransitionProp) {
       let exitTransition: MotiTransition<Animate> | undefined
       if (exitTransitionProp && 'value' in exitTransitionProp) {
@@ -457,7 +464,14 @@ export function useMotify<Animate>({
 
             if (Array.isArray(transformValue)) {
               // we have a sequence in this transform...
-              const sequence = getSequenceArray(transformKey, transformValue, delayMs, config, animation, callback)
+              const sequence = getSequenceArray(
+                transformKey,
+                transformValue,
+                delayMs,
+                config,
+                animation,
+                callback
+              )
 
               if (sequence.length) {
                 let finalValue = withSequence(sequence[0], ...sequence.slice(1))
@@ -494,7 +508,14 @@ export function useMotify<Animate>({
       } else if (Array.isArray(value)) {
         // we have a sequence
 
-        const sequence = getSequenceArray(key, value, delayMs, config, animation, callback)
+        const sequence = getSequenceArray(
+          key,
+          value,
+          delayMs,
+          config,
+          animation,
+          callback
+        )
         let finalValue = withSequence(sequence[0], ...sequence.slice(1))
         if (shouldRepeat) {
           finalValue = withRepeat(finalValue, repeatCount, repeatReverse)
