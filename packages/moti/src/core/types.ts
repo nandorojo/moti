@@ -326,14 +326,15 @@ export type Variants<
   // in component usage, it will extract these from the style prop ideally
   AnimateType = ImageStyle & TextStyle & ViewStyle,
   // edit the style props to remove transform array, flattening it
-  AnimateWithTransitions = StyleValueWithReplacedTransforms<AnimateType>,
+  AnimateWithTransformsAndTransition = StyleValueWithReplacedTransforms<AnimateType> &
+    WithTransition,
   // allow the style values to be arrays for sequences, where values are primitives or objects with configs
-  Animate = StyleValueWithSequenceArrays<AnimateWithTransitions>
+  Animate = StyleValueWithSequenceArrays<AnimateWithTransformsAndTransition>
 > = {
   [key in keyof V]?: Animate
 } & {
   to?: Animate
-  from?: AnimateWithTransitions
+  from?: AnimateWithTransformsAndTransition
 }
 
 export type UseAnimationState<V> = {
@@ -409,6 +410,10 @@ export type UseAnimationStateConfig<
   to?: ToKey
 }
 
+export type WithTransition = {
+  transition?: MotiTransition
+}
+
 /**
  * Used for `useDynamicAnimation`
  */
@@ -419,9 +424,10 @@ export type DynamicStyleProp<
   AnimateType = ImageStyle & ViewStyle & TextStyle,
   // edit the style props to remove transform array, flattening it
   // AnimateWithTransitions = Omit<AnimateType, 'transform'> & Partial<Transforms>,
-  AnimateWithTransitions = StyleValueWithReplacedTransforms<AnimateType>
+  AnimateWithTransforms = StyleValueWithReplacedTransforms<AnimateType>
   // allow the style values to be arrays for sequences, where values are primitives or objects with configs
-> = NonNullable<StyleValueWithSequenceArrays<AnimateWithTransitions>>
+> = NonNullable<StyleValueWithSequenceArrays<AnimateWithTransforms>> &
+  WithTransition
 
 export type UseDynamicAnimationState = {
   /**
