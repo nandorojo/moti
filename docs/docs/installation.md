@@ -15,8 +15,16 @@ If you're starting a project from scratch, or just want to play around, you can 
 
 First, install `moti` in your app:
 
-```bash npm2yarn
-npm install moti
+### yarn
+
+```sh
+yarn add moti
+```
+
+### npm
+
+```sh
+npm i moti --legacy-peer-deps
 ```
 
 ## Install Reanimated 2
