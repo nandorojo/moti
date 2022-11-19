@@ -7,7 +7,7 @@ A near-replacement for React Native's `Pressable` component, with animations run
 
 ```tsx
 import { MotiPressable } from 'moti/interactions'
-import { useCallback } from 'react'
+import { useMemo } from 'react'
 
 export const Pressable = () => {
   const onPress = () => Linking.openURL('beatgig.com')
@@ -38,7 +38,7 @@ For example, if you want to delay your animations when someone releases your but
 
 ```tsx
 import { MotiPressable } from 'moti/interactions'
-import { useCallback } from 'react'
+import { useMemo } from 'react'
 
 export const Pressable = () => {
   const onPress = () => Linking.openURL('beatgig.com')
@@ -84,11 +84,11 @@ export type MotiPressableProps = {
   /*
    * Worklet that returns the `animated` prop. Or, just a normal `animate` prop, similar to `MotiView`.
    *
-   * It's recomended that you memoize this prop with `useCallback`.
+   * It's recomended that you memoize this prop with `useMemo`.
    *
    * ```tsx
    * <MotiPressable
-   *   animate={useCallback(({ hovered }) => ({
+   *   animate={useMemo(({ hovered }) => ({
    *     opacity: hovered ? 0.8 : 1
    *   }), [])}
    * />
