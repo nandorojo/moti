@@ -97,7 +97,7 @@
   --ifm-border-color: #f4f2f4;
   --ifm-toc-border-color: var(--ifm-border-color);
   --ifm-background-color: white;
-  --ifm-navbar-background-color: transparent;
+
 
   --ifm-navbar-shadow: 0 0 0 1px var(--ifm-border-color);
   --ifm-container-width-xl: 1140px;
@@ -211,8 +211,9 @@ main img {
   border-radius: 16px
 }
 
-.navbar {
+.navbar--fixed-top {
   backdrop-filter: blur(12px);
+  background-color: transparent;
 }
 
 .menu__link, .menu__list-item-collapsible {
