@@ -49,8 +49,12 @@ Follow me [on Twitter](https://twitter.com/fernandotherojo) to stay up to date.
 
 # Sponsor
 
-Please reach out to [Fernando Rojo](https://twitter.com/fernandotherojo) if you're interested in sponsoring Moti.
+Sponsorships via GitHub are appreciated.
 
 <a href="https://splitbee.io?ref=badge">
   <img src="https://splitbee-cdn.fra1.cdn.digitaloceanspaces.com/static/badge/splitbee-badge-dark.svg" alt="Analytics by Splitbee.io" />
 </a>
+
+# License
+
+Moti has an MIT license. That said, a lot of free work goes into it, so if your company uses it, please sponsor, write a blog post, or tweet about it!
