@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { MotiPressableInteractionIds, useMotiPressableContext } from './context'
 import type { MotiPressableInteractionProp } from './types'
 import { useDerivedValue } from 'react-native-reanimated'
 import type { MotiProps } from '../../core'
 import { useMemo } from 'react'
 import { useFactory } from './use-validate-factory-or-id'
+import { getIsSwcHackEnabled } from '../../hack/swc-hack'
 
 type Id = MotiPressableInteractionIds['id']
 
@@ -98,6 +100,19 @@ function useMotiPressable(
     maybeFactoryOrDeps,
     maybeDeps
   )
+
+  if (getIsSwcHackEnabled()) {
+    return useMemo(() => {
+      const interaction = context.containers[id]
+
+      const value = interaction && factory(interaction.value)
+      return {
+        __state: {
+          value,
+        },
+      }
+    }, deps)
+  }
 
   const __state = useDerivedValue(() => {
     const interaction = context.containers[id]
