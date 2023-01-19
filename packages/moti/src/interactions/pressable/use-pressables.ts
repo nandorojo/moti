@@ -2,6 +2,7 @@ import { MotiPressableContext, useMotiPressableContext } from './context'
 import type { MotiPressableInteractionProp } from './types'
 import { useDerivedValue } from 'react-native-reanimated'
 import { useMemo } from 'react'
+import { getIsSwcHackEnabled } from '../../hack/swc-hack'
 
 type Factory = (
   containers: MotiPressableContext['containers']
@@ -63,7 +64,7 @@ export function useMotiPressables(
    * @worklet
    */
   factory: Factory,
-  deps: readonly any[] = []
+  deps: readonly any[]
 ) {
   const context = useMotiPressableContext()
 
@@ -73,13 +74,23 @@ export function useMotiPressables(
     )
   }
 
+  if (getIsSwcHackEnabled()) {
+    return {
+      __state: {
+        value: factory(context.containers),
+      },
+    }
+  }
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const __state = useDerivedValue(() => {
     const animatedResult = factory(context.containers)
 
     return animatedResult
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [context.containers, ...deps])
+  }, [context.containers, ...(deps || [])])
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const state = useMemo(() => ({ __state }), [__state])
 
   return state
