@@ -114,15 +114,13 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
       return transitionProp || {}
     }, [transitionProp, interaction])
 
-    const __state = useDerivedValue(() => {
+    let __state = useDerivedValue(() => {
       if (typeof animate === 'function') {
         return animate(interaction.value)
       }
 
       return animate
     }, [animate, interaction])
-
-    const state = useMemo(() => ({ __state }), [__state])
 
     if (getIsSwcHackEnabled()) {
       // this goes after __state, since that was already working fine for some reason
@@ -132,7 +130,13 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
           value: webInteractionTemporary,
         }
       }, [webInteractionTemporary])
+
+      if (typeof animate === 'function') {
+        __state = { value: animate(interaction.value) }
+      }
     }
+
+    const state = useMemo(() => ({ __state }), [__state])
 
     const updateInteraction = (
       event: keyof MotiPressableInteractionState,
