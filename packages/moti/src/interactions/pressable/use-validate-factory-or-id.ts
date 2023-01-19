@@ -95,6 +95,9 @@ ${hookName}(({ pressed, hovered }) => {
     console.error(error)
   }
 
+  deps = deps || []
+  deps = [context, id, ...deps]
+
   return {
     factory,
     id,
