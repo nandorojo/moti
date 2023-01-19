@@ -106,7 +106,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
       }
     )
 
-    const transition = useDerivedValue(() => {
+    let transition = useDerivedValue(() => {
       if (typeof transitionProp === 'function') {
         return transitionProp(interaction.value)
       }
@@ -131,8 +131,12 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
         }
       }, [webInteractionTemporary])
 
+      // the order and existence of these is very important
       if (typeof animate === 'function') {
         __state = { value: animate(interaction.value) }
+      }
+      if (typeof transitionProp === 'function') {
+        transition = { value: transitionProp(interaction.value) }
       }
     }
 
