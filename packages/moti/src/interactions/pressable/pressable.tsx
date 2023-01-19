@@ -1,4 +1,4 @@
-import React, { useMemo, ReactNode, forwardRef } from 'react'
+import React, { useMemo, ReactNode, forwardRef, useReducer } from 'react'
 import { Platform, Pressable } from 'react-native'
 import type { View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
@@ -16,6 +16,7 @@ import {
 } from './context'
 import { Hoverable } from './hoverable'
 import type { MotiPressableInteractionState, MotiPressableProps } from './types'
+import { enableSwcHack, getIsSwcHackEnabled } from '../../hack/swc-hack'
 
 export const MotiPressable = forwardRef<View, MotiPressableProps>(
   function MotiPressable(props, ref) {
@@ -71,13 +72,41 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
     const hovered = hoveredValue || _hovered
     const pressed = pressedValue || _pressed
 
-    const interaction = useDerivedValue<MotiPressableInteractionState>(
+    let interaction = useDerivedValue<MotiPressableInteractionState>(
       () => ({
         hovered: hovered.value,
         pressed: pressed.value,
       }),
       [hovered, pressed]
     )
+
+    const [webInteractionTemporary, setWebInteractionTemporary] = useReducer(
+      (
+        current: MotiPressableInteractionState,
+        next: Partial<MotiPressableInteractionState>
+      ) => {
+        if (getIsSwcHackEnabled()) {
+          return {
+            ...current,
+            ...next,
+          }
+        }
+        return current
+      },
+      {
+        hovered: false,
+        pressed: false,
+      }
+    )
+
+    if (getIsSwcHackEnabled()) {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      interaction = useMemo(() => {
+        return {
+          value: webInteractionTemporary,
+        }
+      }, [interaction])
+    }
 
     const transition = useDerivedValue(() => {
       if (typeof transitionProp === 'function') {
@@ -106,8 +135,10 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
 
       if (event === 'hovered') {
         hovered.value = enabled
+        setWebInteractionTemporary({ hovered: enabled })
       } else if (event === 'pressed') {
         pressed.value = enabled
+        setWebInteractionTemporary({ pressed: enabled })
       }
       if (callback) {
         runOnJS(callback)()

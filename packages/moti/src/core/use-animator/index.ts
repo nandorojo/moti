@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSharedValue } from 'react-native-reanimated'
+import { getIsSwcHackEnabled } from '../../hack/swc-hack'
 import { PackageName } from '../constants'
 import type {
   InternalControllerState,
@@ -154,6 +155,8 @@ export default function useAnimationState<V extends Variants<V>>(
     [_variants]
   )
 
+  const [, setWebRenderHackTemporary] = useState({})
+
   if (controller.current == null) {
     controller.current = {
       __state,
@@ -164,6 +167,10 @@ export default function useAnimationState<V extends Variants<V>>(
           const value = variants.current[nextStateKey]
 
           if (value) __state.value = value as any
+
+          if (getIsSwcHackEnabled()) {
+            setWebRenderHackTemporary({})
+          }
         }
 
         if (typeof nextStateOrFunction === 'function') {

@@ -1,6 +1,7 @@
 import type { DynamicStyleProp, UseDynamicAnimationState } from '../types'
 import { useSharedValue } from 'react-native-reanimated'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
+import { getIsSwcHackEnabled } from '../../hack/swc-hack'
 
 type InitialState = () => DynamicStyleProp
 
@@ -50,6 +51,8 @@ export default function useDynamicAnimation(
 
   const controller = useRef<UseDynamicAnimationState>()
 
+  const [, setWebRenderHackTemporary] = useState({})
+
   if (controller.current == null) {
     controller.current = {
       __state,
@@ -65,6 +68,10 @@ export default function useDynamicAnimation(
             : nextStateOrFunction
 
         __state.value = nextStyle
+
+        if (getIsSwcHackEnabled()) {
+          setWebRenderHackTemporary({})
+        }
       },
     }
   }
