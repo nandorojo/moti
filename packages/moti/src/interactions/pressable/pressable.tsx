@@ -106,15 +106,6 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
       }
     )
 
-    if (getIsSwcHackEnabled()) {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      interaction = useMemo(() => {
-        return {
-          value: webInteractionTemporary,
-        }
-      }, [webInteractionTemporary])
-    }
-
     const transition = useDerivedValue(() => {
       if (typeof transitionProp === 'function') {
         return transitionProp(interaction.value)
@@ -132,6 +123,16 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
     }, [animate, interaction])
 
     const state = useMemo(() => ({ __state }), [__state])
+
+    if (getIsSwcHackEnabled()) {
+      // this goes after __state, since that was already working fine for some reason
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      interaction = useMemo(() => {
+        return {
+          value: webInteractionTemporary,
+        }
+      }, [webInteractionTemporary])
+    }
 
     const updateInteraction = (
       event: keyof MotiPressableInteractionState,
