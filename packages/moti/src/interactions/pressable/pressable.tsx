@@ -1,4 +1,11 @@
-import React, { useMemo, ReactNode, forwardRef, useReducer } from 'react'
+import React, {
+  useMemo,
+  ReactNode,
+  forwardRef,
+  useReducer,
+  useEffect,
+  useRef,
+} from 'react'
 import { Platform, Pressable } from 'react-native'
 import type { View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
@@ -14,9 +21,9 @@ import {
   useMotiPressableContext,
   INTERACTION_CONTAINER_ID,
 } from './context'
-import { Hoverable } from './hoverable'
 import type { MotiPressableInteractionState, MotiPressableProps } from './types'
-import { enableSwcHack, getIsSwcHackEnabled } from '../../hack/swc-hack'
+import { getIsSwcHackEnabled } from '../../hack/swc-hack'
+import { mergeRefs } from './merge-refs'
 
 export const MotiPressable = forwardRef<View, MotiPressableProps>(
   function MotiPressable(props, ref) {
@@ -174,48 +181,70 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
 
     let node: ReactNode
     if (Platform.OS === 'web' || Platform.OS === 'android') {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const webRef = useRef<HTMLDivElement>(null)
+      if (Platform.OS === 'web') {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        useEffect(
+          function disableHoverOnClickOutside() {
+            // https://gist.github.com/necolas/1c494e44e23eb7f8c5864a2fac66299a#gistcomment-3629646
+            const listener = (event: MouseEvent) => {
+              if (
+                webRef?.current &&
+                event.target instanceof HTMLElement &&
+                !webRef.current.contains(event.target)
+              ) {
+                hovered.value = false
+              }
+            }
+            document.addEventListener('mousedown', listener)
+
+            return () => {
+              document.removeEventListener('mousedown', listener)
+            }
+          },
+          [hovered]
+        )
+      }
+
       node = (
-        <Hoverable
+        <Pressable
+          onLongPress={onLongPress}
+          hitSlop={hitSlop}
+          // @ts-expect-error missing RNW types
           onHoverIn={updateInteraction('hovered', true, onHoverIn)}
           onHoverOut={updateInteraction('hovered', false, onHoverOut)}
-          childRef={ref}
+          disabled={disabled}
+          style={containerStyle}
+          onPress={onPress}
+          onPressIn={updateInteraction('pressed', true, onPressIn)}
+          onPressOut={updateInteraction('pressed', false, onPressOut)}
+          ref={mergeRefs([ref, webRef as any])}
+          onLayout={onContainerLayout}
+          // Accessibility props
+          accessibilityActions={accessibilityActions}
+          accessibilityElementsHidden={accessibilityElementsHidden}
+          accessibilityHint={accessibilityHint}
+          accessibilityIgnoresInvertColors={accessibilityIgnoresInvertColors}
+          accessibilityLabel={accessibilityLabel}
+          accessibilityLiveRegion={accessibilityLiveRegion}
+          accessibilityRole={accessibilityRole}
+          accessibilityState={accessibilityState}
+          accessibilityValue={accessibilityValue}
+          accessibilityViewIsModal={accessibilityViewIsModal}
+          accessible={accessible}
+          onAccessibilityTap={onAccessibilityTap}
+          onAccessibilityAction={onAccessibilityAction}
+          onAccessibilityEscape={onAccessibilityEscape}
+          importantForAccessibility={importantForAccessibility}
+          onKeyDown={onKeyDown}
+          onKeyUp={onKeyUp}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          href={href}
         >
-          <Pressable
-            onLongPress={onLongPress}
-            hitSlop={hitSlop}
-            disabled={disabled}
-            style={containerStyle}
-            onPress={onPress}
-            onPressIn={updateInteraction('pressed', true, onPressIn)}
-            onPressOut={updateInteraction('pressed', false, onPressOut)}
-            ref={ref}
-            onLayout={onContainerLayout}
-            // Accessibility props
-            accessibilityActions={accessibilityActions}
-            accessibilityElementsHidden={accessibilityElementsHidden}
-            accessibilityHint={accessibilityHint}
-            accessibilityIgnoresInvertColors={accessibilityIgnoresInvertColors}
-            accessibilityLabel={accessibilityLabel}
-            accessibilityLiveRegion={accessibilityLiveRegion}
-            accessibilityRole={accessibilityRole}
-            accessibilityState={accessibilityState}
-            accessibilityValue={accessibilityValue}
-            accessibilityViewIsModal={accessibilityViewIsModal}
-            accessible={accessible}
-            onAccessibilityTap={onAccessibilityTap}
-            onAccessibilityAction={onAccessibilityAction}
-            onAccessibilityEscape={onAccessibilityEscape}
-            importantForAccessibility={importantForAccessibility}
-            // @ts-expect-error RNW types
-            onKeyDown={onKeyDown}
-            onKeyUp={onKeyUp}
-            onFocus={onFocus}
-            onBlur={onBlur}
-            href={href}
-          >
-            {child}
-          </Pressable>
-        </Hoverable>
+          {child}
+        </Pressable>
       )
     } else {
       node = (
