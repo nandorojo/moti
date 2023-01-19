@@ -12,9 +12,7 @@ import { Platform } from 'react-native'
 let shouldEnableSwcHack = false
 
 export const enableSwcHack = () => {
-  if (Platform.OS === 'web') {
-    shouldEnableSwcHack = true
-  }
+  shouldEnableSwcHack = Platform.OS === 'web'
 }
 
 export const getIsSwcHackEnabled = () => shouldEnableSwcHack

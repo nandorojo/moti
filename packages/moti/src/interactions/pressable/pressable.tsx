@@ -112,7 +112,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
         return {
           value: webInteractionTemporary,
         }
-      }, [interaction])
+      }, [webInteractionTemporary])
     }
 
     const transition = useDerivedValue(() => {
