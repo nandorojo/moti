@@ -7,7 +7,7 @@
     "description": "Example app for moti",
     "privacy": "public",
     "version": "1.0.0",
-    "jsEngine": "jsc",
+    "jsEngine": "hermes",
     "platforms": ["ios", "android", "web"],
     "ios": {
       "supportsTablet": true,
