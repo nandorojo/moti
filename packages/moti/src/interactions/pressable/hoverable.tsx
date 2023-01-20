@@ -1,3 +1,5 @@
+import { Platform } from 'react-native'
+
 // credit to https://gist.github.com/ianmartorell/32bb7df95e5eff0a5ee2b2f55095e6a6
 // this file was repurosed from there
 // via this issue https://gist.github.com/necolas/1c494e44e23eb7f8c5864a2fac66299a
@@ -5,11 +7,9 @@
 // click listeners copied from https://gist.github.com/roryabraham/65cd1d2d5e8a48da78fec6a6e3105398
 
 /* eslint-disable no-inner-declarations */
-import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment'
-
 let isEnabled = false
 
-if (canUseDOM) {
+if (Platform.OS == 'web' && typeof window != 'undefined') {
   /**
    * Web browsers emulate mouse events (and hover states) after touch events.
    * This code infers when the currently-in-use modality supports hover

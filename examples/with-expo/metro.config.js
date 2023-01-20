@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 // Learn more https://docs.expo.io/guides/customizing-metro
 /**
  * @type {import('expo/metro-config')}
@@ -16,10 +17,10 @@ config.resolver.nodeModulesPath = [
   path.resolve(workspaceRoot, 'node_modules'),
 ]
 
-config.transformer = {
-  ...config.transformer,
-  minifierPath: 'metro-minify-esbuild',
-  minifierConfig: {},
-}
+// config.transformer = {
+//   ...config.transformer,
+//   minifierPath: 'metro-minify-esbuild',
+//   minifierConfig: {},
+// }
 
 module.exports = config

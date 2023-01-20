@@ -45,7 +45,8 @@
     "expo-module": "expo-module"
   },
   "peerDependencies": {
-    "react-native-reanimated": "*"
+    "react-native-reanimated": "*",
+    "react-native-gesture-handler": "*"
   },
   "devDependencies": {
     "expo-linear-gradient": "^10.0.3",

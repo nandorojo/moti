@@ -7,20 +7,16 @@
     "description": "Example app for moti",
     "privacy": "public",
     "version": "1.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "jsEngine": "jsc",
+    "platforms": ["ios", "android", "web"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.nandorojo.with-expo"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "experiments": {
       "turboModules": true
-    }
+    },
+    "plugins": ["expo-dev-client"]
   }
 }
