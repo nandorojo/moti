@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.22.0](https://github.com/nandorojo/moti/compare/v0.21.0...v0.22.0) (2023-01-20)
+
+
+### Bug Fixes
+
+* hermes ([916c29e](https://github.com/nandorojo/moti/commit/916c29ecff91247685cfe88da93ba97fc95d67e8))
+
+
+
+
+
 # [0.19.0](https://github.com/nandorojo/moti/compare/v0.0.19...v0.19.0) (2022-09-21)
 
 **Note:** Version bump only for package moti
