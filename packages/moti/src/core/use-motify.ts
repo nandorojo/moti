@@ -366,7 +366,8 @@ export function useMotify<Animate>({
     }
 
     const exitingStyleProps: Record<string, boolean> = {}
-    for (const key in exitStyle || {}) {
+
+    Object.keys(exitStyle || {}).forEach((key) => {
       const disabledExitStyles = {
         position: true,
         zIndex: true,
@@ -374,7 +375,7 @@ export function useMotify<Animate>({
       if (!disabledExitStyles[key]) {
         exitingStyleProps[key] = true
       }
-    }
+    })
 
     // allow shared values as transitions
     let transition: MotiTransition<Animate> | undefined
@@ -402,8 +403,8 @@ export function useMotify<Animate>({
       transition = Object.assign({}, transition, exitTransition)
     }
 
-    for (const _key in mergedStyles) {
-      const key = _key as string
+    // need to use forEach to work with Hermes...https://github.com/nandorojo/moti/issues/214#issuecomment-1399055535
+    Object.keys(mergedStyles).forEach((key) => {
       const value = mergedStyles[key]
 
       const {
@@ -447,7 +448,7 @@ export function useMotify<Animate>({
         // skip missing values
         // this is useful if you want to do {opacity: loading && 1}
         // without this, those values will break I think
-        continue
+        return
       }
 
       if (key === 'transform') {
@@ -590,7 +591,7 @@ export function useMotify<Animate>({
           final[key] = finalValue
         }
       }
-    }
+    })
 
     if (!final.transform?.length) {
       delete final.transform
