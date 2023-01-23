@@ -7,9 +7,10 @@ import { Platform } from 'react-native'
 // click listeners copied from https://gist.github.com/roryabraham/65cd1d2d5e8a48da78fec6a6e3105398
 
 /* eslint-disable no-inner-declarations */
+
 let isEnabled = false
 
-if (Platform.OS == 'web' && typeof window != 'undefined') {
+if (Platform.OS === 'web' && typeof window !== 'undefined') {
   /**
    * Web browsers emulate mouse events (and hover states) after touch events.
    * This code infers when the currently-in-use modality supports hover
