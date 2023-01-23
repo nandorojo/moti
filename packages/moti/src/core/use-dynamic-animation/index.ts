@@ -1,7 +1,10 @@
 import type { DynamicStyleProp, UseDynamicAnimationState } from '../types'
-import { useSharedValue } from 'react-native-reanimated'
+import { runOnJS, useSharedValue } from 'react-native-reanimated'
 import { useRef, useState } from 'react'
-import { getIsSwcHackEnabled } from '../../hack/swc-hack'
+import {
+  getIsSwcHackEnabled,
+  getIsSwcHackEnabledWorklet,
+} from '../../hack/swc-hack'
 
 type InitialState = () => DynamicStyleProp
 
@@ -69,8 +72,8 @@ export default function useDynamicAnimation(
 
         __state.value = nextStyle
 
-        if (getIsSwcHackEnabled()) {
-          setWebRenderHackTemporary({})
+        if (getIsSwcHackEnabledWorklet()) {
+          runOnJS(setWebRenderHackTemporary)({})
         }
       },
     }

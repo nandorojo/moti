@@ -15,4 +15,11 @@ export const enableSwcHack = () => {
   shouldEnableSwcHack = Platform.OS === 'web'
 }
 
-export const getIsSwcHackEnabled = () => shouldEnableSwcHack
+export const getIsSwcHackEnabled = () => {
+  return shouldEnableSwcHack
+}
+
+export const getIsSwcHackEnabledWorklet = () => {
+  'worklet'
+  return shouldEnableSwcHack
+}
