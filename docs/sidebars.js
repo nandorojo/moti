@@ -1,7 +1,7 @@
 module.exports = {
   someSidebar: {
     Welcome: ['welcome', 'installation', 'starter'],
-    Usage: ['animations', 'api/transforms'],
+    Usage: ['animations', 'api/transforms', 'reanimated'],
     Examples: [
       'examples/hello-world',
       'examples/animate-presence',
@@ -25,7 +25,7 @@ module.exports = {
       'interactions/eslint',
     ],
     Skeleton: ['skeleton'],
-    Reanimated: ['reanimated'],
+
     Resources: ['resources/videos'],
     Web: ['web', 'next'],
     'API Reference': ['api/motify', 'api/imports', 'api/props'],
