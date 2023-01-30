@@ -24,6 +24,7 @@
     "react-native": "0.64.3",
     "react-native-gesture-handler": "~2.1.0",
     "react-native-reanimated": "~2.3.1",
+    "react-native-svg": "13.4.0",
     "react-native-unimodules": "~0.15.0",
     "react-native-web": "0.17.1"
   },
