@@ -27,25 +27,43 @@ yarn add moti
 npm i moti --legacy-peer-deps
 ```
 
-## Install Reanimated 2
+## Install Reanimated 2+
 
-Moti requires that you install `react-native-reanimated`.
+Moti requires that you install `react-native-reanimated`. Version 2 and 3 are both compatible.
+
+<details>
+  <summary>
+    View Reanimated compatibility options
+  </summary>
+    
 
 Moti `0.17.x` requires Reanimated `2.3.0` or higher. This version is compatible with Expo SDK 44.
 
 Moti `0.16.x` is compatible with Reanimated `2.2.0`. This is compatible with Expo SDK 43.
 
 Moti `0.8.x` and higher requires at least Reanimated v2 stable (`2.0.0` or higher). This version is compatible with Expo starting SDK 41.
+</summary>
+
+</details>
 
 ### If you're using Expo
 
-Please follow the [Expo instructions](https://docs.expo.io/versions/latest/sdk/reanimated/#experimental-support-for-v2) for installing `react-native-reanimated` v2.
-
-You'll need at least [Expo SDK 40](https://docs.expo.io/workflow/upgrading-expo-sdk-walkthrough/) for Reanimated 2, but I recommend using the latest SDK.
+Please follow the [Expo instructions](https://docs.expo.io/versions/latest/sdk/reanimated) for installing `react-native-reanimated` v2.
 
 ### If you aren't using Expo
 
 Please follow Reanimated's [installation instructions](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/installation) for v2.
+
+## Import Reanimated
+
+Lastly, add this to the top of your `App.tsx`:
+
+```ts
+import 'react-native-reanimated'
+import 'react-native-gesture-handler'
+```
+
+If you're using Next.js or [Solito](https://solito.dev), you should not add this import to your `_app.tsx`. See the Web instructions below for more.
 
 ## Web support
 
@@ -55,7 +73,14 @@ Please see the following guides:
 - [Next.js](/next)
 - [React Native Web](/web)
 
-## Hermes/Android Support
+## Hermes
+
+Moti works with Hermes as of version [`0.22`](https://github.com/nandorojo/moti/releases/tag/v0.22.0). It's been tested with React Native `0.70+`.
+
+<details>
+  <summary>
+    Click here if you're using React Native 0.63.x with Hermes
+  </summary>
 
 Moti uses `Proxy` under the hood, which is not supported on older versions of Hermes (see [hermes#33](https://github.com/facebook/hermes/issues/33)). Follow the steps below if you're using Hermes.
 
@@ -82,25 +107,9 @@ As mentioned in this [Moti issue](https://github.com/nandorojo/moti/issues/13), 
 ```sh
 Property 'Proxy' doesn't exist, js engine: hermes [Mon Feb 08 2021 19:21:54.427] ERROR Invariant Violation: Module AppRegistry is not a registered callable module (calling runApplication), js engine: hermes
 ```
-
-### Cannot read property 'MotiView'
-
-As mentioned in [#114](https://github.com/nandorojo/moti/issues/114), if you encounter `Cannot read property 'MotiView'`, import `react-native-reanimated` at the top of your `App.js` (or `App.tsx`) file.
-
-```js
-// App.js
-import 'react-native-reanimated'
-```
-
-## Using inline requires
-
-If you're using [Inline Requires](https://instagram-engineering.com/making-instagram-com-faster-code-size-and-execution-optimizations-part-4-57668be796a8), you might need to import `react-native-reanimated` in the root of your app before using any Moti code.
-
-```ts
-// App.js
-import 'react-native-reanimated'
-```
-
+  
+</details>
+ 
 ## Create your first animation
 
 ```tsx
