@@ -67,7 +67,11 @@ type Props = {
    */
   colorMode?: keyof typeof baseColors
   disableExitAnimation?: boolean
-  transition?: MotiTransitionProp
+  transition?: MotiTransitionProp,
+  style?: {
+    height?: string,
+    width?: string
+  }
 }
 
 const DEFAULT_SIZE = 32
@@ -141,58 +145,58 @@ export default function Skeleton(props: Props) {
 
   const outerHeight = getOuterHeight()
 
-  return (
+  const style = {
+    ...props?.style,
+    minHeight: height ?? props?.style?.height,
+    minWidth:  width ?? (props?.style?.width ?? (children ? undefined : DEFAULT_SIZE))
+  }
+
+  return !show ? (children) : (
     <View
-      style={{
-        height: outerHeight,
-        minHeight: height,
-        minWidth: width ?? (children ? undefined : DEFAULT_SIZE),
-      }}
+      style={style}
     >
       {children}
       <AnimatePresence>
-        {show && (
-          <MotiView
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              borderRadius,
-              width: width ?? (children ? '100%' : DEFAULT_SIZE),
-              height: height ?? '100%',
-              overflow: 'hidden',
-            }}
-            animate={{
-              backgroundColor,
-              opacity: 1,
-            }}
-            transition={{
-              type: 'timing',
-            }}
-            exit={
-              !disableExitAnimation && {
-                opacity: 0,
-              }
+        <MotiView
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            borderRadius,
+            width: width ?? (children ? '100%' : DEFAULT_SIZE),
+            height: height ?? '100%',
+            overflow: 'hidden',
+          }}
+          animate={{
+            backgroundColor,
+            opacity: 1,
+          }}
+          transition={{
+            type: 'timing',
+          }}
+          exit={
+            !disableExitAnimation && {
+              opacity: 0,
             }
-            onLayout={({ nativeEvent }) => {
-              if (measuredWidth === nativeEvent.layout.width) return
+          }
+          onLayout={({ nativeEvent }) => {
+            if (measuredWidth === nativeEvent.layout.width) return
 
-              setMeasuredWidth(nativeEvent.layout.width)
-            }}
-            pointerEvents="none"
-          >
-            <AnimatedGradient
-              // force a key change to make the loop animation re-mount
-              key={`${JSON.stringify(colors)}-${measuredWidth}-${JSON.stringify(
-                transition || null
-              )}`}
-              colors={colors}
-              backgroundSize={backgroundSize}
-              measuredWidth={measuredWidth}
-              transition={transition}
-            />
-          </MotiView>
-        )}
+            setMeasuredWidth(nativeEvent.layout.width)
+          }}
+          pointerEvents="none"
+        >
+          <AnimatedGradient
+            // force a key change to make the loop animation re-mount
+            key={`${JSON.stringify(colors)}-${measuredWidth}-${JSON.stringify(
+              transition || null
+            )}`}
+            colors={colors}
+            backgroundSize={backgroundSize}
+            measuredWidth={measuredWidth}
+            transition={transition}
+          />
+        </MotiView>
       </AnimatePresence>
     </View>
   )
