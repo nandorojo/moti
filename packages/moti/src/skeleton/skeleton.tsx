@@ -162,9 +162,9 @@ export default function Skeleton(props: Props) {
             position: 'absolute',
             top: 0,
             left: 0,
+            bottom: 0,
             borderRadius,
-            width: width ?? (children ? '100%' : DEFAULT_SIZE),
-            height: height ?? '100%',
+            width: width ?? props?.style?.width ?? (children ? '100%' : DEFAULT_SIZE),
             overflow: 'hidden',
           }}
           animate={{
