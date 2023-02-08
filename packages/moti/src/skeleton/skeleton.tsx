@@ -108,9 +108,6 @@ export default function Skeleton(props: Props) {
     radius = 8,
     children,
     show = skeletonGroupContext ?? !children,
-    width,
-    height = children ? undefined : DEFAULT_SIZE,
-    boxHeight,
     colorMode = 'dark',
     colors = colorMode === 'dark' ? defaultDarkColors : defaultLightColors,
     backgroundColor = colors[0] ??
@@ -119,7 +116,13 @@ export default function Skeleton(props: Props) {
     backgroundSize = 6,
     disableExitAnimation,
     transition,
+    style
   } = props
+
+  const {
+    width,
+    height = children ? undefined : DEFAULT_SIZE,
+  } = { ...props, style }
 
   const [measuredWidth, setMeasuredWidth] = useState(0)
 
@@ -135,70 +138,60 @@ export default function Skeleton(props: Props) {
 
   const borderRadius = getBorderRadius()
 
-  const getOuterHeight = () => {
-    if (boxHeight != null) return boxHeight
-    if (show && !children) {
-      return height
-    }
-    return undefined
-  }
-
-  const outerHeight = getOuterHeight()
-
-  const style = {
+  const skeletonStyle = {
     ...props?.style,
-    minHeight: height ?? props?.style?.height,
-    minWidth:  width ?? (props?.style?.width ?? (children ? undefined : DEFAULT_SIZE))
+    minHeight: height,
+    minWidth:  width ?? (children ? undefined : DEFAULT_SIZE)
   }
 
-  return !show ? (children) : (
-    <View
-      style={style}
-    >
-      {children}
-      <AnimatePresence>
-        <MotiView
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            bottom: 0,
-            borderRadius,
-            width: width ?? props?.style?.width ?? (children ? '100%' : DEFAULT_SIZE),
-            overflow: 'hidden',
-          }}
-          animate={{
-            backgroundColor,
-            opacity: 1,
-          }}
-          transition={{
-            type: 'timing',
-          }}
-          exit={
-            !disableExitAnimation && {
-              opacity: 0,
+  return (
+    <AnimatePresence>
+      {!show ? (children) : (
+        <View style={skeletonStyle}>
+          {children}
+          <MotiView
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              bottom: 0,
+              borderRadius,
+              width: width ?? props?.style?.width ?? (children ? '100%' : DEFAULT_SIZE),
+              overflow: 'hidden',
+            }}
+            animate={{
+              backgroundColor,
+              opacity: 1,
+            }}
+            transition={{
+              type: 'timing',
+            }}
+            exit={
+              !disableExitAnimation && {
+                opacity: 0,
+              }
             }
-          }
-          onLayout={({ nativeEvent }) => {
-            if (measuredWidth === nativeEvent.layout.width) return
+            onLayout={({ nativeEvent }) => {
+              if (measuredWidth === nativeEvent.layout.width) return
 
-            setMeasuredWidth(nativeEvent.layout.width)
-          }}
-          pointerEvents="none"
-        >
-          <AnimatedGradient
-            // force a key change to make the loop animation re-mount
-            key={`${JSON.stringify(colors)}-${measuredWidth}-${JSON.stringify(
-              transition || null
-            )}`}
-            colors={colors}
-            backgroundSize={backgroundSize}
-            measuredWidth={measuredWidth}
-            transition={transition}
-          />
-        </MotiView>
-      </AnimatePresence>
-    </View>
+              setMeasuredWidth(nativeEvent.layout.width)
+            }}
+            pointerEvents="none"
+          >
+            <AnimatedGradient
+              // force a key change to make the loop animation re-mount
+              key={`${JSON.stringify(colors)}-${measuredWidth}-${JSON.stringify(
+                transition || null
+              )}`}
+              colors={colors}
+              backgroundSize={backgroundSize}
+              measuredWidth={measuredWidth}
+              transition={transition}
+            />
+          </MotiView>
+        </View>
+      )}
+    </AnimatePresence>
   )
 }
 
