@@ -35,14 +35,12 @@ Moti requires that you install `react-native-reanimated`. Version 2 and 3 are bo
   <summary>
     View Reanimated compatibility options
   </summary>
-    
 
 Moti `0.17.x` requires Reanimated `2.3.0` or higher. This version is compatible with Expo SDK 44.
 
 Moti `0.16.x` is compatible with Reanimated `2.2.0`. This is compatible with Expo SDK 43.
 
 Moti `0.8.x` and higher requires at least Reanimated v2 stable (`2.0.0` or higher). This version is compatible with Expo starting SDK 41.
-</summary>
 
 </details>
 
@@ -107,9 +105,9 @@ As mentioned in this [Moti issue](https://github.com/nandorojo/moti/issues/13), 
 ```sh
 Property 'Proxy' doesn't exist, js engine: hermes [Mon Feb 08 2021 19:21:54.427] ERROR Invariant Violation: Module AppRegistry is not a registered callable module (calling runApplication), js engine: hermes
 ```
-  
+
 </details>
- 
+
 ## Create your first animation
 
 ```tsx
