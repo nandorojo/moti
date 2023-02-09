@@ -1,10 +1,25 @@
-import React from 'react'
+import React, { ComponentProps } from 'react'
 
 import { Rect } from 'react-native-svg'
-import { motify } from 'moti'
+import { MotiView } from 'moti'
+import { motifySvg } from '../../../packages/moti/src/core/motify-svg'
+import { useDerivedValue } from 'react-native-reanimated'
 
-const MotiRect = motify(Rect)({ isSvg: true })
+const MotiRect = motifySvg(Rect)()
+
+type Animate = Omit<
+  React.PropsWithoutRef<ComponentProps<typeof Rect>>,
+  'children'
+>
+
+const animate: Animate = {}
 
 export default function Svg() {
-  return <MotiRect animate={{}} />
+  return (
+    <MotiRect
+      animate={{
+        fill: '',
+      }}
+    />
+  )
 }
