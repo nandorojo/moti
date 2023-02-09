@@ -467,3 +467,7 @@ export type UseDynamicAnimationState<Animate = FallbackAnimateProp> = {
       | ((currentState: DynamicStyleProp<Animate>) => DynamicStyleProp<Animate>)
   ) => void
 }
+
+export type ExcludeFunctionKeys<T> = {
+  [K in keyof T as T[K] extends (...a: any[]) => any ? never : K]?: T[K]
+}

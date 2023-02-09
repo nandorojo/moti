@@ -1,6 +1,11 @@
-import type { DynamicStyleProp, UseDynamicAnimationState } from '../types'
+import type {
+  DynamicStyleProp,
+  ExcludeFunctionKeys,
+  UseDynamicAnimationState,
+} from '../types'
 import { useSharedValue } from 'react-native-reanimated'
 import { useRef } from 'react'
+import { ViewStyle, TextStyle, ImageStyle } from 'react-native'
 
 const fallback = () => ({})
 
@@ -33,9 +38,10 @@ const fallback = () => ({})
  *
  * @param initialState A function that returns your initial style. Similar to `useState`'s initial style.
  */
-export default function useDynamicAnimation<Animate>(
-  initialState: () => DynamicStyleProp<Animate> = fallback
-) {
+export default function useDynamicAnimation<
+  _Animate = ViewStyle | TextStyle | ImageStyle,
+  Animate = ExcludeFunctionKeys<_Animate>
+>(initialState: () => DynamicStyleProp<Animate> = fallback) {
   const initializer = useRef<{ value: DynamicStyleProp<Animate> }>(null as any)
   if (initializer.current === null) {
     // use a .value to be certain it's never been set
