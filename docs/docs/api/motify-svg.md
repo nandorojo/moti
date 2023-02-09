@@ -13,7 +13,7 @@ A higher-order component that turns any React Native SVG component into an anima
 import { motifySvg } from 'moti/svg'
 import { Svg, Rect } from 'react-native-svg'
 
-const MotiRect = motify(Rect)()
+const MotiRect = motifySvg(Rect)()
 ```
 
 You can now pass any SVG props to the `animate` property, and they will animate there:
