@@ -429,7 +429,7 @@ export type DynamicStyleProp<
 > = NonNullable<StyleValueWithSequenceArrays<AnimateWithTransforms>> &
   WithTransition
 
-export type UseDynamicAnimationState = {
+export type UseDynamicAnimationState<Animate = FallbackAnimateProp> = {
   /**
    * @private
    * Internal state used to drive animations. You shouldn't use this. Use `.current` instead to read the current state. Use `animateTo` to edit it.
@@ -463,7 +463,7 @@ export type UseDynamicAnimationState = {
    */
   animateTo: (
     key:
-      | DynamicStyleProp
-      | ((currentState: DynamicStyleProp) => DynamicStyleProp)
+      | DynamicStyleProp<Animate>
+      | ((currentState: DynamicStyleProp<Animate>) => DynamicStyleProp<Animate>)
   ) => void
 }

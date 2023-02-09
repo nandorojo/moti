@@ -2,8 +2,6 @@ import type { DynamicStyleProp, UseDynamicAnimationState } from '../types'
 import { useSharedValue } from 'react-native-reanimated'
 import { useRef } from 'react'
 
-type InitialState = () => DynamicStyleProp
-
 const fallback = () => ({})
 
 /**
@@ -16,7 +14,7 @@ const fallback = () => ({})
  * This hook has high performance, triggers no state changes, and runs fully on the native thread!
  *
  * ```js
- * const dynamicAnimation = useDynamicAnimation({ opacity: 0 })
+ * const dynamicAnimation = useDynamicAnimation(() => ({ opacity: 0 }))
  *
  * const onPress = () => {
  *   dynamicAnimation.animateTo({ opacity: 1 })
@@ -35,25 +33,24 @@ const fallback = () => ({})
  *
  * @param initialState A function that returns your initial style. Similar to `useState`'s initial style.
  */
-export default function useDynamicAnimation(
-  initialState: InitialState = fallback
+export default function useDynamicAnimation<Animate>(
+  initialState: () => DynamicStyleProp<Animate> = fallback
 ) {
-  const activeStyle = useRef<{ value: DynamicStyleProp }>({
-    value: null as any,
-  })
-  if (activeStyle.current.value === null) {
+  const initializer = useRef<{ value: DynamicStyleProp<Animate> }>(null as any)
+  if (initializer.current === null) {
     // use a .value to be certain it's never been set
-    activeStyle.current.value = initialState()
+    initializer.current = { value: initialState() }
   }
 
-  const __state = useSharedValue(activeStyle.current.value)
+  const __state = useSharedValue(initializer.current.value)
 
-  const controller = useRef<UseDynamicAnimationState>()
+  const controller = useRef<UseDynamicAnimationState<Animate>>()
 
   if (controller.current == null) {
     controller.current = {
       __state,
-      get current(): DynamicStyleProp {
+      // @ts-ignore
+      get current(): DynamicStyleProp<Animate> {
         return __state.value
       },
       animateTo(nextStateOrFunction) {
@@ -69,5 +66,5 @@ export default function useDynamicAnimation(
     }
   }
 
-  return controller.current as UseDynamicAnimationState
+  return controller.current as UseDynamicAnimationState<Animate>
 }
