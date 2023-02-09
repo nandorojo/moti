@@ -1,8 +1,8 @@
 import React, { forwardRef } from 'react'
 import Animated from 'react-native-reanimated'
 
-import { ExcludeFunctionKeys, MotiProps } from './types'
-import { useMotify } from './use-motify'
+import { ExcludeFunctionKeys, MotiProps } from '../core/types'
+import { useMotify } from '../core/use-motify'
 
 type AdditionalProps = {
   children?: React.ReactNode

@@ -1,7 +1,7 @@
 module.exports = {
   someSidebar: {
     Welcome: ['welcome', 'installation', 'starter'],
-    Usage: ['animations', 'api/transforms', 'reanimated'],
+    Usage: ['animations', 'api/transforms', 'reanimated', 'svg'],
     Examples: [
       'examples/hello-world',
       'examples/animate-presence',
@@ -28,6 +28,11 @@ module.exports = {
 
     Resources: ['resources/videos'],
     Web: ['web', 'next'],
-    'API Reference': ['api/motify', 'api/imports', 'api/props'],
+    'API Reference': [
+      'api/motify',
+      'api/motify-svg',
+      'api/imports',
+      'api/props',
+    ],
   },
 }
