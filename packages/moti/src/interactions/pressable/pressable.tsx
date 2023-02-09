@@ -142,63 +142,23 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
     )
 
     let node: ReactNode
-    if (Platform.OS === 'web' || Platform.OS === 'android') {
-      node = (
-        <Hoverable
-          onHoverIn={updateInteraction('hovered', true, onHoverIn)}
-          onHoverOut={updateInteraction('hovered', false, onHoverOut)}
-          childRef={ref}
-        >
-          <Pressable
-            onLongPress={onLongPress}
-            hitSlop={hitSlop}
-            disabled={disabled}
-            style={containerStyle}
-            onPress={onPress}
-            onPressIn={updateInteraction('pressed', true, onPressIn)}
-            onPressOut={updateInteraction('pressed', false, onPressOut)}
-            ref={ref}
-            onLayout={onContainerLayout}
-            // Accessibility props
-            accessibilityActions={accessibilityActions}
-            accessibilityElementsHidden={accessibilityElementsHidden}
-            accessibilityHint={accessibilityHint}
-            accessibilityIgnoresInvertColors={accessibilityIgnoresInvertColors}
-            accessibilityLabel={accessibilityLabel}
-            accessibilityLiveRegion={accessibilityLiveRegion}
-            accessibilityRole={accessibilityRole}
-            accessibilityState={accessibilityState}
-            accessibilityValue={accessibilityValue}
-            accessibilityViewIsModal={accessibilityViewIsModal}
-            accessible={accessible}
-            onAccessibilityTap={onAccessibilityTap}
-            onAccessibilityAction={onAccessibilityAction}
-            onAccessibilityEscape={onAccessibilityEscape}
-            importantForAccessibility={importantForAccessibility}
-            // @ts-expect-error RNW types
-            onKeyDown={onKeyDown}
-            onKeyUp={onKeyUp}
-            onFocus={onFocus}
-            onBlur={onBlur}
-            href={href}
-          >
-            {child}
-          </Pressable>
-        </Hoverable>
-      )
-    } else {
-      node = (
-        <TouchableWithoutFeedback
-          onPressIn={updateInteraction('pressed', true, onPressIn)}
-          onPressOut={updateInteraction('pressed', false, onPressOut)}
+    // if (Platform.OS === 'web' || Platform.OS === 'android') {
+    node = (
+      <Hoverable
+        onHoverIn={updateInteraction('hovered', true, onHoverIn)}
+        onHoverOut={updateInteraction('hovered', false, onHoverOut)}
+        childRef={ref}
+      >
+        <Pressable
           onLongPress={onLongPress}
           hitSlop={hitSlop}
           disabled={disabled}
+          style={containerStyle}
           onPress={onPress}
-          // @ts-expect-error incorrect ref types, lol
+          onPressIn={updateInteraction('pressed', true, onPressIn)}
+          onPressOut={updateInteraction('pressed', false, onPressOut)}
           ref={ref}
           onLayout={onContainerLayout}
-          containerStyle={containerStyle}
           // Accessibility props
           accessibilityActions={accessibilityActions}
           accessibilityElementsHidden={accessibilityElementsHidden}
@@ -215,13 +175,54 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
           onAccessibilityAction={onAccessibilityAction}
           onAccessibilityEscape={onAccessibilityEscape}
           importantForAccessibility={importantForAccessibility}
+          // @ts-expect-error RNW types
+          onKeyDown={onKeyDown}
+          onKeyUp={onKeyUp}
           onFocus={onFocus}
           onBlur={onBlur}
+          href={href}
         >
           {child}
-        </TouchableWithoutFeedback>
-      )
-    }
+        </Pressable>
+      </Hoverable>
+    )
+    // }
+    // else  {
+    //   node = (
+    //     <TouchableWithoutFeedback
+    //       onPressIn={updateInteraction('pressed', true, onPressIn)}
+    //       onPressOut={updateInteraction('pressed', false, onPressOut)}
+    //       onLongPress={onLongPress}
+    //       hitSlop={hitSlop}
+    //       disabled={disabled}
+    //       onPress={onPress}
+    //       // @ts-expect-error incorrect ref types, lol
+    //       ref={ref}
+    //       onLayout={onContainerLayout}
+    //       containerStyle={containerStyle}
+    //       // Accessibility props
+    //       accessibilityActions={accessibilityActions}
+    //       accessibilityElementsHidden={accessibilityElementsHidden}
+    //       accessibilityHint={accessibilityHint}
+    //       accessibilityIgnoresInvertColors={accessibilityIgnoresInvertColors}
+    //       accessibilityLabel={accessibilityLabel}
+    //       accessibilityLiveRegion={accessibilityLiveRegion}
+    //       accessibilityRole={accessibilityRole}
+    //       accessibilityState={accessibilityState}
+    //       accessibilityValue={accessibilityValue}
+    //       accessibilityViewIsModal={accessibilityViewIsModal}
+    //       accessible={accessible}
+    //       onAccessibilityTap={onAccessibilityTap}
+    //       onAccessibilityAction={onAccessibilityAction}
+    //       onAccessibilityEscape={onAccessibilityEscape}
+    //       importantForAccessibility={importantForAccessibility}
+    //       onFocus={onFocus}
+    //       onBlur={onBlur}
+    //     >
+    //       {child}
+    //     </TouchableWithoutFeedback>
+    //   )
+    // }
 
     const context = useMotiPressableContext()
 
