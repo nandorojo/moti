@@ -14,6 +14,7 @@ A higher-order component that turns any React Native class component into an ani
 You can now animate like you normally would:
 
 ```tsx
+// height sequence animation
 <MotifiedComponent animate={{ height: [50, 100] }} />
 ```
 

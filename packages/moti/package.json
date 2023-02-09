@@ -28,7 +28,8 @@
     "!**/__tests__",
     "interactions",
     "skeleton",
-    "index.d.ts"
+    "index.d.ts",
+    "svg"
   ],
   "sideEffects": false,
   "publishConfig": {
