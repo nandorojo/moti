@@ -1,1 +1,1 @@
-export * from '../build/svg'
+export * from '../build/interactions'
