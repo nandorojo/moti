@@ -5,7 +5,6 @@ import { ExcludeFunctionKeys, MotiProps } from '../core/types'
 import { useMotify } from '../core/use-motify'
 
 type AdditionalProps = {
-  children?: React.ReactNode
   /**
    * Animated props are not allowed with a Moti SVG component, since they will be overridden.
    *
@@ -29,11 +28,9 @@ type AdditionalProps = {
 }
 
 export function motifySvg<
-  Props,
-  C extends React.ComponentClass<any> = React.ComponentClass<Props>,
-  Animate = ExcludeFunctionKeys<
-    Omit<React.ComponentPropsWithoutRef<C>, 'children'>
-  >
+  C extends React.ComponentClass<any>,
+  Props = React.ComponentPropsWithoutRef<C>,
+  Animate = ExcludeFunctionKeys<Omit<Props, 'children'>>
 >(ComponentWithoutAnimation: C) {
   const withAnimations = () => {
     const AnimatedComponent = Animated.createAnimatedComponent(

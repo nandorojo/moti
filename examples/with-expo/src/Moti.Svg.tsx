@@ -1,9 +1,8 @@
 import React, { ComponentProps } from 'react'
 
+import { useDynamicAnimation } from 'moti'
 import { Rect } from 'react-native-svg'
-import { MotiView, useDynamicAnimation } from 'moti'
-import { motifySvg } from '../../../packages/moti/src/core/motify-svg'
-import { useDerivedValue } from 'react-native-reanimated'
+import { motifySvg } from '../../../packages/moti/src/svg/motify-svg'
 
 const MotiRect = motifySvg(Rect)()
 
