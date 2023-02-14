@@ -29,11 +29,9 @@ type AdditionalProps = {
 }
 
 export function motifySvg<
-  Props,
-  C extends React.ComponentClass<any> = React.ComponentClass<Props>,
-  Animate = ExcludeFunctionKeys<
-    Omit<React.ComponentPropsWithoutRef<C>, 'children'>
-  >
+  C extends React.ComponentClass<any>,
+  Props = React.ComponentPropsWithoutRef<C>,
+  Animate = ExcludeFunctionKeys<Omit<Props, 'children'>>
 >(ComponentWithoutAnimation: C) {
   const withAnimations = () => {
     const AnimatedComponent = Animated.createAnimatedComponent(

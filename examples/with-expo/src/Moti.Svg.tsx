@@ -1,7 +1,7 @@
 import React, { ComponentProps } from 'react'
 
 import { Rect } from 'react-native-svg'
-import { MotiView, useDynamicAnimation } from 'moti'
+import { MotiView } from 'moti'
 import { motifySvg } from '../../../packages/moti/src/svg'
 import { useDerivedValue } from 'react-native-reanimated'
 
@@ -15,7 +15,6 @@ type Animate = Omit<
 const animate: Animate = {}
 
 export default function Svg() {
-  const animation = useDynamicAnimation<ComponentProps<typeof Rect>>(() => ({}))
   return (
     <MotiRect
       // state={animation}
