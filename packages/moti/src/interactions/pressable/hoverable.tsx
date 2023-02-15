@@ -108,7 +108,7 @@ export function Hoverable({
         }
       }
     },
-    []
+    [isHovered, hoverIn, hoverOut]
   )
 
   const handleMouseEnter = useCallback(() => {

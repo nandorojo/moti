@@ -1,7 +1,7 @@
 {
   "name": "with-expo",
   "description": "Example app for moti",
-  "version": "0.23.4",
+  "version": "0.23.5",
   "private": true,
   "scripts": {
     "android": "expo run:android",
