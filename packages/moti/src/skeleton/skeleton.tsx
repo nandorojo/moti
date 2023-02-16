@@ -1,4 +1,4 @@
-import { LinearGradient } from 'expo-linear-gradient'
+import { LinearGradient } from './gradient'
 import React, { useState, createContext, useContext } from 'react'
 import { View, StyleSheet } from 'react-native'
 
@@ -198,6 +198,9 @@ export default function Skeleton(props: Props) {
   )
 }
 
+const GRADIENT_START = { x: 0.1, y: 1 }
+const GRADIENT_END = { x: 1, y: 1 }
+
 const AnimatedGradient = React.memo(
   function AnimatedGradient({
     measuredWidth,
@@ -253,8 +256,8 @@ const AnimatedGradient = React.memo(
         >
           <LinearGradient
             colors={colors}
-            start={[0.1, 1]}
-            end={[1, 1]}
+            start={GRADIENT_START}
+            end={GRADIENT_END}
             style={StyleSheet.absoluteFillObject}
           />
         </MotiView>
