@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.23.6](https://github.com/nandorojo/moti/compare/v0.23.4...v0.23.6) (2023-02-15)
+
+
+### Bug Fixes
+
+* hoverable without swc plugin ([cdb4a5d](https://github.com/nandorojo/moti/commit/cdb4a5dddafe96b76281108f7f6222291e4f8fb7))
+
+
+
+
+
 ## [0.23.5](https://github.com/nandorojo/moti/compare/v0.23.4...v0.23.5) (2023-02-14)
 
 **Note:** Version bump only for package moti

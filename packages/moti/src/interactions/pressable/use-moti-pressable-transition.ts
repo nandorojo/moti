@@ -81,7 +81,7 @@ export function useMotiPressableTransition(
 ): Readonly<Animated.SharedValue<MotiTransition>> {
   const context = useMotiPressableContext()
 
-  const { factory, id, deps } = useFactory<Factory<MotiTransition>>(
+  const { factory, id, deps = [] } = useFactory<Factory<MotiTransition>>(
     'useMotiPressableAnimatedProps',
     factoryOrId,
     maybeFactoryOrDeps,
@@ -90,5 +90,5 @@ export function useMotiPressableTransition(
 
   return useDerivedValue<MotiTransition>(() => {
     return context && factory(context.containers[id].value)
-  }, deps)
+  }, [context.containers[id], ...deps])
 }

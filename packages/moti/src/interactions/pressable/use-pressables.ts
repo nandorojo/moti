@@ -2,6 +2,7 @@ import { MotiPressableContext, useMotiPressableContext } from './context'
 import type { MotiPressableInteractionProp } from './types'
 import { useDerivedValue } from 'react-native-reanimated'
 import { useMemo } from 'react'
+import { Platform } from 'react-native'
 
 type Factory = (
   containers: MotiPressableContext['containers']
@@ -78,7 +79,7 @@ export function useMotiPressables(
 
     return animatedResult
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [context.containers, ...deps])
+  }, [context.containers, Platform.select({ web: factory }), ...deps])
 
   const state = useMemo(() => ({ __state }), [__state])
 

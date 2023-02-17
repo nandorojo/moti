@@ -92,7 +92,7 @@ function useMotiPressable(
 ): MotiProps['state'] {
   const context = useMotiPressableContext()
 
-  const { factory, id, deps } = useFactory<MotiPressableInteractionProp>(
+  const { factory, id, deps = [] } = useFactory<MotiPressableInteractionProp>(
     'useMotiPressable',
     factoryOrId,
     maybeFactoryOrDeps,
@@ -103,7 +103,7 @@ function useMotiPressable(
     const interaction = context.containers[id]
 
     return interaction && factory(interaction.value)
-  }, deps)
+  }, [context, id, context.containers[id], ...deps])
 
   return useMemo(
     () => ({

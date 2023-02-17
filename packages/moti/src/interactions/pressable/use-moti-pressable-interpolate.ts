@@ -87,7 +87,7 @@ export function useInterpolateMotiPressable<Props>(
 ): Readonly<Animated.SharedValue<Props>> {
   const context = useMotiPressableContext()
 
-  const { factory, id, deps } = useFactory<Factory<Props>>(
+  const { factory, id, deps = [] } = useFactory<Factory<Props>>(
     'useMotiPressableAnimatedProps',
     factoryOrId,
     maybeFactoryOrDeps,
@@ -96,5 +96,5 @@ export function useInterpolateMotiPressable<Props>(
 
   return useDerivedValue<Props>(() => {
     return context && factory(context.containers[id].value)
-  }, deps)
+  }, [...deps, context.containers[id]])
 }
