@@ -51,6 +51,7 @@
   "devDependencies": {
     "expo-linear-gradient": "^10.0.3",
     "expo-module-scripts": "^2.0.0",
+    "react-native-linear-gradient": "^2.6.2",
     "react-native-reanimated": "*",
     "typescript": "^4.0.3"
   },

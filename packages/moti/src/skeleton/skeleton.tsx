@@ -4,101 +4,15 @@ import { View, StyleSheet } from 'react-native'
 
 import { View as MotiView } from '../components'
 import { AnimatePresence, MotiTransitionProp } from '../core'
+import {
+  DEFAULT_SKELETON_SIZE as DEFAULT_SIZE,
+  defaultDarkColors,
+  defaultLightColors,
+  baseColors,
+} from './shared'
+import { MotiSkeletonProps } from './types'
 
-type Props = {
-  /**
-   * Optional height of the container of the skeleton. If set, it will give a fixed height to the container.
-   *
-   * If not set, the container will stretch to the children.
-   */
-  boxHeight?: number | string
-  /**
-   * Optional height of the skeleton. Defauls to a `minHeight` of `32`
-   */
-  height?: number | string
-  children?: React.ReactChild | null
-  /**
-   * `boolean` specifying whether the skeleton should be visible. By default, it shows if there are no children. This way, you can conditionally display children, and automatically hide the skeleton when they exist.
-   *
-   * ```tsx
-   * // skeleton will hide when data exists
-   * <Skeleton>
-   *   {data ? <Data /> : null}
-   * </Skeleton>
-   * ```
-   *
-   * // skeleton will always show
-   * <Skeleton show>
-   *   {data ? <Data /> : null}
-   * </Skeleton>
-   *
-   * // skeleton will always hide
-   * <Skeleton show={false}>
-   *   {data ? <Data /> : null}
-   * </Skeleton>
-   *
-   * If you have multiple skeletons, you can use the `<Skeleton.Group show={loading} /> as a parent rather than use this prop directly.
-   */
-  show?: boolean
-  /**
-   * Width of the skeleton. Defaults to `32` as the `minWidth`. Sets the container's `minWidth` to this value if defined, falling back to 32.
-   */
-  width?: string | number
-  /**
-   * Border radius. Can be `square`, `round`, or a number. `round` makes it a circle. Defaults to `8`.
-   */
-  radius?: number | 'square' | 'round'
-  /**
-   * Background of the box that contains the skeleton. Should match the main `colors` prop color.
-   *
-   * Default: `'rgb(51, 51, 51, 50)'`
-   */
-  backgroundColor?: string
-  /**
-   * Gradient colors. Defaults to grayish black.
-   */
-  colors?: string[]
-  /**
-   * Default: `6`. Similar to `600%` for CSS `background-size`. Determines how much the gradient stretches.
-   */
-  backgroundSize?: number
-  /**
-   * `light` or `dark`. Default: `dark`.
-   */
-  colorMode?: keyof typeof baseColors
-  disableExitAnimation?: boolean
-  transition?: MotiTransitionProp
-}
-
-const DEFAULT_SIZE = 32
-
-const baseColors = {
-  dark: { primary: 'rgb(17, 17, 17)', secondary: 'rgb(51, 51, 51)' },
-  light: {
-    primary: 'rgb(250, 250, 250)',
-    secondary: 'rgb(205, 205, 205)',
-  },
-} as const
-
-const makeColors = (mode: keyof typeof baseColors) => [
-  baseColors[mode].primary,
-  baseColors[mode].secondary,
-  baseColors[mode].secondary,
-  baseColors[mode].primary,
-  baseColors[mode].secondary,
-  baseColors[mode].primary,
-]
-
-let defaultDarkColors = makeColors('dark')
-
-let defaultLightColors = makeColors('light')
-
-for (let i = 0; i++; i < 3) {
-  defaultDarkColors = [...defaultDarkColors, ...defaultDarkColors]
-  defaultLightColors = [...defaultLightColors, ...defaultLightColors]
-}
-
-export default function Skeleton(props: Props) {
+export default function Skeleton(props: MotiSkeletonProps) {
   const skeletonGroupContext = useContext(SkeletonGroupContext)
   const {
     radius = 8,
@@ -253,8 +167,14 @@ const AnimatedGradient = React.memo(
         >
           <LinearGradient
             colors={colors}
-            start={[0.1, 1]}
-            end={[1, 1]}
+            start={{
+              x: 0.1,
+              y: 1,
+            }}
+            end={{
+              x: 1,
+              y: 1,
+            }}
             style={StyleSheet.absoluteFillObject}
           />
         </MotiView>
