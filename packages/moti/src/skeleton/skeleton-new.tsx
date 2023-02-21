@@ -38,7 +38,7 @@ export default function Skeleton(props: MotiSkeletonProps) {
 
   const measuredWidthSv = useSharedValue(0)
 
-  const getBorderRadius = () => {
+  const borderRadius = (() => {
     if (radius === 'square') {
       return 0
     }
@@ -46,19 +46,15 @@ export default function Skeleton(props: MotiSkeletonProps) {
       return 99999
     }
     return radius
-  }
+  })()
 
-  const borderRadius = getBorderRadius()
-
-  const getOuterHeight = () => {
+  const outerHeight = (() => {
     if (boxHeight != null) return boxHeight
     if (show && !children) {
       return height
     }
     return undefined
-  }
-
-  const outerHeight = getOuterHeight()
+  })()
 
   return (
     <View
@@ -69,7 +65,7 @@ export default function Skeleton(props: MotiSkeletonProps) {
       }}
     >
       {children}
-      <MotiView
+      <View
         style={{
           position: 'absolute',
           top: 0,
@@ -78,13 +74,7 @@ export default function Skeleton(props: MotiSkeletonProps) {
           width: width ?? (children ? '100%' : DEFAULT_SIZE),
           height: height ?? '100%',
           overflow: 'hidden',
-        }}
-        animate={{
           backgroundColor,
-          opacity: show ? 1 : 0,
-        }}
-        transition={{
-          type: 'timing',
         }}
         onLayout={({ nativeEvent }) => {
           if (measuredWidthSv.value !== nativeEvent.layout.width) {
@@ -96,7 +86,7 @@ export default function Skeleton(props: MotiSkeletonProps) {
         {disableExitAnimation && !show ? null : (
           <AnimatedGradient
             // force a key change to make the loop animation re-mount
-            key={`${colorMode}-${show}-${colors.join(',')}`}
+            key={colors.join(',')}
             colors={colors}
             backgroundSize={backgroundSize}
             transition={transition}
@@ -105,7 +95,7 @@ export default function Skeleton(props: MotiSkeletonProps) {
             Gradient={props.Gradient}
           />
         )}
-      </MotiView>
+      </View>
     </View>
   )
 }
@@ -137,16 +127,15 @@ const AnimatedGradient = React.memo(
           ),
         ]}
         from={{
+          opacity: 0,
           translateX: 0,
         }}
         animate={useDerivedValue(() => {
-          if (measuredWidthSv.value) {
-            return {}
-          }
           return {
+            opacity: show ? 1 : 0,
             translateX: -measuredWidthSv.value * (backgroundSize - 1),
           }
-        }, [measuredWidthSv])}
+        }, [measuredWidthSv, show])}
         transition={{
           loop: show,
           delay: 200,
