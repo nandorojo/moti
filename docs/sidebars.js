@@ -1,11 +1,11 @@
 module.exports = {
   someSidebar: {
-    Welcome: ['welcome', 'installation', 'starter'],
+    Welcome: ['welcome', 'installation', 'starter', 'hello-world'],
     Usage: ['animations', 'api/transforms', 'reanimated', 'svg'],
     Examples: [
       'examples/hello-world',
       'examples/animate-presence',
-      'examples/auto-height',
+      // 'examples/auto-height',
       'examples/exit-before-enter',
       'examples/loop',
       'examples/variants',
