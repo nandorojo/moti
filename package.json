@@ -27,12 +27,6 @@
     "example": "yarn --cwd example",
     "prepare": "lerna run prepare"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "yarn prepare"
-    }
-  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
