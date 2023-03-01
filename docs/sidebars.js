@@ -9,7 +9,7 @@ module.exports = {
       'examples/exit-before-enter',
       'examples/loop',
       'examples/variants',
-      'examples/dropdown',
+      // 'examples/dropdown',
       'examples/action-menu',
     ],
     Hooks: ['hooks/use-animation-state', 'hooks/use-dynamic-animation'],
