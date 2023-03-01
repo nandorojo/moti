@@ -28,31 +28,66 @@ export default Loader
 
 ## Install
 
-Prior to version `0.17.0`, the skeleton was installed as its own package. This is no longer the case.
-
-If you have `@motify/skeleton` in your `package.json`, be sure to delete it and upgrade `moti`.
-
-[See the PR](https://github.com/nandorojo/moti/pull/136).
-
-### Peer dependency
+### Expo Users
 
 You'll also want to install `expo-linear-gradient`.
 
 _Please note that you must have Reanimated 2 installed. See [installation](/installation) steps for more info._
 
-### If you're using Expo:
-
 ```bash
 expo install expo-linear-gradient
 ```
 
-### If you aren't using Expo:
+### Non-Expo users
+
+If you aren't using Expo, you can either use the `expo-linear-gradient` package, or `react-native-linear-gradient`.
+
+#### Option 1: `expo-linear-gradient`
 
 ```bash npm2yarn
 npm install expo-linear-gradient
 ```
 
-Please make sure you complete any installation steps required for Expo's [linear gradient](https://docs.expo.io/versions/latest/sdk/linear-gradient/) component.
+Keep in mind you'll need to also install `expo-modules-core`. Please make sure you complete any installation steps required for Expo's [linear gradient](https://docs.expo.io/versions/latest/sdk/linear-gradient/) component.
+
+#### Option 2: `react-native-linear-gradient`
+
+<details>
+<summary><strong>Click here to use <code>react-native-linear-gradient</code></strong></summary>
+
+First, install the module resolver plugin:
+
+```npm2yarn
+npm install babel-plugin-module-resolver
+```
+
+Next, add this to your app's `babel.config.js`'s `plugins` array.
+
+```js
+// babel.config.js
+module.exports = function (api) {
+  api.cache(true)
+  return {
+    plugins: [
+      [
+        'module-resolver',
+        {
+          root: ['./'],
+          alias: {
+            'moti/skeleton': 'moti/skeleton/react-native-linear-gradient',
+          },
+        },
+      ],
+    ],
+  }
+}
+```
+
+This assumes you've installed `react-native-linear-gradient` and followed any of its installation requirements.
+
+Your skeletons will now use `react-native-linear-gradient`. You can continue importing from `moti/skeleton`.
+
+</details>
 
 ## Video
 
