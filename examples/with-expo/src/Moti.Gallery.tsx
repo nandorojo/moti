@@ -1,6 +1,6 @@
 import { MotiImage, AnimatePresence, Text } from 'moti'
 import React, { useState } from 'react'
-import { StyleSheet, View, Image, Dimensions } from 'react-native'
+import { StyleSheet, View, Dimensions } from 'react-native'
 
 const photos = [
   `https://images.unsplash.com/photo-1551871812-10ecc21ffa2f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=929&q=80`,
