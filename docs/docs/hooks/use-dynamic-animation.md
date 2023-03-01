@@ -8,6 +8,8 @@ sidebar_label: useDynamicAnimation()
 
 It has all the same performance benefits of `useAnimationState`, with a more expressive API.
 
+<iframe src="https://stackblitz.com/edit/nextjs-bgwups?embed=1&file=pages/index.tsx" className="stackblitz" />
+
 ## `useDynamicAnimation(initialState?)`
 
 ```tsx

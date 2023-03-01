@@ -12,6 +12,8 @@ It's useful when you:
 2. know your different animation states ahead of time, and
 3. don't mind using a hook
 
+<iframe src="https://stackblitz.com/edit/nextjs-ephjdq?embed=1&file=pages/index.tsx" className="stackblitz" />
+
 ```js
 const animationState = useAnimationState({
   from: {
