@@ -3,7 +3,7 @@ id: installation
 title: Installation
 ---
 
-Moti uses [Reanimated 2](https://docs.swmansion.com/react-native-reanimated/) under the hood to drive high-performance animations on iOS, Android and Web.
+Moti uses [Reanimated 3](https://docs.swmansion.com/react-native-reanimated/) under the hood to drive high-performance animations on iOS, Android and Web.
 
 ## Starter project
 
@@ -27,7 +27,7 @@ yarn add moti
 npm i moti --legacy-peer-deps
 ```
 
-## Install Reanimated 2+
+## Install Reanimated 3+
 
 Moti requires that you install `react-native-reanimated`. Version 2 and 3 are both compatible.
 

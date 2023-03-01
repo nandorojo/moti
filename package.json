@@ -1,5 +1,5 @@
 {
-  "description": "The universal React Native animation library, powered by Reanimated 2. 🦉",
+  "description": "The universal React Native animation library, powered by Reanimated 3. 🦉",
   "private": true,
   "workspaces": {
     "packages": [

@@ -72,7 +72,7 @@ const animateProps = useMotiPressableAnimatedProps(...)
 </MotiView>
 ```
 
-If you need to do both, please split your usage into two components; one that receives the `animate` prop, and another that receives `animateProps`. This is a limitation in Reanimated 2.
+If you need to do both, please split your usage into two components; one that receives the `animate` prop, and another that receives `animateProps`. This is a limitation in Reanimated 3.
 
 ```tsx
 // ✅ good

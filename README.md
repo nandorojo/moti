@@ -1,6 +1,6 @@
 <img src="/assets/banner2.png" />
 
-The universal React Native animation library, powered by Reanimated 2.
+The universal React Native animation library, powered by Reanimated 3.
 
 ```jsx
 <MotiView from={{ opacity: 0 }} animate={{ opacity: 1 }} />
@@ -27,7 +27,7 @@ I spoke at at [Next.js Conf 2021](https://fernandorojo.co/conf) on October 26 ab
 - Universal: works on all platforms
 - 60 FPS animations on the native thread
 - Mount/unmount animations, like `framer-motion`
-- Powered by Reanimated 2
+- Powered by Reanimated 3
 - Web support, out-of-the-box
 - Expo support
 - Intuitive API
