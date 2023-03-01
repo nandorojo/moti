@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.24.0](https://github.com/nandorojo/moti/compare/v0.23.7...v0.24.0) (2023-03-01)
+
+
+### Features
+
+* improve skeleton perf, add react-native-linear-gradient support ([b7f23ac](https://github.com/nandorojo/moti/commit/b7f23aca11a9cb65143e917846558d016c4d6f77))
+
+
+
+
+
 ## [0.23.6](https://github.com/nandorojo/moti/compare/v0.23.4...v0.23.6) (2023-02-15)
 
 
