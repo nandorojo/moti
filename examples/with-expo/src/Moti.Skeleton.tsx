@@ -5,12 +5,6 @@ import { Skeleton } from 'moti/skeleton'
 
 const Spacer = ({ height = 16 }) => <View style={{ height }} />
 
-const transition = {
-  opacity: {
-    duration: 300,
-  },
-} as const
-
 export default function HelloWorld() {
   const [dark, toggle] = useReducer((s) => !s, true)
 

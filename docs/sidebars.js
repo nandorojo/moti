@@ -11,6 +11,7 @@ module.exports = {
       'examples/variants',
       // 'examples/dropdown',
       'examples/action-menu',
+      'examples/skeleton',
     ],
     Hooks: ['hooks/use-animation-state', 'hooks/use-dynamic-animation'],
     ['Interactions']: [
