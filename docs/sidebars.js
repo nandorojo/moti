@@ -5,6 +5,7 @@ module.exports = {
     Examples: [
       'examples/hello-world',
       'examples/animate-presence',
+      'examples/image-gallery',
       // 'examples/auto-height',
       'examples/exit-before-enter',
       'examples/loop',
