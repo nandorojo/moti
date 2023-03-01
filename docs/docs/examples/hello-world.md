@@ -1,9 +1,12 @@
 ---
 id: hello-world
 title: Hello World
+hide_table_of_contents: true
 ---
 
-This is all it takes to create an animation that fades and scales in with Moti:
+<iframe src="https://stackblitz.com/edit/nextjs-nzbmjn?embed=1&file=pages/index.tsx"  className="stackblitz" />
+
+<!-- This is all it takes to create an animation that fades and scales in with Moti:
 
 ```tsx
 import React, { useReducer } from 'react'
@@ -56,4 +59,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#9c1aff',
   },
 })
-```
+``` -->

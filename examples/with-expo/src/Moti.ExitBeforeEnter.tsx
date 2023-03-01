@@ -1,7 +1,6 @@
-import { AnimatePresence } from 'framer-motion'
 import React, { useReducer } from 'react'
 import { StyleSheet, Pressable } from 'react-native'
-import { View } from 'moti'
+import { AnimatePresence, View } from 'moti'
 
 function Shape({ bg }: { bg: string }) {
   return (
