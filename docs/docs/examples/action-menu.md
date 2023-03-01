@@ -1,7 +1,8 @@
 ---
 id: action-menu
 title: Action Menu
+hide_title: true
+hide_table_of_contents: true
 ---
 
-<div data-snack-id="@alevy97/action-menu" data-snack-platform="web" data-snack-preview="true" data-snack-theme="dark" style={{height:"700px"}}></div>
-<script async src="https://snack.expo.dev/embed.js"></script>
+<iframe src="https://stackblitz.com/edit/nextjs-tgyt13?embed=1&file=pages/index.tsx" className="stackblitz" />

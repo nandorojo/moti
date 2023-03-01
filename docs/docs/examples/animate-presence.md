@@ -1,8 +1,12 @@
 ---
-id: animate-presence
-title: Animate Presence
+hide_title: true
+hide_table_of_contents: true
+sidebar_label: Animate Presence
 ---
 
+<iframe src="https://stackblitz.com/edit/nextjs-pxczpl?embed=1&file=pages/index.js" className="stackblitz" />
+
+<!--
 See a video of this example [here](https://twitter.com/FernandoTheRojo/status/1349884929765765123).
 
 ```tsx
@@ -58,4 +62,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#9c1aff',
   },
 })
-```
+``` -->
