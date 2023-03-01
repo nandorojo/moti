@@ -134,10 +134,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
         style={style}
         onLayout={onLayout}
       >
-        {typeof children == 'function'
-          ? // @ts-expect-error it thinks ReactNode can be a function, but it's fine.
-            children(interaction)
-          : children}
+        {typeof children == 'function' ? children(interaction) : children}
       </MotiView>
     )
 
