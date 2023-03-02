@@ -53,6 +53,7 @@ export function motifySvg<
         <AnimatedComponent
           {...props}
           animatedProps={animated.style}
+          // @ts-ignore
           ref={ref}
         />
       )
