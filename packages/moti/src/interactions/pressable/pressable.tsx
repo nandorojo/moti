@@ -134,6 +134,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
         style={style}
         onLayout={onLayout}
       >
+        {/* @ts-ignore */}
         {typeof children == 'function' ? children(interaction) : children}
       </MotiView>
     )
