@@ -74,7 +74,7 @@ export default function Skeleton(props: MotiSkeletonProps) {
           width: width ?? (children ? '100%' : DEFAULT_SIZE),
           height: height ?? '100%',
           overflow: 'hidden',
-          backgroundColor,
+          backgroundColor: show ? backgroundColor : undefined,
         }}
         onLayout={({ nativeEvent }) => {
           if (measuredWidthSv.value !== nativeEvent.layout.width) {
