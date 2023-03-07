@@ -7,3 +7,5 @@ import { MotiSkeletonProps } from './types'
 export function Skeleton(props: Omit<MotiSkeletonProps, 'Gradient'>) {
   return <SkeletonNative {...props} Gradient={LinearGradient as any} />
 }
+
+Skeleton.Group = SkeletonNative.Group

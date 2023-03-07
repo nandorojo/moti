@@ -9,3 +9,5 @@ export default function SkeletonExpo(
 ) {
   return <SkeletonNative {...props} Gradient={LinearGradient as any} />
 }
+
+SkeletonExpo.Group = SkeletonNative.Group
