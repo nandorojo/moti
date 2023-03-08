@@ -27,7 +27,7 @@ export default function motify<
           children?: React.ReactNode
         }
     >(function Moti(props, ref) {
-      const animated = useMotify(props)
+      const animated = useMotify(props as any)
 
       return (
         <Component

@@ -20,12 +20,14 @@ import type {
 
 import { PackageName } from './constants/package-name'
 import type {
+  InlineOnDidAnimate,
   MotiProps,
   MotiTransition,
   SequenceItem,
   Transforms,
   TransitionConfig,
   WithTransition,
+  SequenceItemObject,
 } from './types'
 
 const debug = (...args: any[]) => {
@@ -227,22 +229,32 @@ const getSequenceArray = (
   delayMs: number | undefined,
   config: object,
   animation: (...props: any) => any,
-  callback: (completed: boolean, value?: any) => void
+  callback: (
+    completed: boolean | undefined,
+    value: any | undefined,
+    info: {
+      attemptedSequenceValue: any
+    }
+  ) => void
 ) => {
   'worklet'
 
   const sequence: any[] = []
 
-  for (const step of sequenceArray) {
+  sequenceArray.forEach((step) => {
     const shouldPush =
       typeof step === 'object'
         ? step && step?.value != null && step?.value !== false
         : step != null && step !== false
+    let stepOnDidAnimate: SequenceItemObject<any>['onDidAnimate']
     if (shouldPush) {
       let stepDelay = delayMs
       let stepValue = step
       let stepConfig = Object.assign({}, config)
-      let stepAnimation = animation
+      let stepAnimation = animation as
+        | typeof withTiming
+        | typeof withSpring
+        | typeof withDecay
       if (typeof step === 'object') {
         // not allowed in Reanimated: { delay, value, ...transition } = step
         const stepTransition = Object.assign({}, step)
@@ -262,16 +274,31 @@ const getSequenceArray = (
           stepDelay = step.delay
         }
         stepValue = step.value
+        stepOnDidAnimate = step.onDidAnimate
       }
 
-      const sequenceValue = stepAnimation(stepValue, stepConfig, callback)
+      const sequenceValue = stepAnimation(
+        stepValue,
+        stepConfig as any,
+        (completed = false, maybeValue) => {
+          callback(completed, maybeValue, {
+            attemptedSequenceValue: stepValue,
+          })
+          if (stepOnDidAnimate) {
+            runOnJS(stepOnDidAnimate)(completed, maybeValue, {
+              attemptedSequenceItemValue: stepValue,
+              attemptedSequenceArray: maybeValue,
+            })
+          }
+        }
+      )
       if (stepDelay != null) {
         sequence.push(withDelay(stepDelay, sequenceValue))
       } else {
         sequence.push(sequenceValue)
       }
     }
-  }
+  })
 
   return sequence
 }
@@ -405,7 +432,14 @@ export function useMotify<Animate>({
 
     // need to use forEach to work with Hermes...https://github.com/nandorojo/moti/issues/214#issuecomment-1399055535
     Object.keys(mergedStyles).forEach((key) => {
-      const value = mergedStyles[key]
+      let value = mergedStyles[key]
+
+      let inlineOnDidAnimate: InlineOnDidAnimate<any> | undefined
+
+      if (typeof value == 'object' && 'onDidAnimate' in value) {
+        inlineOnDidAnimate = value.onDidAnimate
+        value = value.value
+      }
 
       const {
         animation,
@@ -415,20 +449,23 @@ export function useMotify<Animate>({
         repeatReverse,
       } = animationConfig(key, transition)
 
-      const callback: (completed: boolean, value?: any) => void = (
-        completed,
-        recentValue
-      ) => {
+      const callback: (
+        completed: boolean | undefined,
+        value: any | undefined,
+        info?: {
+          attemptedSequenceValue?: any
+        }
+      ) => void = (completed = false, recentValue, info) => {
         if (onDidAnimate) {
-          runOnJS(reanimatedOnDidAnimated)(
-            // @ts-expect-error key is a string
-            key,
-            completed,
-            recentValue,
-            {
-              attemptedValue: value,
-            }
-          )
+          runOnJS(reanimatedOnDidAnimated)(key as any, completed, recentValue, {
+            attemptedValue: value,
+            attemptedSequenceItemValue: info?.attemptedSequenceValue,
+          })
+        }
+        if (inlineOnDidAnimate) {
+          runOnJS(inlineOnDidAnimate)(completed, recentValue, {
+            attemptedValue: value,
+          })
         }
         if (isExiting) {
           exitingStyleProps[key] = false
@@ -598,6 +635,7 @@ export function useMotify<Animate>({
     }
 
     return final
+    // @ts-ignore complex union lol...
   }, [
     animateProp,
     custom,
