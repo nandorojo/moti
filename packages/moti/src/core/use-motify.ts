@@ -266,7 +266,11 @@ const getSequenceArray = (
 
       const sequenceValue = stepAnimation(stepValue, stepConfig, callback)
       if (stepDelay != null) {
-        sequence.push(withDelay(stepDelay, sequenceValue))
+        const seq = withDelay(stepDelay, sequenceValue);
+          if(!seq.previousAnimation){
+            delete seq.previousAnimation;
+          }
+        sequence.push(seq)
       } else {
         sequence.push(sequenceValue)
       }
@@ -495,7 +499,11 @@ export function useMotify<Animate>({
                 finalValue = withRepeat(finalValue, repeatCount, repeatReverse)
               }
               if (delayMs != null) {
-                transform[transformKey] = withDelay(delayMs, finalValue)
+                const seq = withDelay(delayMs, finalValue);
+                if(!seq.previousAnimation){
+                  delete seq.previousAnimation;
+                }
+                transform[transformKey] = seq
               } else {
                 transform[transformKey] = finalValue
               }
@@ -556,7 +564,11 @@ export function useMotify<Animate>({
           finalValue = withRepeat(finalValue, repeatCount, repeatReverse)
         }
         if (delayMs != null) {
-          transform[key] = withDelay(delayMs, finalValue)
+          const seq = withDelay(delayMs, finalValue);
+          if(!seq.previousAnimation){
+            delete seq.previousAnimation;
+          }
+          transform[key] = seq
         } else {
           transform[key] = finalValue
         }
@@ -574,7 +586,11 @@ export function useMotify<Animate>({
           }
 
           if (delayMs != null) {
-            final[key][innerStyleKey] = withDelay(delayMs, finalValue)
+            const seq = withDelay(delayMs, finalValue);
+            if(!seq.previousAnimation){
+              delete seq.previousAnimation;
+            }
+            final[key][innerStyleKey] = seq
           } else {
             final[key][innerStyleKey] = finalValue
           }
@@ -586,7 +602,11 @@ export function useMotify<Animate>({
         }
 
         if (delayMs != null && typeof delayMs === 'number') {
-          final[key] = withDelay(delayMs, finalValue)
+          const seq = withDelay(delayMs, finalValue);
+          if(!seq.previousAnimation){
+            delete seq.previousAnimation;
+          }
+          final[key] = seq
         } else {
           final[key] = finalValue
         }
