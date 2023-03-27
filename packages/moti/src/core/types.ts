@@ -109,7 +109,7 @@ export type StyleValueWithSequenceArraysWithoutTransform<
   [key in KeyWithoutTransform]:
     | T[KeyWithoutTransform] // either the value
     // or an array of values for a sequence
-    | SequenceItem<T[KeyWithoutTransform]>[]
+    | SequenceItem<T[ExcludeArrayType<ExcludeObject<KeyWithoutTransform>>]>[]
 }
 
 export type StyleValueWithSequenceArraysWithTransform = {
@@ -252,11 +252,14 @@ export type InlineOnDidAnimate<Value> = (
   }
 ) => void
 
-type StyleValueWithCallbacks<Animate = FallbackAnimateProp> = {
+type ExcludeArrayType<T> = T extends (infer U)[] ? never : T
+type ExcludeObject<T> = T extends object ? never : T
+
+type StyleValueWithCallbacks<Animate> = {
   [Key in keyof Animate]?:
     | Animate[Key]
     | {
-        value: Animate[Key]
+        value: ExcludeObject<ExcludeArrayType<Animate[Key]>>
         onDidAnimate: InlineOnDidAnimate<Animate[Key]>
       }
 }
@@ -267,12 +270,11 @@ export interface MotiProps<
   // in component usage, it will extract these from the style prop ideally
   AnimateType = ImageStyle & TextStyle & ViewStyle,
   // edit the style props to remove transform array, flattening it
-  // AnimateWithTransitions = Omit<AnimateType, 'transform'> & Partial<Transforms>,
   AnimateWithTransforms = StyleValueWithReplacedTransforms<AnimateType>,
   // allow the style values to be callbacks with configs
-  AnimateWithCallbacks = StyleValueWithCallbacks<AnimateWithTransforms>,
   // allow the style values to be arrays for sequences, where values are primitives or objects with configs
-  Animate = StyleValueWithSequenceArrays<AnimateWithCallbacks>
+  AnimateWithSequences = StyleValueWithSequenceArrays<AnimateWithTransforms>,
+  Animate = StyleValueWithCallbacks<AnimateWithSequences>
 > {
   // we want the "value" returned to not include the style arrays here, so we use AnimateWithTransitions
   /**
@@ -293,7 +295,7 @@ export interface MotiProps<
    *
    * @worklet
    */
-  animate?: OrDerivedValue<Animate> | (() => Animate)
+  animate?: OrDerivedValue<Animate>
   /**
    * (Optional) specify styles which the component should animate from.
    *

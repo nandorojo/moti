@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "moti": ["../../packages/moti/src"],
       "moti$": ["../../packages/moti/src"],
       "moti/svg": ["../../packages/moti/src/svg"]
     },
