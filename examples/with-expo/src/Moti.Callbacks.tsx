@@ -18,6 +18,11 @@ export default function HelloWorld() {
             },
           },
         }}
+        exit={{
+          alignContent: 'center',
+          opacity: 1,
+        }}
+        style={styles.shape}
       />
     </Pressable>
   )
