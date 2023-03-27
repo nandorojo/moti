@@ -98,11 +98,18 @@ export type SequenceItem<Value> =
   // or dictionaries with transition configs
   | SequenceItemObject<Value>
 export type StyleValueWithSequenceArraysWithoutTransform<T> = {
-  [key in Exclude<keyof T, 'transform'>]:
+  [key in Exclude<keyof T, 'transform' | keyof Transforms>]:
     | T[key] // either the value
     // or an array of values for a sequence
     | SequenceItem<T[ExcludeArrayType<ExcludeObject<key>>]>[]
-}
+} &
+  {
+    // even though the TS types don't allow transform strings, we do for percentages & degrees
+    [key in Extract<keyof T, keyof Transforms>]?:
+      | T[key]
+      | (string & {})
+      | SequenceItem<T[key] | (string & {})>[]
+  }
 
 export type StyleValueWithSequenceArraysWithTransform = {
   transform: StyleValueWithSequenceArrays<Transforms>[]
