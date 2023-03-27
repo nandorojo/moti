@@ -98,7 +98,7 @@ export type SequenceItem<Value> =
   // or dictionaries with transition configs
   | SequenceItemObject<Value>
 export type StyleValueWithSequenceArraysWithoutTransform<T> = {
-  [key in Exclude<keyof T, 'transform' | keyof Transforms>]:
+  [key in Exclude<keyof T, 'transform'>]:
     | T[key] // either the value
     // or an array of values for a sequence
     | SequenceItem<T[ExcludeArrayType<ExcludeObject<key>>]>[]

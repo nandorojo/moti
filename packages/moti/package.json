@@ -1,7 +1,7 @@
 {
   "name": "moti",
   "private": false,
-  "version": "0.25.0-alpha.9+afe3476",
+  "version": "0.25.0-alpha.11+837c893",
   "keywords": [
     "react-native",
     "ios",
@@ -69,7 +69,7 @@
       ]
     ]
   },
-  "gitHead": "afe34766fe4d93dbfb5192216246db487ed84815",
+  "gitHead": "837c893b484520e9ffcf5775f80d7204be0850d1",
   "dependencies": {
     "framer-motion": "^6.5.1"
   }
