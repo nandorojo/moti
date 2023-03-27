@@ -353,9 +353,7 @@ export function useMotify<Animate>({
 
     let animateStyle: Animate
 
-    if (typeof animateProp == 'function') {
-      animateStyle = (animateProp() || {}) as Animate
-    } else if (animateProp && 'value' in animateProp) {
+    if (animateProp && 'value' in animateProp) {
       animateStyle = (animateProp.value || {}) as Animate
     } else {
       animateStyle = (animateProp || {}) as Animate
