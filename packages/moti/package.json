@@ -29,7 +29,8 @@
     "interactions",
     "skeleton",
     "index.d.ts",
-    "svg"
+    "svg",
+    "author"
   ],
   "sideEffects": false,
   "publishConfig": {

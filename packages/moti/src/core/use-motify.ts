@@ -1,5 +1,8 @@
-import { PresenceContext, usePresence } from 'framer-motion'
-import { useCallback, useContext, useEffect } from 'react'
+import type {
+  PresenceContext,
+  usePresence as useFramerPresence,
+} from 'framer-motion'
+import { useCallback, useEffect } from 'react'
 import type { TransformsStyle } from 'react-native'
 import {
   useAnimatedStyle,
@@ -314,17 +317,21 @@ export function useMotify<Animate>({
   onDidAnimate,
   exit: exitProp,
   animateInitialState = false,
-}: MotiProps<Animate>) {
+  usePresenceValue,
+  presenceContext,
+}: MotiProps<Animate> & {
+  presenceContext?: React.ContextType<typeof PresenceContext>
+  usePresenceValue?: ReturnType<typeof useFramerPresence>
+}) {
   const isMounted = useSharedValue(false)
-  const [isPresent, safeToUnmount] = usePresence()
-  const presence = useContext(PresenceContext)
+  const [isPresent, safeToUnmount] = usePresenceValue ?? []
 
   const disableInitialAnimation =
-    presence?.initial === false && !animateInitialState
+    presenceContext?.initial === false && !animateInitialState
   const custom = useCallback(() => {
     'worklet'
-    return presence?.custom
-  }, [presence])
+    return presenceContext?.custom
+  }, [presenceContext])
 
   const reanimatedSafeToUnmount = useCallback(() => {
     safeToUnmount?.()
