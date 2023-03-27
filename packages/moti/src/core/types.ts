@@ -240,8 +240,8 @@ export type InlineOnDidAnimate<Value> = (
      *
      * ```jsx
      * <MotiView
-     *   onDidAnimate={(key, finished, value, { attemptedValue }) => {
-     *     if (key === 'opacity' && finished && attemptedValue === 1) {
+     *   onDidAnimate={(finished, value, { attemptedValue }) => {
+     *     if (finished && attemptedValue === 1) {
      *       console.log('animated to 1!')
      *     }
      *   }}

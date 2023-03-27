@@ -436,7 +436,7 @@ export function useMotify<Animate>({
 
       let inlineOnDidAnimate: InlineOnDidAnimate<any> | undefined
 
-      if (typeof value == 'object' && 'onDidAnimate' in value) {
+      if (typeof value === 'object' && value && 'onDidAnimate' in value) {
         inlineOnDidAnimate = value.onDidAnimate
         value = value.value
       }
