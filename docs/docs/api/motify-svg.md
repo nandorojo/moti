@@ -35,7 +35,7 @@ You can now pass any SVG props to the `animate` property, and they will animate 
 />
 ```
 
-This functionality compatible with all Moti features, including hooks like `useDynamicAnimation`:
+This functionality is compatible with all Moti features, including hooks like `useDynamicAnimation`:
 
 ```tsx
 import { Rect } from 'react-native-svg'
