@@ -1,4 +1,10 @@
-import React, { forwardRef, ComponentType, FunctionComponent } from 'react'
+import { usePresence, PresenceContext } from 'framer-motion'
+import React, {
+  forwardRef,
+  ComponentType,
+  FunctionComponent,
+  useContext,
+} from 'react'
 import type { ImageStyle, TextStyle, ViewStyle } from 'react-native'
 import Animated, {
   BaseAnimationBuilder,
@@ -27,14 +33,19 @@ export default function motify<
           children?: React.ReactNode
         }
     >(function Moti(props, ref) {
-      const animated = useMotify(props)
+      const animated = useMotify({
+        ...props,
+        usePresenceValue: usePresence(),
+        presenceContext: useContext(PresenceContext),
+      })
+
+      const style = (props as any).style
 
       return (
         <Component
-          {...(props as any)} // TODO
-          // @ts-ignore
-          style={props.style ? [props.style, animated.style] : animated.style}
-          ref={ref as any} // TODO
+          {...(props as any)}
+          style={style ? [style, animated.style] : animated.style}
+          ref={ref as any}
         />
       )
     })

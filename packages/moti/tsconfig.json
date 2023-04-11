@@ -4,6 +4,6 @@
     "jsx": "react-jsx",
     "outDir": "./build"
   },
-  "include": ["./src", "./src/interactions"],
+  "include": ["./src", "./src/interactions", "./src/author"],
   "exclude": ["**/__mocks__/*", "**/__tests__/*"]
 }

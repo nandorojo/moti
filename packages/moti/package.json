@@ -1,7 +1,7 @@
 {
   "name": "moti",
   "private": false,
-  "version": "0.24.0",
+  "version": "0.25.0-alpha.14+c91ab85",
   "keywords": [
     "react-native",
     "ios",
@@ -29,7 +29,8 @@
     "interactions",
     "skeleton",
     "index.d.ts",
-    "svg"
+    "svg",
+    "author"
   ],
   "sideEffects": false,
   "publishConfig": {
@@ -69,7 +70,7 @@
       ]
     ]
   },
-  "gitHead": "a79e2bfa0568fe96dd6f4b355582e3e3eca112cf",
+  "gitHead": "c91ab85f41976786114282910c08dc5c19cfc857",
   "dependencies": {
     "framer-motion": "^6.5.1"
   }

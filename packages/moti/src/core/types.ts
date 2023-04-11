@@ -80,39 +80,36 @@ export type TransitionConfig = TransitionConfigWithoutRepeats & {
   repeatReverse?: boolean
 }
 
+export type SequenceItemObject<Value> = {
+  value: Value
+  onDidAnimate?: (
+    finished: boolean,
+    maybeValue: Value | undefined,
+    info: {
+      attemptedSequenceArray: Value
+      attemptedSequenceItemValue: Value
+    }
+  ) => void
+} & TransitionConfigWithoutRepeats
+
 export type SequenceItem<Value> =
   | // raw style values
   Value
   // or dictionaries with transition configs
-  | ({
-      value: Value
-      // withSequence does not support withRepeat!
-      // let people pass any config, minus repetitions
-    } & TransitionConfigWithoutRepeats)
-
-/**
- * Allow { scale: 1 }
- *
- * If it's a sequence:
- * { scale: [0, 1] }
- *
- * Or { scale: [{ value: 0, delay: 300, type: 'spring' }, 1]}
- * to allow more granular specification of sequence values
- */
-export type StyleValueWithSequenceArraysWithoutTransform<
-  T,
-  Key extends keyof T = keyof T,
-  // since transform is an array, it can't be here
-  KeyWithoutTransform extends Exclude<Key, 'transform'> = Exclude<
-    Key,
-    'transform'
-  >
-> = {
-  [key in KeyWithoutTransform]:
-    | T[KeyWithoutTransform] // either the value
+  | SequenceItemObject<Value>
+export type StyleValueWithSequenceArraysWithoutTransform<T> = {
+  [key in Exclude<keyof T, 'transform' | keyof Transforms>]:
+    | T[key] // either the value
     // or an array of values for a sequence
-    | SequenceItem<T[KeyWithoutTransform]>[]
-}
+    | SequenceItem<T[ExcludeArrayType<ExcludeObject<key>>]>[]
+} &
+  {
+    // even though the TS types don't allow transform strings, we do for percentages & degrees
+    [key in Extract<keyof T, keyof Transforms>]?:
+      | T[key]
+      | (string & {})
+      | SequenceItem<T[key] | (string & {})>[]
+  }
 
 export type StyleValueWithSequenceArraysWithTransform = {
   transform: StyleValueWithSequenceArrays<Transforms>[]
@@ -161,6 +158,39 @@ export type OnDidAnimate<
      * ```
      */
     attemptedValue: Animate[Key]
+    /**
+     * If the value you passed was a sequence, then this will pass the attempted `item` from the sequence array that just tried to animate.
+     *
+     * ```tsx
+     * <MotiView
+     *   animate={{ opacity: [0, 1, 0] }}
+     *   onDidAnimate={(key, finished, value, { attemptedSequenceItemValue }) => {
+     *    if (key === 'opacity' && finished && attemptedSequenceItemValue === 1) {
+     *      console.log('animated to 1!')
+     *    }
+     *  }}
+     * />
+     * ```
+     *
+     * A more granular usage, however, is to put the callback directly in the `animate` array itself by passing objects instead of primitives.
+     *
+     * ```tsx
+     *  <MotiView
+     *    animate={{
+     *     opacity: [
+     *       0,
+     *       {
+     *         value: 1,
+     *         onDidAnimate(finished, value, { attemptedSequenceItemValue }) {
+     *            console.log({ finished, value, attemptedSequenceItemValue })
+     *         }
+     *       }
+     *     ]
+     *   }}
+     *  />
+     * ```
+     */
+    attemptedSequenceItemValue?: Animate[Key]
   }
 ) => void
 
@@ -187,16 +217,63 @@ export type MotiTransitionProp<Animate = FallbackAnimateProp> = OrDerivedValue<
   MotiTransition<Animate>
 >
 
+export type InlineOnDidAnimate<Value> = (
+  /**
+   * `boolean` inidcating whether or not the animation finished.
+   */
+  finished: boolean,
+  /**
+   * This value is `undefined`, **unless** you are doing a repeating or looping animation. In that case, it gives you the value that it just animated to.
+   */
+  value: Value | undefined,
+  /**
+   * An object containing metadata about this animation.
+   */
+  event: {
+    /**
+     * The value that this animation attempted to animate to.
+     *
+     * The reason it's marked as "attempted", is that if the animation didn't finish, then it didn't actually animate to this value.
+     *
+     * Usage:
+     *
+     * ```jsx
+     * <MotiView
+     *   onDidAnimate={(finished, value, { attemptedValue }) => {
+     *     if (finished && attemptedValue === 1) {
+     *       console.log('animated to 1!')
+     *     }
+     *   }}
+     * />
+     * ```
+     */
+    attemptedValue: Value
+  }
+) => void
+
+type ExcludeArrayType<T> = T extends (infer U)[] ? never : T
+type ExcludeObject<T> = T extends object ? never : T
+
+type StyleValueWithCallbacks<Animate> = {
+  [Key in keyof Animate]?:
+    | Animate[Key]
+    | {
+        value: ExcludeObject<ExcludeArrayType<Animate[Key]>>
+        onDidAnimate: InlineOnDidAnimate<Animate[Key]>
+      }
+}
+
 export interface MotiProps<
   // Style props of the component
   // defaults to any styles, so that generics aren't Required
   // in component usage, it will extract these from the style prop ideally
   AnimateType = ImageStyle & TextStyle & ViewStyle,
   // edit the style props to remove transform array, flattening it
-  // AnimateWithTransitions = Omit<AnimateType, 'transform'> & Partial<Transforms>,
-  AnimateWithTransitions = StyleValueWithReplacedTransforms<AnimateType>,
+  AnimateWithTransforms = StyleValueWithReplacedTransforms<AnimateType>,
+  // allow the style values to be callbacks with configs
   // allow the style values to be arrays for sequences, where values are primitives or objects with configs
-  Animate = StyleValueWithSequenceArrays<AnimateWithTransitions>
+  AnimateWithSequences = StyleValueWithSequenceArrays<AnimateWithTransforms>,
+  Animate = StyleValueWithCallbacks<AnimateWithSequences>
 > {
   // we want the "value" returned to not include the style arrays here, so we use AnimateWithTransitions
   /**
@@ -205,8 +282,9 @@ export interface MotiProps<
    * @param styleProp the key of the style that just finished animating
    * @param finished `boolean` inidcating whether or not the animation finished.
    * @param value This value is `undefined`, **unless** you are doing a repeating or looping animation. In that case, it gives you the value that it just animated to.
+   * @param event An object containing metadata about this animation, including the `attemptedValue`.
    */
-  onDidAnimate?: OnDidAnimate<AnimateWithTransitions>
+  onDidAnimate?: OnDidAnimate<AnimateWithTransforms>
   /**
    * Animated style. Any styles passed here will automatically animate when they change.
    *
@@ -216,7 +294,7 @@ export interface MotiProps<
    *
    * @worklet
    */
-  animate?: OrDerivedValue<Animate> | (() => Animate)
+  animate?: OrDerivedValue<Animate>
   /**
    * (Optional) specify styles which the component should animate from.
    *
@@ -231,9 +309,9 @@ export interface MotiProps<
    * It follows the same API as the `exit` prop from `framer-motion`. Feel free to reference their docs: https://www.framer.com/api/motion/animate-presence/
    * */
   exit?:
-    | AnimateWithTransitions
+    | AnimateWithTransforms
     | boolean
-    | ((custom?: any) => AnimateWithTransitions)
+    | ((custom?: any) => AnimateWithTransforms)
   /**
    * Define animation configurations.
    *
@@ -255,7 +333,7 @@ export interface MotiProps<
    * />
    * ```
    */
-  transition?: MotiTransitionProp<AnimateWithTransitions>
+  transition?: MotiTransitionProp<AnimateWithTransforms>
   /**
    * Define animation configurations for exiting components.
    *
@@ -281,8 +359,8 @@ export interface MotiProps<
    *
    */
   exitTransition?:
-    | MotiTransitionProp<AnimateWithTransitions>
-    | ((custom?: any) => MotiTransition<AnimateWithTransitions>)
+    | MotiTransitionProp<AnimateWithTransforms>
+    | ((custom?: any) => MotiTransition<AnimateWithTransforms>)
   /**
    * Optionally delay the `animate` field.
    *
