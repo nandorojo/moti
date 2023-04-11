@@ -4,13 +4,13 @@ title: Web Support
 sidebar_label: Web Support
 ---
 
-Moti works on all platforms, including web. Make sure you've installed `react-native-web` and done anything you need to get that working.
+Moti works on all platforms, including Web. Make sure you've installed `react-native-web`.
 
 ## Expo Web support
 
 The following applies to React Native Web apps that **do not** use Next.js.
 
-Since Moti uses Reanimated 3, we need its Babel plugin to be applied to Moti. Since Expo Web doesn't transpile modules by default, we'll need to tell it to transpile Moti.
+Expo Web should work out of the box.
 
 Install `@expo/webpack-config` to your `devDependencies`:
 
@@ -18,9 +18,11 @@ Install `@expo/webpack-config` to your `devDependencies`:
 npm install -D @expo/webpack-config
 ```
 
-After that, it should run with Expo Web.
+Then run `yarn web` and you're done!
 
-Potential errors: if you get the following Reanimated error in your console: `ReferenceError: _frameTimestamp is not defined`, you can add add this to `App.js` at the top:
+### Troubleshooting
+
+If you get the following Reanimated error in your console: `ReferenceError: _frameTimestamp is not defined`, you can add add this to `App.js` at the top:
 
 ```ts
 import { Platform } from 'react-native'
@@ -30,6 +32,10 @@ if (Platform.OS === 'web') {
 ```
 
 This should go away in Reanimated v3. See [react-native-reanimated#3355](https://github.com/software-mansion/react-native-reanimated/issues/3355).
+
+## Vanilla React Native Web
+
+You may need to add a custom `webpack.config.js` to your project and export the config from `@expo/webpack-config`.
 
 <!-- Next, create a custom `webpack.config.js` in the root of your Expo app, and paste the contents below:
 
