@@ -11,6 +11,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+
+
+**Note:** Version bump only for package moti
+
+
+
+
+
 ## [0.24.2](https://github.com/nandorojo/moti/compare/v0.24.1...v0.24.2) (2023-03-07)
 
 **Note:** Version bump only for package moti

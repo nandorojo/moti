@@ -19,6 +19,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+
+
+**Note:** Version bump only for package next-dripsy-example
+
+
+
+
+
 # [0.24.0](https://github.com/nandorojo/moti/compare/v0.23.7...v0.24.0) (2023-03-01)
 
 **Note:** Version bump only for package next-dripsy-example

@@ -320,7 +320,10 @@ export function useMotify<Animate>({
   usePresenceValue,
   presenceContext,
 }: MotiProps<Animate> & {
-  presenceContext?: React.ContextType<typeof PresenceContext>
+  presenceContext?: Pick<
+    NonNullable<React.ContextType<typeof PresenceContext>>,
+    'custom' | 'initial'
+  > | null
   usePresenceValue?: ReturnType<typeof useFramerPresence>
 }) {
   const isMounted = useSharedValue(false)
