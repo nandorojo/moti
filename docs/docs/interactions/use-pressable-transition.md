@@ -46,7 +46,7 @@ Then, in the `Item` component:
 
 ```tsx
 const Item = () => {
-  const state = useMotiPressableTransition(({ pressed }) => {
+  const transition = useMotiPressableTransition(({ pressed }) => {
     'worklet'
 
     if (pressed) {
@@ -60,6 +60,7 @@ const Item = () => {
       delay: 50,
     }
   })
+  
   const state = useMotiPressableState(({ pressed }) => {
     return {
       translateY: pressed ? -10 : 0,
