@@ -502,7 +502,7 @@ export function useMotify<Animate>({
             `[${PackageName}]: Invalid transform value. Needs to be an array.`
           )
         } else {
-          for (const transformObject of value) {
+          value.forEach((transformObject) => {
             final['transform'] = final['transform'] || []
             const transformKey = Object.keys(transformObject)[0]
             const transformValue = transformObject[transformKey]
@@ -549,7 +549,7 @@ export function useMotify<Animate>({
             if (Object.keys(transform).length) {
               final['transform'].push(transform)
             }
-          }
+          })
         }
       } else if (Array.isArray(value)) {
         // we have a sequence
