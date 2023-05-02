@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.25.2](https://github.com/nandorojo/moti/compare/v0.25.0...v0.25.2) (2023-05-02)
+
+
+### Bug Fixes
+
+* expo web docs. close [#280](https://github.com/nandorojo/moti/issues/280) ([722dbbc](https://github.com/nandorojo/moti/commit/722dbbcfefc299c11547a66431b2183f9bdf071f))
+
+
+
+
+
 ## [0.25.1](https://github.com/nandorojo/moti/compare/v0.25.0...v0.25.1) (2023-04-21)
 
 

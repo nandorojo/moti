@@ -284,6 +284,7 @@ const getSequenceArray = (
         stepValue,
         stepConfig as any,
         (completed = false, maybeValue) => {
+          'worklet'
           callback(completed, maybeValue, {
             attemptedSequenceValue: stepValue,
           })
