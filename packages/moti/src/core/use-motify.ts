@@ -244,7 +244,7 @@ const getSequenceArray = (
 
   const sequence: any[] = []
 
-  sequenceArray.forEach((step) => {
+  for (const step of sequenceArray) {
     const shouldPush =
       typeof step === 'object'
         ? step && step?.value != null && step?.value !== false
@@ -302,7 +302,7 @@ const getSequenceArray = (
         sequence.push(sequenceValue)
       }
     }
-  })
+  }
 
   return sequence
 }
