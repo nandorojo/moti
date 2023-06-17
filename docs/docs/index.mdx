@@ -104,43 +104,7 @@ There are a number of videos on the **[videos page](/resources/videos).**
 ## Contributing to React Native
 
 If you're wondering how you can contribute to the React Native community, I encourage you to create packages that solve platform inconsistences. Help us give people a delightful user experience, regardless of what "device" they're using.
-
-Here are some problems in React Native (+ Web) that are exciting to work on:
-
-### Popovers
-
-> December 2021 update: there are now a number of libraries tackling this. I'm also working on a secret-ish menu library that looks like Radix UI. Stay tuned on Twitter.
-
-- This is missing in React Native, especially with web compatibility. We need something like `react-popover`.
-- Tooltips, popovers, etc. are crucial to building a good app, namely on web.
-- For popover menus, the typical expected experience is likely a bottom sheet on mobile screens, and an inline menu (or maybe a modal dialogue) on larger screens.
-- The best cross-platform solution would be a portal at the root of your app (see [react-native-portal](https://github.com/gorhom/react-native-portal)). It should measure items and overlay them accordingly.
-- If you're interested in solving this problem, it would be a huge contribution.
-- This would also allow us to make simple Toast/Notification components, etc.
-- React Native is ideal for building this. Instead of interacting with the DOM, you can just use a JS-based API.
-- Reanimated 3's `measure` function could be an interesting use case (but I'm not sure how stable it is.)
-
-### Navigation
-
-> December 2021 update: I'm so close to cracking the code for fully sharing Navigation code between Web and Native. See this thread for more: https://github.com/axeldelafosse/expo-next-monorepo-example/pull/1
-
-- There have been great strides from React Navigation on web, but this remains an open question in many ways. React Navigation alone should be a good solution if you don't need server side rendering.
-- I've spent a lot of time thinking about cross-platform navigation and finding quirky solutions. I use Next.js, so I combine that with [`expo-next-react-navigation`](https://github.com/nandorojo/expo-next-react-navigation).
-- I'll likely write a full post about my experience with cross-platform navigation down the line.
-  - My main solution is to create Next.js pages, put a modal stack navigator in each page, use React Navigation for opening modals, and `next/router` for page changes.
-  - On native, I have a single `native-stack`, and I change the `initialRouteName` depending on which `tab` I'm in.
-  - All `screen`s are shared across platforms.
-  - Keeping URL query parameters in sync (for instance, when using them as search state) can be a challenge here. I'm still trying to get to the bottom of that.
-- All in all, I feel positively about the direction navigation is going. There are really smart people working on it. The last piece to solve is a standardized thought process.
-
-## Disclaimer
-
-This is a new library, so there might be bugs. I'm using it in my app, so I expect that solving any issues will be in my interest.
-
-That said, I'm busy with a startup and made this public to contribute to the community. If you find something that doesn't work, please keep this in mind, and see if you can solve the problem before spamming the repository's issues. Open source projects can get derailed easily when people expect free work, so I want to avoid that.
-
-For example, please investigate if an issue you're facing is due to Reanimated or Moti.
-
+  
 ## Thanks
 
 It's hard to name all the people I should credit for Moti. There are the obvious ones, like Software Mansion and the Expo team, who do the hard work that makes a library like this easy to build. Everyone who contributes to Reanimated has been really helpful.

@@ -9,7 +9,7 @@ sidebar_label: useAnimationState()
 It's useful when you:
 
 1. want the best performance on native,
-2. know your different animation states ahead of time, and
+2. aren't powering animations from react state, and
 3. don't mind using a hook
 
 <iframe src="https://stackblitz.com/edit/nextjs-ephjdq?embed=1&file=pages/index.tsx" className="stackblitz" />
