@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.25.3](https://github.com/nandorojo/moti/compare/v0.25.0...v0.25.3) (2023-05-02)
+
+**Note:** Version bump only for package next-dripsy-example
+
+
+
+
+
 ## [0.25.2](https://github.com/nandorojo/moti/compare/v0.25.0...v0.25.2) (2023-05-02)
 
 **Note:** Version bump only for package next-dripsy-example
