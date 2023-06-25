@@ -10,7 +10,7 @@ The universal React Native animation library, powered by Reanimated 3.
 
 - [Documentation](https://moti.fyi)
 - [Installation](https://moti.fyi/installation)
-- [Examples](https://moti.fyi/examples/hello-world)
+- [Examples](https://moti.fyi/examples/hello-world) *(please use Chrome, other browsers are partially supported)*
 
 ## Next.js Conf
 
