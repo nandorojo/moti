@@ -9,6 +9,13 @@ body:
     options:
     - label: I have searched the existing issues
       required: true
+- type: checkboxes
+  attributes:
+    label: Do you want this issue prioritized?
+    description: If this issue is urgent, you can add prioritize it via a <a href="https://github.com/sponsors/nandorojo?frequency=one-time&sponsor=nandorojo">sponsorship on GitHub</a>. Feel free to tag @nandorojo here in the issue description if you sponsor.
+    options:
+    - label: Yes, I have sponsored
+    - label: Not urgent
 - type: textarea
   attributes:
     label: Current Behavior
@@ -57,8 +64,10 @@ body:
     label: Reproduction
     description: |
       Please add a link to an Expo Snack or a **minimal reproduction**.
+
+      If you can reproduce on Web, the easiest way to share a reproduction is by <a href="https://stackblitz.com/edit/nextjs-v5vkju?file=pages%2Findex.tsx">forking the StackBlitz starter</a>.
       
-      You can use the starter app:
+      If the issue only happens on native, you can use the starter app:
       
       ```sh
       npx create-react-native-app -t with-moti
