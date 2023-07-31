@@ -29,7 +29,7 @@ const Item = () => {
     'worklet'
 
     return {
-      opactiy: pressed ? 0.5 : 1,
+      opacity: pressed ? 0.5 : 1,
     }
   })
 
@@ -58,7 +58,7 @@ const state = useMotiPressable('list', ({ pressed }) => {
   'worklet'
 
   return {
-    opactiy: pressed ? 0.5 : 1,
+    opacity: pressed ? 0.5 : 1,
   }
 })
 
@@ -78,7 +78,7 @@ const state = useMotiPressable(
     'worklet'
 
     return {
-      opactiy: pressed && !loading ? 0.5 : 1,
+      opacity: pressed && !loading ? 0.5 : 1,
     }
   },
   [loading] // pass an empty array if there are no dependencies
