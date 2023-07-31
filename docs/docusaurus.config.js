@@ -39,6 +39,16 @@ module.exports = {
         //   position: 'left',
         // },
         {
+          href: 'https://github.com/sponsors/nandorojo',
+          label: 'Sponsor',
+          position: 'right',
+        },
+        {
+          href: 'https://discord.gg/JtvAVzNpDk',
+          label: 'Discord',
+          position: 'right',
+        },
+        {
           href: 'https://twitter.com/fernandotherojo',
           label: 'Twitter',
           position: 'right',
@@ -81,17 +91,17 @@ module.exports = {
         {
           title: 'Community',
           items: [
-            // {
-            //   label: 'Stack Overflow',
-            //   href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            // },
-            // {
-            //   label: 'Discord',
-            //   href: 'https://discordapp.com/invite/docusaurus',
-            // },
             {
               label: 'Twitter',
               href: 'https://twitter.com/fernandotherojo',
+            },
+            {
+              href: 'https://discord.gg/JtvAVzNpDk',
+              label: 'Discord',
+            },
+            {
+              href: 'https://github.com/sponsors/nandorojo',
+              label: 'Sponsor',
             },
           ],
         },
