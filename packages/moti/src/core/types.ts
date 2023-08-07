@@ -43,6 +43,7 @@ export type TransitionConfigWithoutRepeats = (
   | ({ type?: 'spring' } & WithSpringConfig)
   | ({ type: 'timing' } & WithTimingConfig)
   | ({ type: 'decay' } & WithDecayConfig)
+  | { type: 'no-animation' }
 ) & {
   delay?: number
 }

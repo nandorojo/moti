@@ -215,6 +215,10 @@ function animationConfig<Animate>(
         config[configKey] = transitionConfigForKey
       }
     }
+  } else if (animationType === 'no-animation') {
+    animation = (value) => value
+    config = {}
+    repeatCount = 0
   }
 
   return {
