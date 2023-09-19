@@ -18,6 +18,31 @@ Install `@expo/webpack-config` to your `devDependencies`:
 npm install -D @expo/webpack-config
 ```
 
+Add this in your `webpack.config.js` file:
+
+```js
+const createExpoWebpackConfigAsync = require("@expo/webpack-config");
+
+module.exports = async function (env, argv) {
+  const config = await createExpoWebpackConfigAsync(
+    {
+      ...env,
+      babel: {
+        dangerouslyAddModulePathsToTranspile: ["moti"],
+      },
+    },
+    argv
+  );
+  config.module.rules.push({
+    test: /\.mjs$/,
+    include: /node_modules/,
+    type: "javascript/auto",
+  });
+
+  return config;
+};
+```
+
 Then run `yarn web` and you're done!
 
 ### Troubleshooting
