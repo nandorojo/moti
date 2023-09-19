@@ -18,32 +18,23 @@ Install `@expo/webpack-config` to your `devDependencies`:
 npm install -D @expo/webpack-config
 ```
 
-Add this in your `webpack.config.js` file:
+Then run `yarn web` and you're done!
+
+## Expo Router / Metro Web
+
+You'll need to add `mjs` to your `sourceExts` in `metro.config.js`. For example:
 
 ```js
-const createExpoWebpackConfigAsync = require("@expo/webpack-config");
+const { getDefaultConfig } = require('expo/metro-config');
 
-module.exports = async function (env, argv) {
-  const config = await createExpoWebpackConfigAsync(
-    {
-      ...env,
-      babel: {
-        dangerouslyAddModulePathsToTranspile: ["moti"],
-      },
-    },
-    argv
-  );
-  config.module.rules.push({
-    test: /\.mjs$/,
-    include: /node_modules/,
-    type: "javascript/auto",
-  });
+const config = getDefaultConfig(__dirname);
 
-  return config;
-};
+config.resolver.assetExts.push(
+  'mjs’
+);
+
+module.exports = config;
 ```
-
-Then run `yarn web` and you're done!
 
 ### Troubleshooting
 
