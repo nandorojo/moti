@@ -47,6 +47,7 @@
     "expo-module": "expo-module"
   },
   "peerDependencies": {
+    "react-native": "*",
     "react-native-reanimated": "*"
   },
   "devDependencies": {
