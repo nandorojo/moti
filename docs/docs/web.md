@@ -20,6 +20,22 @@ npm install -D @expo/webpack-config
 
 Then run `yarn web` and you're done!
 
+## Expo Router / Metro Web
+
+You'll need to add `mjs` to your `sourceExts` in `metro.config.js`. For example:
+
+```js
+const { getDefaultConfig } = require('expo/metro-config');
+
+const config = getDefaultConfig(__dirname);
+
+config.resolver.assetExts.push(
+  'mjs’
+);
+
+module.exports = config;
+```
+
 ### Troubleshooting
 
 If you get the following Reanimated error in your console: `ReferenceError: _frameTimestamp is not defined`, you can add add this to `App.js` at the top:

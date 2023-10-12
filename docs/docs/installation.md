@@ -46,11 +46,11 @@ Moti `0.8.x` and higher requires at least Reanimated v2 stable (`2.0.0` or highe
 
 ### If you're using Expo
 
-Please follow the [Expo instructions](https://docs.expo.io/versions/latest/sdk/reanimated) for installing `react-native-reanimated` v2.
+Please follow the [Expo instructions](https://docs.expo.io/versions/latest/sdk/reanimated) for installing `react-native-reanimated`.
 
 ### If you aren't using Expo
 
-Please follow Reanimated's [installation instructions](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/installation) for v2.
+Please follow Reanimated's [installation instructions](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/getting-started/#installation).
 
 ## Import Reanimated
 
