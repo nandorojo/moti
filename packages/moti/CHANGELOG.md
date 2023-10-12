@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+
+
+**Note:** Version bump only for package moti
+
+
+
+
+
 ## [0.25.4](https://github.com/nandorojo/moti/compare/v0.25.0...v0.25.4) (2023-08-01)
 
 **Note:** Version bump only for package moti
