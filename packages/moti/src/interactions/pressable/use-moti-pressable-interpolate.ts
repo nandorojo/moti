@@ -1,10 +1,10 @@
 import type { MotiPressableInteractionState } from './types'
-import { useDerivedValue } from 'react-native-reanimated'
-import type Animated from 'react-native-reanimated'
+import { SharedValue, useDerivedValue } from 'react-native-reanimated'
 import { MotiPressableInteractionIds, useMotiPressableContext } from './context'
 import { useFactory } from './use-validate-factory-or-id'
 
 type Factory<Props> = (interaction: MotiPressableInteractionState) => Props
+type Deps = unknown[] | null | undefined
 
 /**
  * `useInterpolateMotiPressable` lets you access the pressable state, and create a reanimated derived value from it.
@@ -74,20 +74,20 @@ type Factory<Props> = (interaction: MotiPressableInteractionState) => Props
 export function useInterpolateMotiPressable<Props>(
   id: MotiPressableInteractionIds['id'],
   factory: Factory<Props>,
-  deps?: readonly any[]
-): Readonly<Animated.SharedValue<Props>>
+  deps?: Deps
+): Readonly<SharedValue<Props>>
 export function useInterpolateMotiPressable<Props>(
   factory: Factory<Props>,
-  deps?: readonly any[]
-): Readonly<Animated.SharedValue<Props>>
+  deps?: Deps
+): Readonly<SharedValue<Props>>
 export function useInterpolateMotiPressable<Props>(
   factoryOrId: Factory<Props> | MotiPressableInteractionIds['id'],
-  maybeFactoryOrDeps?: Factory<Props> | readonly any[],
-  maybeDeps?: readonly any[]
-): Readonly<Animated.SharedValue<Props>> {
+  maybeFactoryOrDeps?: Factory<Props> | Deps,
+  maybeDeps?: Deps
+): Readonly<SharedValue<Props>> {
   const context = useMotiPressableContext()
 
-  const { factory, id, deps = [] } = useFactory<Factory<Props>>(
+  const { factory, id, deps } = useFactory<Factory<Props>>(
     'useMotiPressableAnimatedProps',
     factoryOrId,
     maybeFactoryOrDeps,
@@ -96,5 +96,5 @@ export function useInterpolateMotiPressable<Props>(
 
   return useDerivedValue<Props>(() => {
     return context && factory(context.containers[id].value)
-  }, [...deps, context.containers[id]])
+  }, [...(deps || []), context.containers[id]])
 }

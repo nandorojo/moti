@@ -106,6 +106,19 @@ function animationDelay<Animate>(
   }
 }
 
+const withSpringConfigKeys: (keyof WithSpringConfig)[] = [
+  'stiffness',
+  'overshootClamping',
+  'restDisplacementThreshold',
+  'restSpeedThreshold',
+  'velocity',
+  'reduceMotion',
+  'mass',
+  'damping',
+  'duration',
+  'dampingRatio',
+]
+
 function animationConfig<Animate>(
   styleProp: string,
   transition: MotiTransition<Animate> | undefined
@@ -174,16 +187,7 @@ function animationConfig<Animate>(
   } else if (animationType === 'spring') {
     animation = withSpring
     config = {} as WithSpringConfig
-    const configKeys: (keyof WithSpringConfig)[] = [
-      'damping',
-      'mass',
-      'overshootClamping',
-      'restDisplacementThreshold',
-      'restSpeedThreshold',
-      'stiffness',
-      'velocity',
-    ]
-    for (const configKey of configKeys) {
+    for (const configKey of withSpringConfigKeys) {
       const styleSpecificConfig = transition?.[key]?.[configKey]
       const transitionConfigForKey = transition?.[configKey]
 
@@ -444,7 +448,7 @@ export function useMotify<Animate>({
     }
 
     // need to use forEach to work with Hermes...https://github.com/nandorojo/moti/issues/214#issuecomment-1399055535
-    Object.keys(mergedStyles).forEach((key) => {
+    Object.keys(mergedStyles as any).forEach((key) => {
       let value = mergedStyles[key]
 
       let inlineOnDidAnimate: InlineOnDidAnimate<any> | undefined

@@ -6,7 +6,7 @@ import { useMemo } from 'react'
 import { useFactory } from './use-validate-factory-or-id'
 
 type Id = MotiPressableInteractionIds['id']
-
+type Deps = unknown[] | null | undefined
 /**
  * `useMotiPressable` lets you access the interaction state of a parent `MotiPressable` component.
  *
@@ -71,7 +71,7 @@ function useMotiPressable(
    * @worklet
    */
   factory: MotiPressableInteractionProp,
-  maybeDeps?: readonly any[]
+  maybeDeps?: Deps
 ): MotiProps['state']
 function useMotiPressable(
   /**
@@ -83,16 +83,16 @@ function useMotiPressable(
    * @worklet
    */
   factory: MotiPressableInteractionProp,
-  maybeDeps?: readonly any[]
+  maybeDeps?: Deps
 ): MotiProps['state']
 function useMotiPressable(
   factoryOrId: MotiPressableInteractionProp | Id,
-  maybeFactoryOrDeps?: MotiPressableInteractionProp | readonly any[],
-  maybeDeps?: readonly any[]
+  maybeFactoryOrDeps?: MotiPressableInteractionProp | Deps,
+  maybeDeps?: Deps
 ): MotiProps['state'] {
   const context = useMotiPressableContext()
 
-  const { factory, id, deps = [] } = useFactory<MotiPressableInteractionProp>(
+  const { factory, id, deps } = useFactory<MotiPressableInteractionProp>(
     'useMotiPressable',
     factoryOrId,
     maybeFactoryOrDeps,
@@ -103,7 +103,7 @@ function useMotiPressable(
     const interaction = context.containers[id]
 
     return interaction && factory(interaction.value)
-  }, [context, id, context.containers[id], ...deps])
+  }, [context, id, context.containers[id], ...(deps || [])])
 
   return useMemo(
     () => ({

@@ -5,6 +5,8 @@ import { useFactory } from './use-validate-factory-or-id'
 
 type Factory<Props> = (interaction: MotiPressableInteractionState) => Props
 
+type Deps = unknown[] | null | undefined
+
 /**
  * Replacement for `useAnimatedProps`, which receives the interaction state as the first argument.
  * @param factory function that receives the interaction state and returns the props
@@ -12,16 +14,16 @@ type Factory<Props> = (interaction: MotiPressableInteractionState) => Props
 export function useMotiPressableAnimatedProps<Props>(
   id: MotiPressableInteractionIds['id'],
   factory: Factory<Props>,
-  deps?: readonly any[]
+  deps?: Deps
 ): Partial<Props>
 export function useMotiPressableAnimatedProps<Props>(
   factory: Factory<Props>,
-  deps?: readonly any[]
+  deps?: Deps
 ): Partial<Props>
-export function useMotiPressableAnimatedProps<Props>(
+export function useMotiPressableAnimatedProps<Props extends object>(
   factoryOrId: Factory<Props> | MotiPressableInteractionIds['id'],
-  maybeFactoryOrDeps?: Factory<Props> | readonly any[],
-  maybeDeps?: readonly any[]
+  maybeFactoryOrDeps?: Factory<Props> | Deps,
+  maybeDeps?: Deps
 ) {
   const context = useMotiPressableContext()
 

@@ -1,12 +1,12 @@
 import type { MotiPressableInteractionState } from './types'
-import { useDerivedValue } from 'react-native-reanimated'
+import { SharedValue, useDerivedValue } from 'react-native-reanimated'
 import type Animated from 'react-native-reanimated'
 import { MotiPressableInteractionIds, useMotiPressableContext } from './context'
 import { useFactory } from './use-validate-factory-or-id'
 import type { MotiTransition } from '../../core'
 
 type Factory<Props> = (interaction: MotiPressableInteractionState) => Props
-
+type Deps = unknown[] | null | undefined
 /**
  * `useMotiPressableTransition` lets you access the pressable state, and create a custom moti transition from it.
  *
@@ -68,16 +68,16 @@ type Factory<Props> = (interaction: MotiPressableInteractionState) => Props
 export function useMotiPressableTransition(
   id: MotiPressableInteractionIds['id'],
   factory: Factory<MotiTransition>,
-  deps?: readonly any[]
-): Readonly<Animated.SharedValue<MotiTransition>>
+  deps?: Deps
+): Readonly<SharedValue<MotiTransition>>
 export function useMotiPressableTransition(
   factory: Factory<MotiTransition>,
-  deps?: readonly any[]
-): Readonly<Animated.SharedValue<MotiTransition>>
+  deps?: Deps
+): Readonly<SharedValue<MotiTransition>>
 export function useMotiPressableTransition(
   factoryOrId: Factory<MotiTransition> | MotiPressableInteractionIds['id'],
-  maybeFactoryOrDeps?: Factory<MotiTransition> | readonly any[],
-  maybeDeps?: readonly any[]
+  maybeFactoryOrDeps?: Factory<MotiTransition> | Deps,
+  maybeDeps?: Deps
 ): Readonly<Animated.SharedValue<MotiTransition>> {
   const context = useMotiPressableContext()
 
@@ -90,5 +90,5 @@ export function useMotiPressableTransition(
 
   return useDerivedValue<MotiTransition>(() => {
     return context && factory(context.containers[id].value)
-  }, [context.containers[id], ...deps])
+  }, [context.containers[id], ...(deps || [])])
 }

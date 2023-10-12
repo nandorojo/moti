@@ -6,10 +6,11 @@ import {
 
 type Id = MotiPressableInteractionIds['id']
 
+type Deps = unknown[] | null | undefined
 type Returns<Factory> = {
   id: Id
   factory: Factory
-  deps?: readonly any[]
+  deps?: Deps
 }
 
 type HookName =
@@ -20,8 +21,8 @@ type HookName =
 export function useFactory<Factory extends (...props: any[]) => any>(
   hookName: HookName,
   factoryOrId: Factory | MotiPressableInteractionIds['id'],
-  maybeFactoryOrDeps?: Factory | readonly any[],
-  maybeDeps?: readonly any[]
+  maybeFactoryOrDeps?: Factory | Deps,
+  maybeDeps?: Deps
 ): Returns<Factory> {
   const context = useMotiPressableContext()
   const missingIdError = `
@@ -48,11 +49,11 @@ ${hookName}(({ pressed, hovered }) => {
 
   let factory: Factory
   let id: Id = INTERACTION_CONTAINER_ID
-  let deps: readonly any[] | undefined
+  let deps: Deps
 
   if (typeof factoryOrId === 'function') {
     factory = factoryOrId
-    deps = maybeFactoryOrDeps as readonly any[] | undefined
+    deps = maybeFactoryOrDeps as Deps
   } else if (typeof maybeFactoryOrDeps === 'function') {
     id = factoryOrId
     factory = maybeFactoryOrDeps
