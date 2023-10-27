@@ -199,14 +199,13 @@ function animationConfig<Animate>(
     }
   } else if (animationType === 'decay') {
     animation = withDecay
-    config = {
-      velocity: 2,
-      deceleration: 2,
-    }
+    config = {}
     const configKeys: (keyof WithDecayConfig)[] = [
       'clamp',
       'velocity',
       'deceleration',
+      'velocityFactor',
+      'reduceMotion',
       'velocityFactor',
     ]
     for (const configKey of configKeys) {
