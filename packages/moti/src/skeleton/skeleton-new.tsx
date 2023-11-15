@@ -104,7 +104,7 @@ const AnimatedGradient = React.memo(
   function AnimatedGradient({
     colors,
     backgroundSize,
-    transition = {},
+    transition,
     show,
     measuredWidthSv,
     Gradient,
@@ -137,10 +137,18 @@ const AnimatedGradient = React.memo(
           }
         }, [measuredWidthSv, show])}
         transition={{
-          loop: show,
-          delay: 200,
-          type: 'timing',
-          duration: 3000,
+          translateX: {
+            type: 'timing',
+
+            loop: show,
+            delay: 200,
+            duration: 3000,
+          },
+          opacity: {
+            type: 'timing',
+            delay: 0,
+            duration: 200,
+          },
           ...(transition as any),
         }}
       >
