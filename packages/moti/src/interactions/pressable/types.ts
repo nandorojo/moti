@@ -105,6 +105,7 @@ export type MotiPressableProps = {
    */
   onContainerLayout?: PressableProps['onLayout']
   href?: string
+  testID?: PressableProps['testID']
   children?:
     | React.ReactNode
     | ((
