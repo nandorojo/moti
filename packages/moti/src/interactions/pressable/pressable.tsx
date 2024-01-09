@@ -63,6 +63,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
       onFocus,
       onBlur,
       href,
+      testID,
     } = props
 
     const _hovered = useSharedValue(false)
@@ -156,6 +157,7 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
           onPressIn={updateInteraction('pressed', true, onPressIn)}
           onPressOut={updateInteraction('pressed', false, onPressOut)}
           ref={ref}
+          testID={testID}
           onLayout={onContainerLayout}
           // Accessibility props
           accessibilityActions={accessibilityActions}
