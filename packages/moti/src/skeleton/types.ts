@@ -1,4 +1,3 @@
-import { LinearGradient } from 'expo-linear-gradient'
 import { MotiTransitionProp } from '../core'
 import { baseColors } from './shared'
 
@@ -10,7 +9,7 @@ export type MotiSkeletonProps = {
    */
   boxHeight?: number | string
   /**
-   * Optional height of the skeleton. Defauls to a `minHeight` of `32`
+   * Optional height of the skeleton. Default to a `minHeight` of `32`
    */
   height?: number | string
   children?: React.ReactChild | null
@@ -66,7 +65,7 @@ export type MotiSkeletonProps = {
   disableExitAnimation?: boolean
   transition?: MotiTransitionProp
   Gradient: React.ComponentType<{
-    colors: Array<string>
+    colors: string[]
     start?: { x: number; y: number }
     end?: { x: number; y: number }
     style?: any
