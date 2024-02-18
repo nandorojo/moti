@@ -8,17 +8,7 @@ Moti works on all platforms, including Web. Make sure you've installed `react-na
 
 ## Expo Web support
 
-The following applies to React Native Web apps that **do not** use Next.js.
-
 Expo Web should work out of the box.
-
-Install `@expo/webpack-config` to your `devDependencies`:
-
-```bash npm2yarn
-npm install -D @expo/webpack-config
-```
-
-Then run `yarn web` and you're done!
 
 ## Expo Router / Metro Web
 
