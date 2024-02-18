@@ -1,7 +1,6 @@
-import React, { useMemo, ReactNode, forwardRef } from 'react'
-import { Platform, Pressable } from 'react-native'
+import { useMemo, ReactNode, forwardRef } from 'react'
+import { Pressable } from 'react-native'
 import type { View } from 'react-native'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import {
   useSharedValue,
   runOnJS,
@@ -98,22 +97,24 @@ export const MotiPressable = forwardRef<View, MotiPressableProps>(
 
     const state = useMemo(() => ({ __state }), [__state])
 
-    const updateInteraction = (
-      event: keyof MotiPressableInteractionState,
-      enabled: boolean,
-      callback?: () => void
-    ) => () => {
-      'worklet'
+    const updateInteraction =
+      (
+        event: keyof MotiPressableInteractionState,
+        enabled: boolean,
+        callback?: () => void
+      ) =>
+      () => {
+        'worklet'
 
-      if (event === 'hovered') {
-        hovered.value = enabled
-      } else if (event === 'pressed') {
-        pressed.value = enabled
+        if (event === 'hovered') {
+          hovered.value = enabled
+        } else if (event === 'pressed') {
+          pressed.value = enabled
+        }
+        if (callback) {
+          runOnJS(callback)()
+        }
       }
-      if (callback) {
-        runOnJS(callback)()
-      }
-    }
 
     const child = (
       <MotiView

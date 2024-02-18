@@ -36,7 +36,7 @@ import type {
 const debug = (...args: any[]) => {
   'worklet'
 
-  // @ts-expect-error moti
+  // @ts-ignore
   if (!global.shouldDebugMoti) {
     return
   }
@@ -132,7 +132,7 @@ function animationConfig<Animate>(
   let animationType: Required<TransitionConfig>['type'] = 'spring'
   if (isColor(key) || key === 'opacity') animationType = 'timing'
 
-  const styleSpecificTransition = transition?.[key]
+  const styleSpecificTransition = transition?.[key as any]
 
   // say that we're looking at `width`
   // first, check if we have transition.width.type
@@ -457,13 +457,8 @@ export function useMotify<Animate>({
         value = value.value
       }
 
-      const {
-        animation,
-        config,
-        shouldRepeat,
-        repeatCount,
-        repeatReverse,
-      } = animationConfig(key, transition)
+      const { animation, config, shouldRepeat, repeatCount, repeatReverse } =
+        animationConfig(key, transition)
 
       const callback: (
         completed: boolean | undefined,
@@ -473,10 +468,15 @@ export function useMotify<Animate>({
         }
       ) => void = (completed = false, recentValue, info) => {
         if (onDidAnimate) {
-          runOnJS(reanimatedOnDidAnimated)(key as any, completed, recentValue, {
-            attemptedValue: value,
-            attemptedSequenceItemValue: info?.attemptedSequenceValue,
-          })
+          runOnJS(reanimatedOnDidAnimated as any)(
+            key as any,
+            completed,
+            recentValue,
+            {
+              attemptedValue: value,
+              attemptedSequenceItemValue: info?.attemptedSequenceValue,
+            }
+          )
         }
         if (inlineOnDidAnimate) {
           runOnJS(inlineOnDidAnimate)(completed, recentValue, {
@@ -485,9 +485,8 @@ export function useMotify<Animate>({
         }
         if (isExiting) {
           exitingStyleProps[key] = false
-          const areStylesExiting = Object.values(exitingStyleProps).some(
-            Boolean
-          )
+          const areStylesExiting =
+            Object.values(exitingStyleProps).some(Boolean)
           // if this is true, then we've finished our exit animations
           if (!areStylesExiting) {
             runOnJS(reanimatedSafeToUnmount)()
@@ -554,7 +553,10 @@ export function useMotify<Animate>({
               }
             }
 
-            if (Object.keys(transform).length) {
+            if (
+              Object.keys(transform).length &&
+              Array.isArray(final['transform'])
+            ) {
               final['transform'].push(transform)
             }
           })

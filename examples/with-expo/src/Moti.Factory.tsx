@@ -3,7 +3,6 @@ import { MotiPressable } from 'moti/interactions'
 import { useSharedValue } from 'react-native-reanimated'
 import { MotiView } from 'moti'
 
-// @ts-expect-error internal
 global.shouldDebugMoti = false
 
 export default function Factory() {

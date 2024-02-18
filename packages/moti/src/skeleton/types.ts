@@ -1,6 +1,8 @@
-import { LinearGradient } from 'expo-linear-gradient'
+import { DimensionValue } from 'react-native'
 import { MotiTransitionProp } from '../core'
 import { baseColors } from './shared'
+
+type Size = number | DimensionValue
 
 export type MotiSkeletonProps = {
   /**
@@ -8,11 +10,11 @@ export type MotiSkeletonProps = {
    *
    * If not set, the container will stretch to the children.
    */
-  boxHeight?: number | string
+  boxHeight?: Size
   /**
    * Optional height of the skeleton. Defauls to a `minHeight` of `32`
    */
-  height?: number | string
+  height?: Size
   children?: React.ReactChild | null
   /**
    * `boolean` specifying whether the skeleton should be visible. By default, it shows if there are no children. This way, you can conditionally display children, and automatically hide the skeleton when they exist.
@@ -40,7 +42,7 @@ export type MotiSkeletonProps = {
   /**
    * Width of the skeleton. Defaults to `32` as the `minWidth`. Sets the container's `minWidth` to this value if defined, falling back to 32.
    */
-  width?: string | number
+  width?: Size
   /**
    * Border radius. Can be `square`, `round`, or a number. `round` makes it a circle. Defaults to `8`.
    */

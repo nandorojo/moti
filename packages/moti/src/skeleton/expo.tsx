@@ -1,5 +1,4 @@
 import { LinearGradient } from 'expo-linear-gradient'
-import React from 'react'
 
 import SkeletonNative from './skeleton-new'
 import { MotiSkeletonProps } from './types'

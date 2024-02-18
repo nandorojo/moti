@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { StyleSheet, ViewStyle, View } from 'react-native'
 import { MotiTransitionProp, useDynamicAnimation, motify } from '../../core'
 

@@ -103,14 +103,13 @@ export type StyleValueWithSequenceArraysWithoutTransform<T> = {
     | T[key] // either the value
     // or an array of values for a sequence
     | SequenceItem<T[ExcludeArrayType<ExcludeObject<key>>]>[]
-} &
-  {
-    // even though the TS types don't allow transform strings, we do for percentages & degrees
-    [key in Extract<keyof T, keyof Transforms>]?:
-      | T[key]
-      | (string & {})
-      | SequenceItem<T[key] | (string & {})>[]
-  }
+} & {
+  // even though the TS types don't allow transform strings, we do for percentages & degrees
+  [key in Extract<keyof T, keyof Transforms>]?:
+    | T[key]
+    | (string & {})
+    | SequenceItem<T[key] | (string & {})>[]
+}
 
 export type StyleValueWithSequenceArraysWithTransform = {
   transform: StyleValueWithSequenceArrays<Transforms>[]
@@ -252,7 +251,7 @@ export type InlineOnDidAnimate<Value> = (
   }
 ) => void
 
-type ExcludeArrayType<T> = T extends (infer U)[] ? never : T
+type ExcludeArrayType<T> = T extends any[] ? never : T
 type ExcludeObject<T> = T extends object ? never : T
 
 type StyleValueWithCallbacks<Animate> = {
