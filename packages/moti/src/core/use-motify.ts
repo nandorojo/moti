@@ -413,11 +413,16 @@ export function useMotify<Animate>({
 
     const exitingStyleProps: Record<string, boolean> = {}
 
+    const disabledExitStyles = {
+      position: true,
+      zIndex: true,
+      borderTopStyle: true,
+      borderBottomStyle: true,
+      borderLeftStyle: true,
+      borderRightStyle: true,
+      borderStyle: true,
+    }
     Object.keys(exitStyle || {}).forEach((key) => {
-      const disabledExitStyles = {
-        position: true,
-        zIndex: true,
-      }
       if (!disabledExitStyles[key]) {
         exitingStyleProps[key] = true
       }
