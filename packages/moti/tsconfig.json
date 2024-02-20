@@ -1,8 +1,9 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "expo-module-scripts/tsconfig.base",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "outDir": "./build"
+    "outDir": "./build",
+    "types": []
   },
   "include": ["./src", "./src/interactions", "./src/author"],
   "exclude": ["**/__mocks__/*", "**/__tests__/*", "**/*/node_modules/*"]

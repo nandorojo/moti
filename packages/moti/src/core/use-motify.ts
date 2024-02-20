@@ -473,6 +473,7 @@ export function useMotify<Animate>({
         value: any | undefined,
         info?: {
           attemptedSequenceValue?: any
+          transformKey?: string
         }
       ) => void = (completed = false, recentValue, info) => {
         if (onDidAnimate) {
