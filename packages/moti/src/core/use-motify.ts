@@ -2,7 +2,7 @@ import type {
   PresenceContext,
   usePresence as useFramerPresence,
 } from 'framer-motion'
-import { useCallback, useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import type { TransformsStyle } from 'react-native'
 import {
   useAnimatedStyle,

@@ -1,5 +1,5 @@
 {
-  "extends": "expo-module-scripts/tsconfig.base",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "jsx": "react-jsx",
     "outDir": "./build"
