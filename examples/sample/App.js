@@ -1,1 +1,1 @@
-export { default } from './src/Moti.Skeleton'
+export { default } from './src/Perf.List'

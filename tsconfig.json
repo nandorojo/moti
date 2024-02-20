@@ -26,5 +26,5 @@
     "target": "esnext",
     "noImplicitAny": false
   },
-  "exclude": ["examples"]
+  "exclude": ["./examples"]
 }

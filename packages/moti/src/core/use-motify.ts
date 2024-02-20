@@ -2,7 +2,7 @@ import type {
   PresenceContext,
   usePresence as useFramerPresence,
 } from 'framer-motion'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import type { TransformsStyle } from 'react-native'
 import {
   useAnimatedStyle,
@@ -339,20 +339,23 @@ export function useMotify<Animate>({
 
   const disableInitialAnimation =
     presenceContext?.initial === false && !animateInitialState
-  const custom = useCallback(() => {
-    'worklet'
-    return presenceContext?.custom
-  }, [presenceContext])
 
-  const reanimatedSafeToUnmount = useCallback(() => {
-    safeToUnmount?.()
-  }, [safeToUnmount])
-
-  const reanimatedOnDidAnimated = useCallback<NonNullable<typeof onDidAnimate>>(
-    (...args) => {
-      onDidAnimate?.(...args)
-    },
-    [onDidAnimate]
+  const { custom, reanimatedSafeToUnmount, reanimatedOnDidAnimate } = useMemo(
+    () => ({
+      custom: () => {
+        'worklet'
+        return presenceContext?.custom
+      },
+      reanimatedSafeToUnmount: () => {
+        safeToUnmount?.()
+      },
+      reanimatedOnDidAnimate: (
+        ...args: Parameters<NonNullable<typeof onDidAnimate>>
+      ) => {
+        onDidAnimate?.(...args)
+      },
+    }),
+    [onDidAnimate, presenceContext, safeToUnmount]
   )
 
   const hasExitStyle = Boolean(
@@ -468,7 +471,7 @@ export function useMotify<Animate>({
         }
       ) => void = (completed = false, recentValue, info) => {
         if (onDidAnimate) {
-          runOnJS(reanimatedOnDidAnimated as any)(
+          runOnJS(reanimatedOnDidAnimate as any)(
             key as any,
             completed,
             recentValue,
@@ -666,19 +669,19 @@ export function useMotify<Animate>({
     isMounted,
     isPresent,
     onDidAnimate,
-    reanimatedOnDidAnimated,
+    reanimatedOnDidAnimate,
     reanimatedSafeToUnmount,
     state,
     stylePriority,
     transitionProp,
   ])
 
-  useEffect(() => {
-    isMounted.value = true
-  }, [isMounted])
-
   useEffect(
     function allowUnMountIfMissingExit() {
+      if (fromProp && isMounted.value === false) {
+        // put this here just to avoid having another useEffect
+        isMounted.value = true
+      }
       if (!isPresent && !hasExitStyle) {
         reanimatedSafeToUnmount()
       }
