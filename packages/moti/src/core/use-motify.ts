@@ -553,6 +553,14 @@ export function useMotify<Animate>({
                 delayMs = transition?.[transformKey]?.delay
               }
 
+              const {
+                animation,
+                config,
+                shouldRepeat,
+                repeatCount,
+                repeatReverse,
+              } = animationConfig(transformKey, transition)
+
               let finalValue = animation(transformValue, config, callback)
               if (shouldRepeat) {
                 finalValue = withRepeat(finalValue, repeatCount, repeatReverse)
@@ -609,8 +617,6 @@ export function useMotify<Animate>({
         }
       } else if (isTransform(key)) {
         final['transform'] = final['transform'] || []
-        // const transformKey = Object.keys(transformProp)[0]
-        // const transformValue = transformProp[transformKey]
 
         if (transition?.[key]?.delay != null) {
           delayMs = transition?.[key]?.delay
