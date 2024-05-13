@@ -553,13 +553,22 @@ export function useMotify<Animate>({
                 delayMs = transition?.[transformKey]?.delay
               }
 
+              let configKey = transformKey
+              if (
+                transition &&
+                'transform' in transition &&
+                !(configKey in transition)
+              ) {
+                configKey = 'transform'
+              }
+
               const {
                 animation,
                 config,
                 shouldRepeat,
                 repeatCount,
                 repeatReverse,
-              } = animationConfig(transformKey, transition)
+              } = animationConfig(configKey, transition)
 
               let finalValue = animation(transformValue, config, callback)
               if (shouldRepeat) {
