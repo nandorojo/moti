@@ -8,13 +8,13 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "expo": "~50.0.7",
-    "expo-status-bar": "~1.11.1",
+    "expo": "~51.0.6",
+    "expo-status-bar": "~1.12.1",
     "moti": "^0.27.2",
     "react": "18.2.0",
-    "react-native": "0.73.4",
-    "react-native-gesture-handler": "~2.14.0",
-    "react-native-reanimated": "~3.6.2"
+    "react-native": "^0.74.1",
+    "react-native-gesture-handler": "~2.16.1",
+    "react-native-reanimated": "~3.10.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -1,5 +1,5 @@
 import type {
-  PerpectiveTransform,
+  PerspectiveTransform,
   RotateTransform,
   RotateXTransform,
   RotateYTransform,
@@ -14,6 +14,7 @@ import type {
   ImageStyle,
   TextStyle,
   ViewStyle,
+  
 } from 'react-native'
 import type {
   SharedValue,
@@ -23,7 +24,7 @@ import type {
   DerivedValue,
 } from 'react-native-reanimated'
 
-export type Transforms = PerpectiveTransform &
+export type Transforms = PerspectiveTransform &
   RotateTransform &
   RotateXTransform &
   RotateYTransform &
