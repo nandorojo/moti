@@ -12,7 +12,7 @@ export type MotiSkeletonProps = {
    */
   boxHeight?: Size
   /**
-   * Optional height of the skeleton. Defauls to a `minHeight` of `32`
+   * Optional height of the skeleton. Defaults to a `minHeight` of `32`
    */
   height?: Size
   children?: React.ReactChild | null
