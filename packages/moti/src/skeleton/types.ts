@@ -15,7 +15,7 @@ export type MotiSkeletonProps = {
    * Optional height of the skeleton. Defaults to a `minHeight` of `32`
    */
   height?: Size
-  children?: React.ReactNode | null
+  children?: React.ReactElement | null
   /**
    * `boolean` specifying whether the skeleton should be visible. By default, it shows if there are no children. This way, you can conditionally display children, and automatically hide the skeleton when they exist.
    *
