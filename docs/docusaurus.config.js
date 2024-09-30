@@ -9,6 +9,18 @@ module.exports = {
   favicon: 'img/favicon.svg',
   organizationName: 'nandorojo',
   projectName: 'moti',
+  headTags: [
+    {
+      tagName: "link",
+      attributes: {
+        rel: "preload",
+        href: "/font/Satoshi-Regular.woff2",
+        as: "font",
+        type: "font/woff2",
+        crossorigin: "anonymous",
+      },
+    },
+  ],
   scripts: [
     {
       src: 'https://cdn.splitbee.io/sb.js',
@@ -61,6 +73,7 @@ module.exports = {
       ],
     },
     algolia: {
+      appId:"B76B3C92F921EE02E86ACDF13AE7BB0E",
       apiKey: 'b76b3c92f921ee02e86acdf13ae7bb0e',
       indexName: 'moti',
 
