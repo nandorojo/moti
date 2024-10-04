@@ -26,21 +26,25 @@ export type MotiSkeletonProps = {
    * </Skeleton>
    * ```
    *
+   * ```tsx
    * // skeleton will always show
    * <Skeleton show>
    *   {data ? <Data /> : null}
    * </Skeleton>
+   * ```
    *
+   * ```tsx
    * // skeleton will always hide
    * <Skeleton show={false}>
    *   {data ? <Data /> : null}
    * </Skeleton>
+   * ```
    *
-   * If you have multiple skeletons, you can use the `<Skeleton.Group show={loading} /> as a parent rather than use this prop directly.
+   * If you have multiple skeletons, you can use the `<Skeleton.Group show={loading} />` as a parent rather than use this prop directly.
    */
   show?: boolean
   /**
-   * Width of the skeleton. Defaults to `32` as the `minWidth`. Sets the container's `minWidth` to this value if defined, falling back to 32.
+   * Width of the skeleton. Defaults to `32` as the `minWidth`. Sets the container's `minWidth` to this value if defined, falling back to `32`.
    */
   width?: Size
   /**
