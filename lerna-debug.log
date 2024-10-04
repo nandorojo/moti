@@ -1,6 +1,128 @@
-62 error Error: Command failed: git tag v0.25.0 -m v0.25.0
-62 error fatal: tag 'v0.25.0' already exists
-62 error
-62 error     at makeError (/Users/fernandorojo/Developer/q1-2023/moti/node_modules/execa/index.js:174:9)
-62 error     at /Users/fernandorojo/Developer/q1-2023/moti/node_modules/execa/index.js:278:16
-62 error     at processTicksAndRejections (node:internal/process/task_queues:96:5)
+0 silly argv {
+0 silly argv   _: [ 'version' ],
+0 silly argv   lernaVersion: '3.22.1',
+0 silly argv   '$0': 'node_modules/lerna/cli.js',
+0 silly argv   bump: '0.29.0'
+0 silly argv }
+1 notice cli v3.22.1
+2 verbose rootPath /Users/fernandorojo/Developer/q1-2023/moti
+3 info current version 0.28.1
+4 silly isAnythingCommitted
+5 verbose isAnythingCommitted 1
+6 silly currentBranch
+7 verbose currentBranch master
+8 silly remoteBranchExists
+9 silly isBehindUpstream
+10 silly isBehindUpstream master is behind origin/master by 0 commit(s) and ahead by 0
+11 silly hasTags
+12 verbose hasTags true
+13 silly git-describe.sync "v0.24.0-45-gf3a1e92" => {"lastTagName":"v0.24.0","lastVersion":"v0.24.0","refCount":"45","sha":"f3a1e92","isDirty":false}
+14 info Looking for changed packages since v0.24.0
+15 info ignoring diff in paths matching [ '**/__fixtures__/**', '**/__tests__/**', '**/*.md', '**/example/**' ]
+16 silly checking diff packages/moti
+17 silly found diff in packages/moti/CHANGELOG.md
+17 silly found diff in packages/moti/README.md
+17 silly found diff in packages/moti/author/index.d.ts
+17 silly found diff in packages/moti/author/index.js
+17 silly found diff in packages/moti/index.d.ts
+17 silly found diff in packages/moti/metro.config.js
+17 silly found diff in packages/moti/package.json
+17 silly found diff in packages/moti/src/author/index.ts
+17 silly found diff in packages/moti/src/components/progress/index.tsx
+17 silly found diff in packages/moti/src/core/motify.tsx
+17 silly found diff in packages/moti/src/core/types.ts
+17 silly found diff in packages/moti/src/core/use-motify.ts
+17 silly found diff in packages/moti/src/interactions/pressable/hoverable-context.tsx
+17 silly found diff in packages/moti/src/interactions/pressable/pressable.tsx
+17 silly found diff in packages/moti/src/interactions/pressable/types.ts
+17 silly found diff in packages/moti/src/interactions/pressable/use-moti-pressable-animated-props.ts
+17 silly found diff in packages/moti/src/interactions/pressable/use-moti-pressable-interpolate.ts
+17 silly found diff in packages/moti/src/interactions/pressable/use-moti-pressable-transition.ts
+17 silly found diff in packages/moti/src/interactions/pressable/use-pressable.ts
+17 silly found diff in packages/moti/src/interactions/pressable/use-validate-factory-or-id.ts
+17 silly found diff in packages/moti/src/skeleton/expo.tsx
+17 silly found diff in packages/moti/src/skeleton/native.tsx
+17 silly found diff in packages/moti/src/skeleton/skeleton-new.tsx
+17 silly found diff in packages/moti/src/skeleton/types.ts
+17 silly found diff in packages/moti/src/svg/motify-svg.tsx
+17 silly found diff in packages/moti/tsconfig.json
+18 verbose filtered diff [
+18 verbose filtered diff   'packages/moti/author/index.d.ts',
+18 verbose filtered diff   'packages/moti/author/index.js',
+18 verbose filtered diff   'packages/moti/index.d.ts',
+18 verbose filtered diff   'packages/moti/metro.config.js',
+18 verbose filtered diff   'packages/moti/package.json',
+18 verbose filtered diff   'packages/moti/src/author/index.ts',
+18 verbose filtered diff   'packages/moti/src/components/progress/index.tsx',
+18 verbose filtered diff   'packages/moti/src/core/motify.tsx',
+18 verbose filtered diff   'packages/moti/src/core/types.ts',
+18 verbose filtered diff   'packages/moti/src/core/use-motify.ts',
+18 verbose filtered diff   'packages/moti/src/interactions/pressable/hoverable-context.tsx',
+18 verbose filtered diff   'packages/moti/src/interactions/pressable/pressable.tsx',
+18 verbose filtered diff   'packages/moti/src/interactions/pressable/types.ts',
+18 verbose filtered diff   'packages/moti/src/interactions/pressable/use-moti-pressable-animated-props.ts',
+18 verbose filtered diff   'packages/moti/src/interactions/pressable/use-moti-pressable-interpolate.ts',
+18 verbose filtered diff   'packages/moti/src/interactions/pressable/use-moti-pressable-transition.ts',
+18 verbose filtered diff   'packages/moti/src/interactions/pressable/use-pressable.ts',
+18 verbose filtered diff   'packages/moti/src/interactions/pressable/use-validate-factory-or-id.ts',
+18 verbose filtered diff   'packages/moti/src/skeleton/expo.tsx',
+18 verbose filtered diff   'packages/moti/src/skeleton/native.tsx',
+18 verbose filtered diff   'packages/moti/src/skeleton/skeleton-new.tsx',
+18 verbose filtered diff   'packages/moti/src/skeleton/types.ts',
+18 verbose filtered diff   'packages/moti/src/svg/motify-svg.tsx',
+18 verbose filtered diff   'packages/moti/tsconfig.json'
+18 verbose filtered diff ]
+19 verbose updated moti
+20 info version rooted leaf detected, skipping synthetic root lifecycles
+21 verbose git-describe undefined => "v0.24.0-45-gf3a1e92"
+22 silly git-describe parsed => {"lastTagName":"v0.24.0","lastVersion":"v0.24.0","refCount":"45","sha":"f3a1e92","isDirty":false}
+23 info execute Creating releases...
+24 silly lifecycle No script for "preversion" in "moti", continuing
+25 silly lifecycle No script for "version" in "moti", continuing
+26 silly fixed for moti at /Users/fernandorojo/Developer/q1-2023/moti/packages/moti
+27 verbose getChangelogConfig using preset "conventional-changelog-angular"
+28 silly npa Result {
+28 silly npa   type: 'tag',
+28 silly npa   registry: true,
+28 silly npa   where: undefined,
+28 silly npa   raw: 'conventional-changelog-angular',
+28 silly npa   name: 'conventional-changelog-angular',
+28 silly npa   escapedName: 'conventional-changelog-angular',
+28 silly npa   scope: undefined,
+28 silly npa   rawSpec: '',
+28 silly npa   saveSpec: null,
+28 silly npa   fetchSpec: 'latest',
+28 silly npa   gitRange: undefined,
+28 silly npa   gitCommittish: undefined,
+28 silly npa   hosted: undefined
+28 silly npa }
+29 verbose getChangelogConfig Attempting to resolve preset "conventional-changelog-angular"
+30 info getChangelogConfig Successfully resolved preset "conventional-changelog-angular"
+31 silly fixed writing new entry: "# [0.29.0](https://github.com/nandorojo/moti/compare/v0.28.0...v0.29.0) (2024-05-14)\n\n**Note:** Version bump only for package moti\n\n\n\n"
+32 verbose fixed wrote /Users/fernandorojo/Developer/q1-2023/moti/packages/moti/CHANGELOG.md
+33 silly root for moti at /Users/fernandorojo/Developer/q1-2023/moti
+34 silly root writing new entry: "# [0.29.0](https://github.com/nandorojo/moti/compare/v0.28.0...v0.29.0) (2024-05-14)\n\n**Note:** Version bump only for package moti\n\n\n\n"
+35 verbose root wrote /Users/fernandorojo/Developer/q1-2023/moti/CHANGELOG.md
+36 silly gitAdd [
+36 silly gitAdd   'packages/moti/package.json',
+36 silly gitAdd   'packages/moti/CHANGELOG.md',
+36 silly gitAdd   'CHANGELOG.md',
+36 silly gitAdd   'lerna.json'
+36 silly gitAdd ]
+37 silly gitCommit chore: publish
+38 verbose git [ 'commit', '-m', 'chore: publish' ]
+39 silly gitTag v0.29.0
+40 verbose git [ 'tag', 'v0.29.0', '-m', 'v0.29.0' ]
+41 silly lifecycle No script for "postversion" in "moti", continuing
+42 info git Pushing tags...
+43 silly gitPush origin master
+44 silly parseGitRepo
+45 verbose git [ 'config', '--get', 'remote.origin.url' ]
+46 silly createGitHubClient
+47 error Error: A GH_TOKEN environment variable is required.
+47 error     at createGitHubClient (/Users/fernandorojo/Developer/q1-2023/moti/node_modules/@lerna/github-client/lib/github-client.js:17:11)
+47 error     at createClient (/Users/fernandorojo/Developer/q1-2023/moti/node_modules/@lerna/version/lib/create-release.js:16:14)
+47 error     at createRelease (/Users/fernandorojo/Developer/q1-2023/moti/node_modules/@lerna/version/lib/create-release.js:25:18)
+47 error     at /Users/fernandorojo/Developer/q1-2023/moti/node_modules/@lerna/version/index.js:282:9
+47 error     at /Users/fernandorojo/Developer/q1-2023/moti/node_modules/p-waterfall/index.js:4:73
+47 error     at /Users/fernandorojo/Developer/q1-2023/moti/node_modules/p-reduce/index.js:16:10

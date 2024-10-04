@@ -600,7 +600,7 @@ export function useMotify<Animate>({
           animation,
           callback
         )
-        let finalValue = withSequence(sequence[0], ...sequence.slice(1))
+        let finalValue = withSequence(...sequence)
         if (shouldRepeat) {
           finalValue = withRepeat(finalValue, repeatCount, repeatReverse)
         }

@@ -31,6 +31,33 @@
     "svg",
     "author"
   ],
+  "exports": {
+    ".": {
+      "import": "./build/index.js",
+      "require": "./build/index.js",
+      "types": "./index.d.ts"
+    },
+    "./interactions": {
+      "import": "./build/interactions/index.js",
+      "require": "./build/interactions/index.js",
+      "types": "./interactions/index.d.ts"
+    },
+    "./skeleton": {
+      "import": "./build/skeleton/index.js",
+      "require": "./build/skeleton/index.js",
+      "types": "./skeleton/index.d.ts"
+    },
+    "./svg": {
+      "import": "./build/svg/index.js",
+      "require": "./build/svg/index.js",
+      "types": "./svg/index.d.ts"
+    },
+    "./author": {
+      "import": "./build/author/index.js",
+      "require": "./build/author/index.js",
+      "types": "./author/index.d.ts"
+    }
+  },
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
@@ -48,6 +75,7 @@
     "react-native-reanimated": "*"
   },
   "devDependencies": {
+    "@react-navigation/native": "^6.1.18",
     "expo-linear-gradient": "^10.0.3",
     "expo-module-scripts": "^3.4.1",
     "react-native-linear-gradient": "^2.6.2",
