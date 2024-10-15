@@ -307,7 +307,7 @@ export interface MotiProps<
    *
    * **Important: you must wrap this component with the `AnimatePresence` component for exit animations to work.**
    *
-   * It follows the same API as the `exit` prop from `framer-motion`. Feel free to reference their docs: https://www.framer.com/api/motion/animate-presence/
+   * It follows the same API as the `exit` prop from `framer-motion`. Feel free to reference their docs: https://www.framer.com/motion/animate-presence/
    * */
   exit?:
     | AnimateWithTransforms
