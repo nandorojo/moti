@@ -3,7 +3,7 @@ import type {
   ExcludeFunctionKeys,
   UseDynamicAnimationState,
 } from '../types'
-import { useSharedValue } from 'react-native-reanimated'
+import { useSharedValue, cancelAnimation } from 'react-native-reanimated'
 import { useRef } from 'react'
 import { ViewStyle, TextStyle, ImageStyle } from 'react-native'
 
@@ -68,6 +68,9 @@ export default function useDynamicAnimation<
             : nextStateOrFunction
 
         __state.value = nextStyle
+      },
+      cancel() {
+        cancelAnimation(__state)
       },
     }
   }
