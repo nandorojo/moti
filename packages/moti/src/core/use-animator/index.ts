@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { useSharedValue } from 'react-native-reanimated'
+import { cancelAnimation, useSharedValue } from 'react-native-reanimated'
 import { PackageName } from '../constants'
 import type {
   InternalControllerState,
@@ -175,6 +175,9 @@ export default function useAnimationState<V extends Variants<V>>(
       },
       get current(): keyof V {
         return selectedVariant.current
+      },
+      cancel() {
+        cancelAnimation(__state)
       },
     }
   }
