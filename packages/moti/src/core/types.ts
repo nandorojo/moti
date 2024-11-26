@@ -14,7 +14,6 @@ import type {
   ImageStyle,
   TextStyle,
   ViewStyle,
-  
 } from 'react-native'
 import type {
   SharedValue,
@@ -462,6 +461,7 @@ export type UseAnimationState<V> = {
    * ```
    */
   transitionTo: (key: keyof V | ((currentState: keyof V) => keyof V)) => void
+  cancel: () => void
 }
 
 export type UseAnimationStateConfig<
@@ -545,6 +545,8 @@ export type UseDynamicAnimationState<Animate = FallbackAnimateProp> = {
       | DynamicStyleProp<Animate>
       | ((currentState: DynamicStyleProp<Animate>) => DynamicStyleProp<Animate>)
   ) => void
+
+  cancel: () => void
 }
 
 export type ExcludeFunctionKeys<T> = {
