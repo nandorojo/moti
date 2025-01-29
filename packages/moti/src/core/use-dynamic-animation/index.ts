@@ -50,7 +50,7 @@ export default function useDynamicAnimation<
 
   const __state = useSharedValue(initializer.current.value)
 
-  const controller = useRef<UseDynamicAnimationState<Animate>>()
+  const controller = useRef<UseDynamicAnimationState<Animate>>(null)
 
   if (controller.current == null) {
     controller.current = {

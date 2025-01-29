@@ -134,7 +134,7 @@ export default function useAnimationState<V extends Variants<V>>(
     to = 'to' as keyof V,
   }: UseAnimationStateConfig<V> = {}
 ) {
-  const controller = useRef<UseAnimationState<V>>()
+  const controller = useRef<UseAnimationState<V>>(null)
   const __state = useSharedValue<InternalControllerState<V>>(
     from ? _variants[from] : 0
   )

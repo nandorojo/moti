@@ -44,7 +44,12 @@ function isHoverEnabled(): boolean {
   return isEnabled
 }
 
-import React, { useCallback, ReactChild, useRef, useEffect } from 'react'
+import React, {
+  useCallback,
+  ReactElement as ReactChild,
+  useRef,
+  useEffect,
+} from 'react'
 import { useSharedValue, useAnimatedReaction } from 'react-native-reanimated'
 import { HoveredContext } from './hoverable-context'
 import { mergeRefs } from './merge-refs'
@@ -52,7 +57,7 @@ import { mergeRefs } from './merge-refs'
 export interface HoverableProps {
   onHoverIn?: () => void
   onHoverOut?: () => void
-  children: NonNullable<ReactChild>
+  children: ReactChild
   childRef?: React.Ref<any>
 }
 
@@ -123,7 +128,7 @@ export function Hoverable({
     }
   }, [isHovered])
 
-  const child = React.Children.only(children) as React.ReactElement
+  const child = React.Children.only(children)
 
   return (
     <HoveredContext.Provider value={isHovered}>
@@ -131,7 +136,7 @@ export function Hoverable({
         onMouseEnter: handleMouseEnter,
         onMouseLeave: handleMouseLeave,
         ref: mergeRefs([localRef, childRef || null]),
-      })}
+      } as any)}
     </HoveredContext.Provider>
   )
 }
