@@ -14,6 +14,7 @@ import {
   withRepeat,
   withSequence,
   runOnJS,
+  ReduceMotion,
 } from 'react-native-reanimated'
 import type {
   WithDecayConfig,
@@ -165,6 +166,7 @@ function animationConfig<Animate>(
   // debug({ loop, key, repeatCount, animationType })
 
   let config = {}
+  let reduceMotion = ReduceMotion.System
   // so sad, but fix it later :(
   let animation = (...props: any): any => props
 
@@ -177,11 +179,19 @@ function animationConfig<Animate>(
       (transition?.[key] as WithTimingConfig | undefined)?.easing ??
       (transition as WithTimingConfig | undefined)?.easing
 
+    const timingReduceMotion =
+      (transition?.[key] as WithTimingConfig | undefined)?.reduceMotion ??
+      (transition as WithTimingConfig | undefined)?.reduceMotion
+
     if (easing) {
       config['easing'] = easing
     }
     if (duration != null) {
       config['duration'] = duration
+    }
+    if (reduceMotion) {
+      reduceMotion = timingReduceMotion ?? reduceMotion
+      config['reduceMotion'] = reduceMotion
     }
     animation = withTiming
   } else if (animationType === 'spring') {
@@ -190,7 +200,9 @@ function animationConfig<Animate>(
     for (const configKey of withSpringConfigKeys) {
       const styleSpecificConfig = transition?.[key]?.[configKey]
       const transitionConfigForKey = transition?.[configKey]
-
+      if (configKey === 'reduceMotion') {
+        reduceMotion = transitionConfigForKey || styleSpecificConfig
+      }
       if (styleSpecificConfig != null) {
         config[configKey] = styleSpecificConfig
       } else if (transitionConfigForKey != null) {
@@ -211,7 +223,9 @@ function animationConfig<Animate>(
     for (const configKey of configKeys) {
       const styleSpecificConfig = transition?.[key]?.[configKey]
       const transitionConfigForKey = transition?.[configKey]
-
+      if (configKey === 'reduceMotion') {
+        reduceMotion = transitionConfigForKey || styleSpecificConfig
+      }
       if (styleSpecificConfig != null) {
         config[configKey] = styleSpecificConfig
       } else if (transitionConfigForKey != null) {
@@ -227,6 +241,7 @@ function animationConfig<Animate>(
   return {
     animation,
     config,
+    reduceMotion,
     repeatReverse,
     repeatCount,
     shouldRepeat: !!repeatCount,
@@ -260,6 +275,7 @@ const getSequenceArray = (
     if (shouldPush) {
       let stepDelay = delayMs
       let stepValue = step
+      let stepReduceMotion = ReduceMotion.System
       let stepConfig = Object.assign({}, config)
       let stepAnimation = animation as
         | typeof withTiming
@@ -272,13 +288,15 @@ const getSequenceArray = (
         delete stepTransition.delay
         delete stepTransition.value
 
-        const { config: inlineStepConfig, animation } = animationConfig(
-          sequenceKey,
-          stepTransition
-        )
+        const {
+          config: inlineStepConfig,
+          animation,
+          reduceMotion,
+        } = animationConfig(sequenceKey, stepTransition)
 
         stepConfig = Object.assign({}, stepConfig, inlineStepConfig)
         stepAnimation = animation
+        stepReduceMotion = reduceMotion
 
         if (step.delay != null) {
           stepDelay = step.delay
@@ -304,7 +322,7 @@ const getSequenceArray = (
         }
       )
       if (stepDelay != null) {
-        sequence.push(withDelay(stepDelay, sequenceValue))
+        sequence.push(withDelay(stepDelay, sequenceValue, stepReduceMotion))
       } else {
         sequence.push(sequenceValue)
       }
@@ -467,8 +485,14 @@ export function useMotify<Animate>({
         value = value.value
       }
 
-      const { animation, config, shouldRepeat, repeatCount, repeatReverse } =
-        animationConfig(key, transition)
+      const {
+        animation,
+        config,
+        reduceMotion,
+        shouldRepeat,
+        repeatCount,
+        repeatReverse,
+      } = animationConfig(key, transition)
 
       const callback: (
         completed: boolean | undefined,
@@ -543,7 +567,9 @@ export function useMotify<Animate>({
                   finalValue = withRepeat(
                     finalValue,
                     repeatCount,
-                    repeatReverse
+                    repeatReverse,
+                    callback,
+                    reduceMotion
                   )
                 }
                 transform[transformKey] = finalValue
@@ -572,10 +598,20 @@ export function useMotify<Animate>({
 
               let finalValue = animation(transformValue, config, callback)
               if (shouldRepeat) {
-                finalValue = withRepeat(finalValue, repeatCount, repeatReverse)
+                finalValue = withRepeat(
+                  finalValue,
+                  repeatCount,
+                  repeatReverse,
+                  undefined,
+                  reduceMotion
+                )
               }
               if (delayMs != null) {
-                transform[transformKey] = withDelay(delayMs, finalValue)
+                transform[transformKey] = withDelay(
+                  delayMs,
+                  finalValue,
+                  reduceMotion
+                )
               } else {
                 transform[transformKey] = finalValue
               }
@@ -602,7 +638,13 @@ export function useMotify<Animate>({
         )
         let finalValue = withSequence(...sequence)
         if (shouldRepeat) {
-          finalValue = withRepeat(finalValue, repeatCount, repeatReverse)
+          finalValue = withRepeat(
+            finalValue,
+            repeatCount,
+            repeatReverse,
+            undefined,
+            reduceMotion
+          )
         }
 
         if (isTransform(key)) {
@@ -634,10 +676,16 @@ export function useMotify<Animate>({
         const transform = {}
         let finalValue = animation(value, config, callback)
         if (shouldRepeat) {
-          finalValue = withRepeat(finalValue, repeatCount, repeatReverse)
+          finalValue = withRepeat(
+            finalValue,
+            repeatCount,
+            repeatReverse,
+            undefined,
+            reduceMotion
+          )
         }
         if (delayMs != null) {
-          transform[key] = withDelay(delayMs, finalValue)
+          transform[key] = withDelay(delayMs, finalValue, reduceMotion)
         } else {
           transform[key] = finalValue
         }
@@ -651,11 +699,21 @@ export function useMotify<Animate>({
           let finalValue = animation(value, config, callback)
 
           if (shouldRepeat) {
-            finalValue = withRepeat(finalValue, repeatCount, repeatReverse)
+            finalValue = withRepeat(
+              finalValue,
+              repeatCount,
+              repeatReverse,
+              undefined,
+              reduceMotion
+            )
           }
 
           if (delayMs != null) {
-            final[key][innerStyleKey] = withDelay(delayMs, finalValue)
+            final[key][innerStyleKey] = withDelay(
+              delayMs,
+              finalValue,
+              reduceMotion
+            )
           } else {
             final[key][innerStyleKey] = finalValue
           }
@@ -663,11 +721,17 @@ export function useMotify<Animate>({
       } else {
         let finalValue = animation(value, config, callback)
         if (shouldRepeat) {
-          finalValue = withRepeat(finalValue, repeatCount, repeatReverse)
+          finalValue = withRepeat(
+            finalValue,
+            repeatCount,
+            repeatReverse,
+            undefined,
+            reduceMotion
+          )
         }
 
         if (delayMs != null && typeof delayMs === 'number') {
-          final[key] = withDelay(delayMs, finalValue)
+          final[key] = withDelay(delayMs, finalValue, reduceMotion)
         } else {
           final[key] = finalValue
         }
