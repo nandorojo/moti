@@ -73,7 +73,7 @@ If you set `type: 'spring'`, you can pass any options that Reanimated's `withSpr
 
 ## Mount/unmount animations 😎
 
-Framer Motion introduced the incredible [`AnimatePresence`](https://www.framer.com/api/motion/animate-presence/) component to animate a component before it unmounts.
+Framer Motion introduced the incredible [`AnimatePresence`](https://www.framer.com/motion/animate-presence/) component to animate a component before it unmounts.
 
 With Moti, you can now achieve the same thing in React Native.
 
