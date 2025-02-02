@@ -69,3 +69,7 @@ lib/
 
 # CocoaPods
 Pods
+docs/.yarnrc.yml
+docs/yarn.lock
+.yarn
+docs/yarn.lock
