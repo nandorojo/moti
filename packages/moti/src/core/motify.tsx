@@ -27,7 +27,7 @@ export default function motify<
   const withAnimations = () => {
     const Motified = forwardRef<
       Ref,
-      Props &
+      Omit<Props, keyof MotiProps<Animate>> &
         AnimatedProps<Props> &
         MotiProps<Animate> & {
           children?: React.ReactNode
