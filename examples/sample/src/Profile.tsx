@@ -1,4 +1,5 @@
 import { MotiText, MotiView, ScrollView } from 'moti'
+import { MotiPressable } from 'moti/interactions'
 import { useReducer, useRef, useState } from 'react'
 import { Modal, Pressable, Text, TextInput, View } from 'react-native'
 import Animated, {
@@ -131,7 +132,7 @@ ${itemEmoji} ${duration}ms to render ${count} items (☂️ ${lib})\n`
 
 function MotiItem({ children }: { children: string }) {
   return (
-    <MotiText
+    <MotiPressable
       from={{ opacity: 0, scale: 0.5 }}
       animate={{
         opacity: 1,
@@ -139,8 +140,8 @@ function MotiItem({ children }: { children: string }) {
       }}
       delay={300}
     >
-      {children}
-    </MotiText>
+      <MotiText>{children}</MotiText>
+    </MotiPressable>
   )
 }
 
