@@ -4,16 +4,16 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "docusaurus start",
-    "build": "docusaurus build",
+    "start": "NODE_OPTIONS='--openssl-legacy-provider' docusaurus start",
+    "build": "NODE_OPTIONS='--openssl-legacy-provider' docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "serve": "docusaurus serve",
     "clear": "docusaurus clear"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-alpha.70",
-    "@docusaurus/preset-classic": "2.0.0-alpha.70",
+    "@docusaurus/core": "^2",
+    "@docusaurus/preset-classic": "^2",
     "@mdx-js/react": "^1.6.21",
     "clsx": "^1.1.1",
     "react": "17.0.1",
@@ -30,5 +30,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "packageManager": "yarn@4.1.0"
 }

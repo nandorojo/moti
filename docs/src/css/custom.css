@@ -210,8 +210,8 @@ main img {
 }
 
 .navbar--fixed-top {
-  backdrop-filter: blur(12px);
-  background-color: transparent;
+  /* backdrop-filter: blur(12px);
+  background-color: transparent; */
 }
 
 .menu__link,
