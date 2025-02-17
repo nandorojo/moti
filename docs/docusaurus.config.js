@@ -61,8 +61,9 @@ module.exports = {
       ],
     },
     algolia: {
-      apiKey: 'b76b3c92f921ee02e86acdf13ae7bb0e',
+      apiKey: 'd527d7b164516f93e6a4b4bdfa1d71fe',
       indexName: 'moti',
+      appId: '6P5W6OICQD',
 
       // Optional: see doc section bellow
       contextualSearch: true,
