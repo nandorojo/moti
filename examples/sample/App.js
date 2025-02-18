@@ -1,1 +1,1 @@
-export { default } from './src/Perf.List'
+export { Profile as default } from './src/Profile'

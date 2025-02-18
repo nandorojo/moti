@@ -7,6 +7,7 @@ import Animated, {
   withTiming,
   useSharedValue,
 } from 'react-native-reanimated'
+import { useMotiPressable, useMotiPressableTransition } from 'moti/interactions'
 
 const { View } = Moti
 
@@ -83,3 +84,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#9c1aff',
   },
 })
+
+const useTest = () => {
+  useMotiPressableTransition(({ pressed, hovered }) => {
+    'worklet'
+
+    if (pressed) {
+      return {
+        type: 'timing',
+      }
+    }
+
+    return {
+      type: 'spring',
+      delay: 50,
+    }
+  })
+}

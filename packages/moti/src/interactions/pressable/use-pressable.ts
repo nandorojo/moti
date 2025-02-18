@@ -25,7 +25,7 @@ type Deps = unknown[] | null | undefined
  *   'worklet'
  *
  *   return {
- *     opactiy: pressed ? 0.5 : 1,
+ *     opacity: pressed ? 0.5 : 1,
  *   }
  * })
  *
@@ -47,7 +47,7 @@ type Deps = unknown[] | null | undefined
  *   'worklet'
  *
  *   return {
- *     opactiy: pressed ? 0.5 : 1,
+ *     opacity: pressed ? 0.5 : 1,
  *   }
  * })
  *
@@ -61,7 +61,7 @@ type Deps = unknown[] | null | undefined
  *   'worklet'
  *
  *   return {
- *     opactiy: pressed && !loading ? 0.5 : 1,
+ *     opacity: pressed && !loading ? 0.5 : 1,
  *   }
  * }, [loading])
  */
