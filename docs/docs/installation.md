@@ -108,6 +108,36 @@ Property 'Proxy' doesn't exist, js engine: hermes [Mon Feb 08 2021 19:21:54.427]
 
 </details>
 
+## Jest
+
+### Unexpected token 'export'
+
+If you encounter the following error when running tests with Jest:
+
+```sh
+({"Object.<anonymous>":function(module,exports,require,__dirname,__filename,jest){export * from '../build/author'
+                                                                                  ^^^^^^
+
+SyntaxError: Unexpected token 'export'
+
+  1 | import { Variable, createTamagui, getTokens } from 'tamagui';
+> 2 | import { config } from '@tamagui/config/v3';
+```
+
+This happens because Jest doesn’t natively support ES modules (ESM) in packages under `node_modules`. To resolve this issue for `moti`, you need to tell Jest to transform the moti package by adding it to the `transformIgnorePatterns` in your Jest configuration (`jest.config.js`).
+
+```js
+module.exports = {
+  // Other Jest config options...
+  transformIgnorePatterns: [
+    'node_modules/(?!moti)', // Add moti to the list of modules to transform
+  ],
+  // Other Jest config options...
+};
+```
+
+This instructs Jest to include `moti` in the transformation process, resolving the `Unexpected token 'export'` error.
+
 ## Create your first animation
 
 ```tsx
