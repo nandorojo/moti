@@ -20,5 +20,6 @@
     "@babel/core": "^7.20.0",
     "babel-plugin-module-resolver": "^5.0.0"
   },
-  "private": true
+  "private": true,
+  "packageManager": "yarn@4.1.0"
 }
